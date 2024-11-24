@@ -34,7 +34,6 @@ public class NormalMovement : TrinityState
     public override void UpdateBehaviour(float dt)
     {
         //base.UpdateBehaviour(dt);
-        Debug.Log("Normal Movement State Running");
     }
 
 

@@ -62,10 +62,6 @@ public class ATrinityController : MonoBehaviour
 
     private void Update()
     {
-        if (EnableDebug)
-        {
-            Debug.Log($"MoveDirection: {MoveDirection}, VerticalVelocity: {VerticalVelocity}, PlanarVelocity: {PlanarVelocity}");
-        }
 
         // Placeholder for handling movement logic
         HandleMovement();
