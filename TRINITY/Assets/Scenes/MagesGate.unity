@@ -695,9 +695,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Height: 2
+  m_Height: 1.7
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &567174385
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1486,7 +1486,7 @@ GameObject:
   - component: {fileID: 1998517642}
   - component: {fileID: 1998517641}
   m_Layer: 0
-  m_Name: States
+  m_Name: State
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1519,8 +1519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd446d7a72831794c938040c4c94d93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  States:
-  - {fileID: 0}
+  InitialState: {fileID: 1998517642}
+  Animator: {fileID: 390490036}
 --- !u!114 &1998517641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1533,7 +1533,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68752d1f16b5f244a82a195f8e4668e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animation: {fileID: 0}
+  StateAnimController: {fileID: 9100000, guid: af274cdfd4d0acf4291c7897e641208a, type: 2}
 --- !u!114 &1998517642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1546,7 +1546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b275e0d663aeda47b2a6b49916e9a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animation: {fileID: 0}
+  StateAnimController: {fileID: 9100000, guid: 03779519027632845963c1d50d8aa073, type: 2}
 --- !u!4 &32772769424390111
 Transform:
   m_ObjectHideFlags: 0
@@ -5065,8 +5065,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6899908835490827350}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6419378, y: 0.43506488, z: 0.029414658, w: 0.6306896}
-  m_LocalPosition: {x: -0.005, y: -0.039, z: 0.01}
+  m_LocalRotation: {x: -0.0066586435, y: 0.22415516, z: 0.1672231, w: 0.9600764}
+  m_LocalPosition: {x: 0.098291844, y: -0.97535753, z: -0.7426814}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

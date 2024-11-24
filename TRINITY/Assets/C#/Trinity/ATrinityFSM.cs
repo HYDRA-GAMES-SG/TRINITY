@@ -4,141 +4,142 @@ using UnityEngine;
 
 public class ATrinityFSM : MonoBehaviour, IFSM
 {
-    // Public state list for assignment in the Inspector
-    public List<TrinityState> States = new List<TrinityState>();
+    [Tooltip("The state used to start the state machine.")]
+    public TrinityState InitialState;
 
-    // Current and previous states
-    [HideInInspector]
+    private readonly Dictionary<string, TrinityState> states = new Dictionary<string, TrinityState>();
+    private Queue<TrinityState> transitionQueue = new Queue<TrinityState>();
+
     public TrinityState CurrentState { get; private set; }
-    [HideInInspector]
     public TrinityState PreviousState { get; private set; }
 
-    // Transition queue
-    private Queue<Type> TransitionQueue;
+    public event Action<TrinityState, TrinityState> OnStateChange;
+    
+    public Animator Animator;
+    private bool FSM_RUNNING = false;
 
     private void Awake()
     {
-        TransitionQueue = new Queue<Type>();
         InitializeStates();
     }
 
     private void FixedUpdate()
     {
-        // Call the current state's FixedUpdate function
-        CurrentState?.UpdateBehaviour();
-
-        // Handle transitions in the queue
-        ProcessTransitionQueue();
-    }
-
-    /// <summary>
-    /// Gets the state of the specified type.
-    /// </summary>
-    public T GetState<T>() where T : TrinityState
-    {
-        foreach (var state in States)
+        if (!FSM_RUNNING)
         {
-            if (state is T matchedState)
+            if (InitialState == null || !InitialState.isActiveAndEnabled)
             {
-                return matchedState;
+                Debug.LogError("FSM: Initial state is null or inactive. State machine will not start.");
+                enabled = false;
+                return;
             }
+
+            StartStateMachine();
         }
 
-        Debug.LogWarning($"State of type {typeof(T).Name} not found.", this);
-        return null;
+        // Check for transitions and update the current state
+        ProcessTransitions();
+
+        if (CurrentState != null)
+        {
+            float deltaTime = Time.deltaTime;
+            CurrentState.UpdateBehaviour(deltaTime);
+        }
     }
 
-    /// <summary>
-    /// Queues a transition to the specified state.
-    /// </summary>
+    private void StartStateMachine()
+    {
+        FSM_RUNNING = true;
+        CurrentState = InitialState;
+        CurrentState.EnterBehaviour(0f, null);
+    }
+
+    private void ProcessTransitions()
+    {
+        if (transitionQueue.Count > 0)
+        {
+            while (transitionQueue.Count > 0)
+            {
+                TrinityState nextState = transitionQueue.Dequeue();
+
+                if (nextState != null && nextState.isActiveAndEnabled)
+                {
+                    TransitionToState(nextState);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void TransitionToState(TrinityState nextState)
+    {
+        if (CurrentState == nextState)
+            return;
+
+        PreviousState = CurrentState;
+        CurrentState.ExitBehaviour(Time.deltaTime, nextState);
+
+        OnStateChange?.Invoke(PreviousState, nextState);
+
+        CurrentState = nextState;
+        CurrentState.EnterBehaviour(Time.deltaTime, PreviousState);
+    }
+
+    public TrinityState GetState(string stateName)
+    {
+        states.TryGetValue(stateName, out TrinityState state);
+        return state;
+    }
+
+    public T GetState<T>() where T : TrinityState
+    {
+        string stateName = typeof(T).Name;
+        return GetState(stateName) as T;
+    }
+
+    public void EnqueueTransition(string stateName)
+    {
+        TrinityState state = GetState(stateName);
+        if (state != null)
+        {
+            transitionQueue.Enqueue(state);
+        }
+    }
+
     public void EnqueueTransition<T>() where T : TrinityState
     {
-        TransitionQueue.Enqueue(typeof(T));
+        TrinityState state = GetState<T>();
+        if (state != null)
+        {
+            transitionQueue.Enqueue(state);
+        }
     }
 
-    /// <summary>
-    /// Queues a transition back to the previous state.
-    /// </summary>
-    public void EnqueuePrevious()
+    public void EnqueueTransitionToPreviousState()
     {
         if (PreviousState != null)
         {
-            TransitionQueue.Enqueue(PreviousState.GetType());
+            transitionQueue.Enqueue(PreviousState);
         }
     }
 
-    /// <summary>
-    /// Immediately transitions to the specified state.
-    /// </summary>
-    public void ForceTransition<T>() where T : TrinityState
+    private void InitializeStates()
     {
-        TransitionToState(typeof(T));
-    }
+        TrinityState[] statesArray = GetComponents<TrinityState>();
 
-    /// <summary>
-    /// Initializes all states. Override to add specific states manually or via Inspector.
-    /// </summary>
-    protected virtual void InitializeStates()
-    {
-        States = new List<TrinityState>(GetComponents<TrinityState>());
-        
-        // Ensure states are aware of this state machine
-        foreach (var state in States)
+        foreach (var state in statesArray)
         {
-            state.SetStateMachine(this);
-        }
-    }
+            string stateName = state.GetType().Name;
 
-    /// <summary>
-    /// Processes the next transition in the queue.
-    /// </summary>
-    private void ProcessTransitionQueue()
-    {
-        if (TransitionQueue.Count > 0)
-        {
-            var nextStateType = TransitionQueue.Dequeue();
-            TransitionToState(nextStateType);
-        }
-    }
-
-    /// <summary>
-    /// Handles the transition to a specific state.
-    /// </summary>
-    private void TransitionToState(Type stateType)
-    {
-        var nextState = FindStateByType(stateType);
-
-        if (nextState != null)
-        {
-            // Exit the current state
-            CurrentState?.OnExit();
-
-            // Update state tracking
-            PreviousState = CurrentState;
-            CurrentState = nextState;
-
-            // Enter the new state
-            CurrentState.OnEnter();
-        }
-        else
-        {
-            Debug.LogWarning($"State of type {stateType.Name} not found in StateMachine.", this);
-        }
-    }
-
-    /// <summary>
-    /// Finds a state by its type.
-    /// </summary>
-    private TrinityState FindStateByType(Type stateType)
-    {
-        foreach (var state in States)
-        {
-            if (state.GetType() == stateType)
+            if (!states.ContainsKey(stateName))
             {
-                return state;
+                states.Add(stateName, state);
+            }
+            else
+            {
+                Debug.LogWarning($"FSM: Duplicate state '{stateName}' found in {state.gameObject.name}. Skipping...");
             }
         }
-
-        return null;
     }
 }
+

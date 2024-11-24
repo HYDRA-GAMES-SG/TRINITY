@@ -43,6 +43,12 @@ public class ATrinityController : MonoBehaviour
         {
             Debug.LogError("CapsuleCollider is missing!", this);
         }
+        else
+        {
+            Collider.radius = 0.5f;
+            Collider.height = 1.7f;
+            Collider.center = new Vector3(0f, 1f, 0f);
+        }
 
         if (Rigidbody == null)
         {

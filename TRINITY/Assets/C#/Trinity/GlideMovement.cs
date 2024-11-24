@@ -4,66 +4,70 @@ using UnityEngine;
 
 public class GlideMovement : TrinityState
 {
-    public void Awake()
+
+    public override void CheckEnterTransition()
     {
+        //base.CheckEnterTransition();
+    }
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        // Custom behavior when entering the state
+        Debug.Log("Entering Normal Movement State");
+    }
+    
+    public override void EnterBehaviour(float dt, IState fromState)
+    {
+        //DO NOT DELETE
+        base.EnterBehaviour(dt, fromState); //sets animator controller
+        //DO NOT DELETE
         
     }
-   
-    // Implement the interface methods
-    public void Start()
+
+    public override void PreUpdateBehaviour(float dt)
     {
+        //base.PreUpdateBehaviour(dt);
+    }
+    
+    
+    public override void UpdateBehaviour(float dt)
+    {
+        //base.UpdateBehaviour(dt);
+        Debug.Log("Normal Movement State Running");
     }
 
-    public void Update()
+
+    public override void PostUpdateBehaviour(float dt)
     {
+        //base.PostUpdateBehaviour(dt);
     }
 
-    public void UpdateBehaviour()
+    public override void ExitBehaviour(float dt, IState toState)
     {
-        
+        //base.ExitBehaviour(dt, toState);
     }
 
-    public void Initialize(IFSM stateMachine, Animator animator)
+    public override void CheckExitTransition()
     {
+        //base.CheckExitTransition();
     }
 
-    public void OnEnter()
+    public override void OnExit()
     {
+        //base.OnExit();
     }
 
-    public void CheckEnterTransition()
+    public override void FixedUpdate()
     {
+        //base.FixedUpdate();
     }
 
-    public void EnterBehaviour()
+    public override void SetStateMachine(ATrinityFSM aTrinityStateMachine)
     {
-    }
+        //DO NOT DELETE
+        base.SetStateMachine(aTrinityStateMachine); // Set state machine variable
+        //DO NOT DELETE
 
-    public void PreUpdateBehaviour()
-    {
-    }
-
-    public void PostUpdateBehaviour()
-    {
-    }
-
-    public void ExitBehaviour()
-    {
-    }
-
-    public void CheckExitTransition()
-    {
-    }
-
-    public void OnExit()
-    {
-    }
-
-    public void FixedUpdate()
-    {
-    }
-
-    public void SetStateMachine(ATrinityFSM aTrinityStateMachine)
-    {
     }
 }

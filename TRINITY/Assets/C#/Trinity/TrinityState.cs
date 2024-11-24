@@ -4,70 +4,82 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class TrinityState : MonoBehaviour, IState
+public abstract class TrinityState : MonoBehaviour, IState
 {
-    public AnimatorController Animation;
+    public AnimatorController StateAnimController;
     protected ATrinityFSM StateMachine;
     
-    // Implement the interface methods
+    public void Awake()
+    {
+    }
+    
     public void Start()
     {
+        
     }
 
     public void Update()
     {
     }
 
-    public void UpdateBehaviour()
+    public virtual void OnEnter()
+    {
+    }
+
+    public virtual void CheckEnterTransition()
+    {
+    }
+
+    
+    public virtual void EnterBehaviour(float dt, IState fromState)
+    {
+        if (StateMachine)
+        {
+            StateMachine.Animator.runtimeAnimatorController = StateAnimController;
+        }
+    }
+
+    public virtual void PreUpdateBehaviour(float dt)
+    {
+    }
+
+    public virtual void UpdateBehaviour(float dt)
+    {
+    }
+
+    public virtual void PostUpdateBehaviour(float dt)
     {
         
     }
 
-    public void Initialize(IFSM stateMachine, Animator animator)
+    public virtual void ExitBehaviour()
     {
     }
 
-    void IState.Awake()
+    public virtual bool CheckEnterTransition(IState fromState)
+    {
+        return false;
+    }
+
+    public virtual void CheckExitTransition()
     {
     }
 
-    public void OnEnter()
+    public virtual void OnExit()
+    {
+        
+    }
+    
+    public virtual void ExitBehaviour(float dt, IState toState)
     {
     }
 
-    public void CheckEnterTransition()
+    public virtual void FixedUpdate()
     {
     }
 
-    public void EnterBehaviour()
+    public virtual void SetStateMachine(ATrinityFSM aTrinityStateMachine)
     {
-    }
-
-    public void PreUpdateBehaviour()
-    {
-    }
-
-    public void PostUpdateBehaviour()
-    {
-    }
-
-    public void ExitBehaviour()
-    {
-    }
-
-    public void CheckExitTransition()
-    {
-    }
-
-    public void OnExit()
-    {
-    }
-
-    public void FixedUpdate()
-    {
-    }
-
-    public void SetStateMachine(ATrinityFSM aTrinityStateMachine)
-    {
+        StateMachine = aTrinityStateMachine;
     }
 }
