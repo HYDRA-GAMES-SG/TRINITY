@@ -8,8 +8,10 @@ public abstract class TrinityState : MonoBehaviour, IState
 {
     public AnimatorController StateAnimController;
     protected ATrinityFSM StateMachine;
-    protected ATrinityController Controller;
-    protected APlayerInput InputReference;
+    [HideInInspector]
+    public ATrinityController Controller;
+    [HideInInspector]
+    public APlayerInput InputReference;
     
     public void Awake()
     {
@@ -39,10 +41,10 @@ public abstract class TrinityState : MonoBehaviour, IState
     {
     }
 
-    public virtual void CheckEnterTransition()
+    public virtual bool CheckEnterTransition(IState fromState)
     {
+        return false;
     }
-
     
     public virtual void EnterBehaviour(float dt, IState fromState)
     {
@@ -65,26 +67,20 @@ public abstract class TrinityState : MonoBehaviour, IState
         
     }
 
-    public virtual void ExitBehaviour()
-    {
-    }
-
-    public virtual bool CheckEnterTransition(IState fromState)
+    public virtual bool CheckExitTransition(IState toState)
     {
         return false;
     }
 
-    public virtual void CheckExitTransition()
-    {
-    }
-
-    public virtual void OnExit()
+    
+    public virtual void ExitBehaviour(float dt, IState toState)
     {
         
     }
     
-    public virtual void ExitBehaviour(float dt, IState toState)
+    public virtual void OnExit()
     {
+        
     }
 
     public virtual void FixedUpdate()

@@ -41,6 +41,11 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         // Check for transitions and update the current state
         ProcessTransitions();
 
+        if (!Controller || !InputReference)
+        {
+            return;
+        }
+        
         if (CurrentState != null)
         {
             float deltaTime = Time.deltaTime;
@@ -82,7 +87,12 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
         OnStateChange?.Invoke(PreviousState, nextState);
 
+        
+        
+        Debug.Log("PLAYER: "  + CurrentState + "=>" + nextState);
+        
         CurrentState = nextState;
+        Animator.runtimeAnimatorController = CurrentState.StateAnimController;
         CurrentState.EnterBehaviour(Time.deltaTime, PreviousState);
     }
 
@@ -136,6 +146,8 @@ public class ATrinityFSM : MonoBehaviour, IFSM
             {
                 states.Add(stateName, state);
                 state.SetStateMachine(this);
+                state.Controller = Controller;
+                state.InputReference = InputReference;
             }
             else
             {

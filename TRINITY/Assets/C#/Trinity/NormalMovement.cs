@@ -12,6 +12,7 @@ public enum ETrinityMovement
 
 public class NormalMovement : TrinityState
 {
+    public bool ENABLE_DEBUG = false;
     private ETrinityMovement MovementState;
 
     [SerializeField] private float MoveSpeed = 5f;
@@ -23,85 +24,61 @@ public class NormalMovement : TrinityState
     private string AnimKeyJump = "bJump";
     private string AnimKeyVertical = "vVertical";
     
-    public override void CheckEnterTransition()
+    public override bool CheckEnterTransition(IState fromState)
     {
-        //base.CheckEnterTransition();
+        return false;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
-        // Custom behavior when entering the state
-        Debug.Log("Entering Normal Movement State");
     }
     
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        //DO NOT DELETE
-        base.EnterBehaviour(dt, fromState); //sets animator controller
-        //DO NOT DELETE
+        
         MovementState = ETrinityMovement.ETM_Grounded;
 
     }
 
     public override void PreUpdateBehaviour(float dt)
     {
-        //base.PreUpdateBehaviour(dt);
     }
     
     
     public override void UpdateBehaviour(float dt)
     {
-        //base.UpdateBehaviour(dt);
-        if (!Controller || !InputReference)
-        {
-            return;
-        }
         
         HandleMovement();
         HandleJump();
         HandleFalling();
         
-        // less damping if we are landing
-        StateMachine.Animator.SetFloat(AnimKeyMove, Controller.Rigidbody.velocity.z, .05f, Time.deltaTime);
-        StateMachine.Animator.SetFloat(AnimKeyStrafe, Controller.Rigidbody.velocity.x, .05f, Time.deltaTime);
-        StateMachine.Animator.SetFloat(AnimKeyVertical, Controller.VerticalVelocity);
-        
         Controller.Rigidbody.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
-    }
 
+        UpdateAnimParams();
+        
+        
+    }
 
     public override void PostUpdateBehaviour(float dt)
     {
-        //base.PostUpdateBehaviour(dt);
     }
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        //base.ExitBehaviour(dt, toState);
     }
 
-    public override void CheckExitTransition()
+    public override bool CheckExitTransition(IState toState)
     {
-        //base.CheckExitTransition();
+        return false;
     }
 
     public override void OnExit()
     {
-        //base.OnExit();
     }
 
     public override void FixedUpdate()
     {
-        //base.FixedUpdate();
-    }
-
-    public override void SetStateMachine(ATrinityFSM aTrinityStateMachine)
-    {
-        //DO NOT DELETE
-        base.SetStateMachine(aTrinityStateMachine); // Set state machine variable
-        //DO NOT DELETE
-
     }
 
     public ETrinityMovement GetMovementState()
@@ -111,9 +88,6 @@ public class NormalMovement : TrinityState
 
     private void HandleMovement()
     {
-        Controller.Forward = transform.forward;
-        Controller.Right = transform.right;
-
         Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * MoveSpeed;
         Vector3 moveX = Controller.Right * InputReference.MoveInput.x * StrafeSpeed;
         Controller.MoveDirection = Vector3.zero;
@@ -153,7 +127,7 @@ public class NormalMovement : TrinityState
             RaycastHit hit;
             if (MovementState != ETrinityMovement.ETM_Jumping) 
             {
-                if (Physics.Raycast(Controller.transform.position, Vector3.down, out hit, .1f, LayerMask.GetMask("Default")))
+                if (Physics.Raycast(Controller.transform.position, Vector3.down, out hit, Controller.GroundDistance, Controller.GroundLayer))
                 {
                     // Ground detected, ensure movement state remains grounded
                     SetMovementState(ETrinityMovement.ETM_Grounded);
@@ -168,9 +142,21 @@ public class NormalMovement : TrinityState
     {
         if (newMovementState != MovementState)
         {
-            print("Transition: " + MovementState + "->" + newMovementState);
-
+            if (ENABLE_DEBUG)
+            {
+                print("Transition: " + MovementState + "->" + newMovementState);
+            }
             MovementState = newMovementState;
         }
     }
+    
+    private void UpdateAnimParams()
+    {
+        // less damping if we are landing
+
+        StateMachine.Animator.SetFloat(AnimKeyMove, Controller.Rigidbody.velocity.z, .05f, Time.deltaTime);
+        StateMachine.Animator.SetFloat(AnimKeyStrafe, Controller.Rigidbody.velocity.x, .05f, Time.deltaTime);
+        StateMachine.Animator.SetFloat(AnimKeyVertical, Controller.VerticalVelocity);
+    }
+
 }

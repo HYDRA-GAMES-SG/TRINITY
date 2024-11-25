@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 567174384}
   m_Layer: 0
   m_Name: Controller
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -574,16 +574,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GroundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   Gravity: 9.81
   GroundDistance: 0.1
-  EnableDebug: 0
   Collider: {fileID: 0}
   Rigidbody: {fileID: 0}
   MoveDirection: {x: 0, y: 0, z: 0}
-  Forward: {x: 0, y: 0, z: 0}
-  Right: {x: 0, y: 0, z: 0}
-  Rotation: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
   PlanarVelocity: 0
   Height: 0
@@ -667,7 +663,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1431794016}
-  - {fileID: 705160730285193144}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &749666643
@@ -1362,6 +1357,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: af274cdfd4d0acf4291c7897e641208a, type: 2}
+  Controller: {fileID: 0}
+  InputReference: {fileID: 0}
 --- !u!114 &1998517642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,8 +1372,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 03779519027632845963c1d50d8aa073, type: 2}
+  Controller: {fileID: 0}
+  InputReference: {fileID: 0}
+  ENABLE_DEBUG: 0
   MoveSpeed: 5
   StrafeSpeed: 5
+  JumpVelocity: 10
 --- !u!4 &32772769424390111
 Transform:
   m_ObjectHideFlags: 0
@@ -1476,23 +1477,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.122178435, y: -0.049603693, z: -0.000001706183}
     m_Extent: {x: 0.023779824, y: 0.067198195, z: 0.06436202}
   m_DirtyAABB: 0
---- !u!1 &180965724754570498
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 705160730285193144}
-  - component: {fileID: 6857037360484969922}
-  m_Layer: 0
-  m_Name: SK_Dark_Mage
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &187632215998512553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1806,21 +1790,6 @@ Transform:
   m_Children:
   - {fileID: 7113419586322333084}
   m_Father: {fileID: 5415934391118282394}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &705160730285193144
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180965724754570498}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.547, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 649920702}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &758304428300829876
 GameObject:
@@ -6815,27 +6784,6 @@ Transform:
   - {fileID: 1670115123049528124}
   m_Father: {fileID: 390490034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &6857037360484969922
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 180965724754570498}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 8d98bbccbb2a79f418f7274e3b9bfa60, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6899908835490827350
 GameObject:
   m_ObjectHideFlags: 0

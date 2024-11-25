@@ -6,26 +6,26 @@ public class ATrinityController : MonoBehaviour
 {
     [Header("Physics Settings")]
     [SerializeField] 
-    private LayerMask GroundLayer;
+    public LayerMask GroundLayer;
 
     [SerializeField] 
     public float Gravity = 9.81f;
     
     [SerializeField] 
-    private float GroundDistance = .1f;
+    public float GroundDistance = .1f;
 
-    [SerializeField] 
-    private bool EnableDebug = false;
-
+    [HideInInspector]
     public CapsuleCollider Collider;
     
+    [HideInInspector]
     public Rigidbody Rigidbody;
 
     // Movement Variables
+    [HideInInspector]
     public Vector3 MoveDirection;
-    public Vector3 Forward;
-    public Vector3 Right;
-    public Vector3 Rotation;
+    [HideInInspector] public Vector3 Forward => transform.forward;
+    [HideInInspector] public Vector3 Right => transform.right;
+    [HideInInspector] public Vector3 Rotation => transform.rotation.eulerAngles;
 
     // Velocity and Height
     public float VerticalVelocity;

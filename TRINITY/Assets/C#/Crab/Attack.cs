@@ -10,24 +10,21 @@ public class Attack : CrabState
           MinLongRangeLength,
           CloseRangeLength;
 
-    public override void CheckEnterTransition()
+    public override bool CheckEnterTransition(IState fromState)
     {
         //base.CheckEnterTransition();
+        return false;
     }
 
     public override void OnEnter()
     {
-        base.OnEnter();
-        // Custom behavior when entering the state
-        Debug.Log("Entering Attack State");
+        //base.OnEnter();
+        
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        //DO NOT DELETE
-        base.EnterBehaviour(dt, fromState); //sets animator controller
-                                            //DO NOT DELETE
-
+        
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -52,9 +49,10 @@ public class Attack : CrabState
         //base.ExitBehaviour(dt, toState);
     }
 
-    public override void CheckExitTransition()
+    public override bool CheckExitTransition(IState toState)
     {
         //base.CheckExitTransition();
+        return false;
     }
 
     public override void OnExit()
@@ -65,13 +63,5 @@ public class Attack : CrabState
     public override void FixedUpdate()
     {
         //base.FixedUpdate();
-    }
-
-    public override void SetStateMachine(ACrabFSM ACrabStateMachine)
-    {
-        //DO NOT DELETE
-        base.SetStateMachine(ACrabStateMachine); // Set state machine variable
-        //DO NOT DELETE
-
     }
 }

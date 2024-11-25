@@ -48,6 +48,7 @@ public interface IState
 
     /// <summary>
     /// Checks if conditions are met to exit this state.
+    /// Return true to trigger an exit from this state.
     /// </summary>
-    public void CheckExitTransition();
+    public bool CheckExitTransition(IState fromState);
 }
