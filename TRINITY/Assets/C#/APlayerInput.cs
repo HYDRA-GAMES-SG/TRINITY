@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 {
     public Camera CameraReference;
-    public InputActionAsset InputActions;
+    public IAA_TrinityControls InputActions;
 
     private PlayerInput InputReference;
 
@@ -15,37 +15,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public Vector2 MoveInput { get; private set; }
     public Vector2 CameraInput { get; private set; }
 
-    void Start()
+    void Awake()
     {
-        InputReference = GetComponent<PlayerInput>();
-
-        if (!InputReference)
-        {
-            Debug.LogError("APlayerInput: PlayerInput component null or missing.");
-        }
-        else
-        {
-            InputReference.camera = CameraReference;
-
-            if (InputActions)
-            {
-                InputReference.actions = InputActions;
-                InputReference.defaultActionMap = "PLAYER";
-                InputReference.defaultControlScheme = "GENERIC";
-                InputReference.actions.FindActionMap("PLAYER").Enable();
-
-
-                // Subscribe to input actions
-                InputReference.actions["Move"].performed += OnMove;
-                InputReference.actions["Move"].canceled += OnMove;
-                InputReference.actions["Camera"].performed += OnCamera;
-                InputReference.actions["Camera"].canceled += OnCamera;
-            }
-            else
-            {
-                Debug.LogError("APlayerInput: InputActions unassigned.");
-            }
-        }
+        InputActions = new IAA_TrinityControls();
+        InputActions.PLAYER.SetCallbacks(this);
+        InputActions.Enable();    
     }
 
     void OnDestroy()

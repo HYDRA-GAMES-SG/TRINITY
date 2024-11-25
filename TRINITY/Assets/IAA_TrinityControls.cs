@@ -167,7 +167,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                     ""name"": ""2D Vector"",
                     ""id"": ""ebfb8800-f529-4037-af10-e852cf767507"",
                     ""path"": ""2DVector"",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Move"",
