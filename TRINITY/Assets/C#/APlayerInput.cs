@@ -14,6 +14,7 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     // Public accessor variables for input values
     public Vector2 MoveInput { get; private set; }
     public Vector2 CameraInput { get; private set; }
+    public bool JumpInput { get; private set; }
 
     void Awake()
     {
@@ -31,13 +32,15 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             InputReference.actions["Move"].canceled -= OnMove;
             InputReference.actions["Camera"].performed -= OnCamera;
             InputReference.actions["Camera"].canceled -= OnCamera;
+            InputReference.actions["Jump"].performed -= OnJumpGlide;
+            InputReference.actions["Jump"].canceled -= OnJumpGlide;
         }
     }
     
     // Input handling functions
     public void OnJumpGlide(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        JumpInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnBlink(InputAction.CallbackContext context)

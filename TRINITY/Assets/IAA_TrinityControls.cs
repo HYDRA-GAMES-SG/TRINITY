@@ -122,7 +122,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1e6811e0-9490-4d9d-99e5-3be95bb7ac01"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",

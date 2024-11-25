@@ -65,9 +65,4 @@ public class ATrinityController : MonoBehaviour
 
     }
 
-    private bool IsGrounded()
-    {
-        // Raycast check for ground
-        return Physics.Raycast(transform.position, Vector3.down, out _, Collider.bounds.extents.y + GroundDistance, GroundLayer);
-    }
 }

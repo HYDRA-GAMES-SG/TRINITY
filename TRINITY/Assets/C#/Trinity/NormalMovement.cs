@@ -9,16 +9,19 @@ public enum ETrinityMovement
     ETM_Jumping,
     ETM_Falling
 }
+
 public class NormalMovement : TrinityState
 {
-    [SerializeField, ReadOnly] private ETrinityMovement MovementState;
-    [SerializeField]
-    private float MoveSpeed = 100f;
-    [SerializeField]
-    private float StrafeSpeed = 100f;
+    private ETrinityMovement MovementState;
 
-    private string moveAnim = "vForward";
-    private string strafeAnim = "vStrafe";
+    [SerializeField] private float MoveSpeed = 5f;
+    [SerializeField] private float StrafeSpeed = 5f;
+    [SerializeField] private float JumpVelocity = 10f;
+
+    private string AnimKeyMove = "vForward";
+    private string AnimKeyStrafe = "vStrafe";
+    private string AnimKeyJump = "bJump";
+    private string AnimKeyVertical = "vVertical";
     
     public override void CheckEnterTransition()
     {
@@ -55,27 +58,16 @@ public class NormalMovement : TrinityState
             return;
         }
         
+        HandleMovement();
+        HandleJump();
+        HandleFalling();
         
-        Controller.Forward = transform.forward;
-        Controller.Right = transform.right;
-
-        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * MoveSpeed;
-        Vector3 moveX = Controller.Right * InputReference.MoveInput.x * StrafeSpeed;
-        Controller.MoveDirection = Vector3.zero;
-        Controller.MoveDirection += moveZ;
-        Controller.MoveDirection += moveX;
-
-        if (MovementState != ETrinityMovement.ETM_Grounded)
-        {
-            Controller.VerticalVelocity -= Controller.Gravity * Time.deltaTime;
-        }
-
-        // Apply movement to Rigidbody
+        // less damping if we are landing
+        StateMachine.Animator.SetFloat(AnimKeyMove, Controller.Rigidbody.velocity.z, .05f, Time.deltaTime);
+        StateMachine.Animator.SetFloat(AnimKeyStrafe, Controller.Rigidbody.velocity.x, .05f, Time.deltaTime);
+        StateMachine.Animator.SetFloat(AnimKeyVertical, Controller.VerticalVelocity);
+        
         Controller.Rigidbody.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
-
-        StateMachine.Animator.SetFloat(moveAnim, Controller.Rigidbody.velocity.z);
-        StateMachine.Animator.SetFloat(strafeAnim, Controller.Rigidbody.velocity.x);
-
     }
 
 
@@ -110,5 +102,75 @@ public class NormalMovement : TrinityState
         base.SetStateMachine(aTrinityStateMachine); // Set state machine variable
         //DO NOT DELETE
 
+    }
+
+    public ETrinityMovement GetMovementState()
+    {
+        return MovementState;
+    }
+
+    private void HandleMovement()
+    {
+        Controller.Forward = transform.forward;
+        Controller.Right = transform.right;
+
+        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * MoveSpeed;
+        Vector3 moveX = Controller.Right * InputReference.MoveInput.x * StrafeSpeed;
+        Controller.MoveDirection = Vector3.zero;
+        Controller.MoveDirection += moveZ;
+        Controller.MoveDirection += moveX;
+    }
+    
+    private void HandleJump()
+    {
+        if (InputReference.JumpInput)
+        {
+            if (MovementState == ETrinityMovement.ETM_Grounded)
+            {
+                Controller.VerticalVelocity += JumpVelocity;
+                SetMovementState(ETrinityMovement.ETM_Jumping);
+                StateMachine.Animator.SetBool(AnimKeyJump, true);
+            }
+            else
+            {
+                
+            }
+        }
+    }
+
+    private void HandleFalling()
+    {
+        if (MovementState != ETrinityMovement.ETM_Grounded)
+        {
+            Controller.VerticalVelocity -= Controller.Gravity * Time.deltaTime;
+            
+            if (MovementState == ETrinityMovement.ETM_Jumping && Controller.VerticalVelocity < 0f)
+            {
+                SetMovementState(ETrinityMovement.ETM_Falling);
+            }
+            
+            // Perform raycast to check for ground
+            RaycastHit hit;
+            if (MovementState != ETrinityMovement.ETM_Jumping) 
+            {
+                if (Physics.Raycast(Controller.transform.position, Vector3.down, out hit, .1f, LayerMask.GetMask("Default")))
+                {
+                    // Ground detected, ensure movement state remains grounded
+                    SetMovementState(ETrinityMovement.ETM_Grounded);
+                    Controller.VerticalVelocity = 0f;
+                    StateMachine.Animator.SetBool(AnimKeyJump, false);
+                }
+            }
+        }
+    }
+
+    private void SetMovementState(ETrinityMovement newMovementState)
+    {
+        if (newMovementState != MovementState)
+        {
+            print("Transition: " + MovementState + "->" + newMovementState);
+
+            MovementState = newMovementState;
+        }
     }
 }
