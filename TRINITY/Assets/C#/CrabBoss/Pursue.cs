@@ -14,7 +14,7 @@ public class Pursue: CrabState
     {
         base.OnEnter();
         // Custom behavior when entering the state
-        Debug.Log("Entering Normal Movement State");
+        Debug.Log("Entering Pursue State");
     }
 
     public override void EnterBehaviour(float dt, IState fromState)

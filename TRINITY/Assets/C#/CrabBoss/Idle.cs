@@ -2,13 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attack : CrabState
+public class Idle : CrabState
 {
-    bool LongDistanceAttack;
-
-    float MaxLongRangeLength,
-          MinLongRangeLength,
-          CloseRangeLength;
 
     public override void CheckEnterTransition()
     {
@@ -19,7 +14,7 @@ public class Attack : CrabState
     {
         base.OnEnter();
         // Custom behavior when entering the state
-        Debug.Log("Entering Attack State");
+        Debug.Log("Entering Idle State");
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -67,10 +62,10 @@ public class Attack : CrabState
         //base.FixedUpdate();
     }
 
-    public override void SetStateMachine(ACrabFSM ACrabStateMachine)
+    public override void SetStateMachine(ACrabFSM aCrabStateMachine)
     {
         //DO NOT DELETE
-        base.SetStateMachine(ACrabStateMachine); // Set state machine variable
+        base.SetStateMachine(aCrabStateMachine); // Set state machine variable
         //DO NOT DELETE
 
     }
