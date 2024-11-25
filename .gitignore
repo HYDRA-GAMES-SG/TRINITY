@@ -2,6 +2,8 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
+TRINITY/Library
+TRINITY/Library/*
 /[Ll]ibrary/
 Library/
 /Library/*
@@ -12,17 +14,31 @@ Temp/
 /Temp/*
 /Temp/**/*
 TRINITY/Temp
+TRINITY/Temp/*
 /[Oo]bj/
+TRINITY/obj
+TRINITY/Obj
+TRINITY/obj/*
+TRINITY/Obj/*
+TRINITY/Build
+TRINITY/Build/*
+TRINITY/Logs
+TRINITY/Logs/*
 /[Bb]uild/
 /[Bb]uilds/
+TRINITY/Build
+TRINITY/Builds
 /[Ll]ogs/
 Logs/
 /Logs/*
 /Logs/**/*
+TRINITY/Logs
 /[Uu]ser[Ss]ettings/
 UserSettings/
 /UserSettings/*
 /UserSettings/**/*
+TRINITY/Logs/*
+TRINITY/UserSettings/*
 TRINITY/Logs/
 TRINITY/UserSettings/
 
@@ -40,6 +56,9 @@ TRINITY/UserSettings/
 /[Aa]ssets/Plugins/Editor/JetBrains*
 
 # Visual Studio cache directory
+TRINITY/.idea
+TRINITY/.vs
+TRINITY/.gradle
 .vs/
 
 # Gradle cache directory
