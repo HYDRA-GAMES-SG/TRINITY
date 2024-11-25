@@ -9,7 +9,7 @@ public class ATrinityController : MonoBehaviour
     private LayerMask GroundLayer;
 
     [SerializeField] 
-    private float Gravity = 9.81f;
+    public float Gravity = 9.81f;
     
     [SerializeField] 
     private float GroundDistance = .1f;
@@ -47,7 +47,7 @@ public class ATrinityController : MonoBehaviour
         {
             Collider.radius = 0.5f;
             Collider.height = 1.7f;
-            Collider.center = new Vector3(0f, 1f, 0f);
+            Collider.center = new Vector3(0f, .75f, 0f);
         }
 
         if (Rigidbody == null)
@@ -63,24 +63,6 @@ public class ATrinityController : MonoBehaviour
     private void Update()
     {
 
-        // Placeholder for handling movement logic
-        HandleMovement();
-    }
-
-    private void HandleMovement()
-    {
-        // Example movement logic placeholder
-        Forward = transform.forward;
-        Right = transform.right;
-
-        // Combine forward and right movement based on input (example)
-        MoveDirection = (Forward * Input.GetAxis("Vertical")) + (Right * Input.GetAxis("Horizontal"));
-
-        // Gravity simulation (example)
-        VerticalVelocity -= Gravity * Time.deltaTime;
-
-        // Apply movement to Rigidbody
-        Rigidbody.velocity = new Vector3(MoveDirection.x, VerticalVelocity, MoveDirection.z);
     }
 
     private bool IsGrounded()

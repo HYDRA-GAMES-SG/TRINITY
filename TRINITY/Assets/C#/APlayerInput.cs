@@ -78,7 +78,6 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public void OnMove(InputAction.CallbackContext context)
     {
         MoveInput = context.ReadValue<Vector2>();
-        print("on move");
     }
 
     public void OnCamera(InputAction.CallbackContext context)

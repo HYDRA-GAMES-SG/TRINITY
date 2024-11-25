@@ -8,9 +8,13 @@ public abstract class TrinityState : MonoBehaviour, IState
 {
     public AnimatorController StateAnimController;
     protected ATrinityFSM StateMachine;
+    protected ATrinityController Controller;
+    protected APlayerInput InputReference;
     
     public void Awake()
     {
+        
+
     }
     
     public void Start()
@@ -20,6 +24,15 @@ public abstract class TrinityState : MonoBehaviour, IState
 
     public void Update()
     {
+        if (Controller == null && StateMachine.Controller != null)
+        {
+            Controller = StateMachine.Controller;
+        }
+
+        if (InputReference == null && StateMachine.InputReference != null)
+        {
+            InputReference = StateMachine.InputReference;
+        }
     }
 
     public virtual void OnEnter()

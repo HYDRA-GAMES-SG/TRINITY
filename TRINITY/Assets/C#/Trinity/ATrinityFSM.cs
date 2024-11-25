@@ -14,7 +14,8 @@ public class ATrinityFSM : MonoBehaviour, IFSM
     public TrinityState PreviousState { get; private set; }
 
     public event Action<TrinityState, TrinityState> OnStateChange;
-    
+    public ATrinityController Controller;
+    public APlayerInput InputReference;
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
@@ -134,6 +135,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
             if (!states.ContainsKey(stateName))
             {
                 states.Add(stateName, state);
+                state.SetStateMachine(this);
             }
             else
             {
