@@ -5,15 +5,24 @@ using UnityEngine.AI;
 
 public class Pursue: CrabState
 {
-    [SerializeField] ATrinityController PlayerTarget;
-    [SerializeField] ACrabController CrabBoss;
     [SerializeField] float MoveSpeed;
     [SerializeField] float StopDistance;
     [SerializeField] float RotateSpeed;
     [SerializeField] float ThresholdAngle;
-    NavMeshAgent BossAgent;
+    NavMeshAgent CrabAI;
+
+
+    private string AnimKeyTurnDirection = "RotateDirection";
+    
     public override bool CheckEnterTransition(IState fromState)
     {
+        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+        
+        if (distanceToTarget > StopDistance)
+        {
+            return true;
+        }
+        
         return false;
     }
 
@@ -24,10 +33,10 @@ public class Pursue: CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        BossAgent = CrabBoss.gameObject.GetComponent<NavMeshAgent>();
-        BossAgent.speed = MoveSpeed;
-        BossAgent.stoppingDistance = StopDistance;
-        BossAgent.updateRotation = false;
+        CrabAI = CrabFSM.CrabController.AI;
+        CrabAI.speed = MoveSpeed;
+        CrabAI.stoppingDistance = StopDistance;
+        CrabAI.updateRotation = false;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -37,7 +46,6 @@ public class Pursue: CrabState
 
     public override void UpdateBehaviour(float dt)
     {
-        if (PlayerTarget == null) return;
 
         RotateAndMoveTowardTarget();
     }
@@ -53,21 +61,23 @@ public class Pursue: CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
+        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+        
+        if (distanceToTarget < StopDistance)
+        {
+            CrabFSM.EnqueueTransition<Attack>();
+            return true;
+        }
+        
         return false;
     }
 
-    public override void OnExit()
-    {
-    }
-
-    public override void FixedUpdate()
-    {
-    }
 
     void RotateAndMoveTowardTarget()
     {
-        Vector3 directionToTarget = (PlayerTarget.transform.position - CrabBoss.transform.position).normalized;
-        float distanceToTarget = Vector3.Distance(PlayerTarget.transform.position, CrabBoss.transform.position);
+        Vector3 directionToTarget = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
+        
+        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
         float angleToTarget = RotateTowardTarget(directionToTarget);
 
         if (angleToTarget > ThresholdAngle)
@@ -78,7 +88,10 @@ public class Pursue: CrabState
             }
             else
             {
-                HandleRotationWithAnimator(directionToTarget);
+                float turnDirection = Mathf.Sign(Vector3.Cross(CrabFSM.CrabController.transform.forward, directionToTarget).y);
+                CrabFSM.Animator.SetFloat(AnimKeyTurnDirection, turnDirection);
+
+                CrabAI.ResetPath();
             }
         }
         else
@@ -89,26 +102,18 @@ public class Pursue: CrabState
 
     private void HandleMovement()
     {
-        StateMachine.Animator.SetFloat("RotateDirection", 0);
-        BossAgent.SetDestination(PlayerTarget.transform.position);
+        CrabFSM.Animator.SetFloat("RotateDirection", 0);
+        CrabAI.SetDestination(CrabFSM.PlayerController.transform.position);
 
-        Vector3 localDesiredVelocity = CrabBoss.transform.InverseTransformDirection(BossAgent.velocity);
-        StateMachine.Animator.SetFloat("MoveValue", localDesiredVelocity.z);
+        Vector3 localDesiredVelocity = CrabFSM.CrabController.transform.InverseTransformDirection(CrabAI.velocity);
+        CrabFSM.Animator.SetFloat("MoveValue", localDesiredVelocity.z);
     }
 
-    float RotateTowardTarget(Vector3 direction)
+    float RotateTowardTarget(Vector3 directionToTarget)
     {
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        CrabBoss.transform.rotation = Quaternion.Slerp(CrabBoss.transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
 
-        return Vector3.Angle(CrabBoss.transform.forward, direction);
-    }
-
-    void HandleRotationWithAnimator(Vector3 directionToRotate)
-    {
-        float turnDirection = Mathf.Sign(Vector3.Cross(CrabBoss.transform.forward, directionToRotate).y);
-        StateMachine.Animator.SetFloat("RotateDirection", turnDirection);
-
-        BossAgent.ResetPath();
+        return Vector3.Angle(CrabFSM.CrabController.transform.forward, directionToTarget);
     }
 }

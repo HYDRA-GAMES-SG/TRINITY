@@ -11,16 +11,18 @@ using Unity.VisualScripting;
 [RequireComponent(typeof(UHealthComponent))]
 public class ACrabController : MonoBehaviour
 {
-    public Transform VictimTarget;
+    public ATrinityController PlayerController;
     public ACrabFSM CrabFSM;
 
-    [SerializeField] float MaxPursueRangeLength = 35;
-    [SerializeField] float MinPursueRangeLength = 25;
+    [SerializeField] float MaxPursueRange = 35;
+    [SerializeField] float MinPursueRange = 25;
     [SerializeField] float AggroRange;
 
-    private Rigidbody Physics;
-    private CapsuleCollider Collider;
-    private NavMeshAgent AI;
+    [HideInInspector]
+    public Rigidbody Physics;
+    [HideInInspector]
+    public CapsuleCollider Collider;
+    public NavMeshAgent AI;
     private UHealthComponent Health;
     void Start()
     {
@@ -37,13 +39,5 @@ public class ACrabController : MonoBehaviour
 
     void Update()
     {
-        if (CrabFSM == null || CrabFSM.CurrentState == null) return;
-
-        if (VictimTarget == null) return;
-        float distanceToTarget = Vector3.Distance(VictimTarget.position, transform.position);
-        if (distanceToTarget > AI.stoppingDistance)
-        {
-            CrabFSM.EnqueueTransition<Pursue>();
-        }
     }
 }

@@ -14,7 +14,8 @@ public class ACrabFSM : MonoBehaviour, IFSM
     public CrabState PreviousState { get; private set; }
 
     public event Action<CrabState, CrabState> OnStateChange;
-    public ACrabController Controller;
+    public ACrabController CrabController;
+    public ATrinityController PlayerController;
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
@@ -35,6 +36,16 @@ public class ACrabFSM : MonoBehaviour, IFSM
             }
 
             StartStateMachine();
+        }
+
+        if (!PlayerController)
+        {
+            PlayerController = FindObjectOfType<ATrinityController>();
+
+            if (!PlayerController)
+            {
+                return;
+            }
         }
 
         // Check for transitions and update the current state

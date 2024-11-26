@@ -7,7 +7,7 @@ using UnityEngine.PlayerLoop;
 public abstract class CrabState : MonoBehaviour, IState
 {
     public AnimatorController StateAnimController;
-    protected ACrabFSM StateMachine;
+    protected ACrabFSM CrabFSM;
 
     public void Awake()
     {
@@ -34,9 +34,9 @@ public abstract class CrabState : MonoBehaviour, IState
 
     public virtual void EnterBehaviour(float dt, IState fromState)
     {
-        if (StateMachine)
+        if (CrabFSM)
         {
-            StateMachine.Animator.runtimeAnimatorController = StateAnimController;
+            CrabFSM.Animator.runtimeAnimatorController = StateAnimController;
         }
     }
 
@@ -73,6 +73,6 @@ public abstract class CrabState : MonoBehaviour, IState
 
     public virtual void SetStateMachine(ACrabFSM aCrabStateMachine)
     {
-        StateMachine = aCrabStateMachine;
+        CrabFSM = aCrabStateMachine;
     }
 }
