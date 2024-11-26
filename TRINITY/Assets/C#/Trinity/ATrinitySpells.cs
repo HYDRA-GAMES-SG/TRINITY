@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class ATrinitySpells : MonoBehaviour
 {
+    public PrimaryFire Fireball;
+    public PrimaryCold Icicles;
+    public PrimaryLightning LightningBeam;
     // Start is called before the first frame update
     void Start()
     {
