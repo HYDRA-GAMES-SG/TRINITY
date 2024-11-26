@@ -65,4 +65,12 @@ public class ATrinityController : MonoBehaviour
 
     }
 
+    public RaycastHit CheckGround()
+    {
+        RaycastHit hit;
+
+        Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer);
+
+        return hit;
+    }
 }

@@ -7,7 +7,7 @@ using UnityEngine.PlayerLoop;
 public abstract class TrinityState : MonoBehaviour, IState
 {
     public AnimatorController StateAnimController;
-    protected ATrinityFSM StateMachine;
+    protected ATrinityFSM TrinityFSM;
     [HideInInspector]
     public ATrinityController Controller;
     [HideInInspector]
@@ -26,14 +26,14 @@ public abstract class TrinityState : MonoBehaviour, IState
 
     public void Update()
     {
-        if (Controller == null && StateMachine.Controller != null)
+        if (Controller == null && TrinityFSM.Controller != null)
         {
-            Controller = StateMachine.Controller;
+            Controller = TrinityFSM.Controller;
         }
 
-        if (InputReference == null && StateMachine.InputReference != null)
+        if (InputReference == null && TrinityFSM.InputReference != null)
         {
-            InputReference = StateMachine.InputReference;
+            InputReference = TrinityFSM.InputReference;
         }
     }
 
@@ -48,9 +48,9 @@ public abstract class TrinityState : MonoBehaviour, IState
     
     public virtual void EnterBehaviour(float dt, IState fromState)
     {
-        if (StateMachine)
+        if (TrinityFSM)
         {
-            StateMachine.Animator.runtimeAnimatorController = StateAnimController;
+            TrinityFSM.Animator.runtimeAnimatorController = StateAnimController;
         }
     }
 
@@ -89,6 +89,6 @@ public abstract class TrinityState : MonoBehaviour, IState
 
     public virtual void SetStateMachine(ATrinityFSM aTrinityStateMachine)
     {
-        StateMachine = aTrinityStateMachine;
+        TrinityFSM = aTrinityStateMachine;
     }
 }

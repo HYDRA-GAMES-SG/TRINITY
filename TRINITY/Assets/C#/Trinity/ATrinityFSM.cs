@@ -48,8 +48,9 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         
         if (CurrentState != null)
         {
-            float deltaTime = Time.deltaTime;
-            CurrentState.UpdateBehaviour(deltaTime);
+            CurrentState.PreUpdateBehaviour(Time.deltaTime);
+            CurrentState.UpdateBehaviour(Time.deltaTime);
+            CurrentState.PostUpdateBehaviour(Time.deltaTime);
         }
     }
 
@@ -57,7 +58,8 @@ public class ATrinityFSM : MonoBehaviour, IFSM
     {
         FSM_RUNNING = true;
         CurrentState = InitialState;
-        CurrentState.EnterBehaviour(0f, null);
+        CurrentState.EnterBehaviour(Time.deltaTime, null);
+        Debug.Log("PLAYER: " + CurrentState);
     }
 
     private void ProcessTransitions()
@@ -79,7 +81,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
     private void TransitionToState(TrinityState nextState)
     {
-        if (CurrentState == nextState)
+        if (CurrentState == nextState || !CurrentState.CheckExitTransition(nextState))
             return;
 
         PreviousState = CurrentState;

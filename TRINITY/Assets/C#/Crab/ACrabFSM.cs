@@ -8,7 +8,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
     public CrabState InitialState;
 
     private readonly Dictionary<string, CrabState> states = new Dictionary<string, CrabState>();
-    private Queue<CrabState> transitionQueue = new Queue<CrabState>();
+    private Queue<CrabState> TransitionQueue = new Queue<CrabState>();
 
     public CrabState CurrentState { get; private set; }
     public CrabState PreviousState { get; private set; }
@@ -53,8 +53,9 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
         if (CurrentState != null)
         {
-            float deltaTime = Time.deltaTime;
-            CurrentState.UpdateBehaviour(deltaTime);
+            CurrentState.PreUpdateBehaviour(Time.deltaTime);
+            CurrentState.UpdateBehaviour(Time.deltaTime);
+            CurrentState.PostUpdateBehaviour(Time.deltaTime);
         }
     }
 
@@ -67,11 +68,11 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void ProcessTransitions()
     {
-        if (transitionQueue.Count > 0)
+        if (TransitionQueue.Count > 0)
         {
-            while (transitionQueue.Count > 0)
+            while (TransitionQueue.Count > 0)
             {
-                CrabState nextState = transitionQueue.Dequeue();
+                CrabState nextState = TransitionQueue.Dequeue();
 
                 if (nextState != null && nextState.isActiveAndEnabled)
                 {
@@ -84,7 +85,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void TransitionToState(CrabState nextState)
     {
-        if (CurrentState == nextState)
+        if (CurrentState == nextState || !CurrentState.CheckExitTransition(nextState))
             return;
 
         PreviousState = CurrentState;
@@ -116,7 +117,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
         CrabState state = GetState(stateName);
         if (state != null)
         {
-            transitionQueue.Enqueue(state);
+            TransitionQueue.Enqueue(state);
         }
     }
 
@@ -125,7 +126,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
         CrabState state = GetState<T>();
         if (state != null)
         {
-            transitionQueue.Enqueue(state);
+            TransitionQueue.Enqueue(state);
         }
     }
 
@@ -133,7 +134,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
     {
         if (PreviousState != null)
         {
-            transitionQueue.Enqueue(PreviousState);
+            TransitionQueue.Enqueue(PreviousState);
         }
     }
 
