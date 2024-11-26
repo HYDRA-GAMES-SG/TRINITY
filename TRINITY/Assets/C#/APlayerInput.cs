@@ -15,6 +15,7 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public Vector2 MoveInput { get; private set; }
     public Vector2 CameraInput { get; private set; }
     public bool JumpInput { get; private set; }
+    public InputAction.CallbackContext PrimaryInput;
 
     void Awake()
     {
@@ -60,7 +61,7 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public void OnElementalPrimary(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        PrimaryInput = context;
     }
 
     public void OnElementalSecondary(InputAction.CallbackContext context)

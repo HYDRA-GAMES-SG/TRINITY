@@ -19,10 +19,10 @@ public enum ETrinityElement
 
 public class ATrinityBrain : MonoBehaviour
 {
-    public APlayerInput InputReference;
+    public APlayerInput InputReference; //reference
     public ATrinityCharacter TrinityCharacter; //reference
-    public ATrinitySpells Spells; //reference
-    public ATrinityController TrinityController;
+    public ATrinitySpells TrinitySpells; //reference
+    public ATrinityController TrinityController; //reference
     ETrinityElement Element;
 
     public Transform CastPos;
@@ -37,7 +37,7 @@ public class ATrinityBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) 
+        if (Input.GetMouseButtonDown(0)) //need to use InputReference
         {
             CastPrimarySpell(Element);
         }
@@ -50,17 +50,17 @@ public class ATrinityBrain : MonoBehaviour
         {
             case ETrinityElement.ETE_Fire: 
                 {
-                    spellPrefab = Instantiate(Spells.Fireball.gameObject, CastPos.position, Quaternion.identity);
+                    spellPrefab = Instantiate(TrinitySpells.Fireball.gameObject, CastPos.position, Quaternion.identity);
                     break;
                 }
             case ETrinityElement.ETE_Cold:
                 {
-                    spellPrefab = Instantiate(Spells.Icicles.gameObject, CastPos.position, Quaternion.identity);
+                    spellPrefab = Instantiate(TrinitySpells.Icicles.gameObject, CastPos.position, Quaternion.identity);
                     break;
                 }
             case ETrinityElement.ETE_Lightning:
                 {
-                    spellPrefab = Instantiate(Spells.LightningBeam.gameObject, CastPos.position, Quaternion.identity);
+                    spellPrefab = Instantiate(TrinitySpells.LightningBeam.gameObject, CastPos.position, Quaternion.identity);
                     break;
                 }
         }
