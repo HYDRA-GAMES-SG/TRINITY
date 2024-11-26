@@ -4,29 +4,34 @@ using UnityEngine;
 
 public class UHealthComponent : MonoBehaviour
 {
-    
     [SerializeField]
-    private float MAX = 50;
-    
-    private float Current;
-    public System.Action OnHealthModified;
+    public float MAX = 50;
+    public float Current;
+
     private float Percent => Current / MAX;
-    
-    float Modify(float signedValue)
-    {
+    private bool Dead;
 
-        return Current;
-    }
+    public System.Action<float> OnHealthModified;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Current = MAX;
     }
 
-    // Update is called once per frame
-    void Update()
+    public float Modify(float signedValue)
     {
-        
+        if (Dead) return Current;
+
+        Current += signedValue;
+        Current = Mathf.Clamp(Current, 0, MAX);
+
+        if (Current <= 0)
+        {
+            Dead = true;
+            Current = 0;
+        }
+
+        OnHealthModified?.Invoke(Percent);
+        return Current;
     }
 }

@@ -5,28 +5,25 @@ using UnityEngine;
 public class UManaComponent : MonoBehaviour
 {
     [SerializeField]
-    private float MAX = 50;
-    
-    private float Current;
-    public System.Action OnManaModified;
+    public float MAX = 50;
+    public float Current;
+
     private float Percent => Current / MAX;
 
-    float Modify(float signedValue)
-    {
-
-        return Current;
-    }
-
-    
-    // Start is called before the first frame update
+    public System.Action<float> OnManaModified;
     void Start()
     {
-        
+        Current = MAX;
     }
-
-    // Update is called once per frame
-    void Update()
+    float Modify(float signedValue)
     {
-        
+        Current += signedValue;
+        Current = Mathf.Clamp(Current, 0, MAX);
+
+        if (Current <= 0)
+            Current = 0;
+
+        OnManaModified?.Invoke(Percent);
+        return Current;
     }
 }
