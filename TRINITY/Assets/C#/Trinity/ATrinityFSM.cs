@@ -15,6 +15,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
     public event Action<TrinityState, TrinityState> OnStateChange;
     public ATrinityController Controller;
+    public ATrinityCamera Camera;
     public APlayerInput InputReference;
     public Animator Animator;
     private bool FSM_RUNNING = false;
@@ -41,7 +42,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         // Check for transitions and update the current state
         ProcessTransitions();
 
-        if (!Controller || !InputReference)
+        if (!Controller || !InputReference || !Camera)
         {
             return;
         }

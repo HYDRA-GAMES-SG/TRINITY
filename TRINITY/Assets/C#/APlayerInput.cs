@@ -88,9 +88,4 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     {
         CameraInput = context.ReadValue<Vector2>();
     }
-
-    // Optional: Add a debug log for testing
-    void Update()
-    {
-    }
 }

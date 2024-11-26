@@ -25,6 +25,7 @@ public class NormalMovement : TrinityState
     private string AnimKeyStrafe = "vStrafe";
     private string AnimKeyJump = "bJump";
     private string AnimKeyVertical = "vVertical";
+    private string AnimKeyGlide = "bGlide";
     
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -34,15 +35,23 @@ public class NormalMovement : TrinityState
     public override void EnterBehaviour(float dt, IState fromState)
     {
         
-        MovementState = ETrinityMovement.ETM_Grounded;
         
+        MovementState = ETrinityMovement.ETM_Grounded;
+
         if (fromState is GlideMovement)
         {
             MovementState = ETrinityMovement.ETM_Falling;
+            TrinityFSM.Animator.SetBool(AnimKeyGlide, true);
+            TrinityFSM.Animator.SetBool(AnimKeyJump, true);
+        }
+        else
+        {
+            TrinityFSM.Animator.SetBool(AnimKeyJump, false);
+            TrinityFSM.Animator.SetBool(AnimKeyGlide, false);
+
         }
         
         bCanGlide = false;
-        TrinityFSM.Animator.SetBool(AnimKeyJump, false);
 
     }
 
@@ -76,6 +85,7 @@ public class NormalMovement : TrinityState
         {
             return true;
         }
+        
         return false;
     }
 
@@ -84,8 +94,7 @@ public class NormalMovement : TrinityState
     {
         Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * MoveSpeed;
         Vector3 moveX = Controller.Right * InputReference.MoveInput.x * StrafeSpeed;
-        Controller.MoveDirection = Vector3.zero;
-        Controller.MoveDirection += moveZ;
+        Controller.MoveDirection = moveZ;
         Controller.MoveDirection += moveX;
     }
     
@@ -118,8 +127,9 @@ public class NormalMovement : TrinityState
             }
             
             // Perform raycast to check for ground
-            if (MovementState != ETrinityMovement.ETM_Jumping) 
+            if (MovementState != ETrinityMovement.ETM_Jumping)
             {
+                print(Controller.CheckGround().transform);
                 if (Controller.CheckGround().transform)
                 {
                     // Ground detected, ensure movement state remains grounded
@@ -168,9 +178,10 @@ public class NormalMovement : TrinityState
     private void UpdateAnimParams()
     {
         // less damping if we are landing
-
-        TrinityFSM.Animator.SetFloat(AnimKeyMove, Controller.Rigidbody.velocity.z, .05f, Time.deltaTime);
-        TrinityFSM.Animator.SetFloat(AnimKeyStrafe, Controller.Rigidbody.velocity.x, .05f, Time.deltaTime);
+        Vector3 playerSpaceVelocity = Controller.transform.InverseTransformVector(Controller.Rigidbody.velocity);
+        
+        TrinityFSM.Animator.SetFloat(AnimKeyMove, playerSpaceVelocity.z, .05f, Time.deltaTime);
+        TrinityFSM.Animator.SetFloat(AnimKeyStrafe, playerSpaceVelocity.x, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeyVertical, Controller.VerticalVelocity);
     }
     

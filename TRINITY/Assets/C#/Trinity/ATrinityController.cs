@@ -13,6 +13,11 @@ public class ATrinityController : MonoBehaviour
     
     [SerializeField] 
     public float GroundDistance = .1f;
+    
+    [SerializeField]
+    public float Height; // => Collider.bounds.extents.y;
+
+    [SerializeField] public float RotationSpeed = 5f;
 
     [HideInInspector]
     public CapsuleCollider Collider;
@@ -26,15 +31,19 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public Vector3 Forward => transform.forward;
     [HideInInspector] public Vector3 Right => transform.right;
     [HideInInspector] public Vector3 Rotation => transform.rotation.eulerAngles;
-
-    // Velocity and Height
+    [HideInInspector]
     public float VerticalVelocity;
+    [HideInInspector]
     public float PlanarVelocity;
-    public float Height; // => Collider.bounds.extents.y;
+
+
+    private APlayerInput InputReference;
+    
     
 
     private void Awake()
     {
+        InputReference = FindObjectOfType<APlayerInput>();
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
         Rigidbody = GetComponent<Rigidbody>();
@@ -47,7 +56,7 @@ public class ATrinityController : MonoBehaviour
         {
             Collider.radius = 0.5f;
             Collider.height = 1.7f;
-            Collider.center = new Vector3(0f, .75f, 0f);
+            Collider.center = new Vector3(0f, .8f, 0f);
         }
 
         if (Rigidbody == null)
@@ -62,7 +71,7 @@ public class ATrinityController : MonoBehaviour
 
     private void Update()
     {
-
+        ApplyRotation();
     }
 
     public RaycastHit CheckGround()
@@ -72,5 +81,21 @@ public class ATrinityController : MonoBehaviour
         Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer);
 
         return hit;
+    }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 rayOrigin = transform.position;
+
+        // Draw the ground-check raycast
+        Gizmos.DrawLine(rayOrigin, rayOrigin + Vector3.down * GroundDistance);
+        Gizmos.DrawLine(rayOrigin, rayOrigin + Forward * 2f);
+        Gizmos.DrawSphere(rayOrigin + Vector3.down * GroundDistance, 0.01f);
+    }
+
+    void ApplyRotation()
+    {
+        transform.Rotate(Vector3.up, InputReference.CameraInput.x * RotationSpeed * Time.deltaTime);
     }
 }

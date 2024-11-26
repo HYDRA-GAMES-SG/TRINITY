@@ -14,7 +14,6 @@ public class GlideMovement : TrinityState
     
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        print("entering Glide");
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -27,6 +26,7 @@ public class GlideMovement : TrinityState
         if (Controller.CheckGround().transform || !TrinityFSM.InputReference.JumpInput)
         {
             TrinityFSM.EnqueueTransition<NormalMovement>();
+            return;
         }
         
         HandleMovement();
@@ -56,4 +56,6 @@ public class GlideMovement : TrinityState
         Controller.MoveDirection += moveZ;
         Controller.MoveDirection += moveX;
     }
+    
+    
 }

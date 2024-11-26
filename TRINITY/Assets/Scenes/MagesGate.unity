@@ -198,6 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68303a33611d645449cedb5d85ec6e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fireball: {fileID: 0}
+  Icicles: {fileID: 0}
+  LightningBeam: {fileID: 0}
 --- !u!1 &93216700
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Current: 0
 --- !u!114 &349730358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Current: 0
 --- !u!1 &390490033
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +562,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 390490034}
-  - {fileID: 1594050638}
+  - {fileID: 1210029776}
   m_Father: {fileID: 749666644}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &567174383
@@ -732,6 +737,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ff69e7d27eeaf43b43f416cb96cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthComponent: {fileID: 0}
+  ManaComponent: {fileID: 0}
+  HealthSlider: {fileID: 0}
+  ManaSlider: {fileID: 0}
+  HealthText: {fileID: 0}
+  ManaText: {fileID: 0}
 --- !u!4 &789692183
 Transform:
   m_ObjectHideFlags: 0
@@ -795,6 +806,38 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1210029775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1210029776}
+  m_Layer: 0
+  m_Name: CameraBoom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1210029776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210029775}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1594050638}
+  m_Father: {fileID: 567174382}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1263677945
 GameObject:
@@ -1119,6 +1162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def17e7c58b777f44a835aa6e8f74d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputReference: {fileID: 0}
+  TrinityCharacter: {fileID: 0}
+  TrinitySpells: {fileID: 0}
+  TrinityController: {fileID: 0}
+  CastPos: {fileID: 0}
 --- !u!1 &1594050637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,11 +1195,11 @@ Transform:
   m_GameObject: {fileID: 1594050637}
   serializedVersion: 2
   m_LocalRotation: {x: 0.17614327, y: -0, z: -0, w: 0.98436457}
-  m_LocalPosition: {x: 0, y: 2.24, z: -2.42}
+  m_LocalPosition: {x: 0, y: 2.12, z: -4.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 567174382}
+  m_Father: {fileID: 1210029776}
   m_LocalEulerAnglesHint: {x: 20.29, y: 0, z: 0}
 --- !u!114 &1594050639
 MonoBehaviour:
@@ -1261,8 +1309,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 0}
-  Controller: {fileID: 0}
-  CharacterState: {fileID: 0}
+  Controller: {fileID: 567174383}
+  InputReference: {fileID: 1450948502}
+  CharacterState: {fileID: 1998517640}
+  RotationSpeed: 5
+  VerticalClampMin: -35
+  VerticalClampMax: 40
+  LookTarget: {fileID: 567174382}
 --- !u!1 &1843797606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,6 +1395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialState: {fileID: 1998517642}
   Controller: {fileID: 567174383}
+  Camera: {fileID: 1594050641}
   InputReference: {fileID: 1450948502}
   Animator: {fileID: 390490036}
 --- !u!114 &1998517641
@@ -1359,6 +1413,8 @@ MonoBehaviour:
   StateAnimController: {fileID: 9100000, guid: af274cdfd4d0acf4291c7897e641208a, type: 2}
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
+  MoveSpeed: 5
+  StrafeSpeed: 5
 --- !u!114 &1998517642
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -43,12 +43,12 @@
                 },
                 {
                     "name": "Camera",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "65cdafd3-89ff-4df7-8e5e-f4dc453e9837",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "ElementalUtility",
@@ -199,10 +199,21 @@
                 {
                     "name": "",
                     "id": "f461c6bb-6b80-47da-8506-9041384ee562",
-                    "path": "",
+                    "path": "<Mouse>/delta",
                     "interactions": "",
                     "processors": "",
                     "groups": "GENERIC",
+                    "action": "Camera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "37b6783c-71f8-49cc-8b35-8911dba014a4",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Camera",
                     "isComposite": false,
                     "isPartOfComposite": false
