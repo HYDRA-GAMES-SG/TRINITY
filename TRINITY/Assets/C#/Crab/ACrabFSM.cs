@@ -14,7 +14,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
     public CrabState PreviousState { get; private set; }
 
     public event Action<CrabState, CrabState> OnStateChange;
-
+    public ACrabController Controller;
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
@@ -137,6 +137,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
             if (!states.ContainsKey(stateName))
             {
                 states.Add(stateName, state);
+                state.SetStateMachine(this);
             }
             else
             {
