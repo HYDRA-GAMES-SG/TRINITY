@@ -200,7 +200,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fireball: {fileID: 318573288166870962, guid: 496706c361681bc488b8fadcb6108520, type: 3}
   Icicles: {fileID: 0}
-  LightningBeam: {fileID: 0}
+  LightningBeam: {fileID: 4008405269026615995, guid: 951cd005babd9394f82dc4c71a76f6de,
+    type: 3}
 --- !u!1 &93216700
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,6 +402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Current: 0
 --- !u!114 &349730358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,6 +416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Current: 0
 --- !u!1 &390490033
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +885,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ff69e7d27eeaf43b43f416cb96cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthComponent: {fileID: 0}
+  ManaComponent: {fileID: 0}
+  HealthSlider: {fileID: 0}
+  ManaSlider: {fileID: 0}
+  HealthText: {fileID: 0}
+  ManaText: {fileID: 0}
 --- !u!4 &789692183
 Transform:
   m_ObjectHideFlags: 0
@@ -1945,7 +1954,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InputReference: {fileID: 1450948502}
   TrinityCharacter: {fileID: 349730355}
-  Spells: {fileID: 34247059}
+  TrinitySpells: {fileID: 34247059}
   TrinityController: {fileID: 567174383}
   CastPos: {fileID: 660931041}
 --- !u!1 &1594050637
@@ -2194,6 +2203,8 @@ MonoBehaviour:
   StateAnimController: {fileID: 9100000, guid: af274cdfd4d0acf4291c7897e641208a, type: 2}
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
+  MoveSpeed: 5
+  StrafeSpeed: 5
 --- !u!114 &1998517642
 MonoBehaviour:
   m_ObjectHideFlags: 0

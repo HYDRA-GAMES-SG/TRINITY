@@ -23,7 +23,9 @@ public class ATrinityBrain : MonoBehaviour
     public ATrinityCharacter TrinityCharacter; //reference
     public ATrinitySpells TrinitySpells; //reference
     public ATrinityController TrinityController; //reference
+    public GameObject Beam;
     ETrinityElement Element;
+    ETrinityAction Action;
 
     public Transform CastPos;
 
@@ -41,6 +43,16 @@ public class ATrinityBrain : MonoBehaviour
         {
             CastPrimarySpell(Element);
         }
+        if (Input.GetMouseButtonUp(0)) 
+        {
+            Action = ETrinityAction.ETA_None;
+            if (Beam != null) 
+            {
+                Beam.SetActive(false);
+            }
+        }
+
+        ToggleElement();
     }
 
     public void CastPrimarySpell (ETrinityElement currentElement)
@@ -60,9 +72,33 @@ public class ATrinityBrain : MonoBehaviour
                 }
             case ETrinityElement.ETE_Lightning:
                 {
-                    spellPrefab = Instantiate(TrinitySpells.LightningBeam.gameObject, CastPos.position, Quaternion.identity);
+                    Action = ETrinityAction.ETA_Casting;
+
+                    if (Beam == null)
+                    {
+                        spellPrefab = Instantiate(TrinitySpells.LightningBeam.gameObject, CastPos.position, Quaternion.Euler(0, 90, 0));
+                        spellPrefab.transform.parent = TrinityController.transform;
+                        Beam = spellPrefab;
+                    }
+                    else 
+                    {
+                        Beam.SetActive(true);
+                    }
                     break;
                 }
+        }
+    }
+    public void ToggleElement() 
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        {
+            NextElement();
+            print(Element);
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+        {
+            PreviousElement();
+            print(Element);
         }
     }
     public void NextElement() 
