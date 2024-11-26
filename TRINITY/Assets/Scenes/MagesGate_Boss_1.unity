@@ -198,6 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68303a33611d645449cedb5d85ec6e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Fireball: {fileID: 0}
+  Icicles: {fileID: 0}
+  LightningBeam: {fileID: 0}
 --- !u!1 &93216700
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,7 +837,7 @@ Transform:
   m_GameObject: {fileID: 887534372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -18.26}
+  m_LocalPosition: {x: 0, y: 0, z: -30.73}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -855,9 +858,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerController: {fileID: 0}
   CrabFSM: {fileID: 1126775660}
-  MaxPursueRange: 35
-  MinPursueRange: 25
-  AggroRange: 0
   Physics: {fileID: 0}
   Collider: {fileID: 0}
   AI: {fileID: 887534379}
@@ -1418,6 +1418,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def17e7c58b777f44a835aa6e8f74d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InputReference: {fileID: 0}
+  TrinityCharacter: {fileID: 0}
+  TrinitySpells: {fileID: 0}
+  TrinityController: {fileID: 0}
+  CastPos: {fileID: 0}
 --- !u!1 &1594050637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1691,6 +1696,8 @@ MonoBehaviour:
   StateAnimController: {fileID: 9100000, guid: af274cdfd4d0acf4291c7897e641208a, type: 2}
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
+  MoveSpeed: 5
+  StrafeSpeed: 5
 --- !u!114 &1998517642
 MonoBehaviour:
   m_ObjectHideFlags: 0

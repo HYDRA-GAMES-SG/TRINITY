@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditorInternal.VersionControl.ListControl;
 
 public class ACrabFSM : MonoBehaviour, IFSM
 {
@@ -26,6 +27,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void FixedUpdate()
     {
+        Debug.Log(TransitionQueue.Count);
         if (!FSM_RUNNING)
         {
             if (InitialState == null || !InitialState.isActiveAndEnabled)

@@ -1,67 +1,80 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Attack : CrabState
 {
-    bool LongDistanceAttack;
+    private string AnimKeyNormalAttackLeft = "NormalAttackLeft";
+    private string AnimKeyNormalAttackRight = "NormalAttackRight";
 
-    float MaxLongRangeLength,
-          MinLongRangeLength,
-          CloseRangeLength;
-
+    NavMeshAgent CrabAI;
     public override bool CheckEnterTransition(IState fromState)
     {
-        //base.CheckEnterTransition();
-        return false;
+        //float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+
+        //if (distanceToTarget < CrabFSM.CrabController.AI.stoppingDistance + 2)
+        //{
+        //    Debug.Log(distanceToTarget);
+        //    return true;
+        //}
+
+        return true;
     }
 
     public override void OnEnter()
     {
-        //base.OnEnter();
-        
+
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        
+        CrabAI = CrabFSM.CrabController.AI;
+
+        string animKey;
+        float random = Random.value;
+
+        if (random > 0.5f)
+        {
+            animKey = AnimKeyNormalAttackLeft;
+        }
+        else
+        {
+            animKey = AnimKeyNormalAttackRight;
+        }
+
+        CrabFSM.Animator.SetTrigger(animKey);
     }
 
     public override void PreUpdateBehaviour(float dt)
     {
-        //base.PreUpdateBehaviour(dt);
     }
 
 
     public override void UpdateBehaviour(float dt)
     {
-        //base.UpdateBehaviour(dt);
+
     }
 
 
     public override void PostUpdateBehaviour(float dt)
     {
-        //base.PostUpdateBehaviour(dt);
     }
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        //base.ExitBehaviour(dt, toState);
     }
 
     public override bool CheckExitTransition(IState toState)
     {
-        //base.CheckExitTransition();
         return false;
     }
 
     public override void OnExit()
     {
-        //base.OnExit();
     }
 
     public override void FixedUpdate()
     {
-        //base.FixedUpdate();
     }
 }

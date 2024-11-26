@@ -14,9 +14,9 @@ public class ACrabController : MonoBehaviour
     public ATrinityController PlayerController;
     public ACrabFSM CrabFSM;
 
-    [SerializeField] float MaxPursueRange = 35;
-    [SerializeField] float MinPursueRange = 25;
-    [SerializeField] float AggroRange;
+    //[SerializeField] float MaxPursueRange = 35;
+    //[SerializeField] float MinPursueRange = 25;
+    //[SerializeField] float AggroRange;
 
     [HideInInspector]
     public Rigidbody Physics;

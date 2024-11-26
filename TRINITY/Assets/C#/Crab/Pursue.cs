@@ -3,32 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Pursue: CrabState
+public class Pursue : CrabState
 {
     [SerializeField] float MoveSpeed;
     [SerializeField] float StopDistance;
     [SerializeField] float RotateSpeed;
     [SerializeField] float ThresholdAngle;
     NavMeshAgent CrabAI;
-
+    
 
     private string AnimKeyTurnDirection = "RotateDirection";
-    
+    private string AnimKeyMoveValue = "MoveValue";
+
     public override bool CheckEnterTransition(IState fromState)
     {
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-        
+
         if (distanceToTarget > StopDistance)
         {
             return true;
         }
-        
+
         return false;
     }
 
     public override void OnEnter()
     {
-       
+
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -46,6 +47,11 @@ public class Pursue: CrabState
 
     public override void UpdateBehaviour(float dt)
     {
+        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+        if (distanceToTarget <= StopDistance)
+        {
+            CrabFSM.EnqueueTransition<Attack>();
+        }
 
         RotateAndMoveTowardTarget();
     }
@@ -57,18 +63,19 @@ public class Pursue: CrabState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        CrabAI.updateRotation = true;
     }
 
     public override bool CheckExitTransition(IState toState)
     {
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-        
+
         if (distanceToTarget < StopDistance)
         {
             CrabFSM.EnqueueTransition<Attack>();
             return true;
         }
-        
+
         return false;
     }
 
@@ -76,7 +83,7 @@ public class Pursue: CrabState
     void RotateAndMoveTowardTarget()
     {
         Vector3 directionToTarget = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-        
+
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
         float angleToTarget = RotateTowardTarget(directionToTarget);
 
@@ -102,11 +109,11 @@ public class Pursue: CrabState
 
     private void HandleMovement()
     {
-        CrabFSM.Animator.SetFloat("RotateDirection", 0);
+        CrabFSM.Animator.SetFloat(AnimKeyTurnDirection, 0);
         CrabAI.SetDestination(CrabFSM.PlayerController.transform.position);
 
         Vector3 localDesiredVelocity = CrabFSM.CrabController.transform.InverseTransformDirection(CrabAI.velocity);
-        CrabFSM.Animator.SetFloat("MoveValue", localDesiredVelocity.z);
+        CrabFSM.Animator.SetFloat(AnimKeyMoveValue, localDesiredVelocity.z);
     }
 
     float RotateTowardTarget(Vector3 directionToTarget)
