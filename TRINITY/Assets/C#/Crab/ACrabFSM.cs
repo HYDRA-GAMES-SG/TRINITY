@@ -27,7 +27,6 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void FixedUpdate()
     {
-        Debug.Log(TransitionQueue.Count);
         if (!FSM_RUNNING)
         {
             if (InitialState == null || !InitialState.isActiveAndEnabled)

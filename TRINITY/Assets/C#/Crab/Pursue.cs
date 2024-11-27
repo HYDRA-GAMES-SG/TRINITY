@@ -9,8 +9,9 @@ public class Pursue : CrabState
     [SerializeField] float StopDistance;
     [SerializeField] float RotateSpeed;
     [SerializeField] float ThresholdAngle;
+    [SerializeField] float AttackRange;
     NavMeshAgent CrabAI;
-    
+
 
     private string AnimKeyTurnDirection = "RotateDirection";
     private string AnimKeyMoveValue = "MoveValue";
@@ -48,9 +49,9 @@ public class Pursue : CrabState
     public override void UpdateBehaviour(float dt)
     {
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-        if (distanceToTarget <= StopDistance)
+        if (distanceToTarget <= StopDistance + AttackRange)
         {
-            CrabFSM.EnqueueTransition<Attack>();
+            CrabFSM.EnqueueTransition<CloseAttack>();
         }
 
         RotateAndMoveTowardTarget();
@@ -70,9 +71,8 @@ public class Pursue : CrabState
     {
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
 
-        if (distanceToTarget < StopDistance)
+        if (distanceToTarget < StopDistance + AttackRange)
         {
-            CrabFSM.EnqueueTransition<Attack>();
             return true;
         }
 

@@ -582,12 +582,13 @@ MonoBehaviour:
     m_Bits: 1
   Gravity: 9.81
   GroundDistance: 0.1
+  Height: 0
+  RotationSpeed: 3
   Collider: {fileID: 0}
   Rigidbody: {fileID: 0}
   MoveDirection: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
   PlanarVelocity: 0
-  Height: 0
 --- !u!136 &567174384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -888,7 +889,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 300
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -994,6 +995,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 6cdd1bb0dc50aca479d921072a9c5e83, type: 2}
+  RotateSpeed: 3
 --- !u!114 &1126775659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1011,6 +1013,7 @@ MonoBehaviour:
   StopDistance: 10
   RotateSpeed: 2
   ThresholdAngle: 5
+  AttackRange: 5
 --- !u!114 &1126775660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1422,6 +1425,7 @@ MonoBehaviour:
   TrinityCharacter: {fileID: 0}
   TrinitySpells: {fileID: 0}
   TrinityController: {fileID: 0}
+  Beam: {fileID: 0}
   CastPos: {fileID: 0}
 --- !u!1 &1594050637
 GameObject:
@@ -1566,7 +1570,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera: {fileID: 0}
   Controller: {fileID: 0}
+  InputReference: {fileID: 0}
   CharacterState: {fileID: 0}
+  RotationSpeed: 5
+  VerticalClampMin: -30
+  VerticalClampMax: 60
+  LookTarget: {fileID: 0}
 --- !u!1 &1843797606
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,6 +1688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialState: {fileID: 1998517642}
   Controller: {fileID: 567174383}
+  Camera: {fileID: 0}
   InputReference: {fileID: 1450948502}
   Animator: {fileID: 390490036}
 --- !u!114 &1998517641
