@@ -14,7 +14,9 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     // Public accessor variables for input values
     public Vector2 MoveInput { get; private set; }
     public Vector2 CameraInput { get; private set; }
+    public bool BlinkInput { get; private set; }
     public bool JumpInput { get; private set; }
+    public bool ForcefieldInput { get; private set; }
     public InputAction.CallbackContext PrimaryInput;
 
     void Awake()
@@ -46,12 +48,12 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public void OnBlink(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        BlinkInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnForcefield(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        ForcefieldInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnElementalUtility(InputAction.CallbackContext context)
