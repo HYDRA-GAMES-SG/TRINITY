@@ -6,28 +6,56 @@ using UnityEngine.UI;
 
 public class AGUI : MonoBehaviour
 {
-    [SerializeField]
-    private UHealthComponent HealthComponent;
+    [SerializeField] private ATrinityCharacter PlayerCharacter;
+    [SerializeField] private UHealthComponent BossHealth;
 
-    [SerializeField]
-    private UManaComponent ManaComponent;
-
-    [SerializeField]
-    private Slider HealthSlider, ManaSlider;
+    [SerializeField] private Slider HealthSlider, ManaSlider, BossHealthSlider;
 
     [SerializeField]
     private TextMeshProUGUI HealthText, ManaText;
 
     void Start()
     {
-        if (HealthComponent != null)
+        if (PlayerCharacter != null)
         {
-            HealthComponent.OnHealthModified += UpdateHealthBar;
+            PlayerCharacter.HealthComponent.OnHealthModified += UpdateHealthBar;
         }
 
-        if (ManaComponent != null)
+        if (PlayerCharacter != null)
         {
-            ManaComponent.OnManaModified += UpdateManaBar;
+            PlayerCharacter.ManaComponent.OnManaModified += UpdateManaBar;
+        }
+    }
+
+    void Update()
+    {
+        HandleBossHealth();
+
+    }
+
+    private void HandleBossHealth()
+    {
+        if (AGameManager.Boss != null)
+        {
+            if (BossHealth == null)
+            {
+                BossHealth = AGameManager.Boss.GetComponent<UHealthComponent>();
+                
+                if (!BossHealthSlider.gameObject.activeSelf)
+                {
+                    BossHealthSlider.gameObject.SetActive(true);
+                }
+            }
+            
+            BossHealthSlider.value = BossHealth.Percent;
+        }
+        else
+        {
+            if (BossHealth != null)
+            {
+                BossHealthSlider.gameObject.SetActive(false);
+                BossHealth = null;
+            }
         }
     }
 
@@ -37,7 +65,7 @@ public class AGUI : MonoBehaviour
             HealthSlider.value = HealthPercent;
 
         if (HealthText != null)
-            HealthText.text = $"{HealthComponent.Current}/{HealthComponent.MAX}%";
+            HealthText.text = $"{PlayerCharacter.HealthComponent.Current}/{PlayerCharacter.HealthComponent.MAX}%";
     }
     public void UpdateManaBar(float ManaPercent)
     {
@@ -45,15 +73,15 @@ public class AGUI : MonoBehaviour
             ManaSlider.value = ManaPercent;
 
         if (ManaText != null)
-            ManaText.text = $"{ManaComponent.Current}/{ManaComponent.MAX}";
+            ManaText.text = $"{PlayerCharacter.ManaComponent.Current}/{PlayerCharacter.ManaComponent.MAX}";
     }
 
     void OnDestroy()
     {
-        if (HealthComponent != null)
-            HealthComponent.OnHealthModified -= UpdateHealthBar;
+        if (PlayerCharacter != null)
+            PlayerCharacter.HealthComponent.OnHealthModified -= UpdateHealthBar;
 
-        if (ManaComponent != null)
-            ManaComponent.OnManaModified -= UpdateManaBar;
+        if (PlayerCharacter != null)
+            PlayerCharacter.ManaComponent.OnManaModified -= UpdateManaBar;
     }
 }

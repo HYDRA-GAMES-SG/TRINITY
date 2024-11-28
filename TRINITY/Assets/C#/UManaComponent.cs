@@ -11,6 +11,11 @@ public class UManaComponent : MonoBehaviour
     private float Percent => Current / MAX;
 
     public System.Action<float> OnManaModified;
+
+    public void Awake()
+    {
+    }
+    
     void Start()
     {
         Current = MAX;

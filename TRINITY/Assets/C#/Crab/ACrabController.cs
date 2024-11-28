@@ -35,6 +35,8 @@ public class ACrabController : MonoBehaviour
         AI = GetComponent<NavMeshAgent>();
 
         Health = GetComponent<UHealthComponent>();
+
+        AGameManager.SetBoss(this.gameObject);
     }
 
     void Update()

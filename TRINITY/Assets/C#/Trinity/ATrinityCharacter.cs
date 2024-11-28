@@ -7,8 +7,9 @@ public class ATrinityCharacter : MonoBehaviour
 {
     [SerializeField]
     private ATrinityController Controller;
-    private UHealthComponent HealthComponent;
-    private UManaComponent ManaComponent;
+
+    public UHealthComponent HealthComponent;
+    public UManaComponent ManaComponent;
 
     // Start is called before the first frame update
     private void Start()

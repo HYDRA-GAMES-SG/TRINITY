@@ -8,10 +8,16 @@ public class UHealthComponent : MonoBehaviour
     public float MAX = 50;
     public float Current;
 
-    private float Percent => Current / MAX;
+    public float Percent => Current / MAX;
     private bool Dead;
 
     public System.Action<float> OnHealthModified;
+
+
+    public void Awake()
+    {
+        
+    }
 
     void Start()
     {
