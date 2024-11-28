@@ -82,7 +82,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
     private void TransitionToState(TrinityState nextState)
     {
-        if (CurrentState == nextState || !CurrentState.CheckExitTransition(nextState))
+        if (CurrentState == nextState || !CurrentState.CheckExitTransition(nextState) || !nextState.CheckEnterTransition(CurrentState))
             return;
 
         PreviousState = CurrentState;

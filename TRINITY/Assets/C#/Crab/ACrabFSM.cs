@@ -92,7 +92,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void TransitionToState(CrabState nextState)
     {
-        if (CurrentState == nextState || !CurrentState.CheckExitTransition(nextState))
+        if (CurrentState == nextState || !CurrentState.CheckExitTransition(nextState) || !nextState.CheckEnterTransition(CurrentState))
             return;
 
         PreviousState = CurrentState;
