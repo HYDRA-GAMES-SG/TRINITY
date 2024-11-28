@@ -5,14 +5,9 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     public UHealthComponent Health;
-    void Start()
+   
+    public void ModifyHealth(float singleValue)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Health.Modify(singleValue);
     }
 }

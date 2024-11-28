@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CloseAttack : CrabState
+public class ComboAttack : CrabState
 {
     [SerializeField] float RotateSpeed;
 
@@ -17,7 +15,14 @@ public class CloseAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        return true;
+        if (fromState is PursueAttack)
+        {
+            if (CrabFSM.CrabController.CanComboAttack)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -53,7 +58,7 @@ public class CloseAttack : CrabState
         bool isInTransition = CrabFSM.Animator.IsInTransition(0);
         if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.9f)
         {
-            CrabFSM.EnqueueTransition<Pursue>();
+            CrabFSM.EnqueueTransition<PursueAttack>();
             NextStage = true;
         }
     }
@@ -65,6 +70,7 @@ public class CloseAttack : CrabState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        CrabFSM.CrabController.CanComboAttack = false;
     }
 
     public override bool CheckExitTransition(IState toState)

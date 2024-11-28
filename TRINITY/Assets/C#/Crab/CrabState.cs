@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public abstract class CrabState : MonoBehaviour, IState
 {
+    [Header("Animator Controller")]
     public AnimatorController StateAnimController;
+
     protected ACrabFSM CrabFSM;
 
     public void Awake()

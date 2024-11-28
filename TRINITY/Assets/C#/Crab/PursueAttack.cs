@@ -1,36 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Pursue : CrabState
+public class PursueAttack : CrabState
 {
+    [Header("AI Setting")]
     [SerializeField] float MoveSpeed;
     [SerializeField] float StopDistance;
     [SerializeField] float RotateSpeed;
     [SerializeField] float ThresholdAngle;
-    [SerializeField] float AttackRange;
-    NavMeshAgent CrabAI;
 
+    [Header("Attack Range")]
+    [SerializeField] float RangeAttack;
+    [SerializeField] float ComboRangeAttack;
+
+    NavMeshAgent CrabAI;
 
     private string AnimKeyTurnDirection = "RotateDirection";
     private string AnimKeyMoveValue = "MoveValue";
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-
-        if (distanceToTarget > StopDistance)
+        if (fromState is ComboAttack || fromState is JumpSmash)
         {
             return true;
         }
-
         return false;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
         CrabAI = CrabFSM.CrabController.AI;
+
         CrabAI.speed = MoveSpeed;
         CrabAI.stoppingDistance = StopDistance;
         CrabAI.updateRotation = false;
@@ -43,13 +44,25 @@ public class Pursue : CrabState
 
     public override void UpdateBehaviour(float dt)
     {
-        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-        if (distanceToTarget <= StopDistance + AttackRange)
-        {
-            CrabFSM.EnqueueTransition<CloseAttack>();
-        }
+        if (CrabFSM.PlayerController == null) return;
 
-        RotateAndMoveTowardTarget();
+        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+        Debug.Log(distanceToTarget);
+        if (distanceToTarget >= RangeAttack && distanceToTarget <= RangeAttack + 2)
+        {
+            Debug.Log("Can range");
+            CrabFSM.EnqueueTransition<JumpSmash>();
+            CrabFSM.EnqueueTransition<RoarStun>();
+        }
+        else if (distanceToTarget <= ComboRangeAttack)
+        {
+            Debug.Log("Can combo");
+            CrabFSM.EnqueueTransition<ComboAttack>();
+        }
+        else
+        {
+            RotateAndMoveTowardTarget();
+        }
     }
 
 
@@ -64,9 +77,7 @@ public class Pursue : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-
-        if (distanceToTarget < StopDistance + AttackRange)
+        if (toState is ComboAttack || toState is JumpSmash)
         {
             return true;
         }
@@ -77,6 +88,7 @@ public class Pursue : CrabState
 
     void RotateAndMoveTowardTarget()
     {
+        Debug.Log("Normal");
         Vector3 directionToTarget = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
 
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);

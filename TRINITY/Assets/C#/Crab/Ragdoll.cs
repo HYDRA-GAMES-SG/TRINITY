@@ -11,11 +11,15 @@ public class Ragdoll : MonoBehaviour
     {
         rigBody = GetComponentsInChildren<Rigidbody>();
         Health = GetComponentInParent<UHealthComponent>();
-        AddHitBox();
-        animator = GetComponent<Animator>();
+        animator = GetComponentInParent<Animator>();
+
+        AddHitBoxScript();
+
         DeactiveRagdoll();
     }
-    void AddHitBox()
+    //if hitting the collider on the crab boss body part
+    //it take damage and - the UHealthComponent helath
+    void AddHitBoxScript()  //HitBox script is added to every part
     {
         foreach (var r in rigBody)
         {

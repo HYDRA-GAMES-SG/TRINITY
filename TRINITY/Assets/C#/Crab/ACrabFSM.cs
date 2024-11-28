@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditorInternal.VersionControl.ListControl;
 
 public class ACrabFSM : MonoBehaviour, IFSM
 {
@@ -20,6 +19,8 @@ public class ACrabFSM : MonoBehaviour, IFSM
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
+    public bool ShowDebugLog = false;
+
     private void Awake()
     {
         InitializeStates();
@@ -27,8 +28,13 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void FixedUpdate()
     {
+        if (ShowDebugLog)
+        {
+            Debug.Log(TransitionQueue.Count);
+        }
+
         TryInitialize();
-        
+
         // Check for transitions and update the current state
         ProcessTransitions();
 
@@ -65,7 +71,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
             }
         }
     }
-    
+
     private void StartStateMachine()
     {
         FSM_RUNNING = true;
@@ -100,7 +106,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
         OnStateChange?.Invoke(PreviousState, nextState);
 
-        Debug.Log("AI: "  + CurrentState + "=>" + nextState);
+        Debug.Log("AI: " + CurrentState + "=>" + nextState);
 
         CurrentState = nextState;
         Animator.runtimeAnimatorController = CurrentState.StateAnimController;
@@ -164,5 +170,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
             }
         }
     }
+
+    
 }
 
