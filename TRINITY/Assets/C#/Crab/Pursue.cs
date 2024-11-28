@@ -28,11 +28,6 @@ public class Pursue : CrabState
         return false;
     }
 
-    public override void OnEnter()
-    {
-
-    }
-
     public override void EnterBehaviour(float dt, IState fromState)
     {
         CrabAI = CrabFSM.CrabController.AI;

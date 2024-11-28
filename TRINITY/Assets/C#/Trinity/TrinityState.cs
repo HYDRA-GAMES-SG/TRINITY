@@ -18,11 +18,6 @@ public abstract class TrinityState : MonoBehaviour, IState
         
 
     }
-    
-    public void Start()
-    {
-        
-    }
 
     public void Update()
     {
@@ -36,11 +31,6 @@ public abstract class TrinityState : MonoBehaviour, IState
             InputReference = TrinityFSM.InputReference;
         }
     }
-
-    public virtual void OnEnter()
-    {
-    }
-
     public virtual bool CheckEnterTransition(IState fromState)
     {
         return false;
@@ -78,15 +68,6 @@ public abstract class TrinityState : MonoBehaviour, IState
         
     }
     
-    public virtual void OnExit()
-    {
-        
-    }
-
-    public virtual void FixedUpdate()
-    {
-    }
-
     public virtual void SetStateMachine(ATrinityFSM aTrinityStateMachine)
     {
         TrinityFSM = aTrinityStateMachine;

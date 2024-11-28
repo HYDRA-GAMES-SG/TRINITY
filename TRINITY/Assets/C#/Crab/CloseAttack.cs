@@ -20,11 +20,6 @@ public class CloseAttack : CrabState
         return true;
     }
 
-    public override void OnEnter()
-    {
-
-    }
-
     public override void EnterBehaviour(float dt, IState fromState)
     {
         CrabAI = CrabFSM.CrabController.AI;
@@ -77,13 +72,6 @@ public class CloseAttack : CrabState
         return NextStage;
     }
 
-    public override void OnExit()
-    {
-    }
-
-    public override void FixedUpdate()
-    {
-    }
     void RotateTowardTarget(Vector3 directionToTarget)
     {
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);

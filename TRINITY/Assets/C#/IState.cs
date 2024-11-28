@@ -6,16 +6,6 @@ public interface IState
     public void Awake();
 
     /// <summary>
-    /// Called when entering the state. Initialize state-specific settings here.
-    /// </summary>
-    public void OnEnter();
-
-    /// <summary>
-    /// Called when exiting the state.
-    /// </summary>
-    public void OnExit();
-
-    /// <summary>
     /// Handles behavior upon entering the state.
     /// </summary>
     public void EnterBehaviour(float dt, IState fromState);

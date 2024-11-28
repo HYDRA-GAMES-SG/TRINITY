@@ -27,6 +27,21 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void FixedUpdate()
     {
+        TryInitialize();
+        
+        // Check for transitions and update the current state
+        ProcessTransitions();
+
+        if (CurrentState != null)
+        {
+            CurrentState.PreUpdateBehaviour(Time.deltaTime);
+            CurrentState.UpdateBehaviour(Time.deltaTime);
+            CurrentState.PostUpdateBehaviour(Time.deltaTime);
+        }
+    }
+
+    private void TryInitialize()
+    {
         if (!FSM_RUNNING)
         {
             if (InitialState == null || !InitialState.isActiveAndEnabled)
@@ -45,21 +60,12 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
             if (!PlayerController)
             {
+                Debug.LogError("CrabFSM: No Player Controller Reference found.");
                 return;
             }
         }
-
-        // Check for transitions and update the current state
-        ProcessTransitions();
-
-        if (CurrentState != null)
-        {
-            CurrentState.PreUpdateBehaviour(Time.deltaTime);
-            CurrentState.UpdateBehaviour(Time.deltaTime);
-            CurrentState.PostUpdateBehaviour(Time.deltaTime);
-        }
     }
-
+    
     private void StartStateMachine()
     {
         FSM_RUNNING = true;

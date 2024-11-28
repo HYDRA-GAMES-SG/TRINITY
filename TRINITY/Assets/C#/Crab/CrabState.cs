@@ -22,9 +22,6 @@ public abstract class CrabState : MonoBehaviour, IState
     {
     }
 
-    public virtual void OnEnter()
-    {
-    }
 
     public virtual bool CheckEnterTransition(IState fromState)
     {
@@ -58,16 +55,7 @@ public abstract class CrabState : MonoBehaviour, IState
         return false;
     }
 
-    public virtual void OnExit()
-    {
-
-    }
-
     public virtual void ExitBehaviour(float dt, IState toState)
-    {
-    }
-
-    public virtual void FixedUpdate()
     {
     }
 
