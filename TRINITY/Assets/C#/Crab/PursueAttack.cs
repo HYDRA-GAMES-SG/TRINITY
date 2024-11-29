@@ -21,7 +21,7 @@ public class PursueAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is ComboAttack || fromState is JumpSmash)
+        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun)
         {
             return true;
         }
@@ -51,8 +51,11 @@ public class PursueAttack : CrabState
         if (distanceToTarget >= RangeAttack && distanceToTarget <= RangeAttack + 2)
         {
             Debug.Log("Can range");
-            CrabFSM.EnqueueTransition<JumpSmash>();
-            CrabFSM.EnqueueTransition<RoarStun>();
+            float RandomValue = Random.value;
+            if (RandomValue <= 0.5f)
+                CrabFSM.EnqueueTransition<JumpSmash>();
+            else
+                CrabFSM.EnqueueTransition<RoarStun>();
         }
         else if (distanceToTarget <= ComboRangeAttack)
         {
@@ -77,7 +80,7 @@ public class PursueAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is ComboAttack || toState is JumpSmash)
+        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun)
         {
             return true;
         }
