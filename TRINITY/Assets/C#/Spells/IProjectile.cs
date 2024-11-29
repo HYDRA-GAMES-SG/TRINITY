@@ -8,4 +8,5 @@ public interface IProjectile
     public float Damage { get; set; }
     public float Duration { get; set; }
     public float MaxRange { get; set; }
+    public float Cooldown { get; set; }
 }

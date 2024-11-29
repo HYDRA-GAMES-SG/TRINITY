@@ -57,17 +57,23 @@ public class ATrinityBrain : MonoBehaviour
 
     public void CastPrimarySpell (ETrinityElement currentElement)
     {
+        if (TrinitySpells.PrimaryCooldown > 0)
+        {
+            return;
+        }
         GameObject spellPrefab;
         switch (currentElement)
         {
             case ETrinityElement.ETE_Fire: 
                 {
-                    spellPrefab = Instantiate(TrinitySpells.Fireball.gameObject, CastPos.position, Quaternion.identity);
+                    PrimaryFire fireball = TrinitySpells.Fireball;
+                    spellPrefab = Instantiate(fireball.gameObject, CastPos.position, Quaternion.identity);
+                    TrinitySpells.PrimaryCooldown = fireball.Cooldown;
                     break;
                 }
             case ETrinityElement.ETE_Cold:
                 {
-                    spellPrefab = Instantiate(TrinitySpells.Icicles.gameObject, CastPos.position, Quaternion.identity);
+                    //spellPrefab = Instantiate(TrinitySpells.Icicles.gameObject, CastPos.position, Quaternion.identity);
                     break;
                 }
             case ETrinityElement.ETE_Lightning:
@@ -88,6 +94,8 @@ public class ATrinityBrain : MonoBehaviour
                 }
         }
     }
+    public void CastSecondarySpell(ETrinityElement currentElement) { }
+    public void CastUtilitySpell(ETrinityElement currentElement) { }
     public void ToggleElement() 
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)

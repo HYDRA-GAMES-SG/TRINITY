@@ -15,6 +15,7 @@ public class PrimaryFire : MonoBehaviour, IProjectile
     public float CurrentDuration;
     public float CurrentDamage;
     public float CurrentMaxRange;
+    public float CurrentCooldown;
 
     public float Speed
     {
@@ -50,6 +51,18 @@ public class PrimaryFire : MonoBehaviour, IProjectile
         }
     }
     public float MaxRange { get; set; }
+    public float Cooldown 
+    {
+        get
+        {
+            return CurrentCooldown;
+        }
+        set
+        {
+            value = CurrentCooldown;
+        }
+    }
+
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();

@@ -389,6 +389,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 567174383}
+  HealthComponent: {fileID: 0}
+  ManaComponent: {fileID: 0}
 --- !u!114 &349730357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,12 +695,13 @@ MonoBehaviour:
     m_Bits: 1
   Gravity: 9.81
   GroundDistance: 0.1
+  Height: 0
+  RotationSpeed: 5
   Collider: {fileID: 0}
   Rigidbody: {fileID: 0}
   MoveDirection: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
   PlanarVelocity: 0
-  Height: 0
 --- !u!136 &567174384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -885,10 +888,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ff69e7d27eeaf43b43f416cb96cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthComponent: {fileID: 0}
-  ManaComponent: {fileID: 0}
+  PlayerCharacter: {fileID: 0}
+  BossHealth: {fileID: 0}
   HealthSlider: {fileID: 0}
   ManaSlider: {fileID: 0}
+  BossHealthSlider: {fileID: 0}
   HealthText: {fileID: 0}
   ManaText: {fileID: 0}
 --- !u!4 &789692183
@@ -1956,6 +1960,7 @@ MonoBehaviour:
   TrinityCharacter: {fileID: 349730355}
   TrinitySpells: {fileID: 34247059}
   TrinityController: {fileID: 567174383}
+  Beam: {fileID: 0}
   CastPos: {fileID: 660931041}
 --- !u!1 &1594050637
 GameObject:
@@ -2100,7 +2105,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Camera: {fileID: 0}
   Controller: {fileID: 0}
+  InputReference: {fileID: 0}
   CharacterState: {fileID: 0}
+  RotationSpeed: 5
+  VerticalClampMin: -30
+  VerticalClampMax: 60
+  LookTarget: {fileID: 0}
 --- !u!1 &1843797606
 GameObject:
   m_ObjectHideFlags: 0
@@ -2186,6 +2196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialState: {fileID: 1998517642}
   Controller: {fileID: 567174383}
+  Camera: {fileID: 1594050641}
   InputReference: {fileID: 1450948502}
   Animator: {fileID: 390490036}
 --- !u!114 &1998517641
