@@ -129,7 +129,6 @@ public class NormalMovement : TrinityState
             // Perform raycast to check for ground
             if (MovementState != ETrinityMovement.ETM_Jumping)
             {
-                print(Controller.CheckGround().transform);
                 if (Controller.CheckGround().transform)
                 {
                     // Ground detected, ensure movement state remains grounded

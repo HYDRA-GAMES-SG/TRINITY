@@ -132,6 +132,17 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7e40aa21-587d-458d-b455-5b56eaf3337c"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GENERIC"",
+                    ""action"": ""JumpGlide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""00714b0f-03f1-4ef9-9f04-1b2bb8ec0a65"",
                     ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
@@ -324,7 +335,33 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
         {
             ""name"": ""GENERIC"",
             ""bindingGroup"": ""GENERIC"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<DualShockGamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<WebGLGamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<XInputController>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<NimbusGamepadHid>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");

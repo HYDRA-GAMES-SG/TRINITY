@@ -1,15 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(PlayerInput))]
 public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 {
     public Camera CameraReference;
     public IAA_TrinityControls InputActions;
-
-    private PlayerInput InputReference;
 
     // Public accessor variables for input values
     public Vector2 MoveInput { get; private set; }
@@ -17,77 +15,263 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public bool BlinkInput { get; private set; }
     public bool JumpInput { get; private set; }
     public bool ForcefieldInput { get; private set; }
-    public InputAction.CallbackContext PrimaryInput;
+    public bool ElementalUtililyInput { get; private set; }
+    public bool ElementalPrimaryInput { get; private set; }
+    public bool ElementalSecondaryInput { get; private set; }
+    public bool NextElementInput { get; private set; }
+    public bool PreviousElementInput { get; private set; }
+
+    // System.Actions for events
+    public event Action OnJumpGlidePressed;
+    public event Action OnJumpGlideReleased;
+
+    public event Action OnBlinkPressed;
+    public event Action OnBlinkReleased;
+
+    public event Action OnForcefieldPressed;
+    public event Action OnForcefieldReleased;
+
+    public event Action OnElementalUtiltiyPressed;
+    public event Action OnElementalUtilityReleased;
+
+    public event Action OnElementalPrimaryPressed;
+    public event Action OnElementalPrimaryReleased;
+
+    public event Action OnElementalSecondaryPressed;
+    public event Action OnElementalSecondaryReleased;
+
+    public event Action OnNextElementPressed;
+    public event Action OnNextElementReleased;
+
+    public event Action OnPreviousElementPressed;
+    public event Action OnPreviousElementReleased;
+
+    public event Action OnMovePressed;
+    public event Action OnMoveReleased;
+
+    public event Action OnCameraPressed;
+    public event Action OnCameraReleased;
 
     void Awake()
     {
         InputActions = new IAA_TrinityControls();
         InputActions.PLAYER.SetCallbacks(this);
-        InputActions.Enable();    
+        InputActions.Enable();
+
+        // Subscribe inputs
+        InputActions.PLAYER.JumpGlide.started += OnJumpGlide;
+        InputActions.PLAYER.JumpGlide.canceled += OnJumpGlide;
+
+        InputActions.PLAYER.Blink.started += OnBlink;
+        InputActions.PLAYER.Blink.canceled += OnBlink;
+
+        InputActions.PLAYER.Forcefield.started += OnForcefield;
+        InputActions.PLAYER.Forcefield.canceled += OnForcefield;
+
+        InputActions.PLAYER.ElementalUtility.started += OnElementalUtility;
+        InputActions.PLAYER.ElementalUtility.canceled += OnElementalUtility;
+
+        InputActions.PLAYER.ElementalPrimary.started += OnElementalPrimary;
+        InputActions.PLAYER.ElementalPrimary.canceled += OnElementalPrimary;
+
+        InputActions.PLAYER.ElementalSecondary.started += OnElementalSecondary;
+        InputActions.PLAYER.ElementalSecondary.canceled += OnElementalSecondary;
+
+        InputActions.PLAYER.NextElement.started += OnNextElement;
+        InputActions.PLAYER.NextElement.canceled += OnNextElement;
+
+        InputActions.PLAYER.PreviousElement.started += OnPreviousElement;
+        InputActions.PLAYER.PreviousElement.canceled += OnPreviousElement;
+
+        InputActions.PLAYER.Move.started += OnMove;
+        InputActions.PLAYER.Move.canceled += OnMove;
+
+        InputActions.PLAYER.Camera.started += OnCamera;
+        InputActions.PLAYER.Camera.canceled += OnCamera;
     }
 
     void OnDestroy()
     {
-        if (InputReference && InputReference.actions != null)
-        {
-            // Unsubscribe from input actions to avoid memory leaks
-            InputReference.actions["Move"].performed -= OnMove;
-            InputReference.actions["Move"].canceled -= OnMove;
-            InputReference.actions["Camera"].performed -= OnCamera;
-            InputReference.actions["Camera"].canceled -= OnCamera;
-            InputReference.actions["Jump"].performed -= OnJumpGlide;
-            InputReference.actions["Jump"].canceled -= OnJumpGlide;
-        }
+        // Unsubscribe inputs
+        InputActions.PLAYER.JumpGlide.started -= OnJumpGlide;
+        InputActions.PLAYER.JumpGlide.canceled -= OnJumpGlide;
+
+        InputActions.PLAYER.Blink.started -= OnBlink;
+        InputActions.PLAYER.Blink.canceled -= OnBlink;
+
+        InputActions.PLAYER.Forcefield.started -= OnForcefield;
+        InputActions.PLAYER.Forcefield.canceled -= OnForcefield;
+
+        InputActions.PLAYER.ElementalUtility.started -= OnElementalUtility;
+        InputActions.PLAYER.ElementalUtility.canceled -= OnElementalUtility;
+
+        InputActions.PLAYER.ElementalPrimary.started -= OnElementalPrimary;
+        InputActions.PLAYER.ElementalPrimary.canceled -= OnElementalPrimary;
+
+        InputActions.PLAYER.ElementalSecondary.started -= OnElementalSecondary;
+        InputActions.PLAYER.ElementalSecondary.canceled -= OnElementalSecondary;
+
+        InputActions.PLAYER.NextElement.started -= OnNextElement;
+        InputActions.PLAYER.NextElement.canceled -= OnNextElement;
+
+        InputActions.PLAYER.PreviousElement.started -= OnPreviousElement;
+        InputActions.PLAYER.PreviousElement.canceled -= OnPreviousElement;
+
+        InputActions.PLAYER.Move.started -= OnMove;
+        InputActions.PLAYER.Move.canceled -= OnMove;
+
+        InputActions.PLAYER.Camera.started -= OnCamera;
+        InputActions.PLAYER.Camera.canceled -= OnCamera;
     }
+
+    // Input handling functions already implemented...
     
     // Input handling functions
     public void OnJumpGlide(InputAction.CallbackContext context)
     {
+        if (context.started)
+        {
+            OnJumpGlidePressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnJumpGlideReleased?.Invoke();
+        }
         JumpInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnBlink(InputAction.CallbackContext context)
     {
+        
+        if (context.started)
+        {
+            OnBlinkPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnBlinkReleased?.Invoke();
+        }
         BlinkInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnForcefield(InputAction.CallbackContext context)
     {
+        if (context.started)
+        {
+            OnForcefieldPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnForcefieldReleased?.Invoke();
+        }
+        
         ForcefieldInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnElementalUtility(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        if (context.started)
+        {
+            OnElementalUtiltiyPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnElementalUtilityReleased?.Invoke();
+        }
+
+        ElementalUtililyInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnElementalPrimary(InputAction.CallbackContext context)
     {
-        PrimaryInput = context;
+        if (context.started)
+        {
+            OnElementalPrimaryPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnElementalPrimaryReleased?.Invoke();
+        }
+
+        ElementalPrimaryInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnElementalSecondary(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        if(context.started)
+        {
+            OnElementalSecondaryPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnElementalSecondaryReleased?.Invoke();
+        }
+
+        ElementalSecondaryInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnNextElement(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        if(context.started)
+        {
+            OnNextElementPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnNextElementReleased?.Invoke();
+        }
+
+        NextElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnPreviousElement(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        if(context.started)
+        {
+            OnPreviousElementPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnPreviousElementReleased?.Invoke();
+        }
+
+        PreviousElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if(context.started)
+        {
+            OnMovePressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnMoveReleased?.Invoke();
+        }
+
         MoveInput = context.ReadValue<Vector2>();
     }
 
     public void OnCamera(InputAction.CallbackContext context)
     {
+        if(context.started)
+        {
+            OnCameraPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnCameraReleased?.Invoke();
+        }
         CameraInput = context.ReadValue<Vector2>();
     }
 }

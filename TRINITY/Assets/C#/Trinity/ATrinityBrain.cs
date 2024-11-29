@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum ETrinityAction 
 {
@@ -10,6 +12,7 @@ public enum ETrinityAction
     ETA_Casting,
     ETA_Channeling
 }
+
 public enum ETrinityElement 
 {
     ETE_Fire,
@@ -23,6 +26,7 @@ public class ATrinityBrain : MonoBehaviour
     public ATrinityCharacter TrinityCharacter; //reference
     public ATrinitySpells TrinitySpells; //reference
     public ATrinityController TrinityController; //reference
+    public IAA_TrinityControls TrinityControls;
     public GameObject Beam;
     ETrinityElement Element;
     ETrinityAction Action;
@@ -32,9 +36,11 @@ public class ATrinityBrain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
         Element = ETrinityElement.ETE_Fire;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
 
     // Update is called once per frame
     void Update()
@@ -96,6 +102,7 @@ public class ATrinityBrain : MonoBehaviour
     }
     public void CastSecondarySpell(ETrinityElement currentElement) { }
     public void CastUtilitySpell(ETrinityElement currentElement) { }
+    
     public void ToggleElement() 
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
@@ -109,46 +116,22 @@ public class ATrinityBrain : MonoBehaviour
             print(Element);
         }
     }
-    public void NextElement() 
+    
+    public void NextElement()
     {
-        switch (Element)
-        {
-            case ETrinityElement.ETE_Fire: 
-                {
-                    Element = ETrinityElement.ETE_Cold;
-                    break;
-                }
-            case ETrinityElement.ETE_Cold:
-                {
-                    Element = ETrinityElement.ETE_Lightning;
-                    break;
-                }
-            case ETrinityElement.ETE_Lightning:
-                {
-                    Element = ETrinityElement.ETE_Fire;
-                    break;
-                }
-        }
+        int intElement = (int)Element;
+        intElement++;
+        Element = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
     }
-    public void PreviousElement() 
+
+    public void PreviousElement()
     {
-        switch (Element)
+        int intElement = (int)Element;
+        intElement--;
+        if (intElement < 0)
         {
-            case ETrinityElement.ETE_Fire:
-                {
-                    Element = ETrinityElement.ETE_Lightning;
-                    break;
-                }
-            case ETrinityElement.ETE_Cold:
-                {
-                    Element = ETrinityElement.ETE_Fire;
-                    break;
-                }
-            case ETrinityElement.ETE_Lightning:
-                {
-                    Element = ETrinityElement.ETE_Cold;
-                    break;
-                }
+            intElement = Enum.GetValues(typeof(ETrinityElement)).Length - 1;
         }
+        Element = (ETrinityElement)intElement;
     }
 }

@@ -201,6 +201,9 @@ MonoBehaviour:
   Fireball: {fileID: 0}
   Icicles: {fileID: 0}
   LightningBeam: {fileID: 0}
+  PrimaryCooldown: 0
+  SecondaryCooldown: 0
+  UtilityCooldown: 0
 --- !u!1 &93216700
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +282,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 567174383}
+  HealthComponent: {fileID: 0}
+  ManaComponent: {fileID: 0}
 --- !u!114 &349730357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,12 +587,13 @@ MonoBehaviour:
     m_Bits: 1
   Gravity: 9.81
   GroundDistance: 0.1
+  Height: 0
+  RotationSpeed: 5
   Collider: {fileID: 0}
   Rigidbody: {fileID: 0}
   MoveDirection: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
   PlanarVelocity: 0
-  Height: 0
 --- !u!136 &567174384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -737,10 +743,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ff69e7d27eeaf43b43f416cb96cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthComponent: {fileID: 0}
-  ManaComponent: {fileID: 0}
+  PlayerCharacter: {fileID: 0}
+  BossHealth: {fileID: 0}
   HealthSlider: {fileID: 0}
   ManaSlider: {fileID: 0}
+  BossHealthSlider: {fileID: 0}
   HealthText: {fileID: 0}
   ManaText: {fileID: 0}
 --- !u!4 &789692183
@@ -1049,7 +1056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 939fd173d91901448bbb968526925bdd,
     type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 1
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -1166,6 +1173,9 @@ MonoBehaviour:
   TrinityCharacter: {fileID: 0}
   TrinitySpells: {fileID: 0}
   TrinityController: {fileID: 0}
+  IAA_TrinityInput: {fileID: -944628639613478452, guid: 939fd173d91901448bbb968526925bdd,
+    type: 3}
+  Beam: {fileID: 0}
   CastPos: {fileID: 0}
 --- !u!1 &1594050637
 GameObject:
