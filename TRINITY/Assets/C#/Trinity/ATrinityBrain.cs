@@ -22,106 +22,85 @@ public enum ETrinityElement
 
 public class ATrinityBrain : MonoBehaviour
 {
-    public APlayerInput InputReference; //reference
-    public ATrinityCharacter TrinityCharacter; //reference
-    public ATrinitySpells TrinitySpells; //reference
-    public ATrinityController TrinityController; //reference
-    public IAA_TrinityControls TrinityControls;
-    public GameObject Beam;
-    ETrinityElement Element;
-    ETrinityAction Action;
+    public ATrinityCharacter Character; //reference
+    public ATrinityCharacter Spells; //reference
+    public ATrinityController Controller; //reference
+    public IAA_TrinityControls Controls;
+    
+    private ETrinityElement Element;
+    private ETrinityAction Action;
+    private APlayerInput InputReference; //reference
 
-    public Transform CastPos;
 
     public event Action<ETrinityElement> OnElementChanged;
+    public event Action<ETrinityAction> OnActionChanged;
 
-    // Start is called before the first frame update
     void Start()
     {
-        
+        InputReference = GetComponent<APlayerInput>();
         Element = ETrinityElement.ETE_Fire;
         Cursor.lockState = CursorLockMode.Locked;
         
         InputReference.OnElementPressed += ChangeElement;
+        InputReference.OnElementalPrimaryPressed += CastPrimarySpell;
+        InputReference.OnElementalSecondaryPressed += CastSecondarySpell;
+        InputReference.OnElementalUtiltiyPressed += CastUtilitySpell;
+        InputReference.OnNextElementPressed += NextElement;
+        InputReference.OnPreviousElementPressed += PreviousElement;
+        
+        InputReference.OnElementalPrimaryReleased += Spells.LightningBeam.CastEnd;
+
+        
     }
 
     void Destroy()
     {
         InputReference.OnElementPressed -= ChangeElement;
+        InputReference.OnElementalPrimaryPressed -= CastPrimarySpell;
+        InputReference.OnElementalSecondaryPressed -= CastSecondarySpell;
+        InputReference.OnElementalUtiltiyPressed -= CastUtilitySpell;
+        InputReference.OnNextElementPressed -= NextElement;
+        InputReference.OnPreviousElementPressed -= PreviousElement;
+    
+        InputReference.OnElementalPrimaryReleased -= Spells.LightningBeam.CastEnd;
+
     }
 
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) //need to use InputReference
-        {
-            CastPrimarySpell(Element);
-        }
-        if (Input.GetMouseButtonUp(0)) 
-        {
-            Action = ETrinityAction.ETA_None;
-            if (Beam != null) 
-            {
-                Beam.SetActive(false);
-            }
-        }
 
-        ToggleElement();
     }
 
-    public void CastPrimarySpell (ETrinityElement currentElement)
+    public void CastPrimarySpell()
     {
-        if (TrinitySpells.PrimaryCooldown > 0)
+        if (Action != ETrinityAction.ETA_None)
         {
             return;
         }
-        GameObject spellPrefab;
-        switch (currentElement)
-        {
-            case ETrinityElement.ETE_Fire: 
-                {
-                    PrimaryFire fireball = TrinitySpells.Fireball;
-                    spellPrefab = Instantiate(fireball.gameObject, CastPos.position, Quaternion.identity);
-                    TrinitySpells.PrimaryCooldown = fireball.Cooldown;
-                    break;
-                }
-            case ETrinityElement.ETE_Cold:
-                {
-                    //spellPrefab = Instantiate(TrinitySpells.Icicles.gameObject, CastPos.position, Quaternion.identity);
-                    break;
-                }
-            case ETrinityElement.ETE_Lightning:
-                {
-                    Action = ETrinityAction.ETA_Casting;
 
-                    if (Beam == null)
-                    {
-                        spellPrefab = Instantiate(TrinitySpells.LightningBeam.gameObject, CastPos.position, Quaternion.Euler(0, 90, 0));
-                        spellPrefab.transform.parent = TrinityController.transform;
-                        Beam = spellPrefab;
-                    }
-                    else 
-                    {
-                        Beam.SetActive(true);
-                    }
-                    break;
-                }
-        }
+        Spells.CastPrimary();
     }
-    public void CastSecondarySpell(ETrinityElement currentElement) { }
-    public void CastUtilitySpell(ETrinityElement currentElement) { }
-    
-    public void ToggleElement() 
+
+    public void CastSecondarySpell()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        
+        if (Action != ETrinityAction.ETA_None)
         {
-            NextElement();
+            return;
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+
+        Spells.CastSecondary();
+    }
+
+    public void CastUtilitySpell()
+    {
+        if (Action != ETrinityAction.ETA_None)
         {
-            PreviousElement();
+            return;
         }
+
+        Spells.CastUtility();
     }
     
     public void NextElement()
@@ -150,6 +129,25 @@ public class ATrinityBrain : MonoBehaviour
     {
         Element = newElement;
         OnElementChanged?.Invoke(Element);
+    }
+
+    public void ChangeAction(ETrinityAction newAction)
+    {
+        if (newAction != Action)
+        {
+            Action = newAction;
+            OnActionChanged?.Invoke(Action);
+        }
+    }
+
+    public ETrinityAction GetAction()
+    {
+        return Action;
+    }
+
+    public ETrinityElement GetElement()
+    {
+        return Element;
     }
     
 }

@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class AGUI : MonoBehaviour
 {
-    [SerializeField] private ATrinityCharacter PlayerCharacter;
     [SerializeField] private UHealthComponent BossHealth;
 
     [SerializeField] private Slider HealthSlider, ManaSlider, BossHealthSlider;
@@ -14,9 +13,11 @@ public class AGUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI HealthText, ManaText;
 
+    private ATrinityCharacter PlayerCharacter;
+
     void Start()
     {
-        if (PlayerCharacter != null)
+        if(PlayerCharacter != null)
         {
             PlayerCharacter.HealthComponent.OnHealthModified += UpdateHealthBar;
         }

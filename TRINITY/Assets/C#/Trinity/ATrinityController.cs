@@ -43,7 +43,8 @@ public class ATrinityController : MonoBehaviour
 
     private void Awake()
     {
-        InputReference = FindObjectOfType<APlayerInput>();
+        InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
+        
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
         Rigidbody = GetComponent<Rigidbody>();

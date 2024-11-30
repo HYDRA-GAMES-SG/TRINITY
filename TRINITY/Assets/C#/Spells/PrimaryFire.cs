@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PrimaryFire : MonoBehaviour, IProjectile
+public class PrimaryFire : ASpell, IProjectile
 {
     Rigidbody Rigidbody;
 
@@ -51,22 +51,13 @@ public class PrimaryFire : MonoBehaviour, IProjectile
         }
     }
     public float MaxRange { get; set; }
-    public float Cooldown 
-    {
-        get
-        {
-            return CurrentCooldown;
-        }
-        set
-        {
-            value = CurrentCooldown;
-        }
-    }
 
     void Start()
     {
+        base.Start();
         Rigidbody = GetComponent<Rigidbody>();
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -75,14 +66,14 @@ public class PrimaryFire : MonoBehaviour, IProjectile
         Rigidbody.velocity = Vector3.forward * CurrentSpeed;
         if (CurrentDuration < 0)
         {
-            SelfDestruct();
+            SpawnExplosion();
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            SelfDestruct();
+            SpawnExplosion();
             if (collision.gameObject.transform.childCount == 0)
             {
                 GameObject enemyVFX = Instantiate(IgniteVFX, collision.transform.position, Quaternion.identity);
@@ -98,13 +89,19 @@ public class PrimaryFire : MonoBehaviour, IProjectile
 
         }
     }
-    public void SelfDestruct()
+    
+    public void SpawnExplosion()
     {
         GameObject vfx = Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
-        Destroy(gameObject);
     }
+    
     public void Ignite()
     {
 
+    }
+
+    public override void CastStart()
+    {
+        Destroy(Instantiate(SpellPrefab.gameObject, TrinitySpells.CastPos.position, Quaternion.identity), Duration);
     }
 }

@@ -292,7 +292,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7bf77eda-37b0-4df5-aeba-c9175867e757"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
@@ -302,8 +302,19 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""351d6416-0bfc-43e3-bd66-9a86011c5ffa"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ElementalUtility"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1e80b7e3-ead3-4626-8670-437b6e0972fd"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
@@ -313,11 +324,33 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7b6af1c7-41c1-4f61-9765-a31a224b1210"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ElementalPrimary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""4f978636-c5f7-4416-9deb-2b2e6328c8ff"",
-                    ""path"": """",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
+                    ""action"": ""ElementalSecondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea77d3f0-ec48-4ff2-8e73-63970e66b4ae"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""ElementalSecondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -335,11 +368,33 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""24c91d42-c2f7-4c61-9f54-f5601e5ba145"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextElement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""6eff5e66-e12c-4f37-905c-ac5dcbd2ddc4"",
                     ""path"": ""<Mouse>/scroll/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
+                    ""action"": ""PreviousElement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c03ab05-8164-44ae-bc9a-3a970b5d5bdf"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""PreviousElement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
