@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(UManaComponent))]
 public class ATrinityCharacter : MonoBehaviour
 {
-    public List<ASpell> Spellbook;
+    //public List<ASpell> Spellbook;
     public ATrinityBrain Brain;
     public Transform CastPos;
 
@@ -26,12 +26,12 @@ public class ATrinityCharacter : MonoBehaviour
         HealthComponent = GetComponent<UHealthComponent>();
         ManaComponent = GetComponent<UManaComponent>();
         InputReference = Brain.GetComponent<APlayerInput>();
-        Spellbook = new List<ASpell>();
-        Spellbook.Add(Fireball);
-        //Spellbook.Add(Icicles);
-        Spellbook.Add(LightningBeam);
         
-        
+        // ASpell[] spellArray = GetComponentsInChildren<ASpell>();
+        // foreach (ASpell spell in spellArray)
+        // {
+        //     Spellbook.Add(spell);
+        // }
     }
 
     // Update is called once per frame
@@ -44,6 +44,7 @@ public class ATrinityCharacter : MonoBehaviour
         switch (Brain.GetElement())
         {
             case ETrinityElement.ETE_Cold:
+                //Icicle.CastStart();
                 break;
             case ETrinityElement.ETE_Fire:
                 Fireball.CastStart();

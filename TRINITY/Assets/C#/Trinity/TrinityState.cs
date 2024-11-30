@@ -8,6 +8,7 @@ public abstract class TrinityState : MonoBehaviour, IState
 {
     public AnimatorController StateAnimController;
     protected ATrinityFSM TrinityFSM;
+    
     [HideInInspector]
     public ATrinityController Controller;
     [HideInInspector]
