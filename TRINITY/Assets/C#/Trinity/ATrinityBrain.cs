@@ -33,12 +33,21 @@ public class ATrinityBrain : MonoBehaviour
 
     public Transform CastPos;
 
+    public event Action<ETrinityElement> OnElementChanged;
+
     // Start is called before the first frame update
     void Start()
     {
         
         Element = ETrinityElement.ETE_Fire;
         Cursor.lockState = CursorLockMode.Locked;
+        
+        InputReference.OnElementPressed += ChangeElement;
+    }
+
+    void Destroy()
+    {
+        InputReference.OnElementPressed -= ChangeElement;
     }
 
 
@@ -108,12 +117,10 @@ public class ATrinityBrain : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0f)
         {
             NextElement();
-            print(Element);
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
         {
             PreviousElement();
-            print(Element);
         }
     }
     
@@ -121,7 +128,9 @@ public class ATrinityBrain : MonoBehaviour
     {
         int intElement = (int)Element;
         intElement++;
-        Element = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
+        ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
+        ChangeElement(newElement);
+        OnElementChanged?.Invoke(newElement);
     }
 
     public void PreviousElement()
@@ -132,6 +141,15 @@ public class ATrinityBrain : MonoBehaviour
         {
             intElement = Enum.GetValues(typeof(ETrinityElement)).Length - 1;
         }
-        Element = (ETrinityElement)intElement;
+        ETrinityElement newElement = (ETrinityElement)intElement;
+        ChangeElement(newElement);
+        OnElementChanged?.Invoke(newElement);
     }
+
+    public void ChangeElement(ETrinityElement newElement)
+    {
+        Element = newElement;
+        OnElementChanged?.Invoke(Element);
+    }
+    
 }

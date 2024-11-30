@@ -101,21 +101,48 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""NextElement"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""874725ac-c465-46d7-8356-1d7172f13246"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""PreviousElement"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""ceb6ccbd-4d0d-4e33-a11d-100bfa5ee8d7"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FireElement"",
+                    ""type"": ""Value"",
+                    ""id"": ""8ea77dae-9bf2-4282-ac05-6b793aeace5f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ColdElement"",
+                    ""type"": ""Value"",
+                    ""id"": ""9048a7a2-bbf8-4d66-92e9-3509830eb3eb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LightningElement"",
+                    ""type"": ""Value"",
+                    ""id"": ""418ba8c0-269f-4405-9551-94c86d7156a6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -264,17 +291,6 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""37b6783c-71f8-49cc-8b35-8911dba014a4"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Camera"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""7bf77eda-37b0-4df5-aeba-c9175867e757"",
                     ""path"": """",
                     ""interactions"": """",
@@ -309,7 +325,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""dbf8193d-e530-42a0-81f2-72847c446374"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/scroll/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
@@ -320,11 +336,55 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6eff5e66-e12c-4f37-905c-ac5dcbd2ddc4"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/scroll/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
                     ""action"": ""PreviousElement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47ba39bb-77d5-446f-bf70-84178e9a6212"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GENERIC"",
+                    ""action"": ""FireElement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f97f8b52-e137-4332-8a7f-d7cb0b2aad7d"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GENERIC"",
+                    ""action"": ""ColdElement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4bbf4b9f-3b96-46cb-a26a-bd366cb5e7ea"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GENERIC"",
+                    ""action"": ""LightningElement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""af7ca694-1b8e-4d53-b4c2-4ae7667fc3e9"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -377,6 +437,9 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
         m_PLAYER_ElementalSecondary = m_PLAYER.FindAction("ElementalSecondary", throwIfNotFound: true);
         m_PLAYER_NextElement = m_PLAYER.FindAction("NextElement", throwIfNotFound: true);
         m_PLAYER_PreviousElement = m_PLAYER.FindAction("PreviousElement", throwIfNotFound: true);
+        m_PLAYER_FireElement = m_PLAYER.FindAction("FireElement", throwIfNotFound: true);
+        m_PLAYER_ColdElement = m_PLAYER.FindAction("ColdElement", throwIfNotFound: true);
+        m_PLAYER_LightningElement = m_PLAYER.FindAction("LightningElement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -448,6 +511,9 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PLAYER_ElementalSecondary;
     private readonly InputAction m_PLAYER_NextElement;
     private readonly InputAction m_PLAYER_PreviousElement;
+    private readonly InputAction m_PLAYER_FireElement;
+    private readonly InputAction m_PLAYER_ColdElement;
+    private readonly InputAction m_PLAYER_LightningElement;
     public struct PLAYERActions
     {
         private @IAA_TrinityControls m_Wrapper;
@@ -462,6 +528,9 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
         public InputAction @ElementalSecondary => m_Wrapper.m_PLAYER_ElementalSecondary;
         public InputAction @NextElement => m_Wrapper.m_PLAYER_NextElement;
         public InputAction @PreviousElement => m_Wrapper.m_PLAYER_PreviousElement;
+        public InputAction @FireElement => m_Wrapper.m_PLAYER_FireElement;
+        public InputAction @ColdElement => m_Wrapper.m_PLAYER_ColdElement;
+        public InputAction @LightningElement => m_Wrapper.m_PLAYER_LightningElement;
         public InputActionMap Get() { return m_Wrapper.m_PLAYER; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -501,6 +570,15 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
             @PreviousElement.started += instance.OnPreviousElement;
             @PreviousElement.performed += instance.OnPreviousElement;
             @PreviousElement.canceled += instance.OnPreviousElement;
+            @FireElement.started += instance.OnFireElement;
+            @FireElement.performed += instance.OnFireElement;
+            @FireElement.canceled += instance.OnFireElement;
+            @ColdElement.started += instance.OnColdElement;
+            @ColdElement.performed += instance.OnColdElement;
+            @ColdElement.canceled += instance.OnColdElement;
+            @LightningElement.started += instance.OnLightningElement;
+            @LightningElement.performed += instance.OnLightningElement;
+            @LightningElement.canceled += instance.OnLightningElement;
         }
 
         private void UnregisterCallbacks(IPLAYERActions instance)
@@ -535,6 +613,15 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
             @PreviousElement.started -= instance.OnPreviousElement;
             @PreviousElement.performed -= instance.OnPreviousElement;
             @PreviousElement.canceled -= instance.OnPreviousElement;
+            @FireElement.started -= instance.OnFireElement;
+            @FireElement.performed -= instance.OnFireElement;
+            @FireElement.canceled -= instance.OnFireElement;
+            @ColdElement.started -= instance.OnColdElement;
+            @ColdElement.performed -= instance.OnColdElement;
+            @ColdElement.canceled -= instance.OnColdElement;
+            @LightningElement.started -= instance.OnLightningElement;
+            @LightningElement.performed -= instance.OnLightningElement;
+            @LightningElement.canceled -= instance.OnLightningElement;
         }
 
         public void RemoveCallbacks(IPLAYERActions instance)
@@ -573,5 +660,8 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
         void OnElementalSecondary(InputAction.CallbackContext context);
         void OnNextElement(InputAction.CallbackContext context);
         void OnPreviousElement(InputAction.CallbackContext context);
+        void OnFireElement(InputAction.CallbackContext context);
+        void OnColdElement(InputAction.CallbackContext context);
+        void OnLightningElement(InputAction.CallbackContext context);
     }
 }

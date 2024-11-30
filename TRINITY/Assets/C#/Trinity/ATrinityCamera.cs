@@ -36,12 +36,9 @@ public class ATrinityCamera : MonoBehaviour
     {
         if (InputReference == null || LookTarget == null) return;
 
-        // Get input from InputReference
-        Vector2 cameraInput = InputReference.CameraInput;
-
 
         // Calculate vertical rotation and clamp it
-        VerticalRotationExtent -= cameraInput.y * RotationSpeed * Time.deltaTime;
+        VerticalRotationExtent -= InputReference.CameraInput.y * RotationSpeed * Time.deltaTime;
         VerticalRotationExtent = Mathf.Clamp(VerticalRotationExtent, VerticalClampMin, VerticalClampMax);
 
         // Apply vertical rotation by adjusting the camera's local rotation

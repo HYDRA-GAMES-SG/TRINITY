@@ -79,21 +79,48 @@
                 },
                 {
                     "name": "NextElement",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "874725ac-c465-46d7-8356-1d7172f13246",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "PreviousElement",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "ceb6ccbd-4d0d-4e33-a11d-100bfa5ee8d7",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "FireElement",
+                    "type": "Value",
+                    "id": "8ea77dae-9bf2-4282-ac05-6b793aeace5f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ColdElement",
+                    "type": "Value",
+                    "id": "9048a7a2-bbf8-4d66-92e9-3509830eb3eb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LightningElement",
+                    "type": "Value",
+                    "id": "418ba8c0-269f-4405-9551-94c86d7156a6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -242,17 +269,6 @@
                 },
                 {
                     "name": "",
-                    "id": "37b6783c-71f8-49cc-8b35-8911dba014a4",
-                    "path": "<Gamepad>/rightStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Camera",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7bf77eda-37b0-4df5-aeba-c9175867e757",
                     "path": "",
                     "interactions": "",
@@ -287,7 +303,7 @@
                 {
                     "name": "",
                     "id": "dbf8193d-e530-42a0-81f2-72847c446374",
-                    "path": "",
+                    "path": "<Mouse>/scroll/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "GENERIC",
@@ -298,11 +314,55 @@
                 {
                     "name": "",
                     "id": "6eff5e66-e12c-4f37-905c-ac5dcbd2ddc4",
-                    "path": "",
+                    "path": "<Mouse>/scroll/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "GENERIC",
                     "action": "PreviousElement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47ba39bb-77d5-446f-bf70-84178e9a6212",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GENERIC",
+                    "action": "FireElement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f97f8b52-e137-4332-8a7f-d7cb0b2aad7d",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GENERIC",
+                    "action": "ColdElement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4bbf4b9f-3b96-46cb-a26a-bd366cb5e7ea",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "GENERIC",
+                    "action": "LightningElement",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "af7ca694-1b8e-4d53-b4c2-4ae7667fc3e9",
+                    "path": "<Gamepad>/dpad",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Camera",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -20,7 +20,10 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public bool ElementalSecondaryInput { get; private set; }
     public bool NextElementInput { get; private set; }
     public bool PreviousElementInput { get; private set; }
-
+    public bool FireElementInput { get; private set; }
+    public bool ColdElementInput { get; private set; }
+    public bool LightningElementInput { get; private set; }
+    
     // System.Actions for events
     public event Action OnJumpGlidePressed;
     public event Action OnJumpGlideReleased;
@@ -51,6 +54,9 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public event Action OnCameraPressed;
     public event Action OnCameraReleased;
+
+    public event Action<ETrinityElement> OnElementPressed;
+    public event Action<ETrinityElement> OnElementReleased;
 
     void Awake()
     {
@@ -88,6 +94,19 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
         InputActions.PLAYER.Camera.started += OnCamera;
         InputActions.PLAYER.Camera.canceled += OnCamera;
+
+        InputActions.PLAYER.FireElement.started += OnFireElement;
+        InputActions.PLAYER.FireElement.canceled += OnFireElement;
+        
+        
+        InputActions.PLAYER.ColdElement.started += OnColdElement;
+        InputActions.PLAYER.ColdElement.canceled += OnColdElement;
+        
+        InputActions.PLAYER.LightningElement.started += OnLightningElement;
+        InputActions.PLAYER.LightningElement.canceled += OnLightningElement;
+        
+        
+        
     }
 
     void OnDestroy()
@@ -122,11 +141,18 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
         InputActions.PLAYER.Camera.started -= OnCamera;
         InputActions.PLAYER.Camera.canceled -= OnCamera;
-    }
 
-    // Input handling functions already implemented...
+        InputActions.PLAYER.Camera.started -= OnFireElement;
+        InputActions.PLAYER.Camera.canceled -= OnFireElement;
+        
+        
+        InputActions.PLAYER.Camera.started -= OnColdElement;
+        InputActions.PLAYER.Camera.canceled -= OnColdElement;
+        
+        InputActions.PLAYER.Camera.started -= OnLightningElement;
+        InputActions.PLAYER.Camera.canceled -= OnLightningElement;
+    }
     
-    // Input handling functions
     public void OnJumpGlide(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -244,6 +270,51 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         }
 
         PreviousElementInput = context.ReadValue<float>() > 0f;
+    }
+
+    public void OnFireElement(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            OnElementPressed?.Invoke(ETrinityElement.ETE_Fire);
+        }
+
+        if (context.canceled)
+        {
+            OnElementReleased?.Invoke(ETrinityElement.ETE_Fire);
+        }
+
+        FireElementInput = context.ReadValue<float>() > 0f;
+    }
+
+    public void OnColdElement(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            OnElementPressed?.Invoke(ETrinityElement.ETE_Cold);
+        }
+
+        if (context.canceled)
+        {
+            OnElementReleased?.Invoke(ETrinityElement.ETE_Cold);
+        }
+
+        ColdElementInput = context.ReadValue<float>() > 0f;
+    }
+
+    public void OnLightningElement(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            OnElementPressed?.Invoke(ETrinityElement.ETE_Lightning);
+        }
+
+        if (context.canceled)
+        {
+            OnElementReleased?.Invoke(ETrinityElement.ETE_Lightning);
+        }
+
+        LightningElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnMove(InputAction.CallbackContext context)
