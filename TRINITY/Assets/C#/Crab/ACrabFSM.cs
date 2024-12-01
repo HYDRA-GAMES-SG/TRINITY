@@ -42,7 +42,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
         {
             CurrentState.PreUpdateBehaviour(Time.deltaTime);
             CurrentState.UpdateBehaviour(Time.deltaTime);
-            CurrentState.PostUpdateBehaviour(Time.deltaTime);
+            CurrentState.PostUpdateBehaviour(Time.deltaTime);           
         }
     }
 

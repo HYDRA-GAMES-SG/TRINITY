@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PursueAttack : CrabState
+public class Pursue : CrabState
 {
     [Header("AI Setting")]
     [SerializeField] float MoveSpeed;
@@ -12,7 +12,9 @@ public class PursueAttack : CrabState
 
     [Header("Attack Range")]
     [SerializeField] float RangeAttack;
-    [SerializeField] float ComboRangeAttack;
+    [SerializeField] float CloseAttackRange;
+    [SerializeField] float JumpAwayRange;
+
 
     NavMeshAgent CrabAI;
 
@@ -21,7 +23,7 @@ public class PursueAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun)
+        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack)
         {
             return true;
         }
@@ -47,20 +49,27 @@ public class PursueAttack : CrabState
         if (CrabFSM.PlayerController == null) return;
 
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-        Debug.Log(distanceToTarget);
+
         if (distanceToTarget >= RangeAttack && distanceToTarget <= RangeAttack + 2)
         {
-            Debug.Log("Can range");
-            float RandomValue = Random.value;
-            if (RandomValue <= 0.5f)
+            float random = Random.value;
+            if (random <= 0.5f)
+            { 
                 CrabFSM.EnqueueTransition<JumpSmash>();
+            }
             else
+            {
                 CrabFSM.EnqueueTransition<RoarStun>();
+            }
         }
-        else if (distanceToTarget <= ComboRangeAttack)
+        else if (distanceToTarget <= CloseAttackRange)
         {
-            Debug.Log("Can combo");
             CrabFSM.EnqueueTransition<ComboAttack>();
+            CrabFSM.EnqueueTransition<NormalAttack>();
+        }
+        else if (distanceToTarget <= JumpAwayRange)
+        {
+            CrabFSM.EnqueueTransition<Jump>();
         }
         else
         {
@@ -80,7 +89,7 @@ public class PursueAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun)
+        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun || toState is NormalAttack || toState is Jump || toState is Death)
         {
             return true;
         }
@@ -91,42 +100,45 @@ public class PursueAttack : CrabState
 
     void RotateAndMoveTowardTarget()
     {
-        Debug.Log("Normal");
-        Vector3 directionToTarget = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
+        Transform playerTransform = CrabFSM.PlayerController.transform;
+        Transform crabTransform = CrabFSM.CrabController.transform;
 
-        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+        Vector3 directionToTarget = (playerTransform.position - crabTransform.position).normalized;
+        float distanceToTarget = Vector3.Distance(playerTransform.position, crabTransform.position);
         float angleToTarget = RotateTowardTarget(directionToTarget);
 
         if (angleToTarget > ThresholdAngle)
         {
             if (distanceToTarget > StopDistance && angleToTarget <= ThresholdAngle + 30)
             {
-                HandleMovement();
+                MoveTowardTarget(playerTransform.position);
             }
             else
             {
-                float turnDirection = Mathf.Sign(Vector3.Cross(CrabFSM.CrabController.transform.forward, directionToTarget).y);
-                CrabFSM.Animator.SetFloat(AnimKeyTurnDirection, turnDirection);
-
-                CrabAI.ResetPath();
+                TurnInPlace(directionToTarget);
             }
         }
         else
         {
-            HandleMovement();
+            MoveTowardTarget(playerTransform.position);
         }
     }
-
-    private void HandleMovement()
+    private void MoveTowardTarget(Vector3 targetPosition)
     {
         CrabFSM.Animator.SetFloat(AnimKeyTurnDirection, 0);
-        CrabAI.SetDestination(CrabFSM.PlayerController.transform.position);
+        CrabAI.SetDestination(targetPosition);
 
         Vector3 localDesiredVelocity = CrabFSM.CrabController.transform.InverseTransformDirection(CrabAI.velocity);
         CrabFSM.Animator.SetFloat(AnimKeyMoveValue, localDesiredVelocity.z);
     }
+    private void TurnInPlace(Vector3 directionToTarget)
+    {
+        float turnDirection = Mathf.Sign(Vector3.Cross(CrabFSM.CrabController.transform.forward, directionToTarget).y);
+        CrabFSM.Animator.SetFloat(AnimKeyTurnDirection, turnDirection);
 
-    float RotateTowardTarget(Vector3 directionToTarget)
+        CrabAI.ResetPath();
+    }
+    private float RotateTowardTarget(Vector3 directionToTarget)
     {
         Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
         CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);

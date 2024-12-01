@@ -1,19 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
-public class JumpSmash : CrabState
+public class NormalAttack : CrabState
 {
-    [SerializeField, Range(0.10f, 1.00f)] float AnimationCheckExitTime;
+    [SerializeField] string[] AnimKeyAttack;
 
+    private string anim;
 
     public override bool CheckEnterTransition(IState fromState)
     {
         if (fromState is Pursue)
         {
-            if (CrabFSM.CrabController.CanJumpSmash)
-            {
-                return true;
-            }
+            return true;
         }
         return false;
     }
@@ -22,6 +23,9 @@ public class JumpSmash : CrabState
     {
         CrabFSM.CrabController.AI.enabled = false;
         CrabFSM.Animator.applyRootMotion = true;
+
+        anim = RandomAttackAnim(AnimKeyAttack);
+        CrabFSM.Animator.SetTrigger(anim);
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -31,19 +35,14 @@ public class JumpSmash : CrabState
     public override void UpdateBehaviour(float dt)
     {
         Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-        if (CrabFSM.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= AnimationCheckExitTime)
-        {
-            CrabFSM.CrabController.transform.rotation = Quaternion.LookRotation(faceDirection);
-        }
+        CrabFSM.CrabController.transform.rotation = Quaternion.LookRotation(faceDirection);
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("3JumpSmashAttack_RM") && stateInfo.normalizedTime >= 0.9f)
+        if (stateInfo.IsName(anim) && stateInfo.normalizedTime >= 0.9f)
         {
             CrabFSM.EnqueueTransition<Pursue>();
         }
     }
-
-
     public override void PostUpdateBehaviour(float dt)
     {
     }
@@ -52,8 +51,6 @@ public class JumpSmash : CrabState
     {
         CrabFSM.Animator.applyRootMotion = false;
         CrabFSM.CrabController.AI.enabled = true;
-        CrabFSM.CrabController.CanJumpSmash = false;
-
     }
 
     public override bool CheckExitTransition(IState toState)
@@ -64,4 +61,12 @@ public class JumpSmash : CrabState
         }
         return false;
     }
+
+    private string RandomAttackAnim(string[] anim)
+    {
+        int index = Random.Range(0, anim.Length);
+        return anim[index];
+    }
+
+
 }

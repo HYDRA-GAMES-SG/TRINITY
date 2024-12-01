@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,17 +6,15 @@ public class ComboAttack : CrabState
 {
     [SerializeField] float RotateSpeed;
 
-    private bool NextStage = false;
-    NavMeshAgent CrabAI;
 
-    private string AnimKeyClawAttackCombo = "ClawsAttackCombo";
-    private string AnimKeySmashAttackCombo = "SmashAttackCombo";
+    private string AnimKeyClawAttackCombo = "2HitComboClawsAttack_RM";
+    private string AnimKeySmashAttackCombo = "2HitComboSmashAttack_RM";
 
     private string AnimKey;
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is PursueAttack)
+        if (fromState is Pursue)
         {
             if (CrabFSM.CrabController.CanComboAttack)
             {
@@ -27,7 +26,8 @@ public class ComboAttack : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        CrabAI = CrabFSM.CrabController.AI;
+        CrabFSM.CrabController.AI.enabled = false;
+        CrabFSM.Animator.applyRootMotion = true;
 
         float random = Random.value;
         if (random > 0.5f)
@@ -48,18 +48,14 @@ public class ComboAttack : CrabState
 
     public override void UpdateBehaviour(float dt)
     {
-        CrabAI.SetDestination(CrabFSM.PlayerController.transform.position);
-
-        Vector3 directionToTarget = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-
-        RotateTowardTarget(directionToTarget);
+        Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
+        CrabFSM.CrabController.transform.rotation = Quaternion.LookRotation(faceDirection);
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         bool isInTransition = CrabFSM.Animator.IsInTransition(0);
         if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.9f)
         {
-            CrabFSM.EnqueueTransition<PursueAttack>();
-            NextStage = true;
+            CrabFSM.EnqueueTransition<Pursue>();
         }
     }
 
@@ -70,18 +66,21 @@ public class ComboAttack : CrabState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        CrabFSM.Animator.applyRootMotion = false;
+        CrabFSM.CrabController.AI.enabled = true;
         CrabFSM.CrabController.CanComboAttack = false;
     }
 
     public override bool CheckExitTransition(IState toState)
     {
-        return NextStage;
+        if (toState is Pursue || toState is Death)
+        {
+            return true;
+        }
+        return false;
     }
 
-    void RotateTowardTarget(Vector3 directionToTarget)
-    {
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
+    
 
-    }
+    
 }
