@@ -54,7 +54,7 @@ public class Pursue : CrabState
         {
             float random = Random.value;
             if (random <= 0.5f)
-            { 
+            {
                 CrabFSM.EnqueueTransition<JumpSmash>();
             }
             else
@@ -140,7 +140,8 @@ public class Pursue : CrabState
     }
     private float RotateTowardTarget(Vector3 directionToTarget)
     {
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
         CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
 
         return Vector3.Angle(CrabFSM.CrabController.transform.forward, directionToTarget);

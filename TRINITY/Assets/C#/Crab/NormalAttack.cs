@@ -35,10 +35,10 @@ public class NormalAttack : CrabState
     public override void UpdateBehaviour(float dt)
     {
         Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-        CrabFSM.CrabController.transform.rotation = Quaternion.LookRotation(faceDirection);
+        RotateTowardTarget(faceDirection);
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName(anim) && stateInfo.normalizedTime >= 0.9f)
+        if (stateInfo.IsName(anim) && stateInfo.normalizedTime > 0.95f)
         {
             CrabFSM.EnqueueTransition<Pursue>();
         }
@@ -68,5 +68,10 @@ public class NormalAttack : CrabState
         return anim[index];
     }
 
-
+    private void RotateTowardTarget(Vector3 directionToTarget)
+    {
+        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
+        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, Time.deltaTime);
+    }
 }

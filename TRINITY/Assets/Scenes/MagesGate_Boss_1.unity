@@ -6036,6 +6036,7 @@ GameObject:
   - component: {fileID: 887534378}
   - component: {fileID: 887534380}
   - component: {fileID: 887534381}
+  - component: {fileID: 887534382}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -6052,7 +6053,7 @@ Transform:
   m_GameObject: {fileID: 887534372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalPosition: {x: 0, y: 0, z: 30}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6073,13 +6074,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrabFSM: {fileID: 1126775660}
   AI: {fileID: 887534380}
-  JumpSmashCooldown: 30
+  JumpSmashCooldown: 5
   RoarStunCooldown: 15
   ComboCooldown: 10
   CanJumpSmash: 0
   CanRoarStun: 0
   CanComboAttack: 0
-  RootMotionNotEnterDistance: 9
+  RootMotionNotEnterDistance: 8
 --- !u!114 &887534378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6126,7 +6127,7 @@ Animator:
   m_GameObject: {fileID: 887534372}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 97c2a89a65454fc46b95d91f9e08163a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 27472dcae503f1f4aa5e96f1114b777b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3e518b287e876f2408cf6a0ff228028c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -6137,6 +6138,29 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!136 &887534382
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887534372}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 2.6
+  m_Height: 3.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 3.5, z: 1.84}
 --- !u!1 &916923831
 GameObject:
   m_ObjectHideFlags: 0
@@ -10974,6 +10998,7 @@ GameObject:
   - component: {fileID: 1126775665}
   - component: {fileID: 1126775664}
   - component: {fileID: 1126775663}
+  - component: {fileID: 1126775667}
   m_Layer: 0
   m_Name: State
   m_TagString: Untagged
@@ -11131,6 +11156,24 @@ MonoBehaviour:
   - ClawsAttackRightForward_RM
   - SmashAttackLeftForward_RM
   - SmashAttackRightForward_RM
+--- !u!114 &1126775667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1126775656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ccfe13cb0dcc734baf71b223e29cb98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StateAnimController: {fileID: 9100000, guid: 1de2b3a3b97c1044f9bd0446092713bf, type: 2}
+  ChargeTime: 3
+  DashSpeed: 30
+  PedictionMultiplier: 1.2
+  DashDuration: 3
+  CapCollider: {fileID: 887534382}
 --- !u!1 &1140853449
 GameObject:
   m_ObjectHideFlags: 0

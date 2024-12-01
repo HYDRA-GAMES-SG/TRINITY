@@ -21,7 +21,7 @@ public class ACrabController : MonoBehaviour
     [HideInInspector] public bool CanComboAttack = false;
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
-   
+
     private UHealthComponent Health;
     private Animator Animator;
 
@@ -96,6 +96,11 @@ public class ACrabController : MonoBehaviour
             {
                 CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
             }
+        }
+        else if (CrabFSM.CurrentState is JumpSmash)
+        {
+            CrabFSM.CrabController.transform.position += Animator.deltaPosition;
+            CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
         }
     }
 }
