@@ -6,30 +6,37 @@ using static UnityEngine.GraphicsBuffer;
 
 public class ChargeFastAttack : CrabState
 {
+    [Header("Charge and Dash Settings")]
     [SerializeField] float ChargeTime;
     [SerializeField] float DashSpeed;
     [SerializeField] float PedictionMultiplier;
     [SerializeField] float DashDuration;
 
+    [Header("Components")]
     [SerializeField] Collider CapCollider;
 
-    private Vector3 predictedPosition;
-    private bool isCharging = false;
-    private bool isDashing = false;
-    private float originerSpeed;
+    private Vector3 PredictedPosition;
+    private bool bIsCharging = false;
+    private bool bIsDashing = false;
+    private float StateTimer = 0f;
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue)
+        if (fromState is Pursue || fromState is Jump || fromState is RoarStun)
         {
-            return true;
+            if (CrabFSM.CrabController.CanCharageMoveFast)
+            {
+                return true;
+            }
         }
         return false;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        originerSpeed = CrabFSM.CrabController.AI.speed;
+        CrabFSM.CrabController.AI.enabled = false;
+        bIsCharging = true;
+        StateTimer = 0f; 
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -38,34 +45,44 @@ public class ChargeFastAttack : CrabState
 
     public override void UpdateBehaviour(float dt)
     {
-        if (isCharging || isDashing)
+        if (bIsCharging)
         {
             PredictTargetPosition();
-        }
-        if (isCharging)
-        {
-            Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-            RotateTowardTarget(faceDirection);
-        }
-        if (!isCharging && !isDashing)
-        {
-            StartCoroutine(ChargeAndDash());
-        }
+            RotateTowardTarget(PredictedPosition - CrabFSM.CrabController.transform.position);
 
-        if (isDashing)
+            StateTimer += Time.deltaTime;
+            if (StateTimer >= ChargeTime)
+            {
+                bIsCharging = false;
+                bIsDashing = true;
+                StateTimer = 0f;
+                CapCollider.enabled = true;
+                CrabFSM.Animator.applyRootMotion = true;
+                CrabFSM.Animator.SetBool("Release", true);
+                CrabFSM.Animator.SetFloat("Multiplier", DashSpeed);
+            }
+        }
+        else if (bIsDashing)
         {
-            CrabFSM.Animator.SetBool("Release", true);
-            CrabFSM.CrabController.AI.speed = DashSpeed;
-            CrabFSM.Animator.SetFloat("Multiplier", DashSpeed/2);
-            CrabFSM.CrabController.AI.SetDestination(predictedPosition);
+            StateTimer += Time.deltaTime;
+            if (StateTimer >= DashDuration)
+            {
+                bIsDashing = false;
+                CapCollider.enabled = false;
+                CrabFSM.Animator.SetBool("Release", false);
+                CrabFSM.EnqueueTransition<Pursue>();
+            }
         }
     }
+
     public override void PostUpdateBehaviour(float dt)
     {
     }
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        CrabFSM.Animator.applyRootMotion = false;
+        CrabFSM.CrabController.AI.enabled = true;
         CapCollider.enabled = false;
     }
 
@@ -77,48 +94,35 @@ public class ChargeFastAttack : CrabState
         }
         return false;
     }
+
     private void RotateTowardTarget(Vector3 directionToTarget)
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
         CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 2 * Time.deltaTime);
     }
+
     private void PredictTargetPosition()
     {
         Rigidbody targetRb = CrabFSM.PlayerController.GetComponent<Rigidbody>();
         if (targetRb != null)
         {
             Vector3 targetVelocity = targetRb.velocity;
-            predictedPosition = CrabFSM.PlayerController.transform.position + targetVelocity * PedictionMultiplier;
+            PredictedPosition = CrabFSM.PlayerController.transform.position + targetVelocity * PedictionMultiplier;
         }
         else
         {
-            predictedPosition = CrabFSM.PlayerController.transform.position; // Default to current position if no velocity
+            PredictedPosition = CrabFSM.PlayerController.transform.position;
         }
-    }
-    private IEnumerator ChargeAndDash()
-    {
-        isCharging = true;
-
-        yield return new WaitForSeconds(ChargeTime);
-
-        isCharging = false;
-        isDashing = true;
-
-        yield return new WaitForSeconds(DashDuration);
-        CrabFSM.Animator.SetBool("Release", false);
-        CrabFSM.Animator.SetFloat("Multiplier", originerSpeed);
-
-        isDashing = false;
-        CrabFSM.CrabController.AI.speed = originerSpeed;
     }
 
     private void OnDrawGizmos()
     {
-        if (isCharging || isDashing)
+        if (bIsCharging || bIsDashing)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(predictedPosition, 1f);
+            Vector3 groundPosition = new Vector3(PredictedPosition.x, 0f, PredictedPosition.z);
+            Gizmos.DrawSphere(groundPosition, 1f);
         }
     }
 

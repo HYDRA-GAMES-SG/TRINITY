@@ -8,17 +8,20 @@ public class ACrabController : MonoBehaviour
     public NavMeshAgent AI;
 
     [Header("Cooldown Time")]
-    [SerializeField] float JumpSmashCooldown = 10f;
+    [SerializeField] float JumpSmashCooldown = 20;
+    [SerializeField] float ChargeMoveFastCooldown = 15;
     [SerializeField] float RoarStunCooldown = 10f;
     [SerializeField] float ComboCooldown = 5f;
 
     private float JumpSmashTimer = 0f;
     private float RoarStunTimer = 0f;
     private float ComboTimer = 0f;
+    private float ChargeMoveFastTimer = 0f;
 
     [HideInInspector] public bool CanJumpSmash = false;
     [HideInInspector] public bool CanRoarStun = false;
     [HideInInspector] public bool CanComboAttack = false;
+    [HideInInspector] public bool CanCharageMoveFast = false;
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
 
@@ -34,6 +37,7 @@ public class ACrabController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position));
         CheckCooldown();
 
         if (Health.Percent < 0.5f) //next element phrese
@@ -75,6 +79,15 @@ public class ACrabController : MonoBehaviour
                 ComboTimer = 0f;
             }
         }
+        if (!CanCharageMoveFast)
+        {
+            ChargeMoveFastTimer += Time.deltaTime;
+            if (ChargeMoveFastTimer >= ChargeMoveFastCooldown)
+            {
+                CanCharageMoveFast = true;
+                ChargeMoveFastTimer = 0f;
+            }
+        }
     }
 
     public bool IsActiveState(CrabState state)
@@ -97,7 +110,7 @@ public class ACrabController : MonoBehaviour
                 CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
             }
         }
-        else if (CrabFSM.CurrentState is JumpSmash)
+        else if (CrabFSM.CurrentState is JumpSmash || CrabFSM.CurrentState is ChargeFastAttack)
         {
             CrabFSM.CrabController.transform.position += Animator.deltaPosition;
             CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;

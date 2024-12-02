@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -199,13 +199,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68303a33611d645449cedb5d85ec6e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraRef: {fileID: 0}
   Brain: {fileID: 245977890}
   CastPos: {fileID: 0}
-  Fireball: {fileID: 0}
-  Icicles: {fileID: 0}
-  LightningBeam: {fileID: 0}
+  PrimaryFire: {fileID: 0}
+  PrimaryCold: {fileID: 0}
+  PrimaryLightning: {fileID: 0}
   ManaComponent: {fileID: 0}
-  HealthComponent: {fileID: 0}
 --- !u!1 &12039799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1715,8 +1715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def17e7c58b777f44a835aa6e8f74d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 0}
-  Spells: {fileID: 0}
+  GlobalCooldown: 0
   Controller: {fileID: 0}
 --- !u!1 &250730593
 GameObject:
@@ -1795,6 +1794,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpellPrefab: {fileID: 0}
+  Cooldown: 0
+  Element: 0
+  Type: 0
   Beam: {fileID: 0}
   ImpactVFX: {fileID: 0}
   ShockVFX: {fileID: 0}
@@ -5543,6 +5545,8 @@ MonoBehaviour:
   BossHealthSlider: {fileID: 0}
   HealthText: {fileID: 0}
   ManaText: {fileID: 0}
+  TrinityController: {fileID: 0}
+  TrinitySpells: {fileID: 0}
 --- !u!4 &789692183
 Transform:
   m_ObjectHideFlags: 0
@@ -6038,6 +6042,7 @@ GameObject:
   - component: {fileID: 887534381}
   - component: {fileID: 887534382}
   - component: {fileID: 887534383}
+  - component: {fileID: 887534384}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -6075,12 +6080,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CrabFSM: {fileID: 1126775660}
   AI: {fileID: 887534380}
-  JumpSmashCooldown: 5
-  RoarStunCooldown: 15
-  ComboCooldown: 10
+  JumpSmashCooldown: 20
+  ChargeMoveFastCooldown: 15
+  RoarStunCooldown: 10
+  ComboCooldown: 5
   CanJumpSmash: 0
   CanRoarStun: 0
   CanComboAttack: 0
+  CanCharageMoveFast: 0
   RootMotionNotEnterDistance: 8
 --- !u!114 &887534378
 MonoBehaviour:
@@ -6189,6 +6196,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &887534384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887534372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &916923831
 GameObject:
   m_ObjectHideFlags: 0
@@ -10968,13 +10987,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpellPrefab: {fileID: 0}
-  ExplosionVFX: {fileID: 0}
-  IgniteVFX: {fileID: 0}
-  CurrentSpeed: 0
-  CurrentDuration: 0
-  CurrentDamage: 0
-  CurrentMaxRange: 0
-  CurrentCooldown: 0
+  Cooldown: 0
+  Element: 0
+  Type: 0
 --- !u!1 &1105832492
 GameObject:
   m_ObjectHideFlags: 0
@@ -11023,10 +11038,10 @@ GameObject:
   - component: {fileID: 1126775658}
   - component: {fileID: 1126775661}
   - component: {fileID: 1126775662}
-  - component: {fileID: 1126775665}
-  - component: {fileID: 1126775664}
-  - component: {fileID: 1126775663}
   - component: {fileID: 1126775667}
+  - component: {fileID: 1126775663}
+  - component: {fileID: 1126775664}
+  - component: {fileID: 1126775665}
   m_Layer: 0
   m_Name: State
   m_TagString: Untagged
@@ -11042,13 +11057,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1126775656}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1905938961}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &1126775658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11081,8 +11096,9 @@ MonoBehaviour:
   RotateSpeed: 2
   ThresholdAngle: 5
   RangeAttack: 28
-  CloseAttackRange: 7
-  JumpAwayRange: 7
+  CloseAttackRange: 7.5
+  JumpAwayRange: 6
+  ChargeFastMoveRange: 15
 --- !u!114 &1126775660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11113,7 +11129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 75cdeddd34e4c2c4e8112c45f0003373, type: 2}
-  AnimationCheckExitTime: 0.3
+  AnimationCheckExitTime: 0.2
 --- !u!114 &1126775662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11142,11 +11158,11 @@ MonoBehaviour:
   StateAnimController: {fileID: 9100000, guid: 43e07b0f2603b1947b75aebd11127ef2, type: 2}
   rb: {fileID: 887534383}
   bJumped: 0
-  JumpRangeCheck: 30
-  JumpForce: 500
+  JumpRangeCheck: 20
+  JumpForce: 100
   JumpUpForce: 500
-  EnqueueTimer: 2
-  ResetTimer: 2
+  EnqueueTimer: 1
+  ResetTimer: 5
   forward: JumpForward
   backward: JumpBackward
 --- !u!114 &1126775664
@@ -11207,9 +11223,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 1de2b3a3b97c1044f9bd0446092713bf, type: 2}
   ChargeTime: 3
-  DashSpeed: 30
-  PedictionMultiplier: 1.2
-  DashDuration: 3
+  DashSpeed: 10
+  PedictionMultiplier: 1
+  DashDuration: 2
   CapCollider: {fileID: 887534382}
 --- !u!1 &1140853449
 GameObject:
@@ -19470,6 +19486,7 @@ GameObject:
   - component: {fileID: 2125979928}
   - component: {fileID: 2125979930}
   - component: {fileID: 2125979929}
+  - component: {fileID: 2125979932}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Player
@@ -19489,6 +19506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceaca859b5d7fee46987d6e5f1f097c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthComponent: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -19568,6 +19586,20 @@ Transform:
   - {fileID: 149332504}
   m_Father: {fileID: 2001591339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2125979932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2125979927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d871bb7c46b1d74f80abcf47d1ba0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MAX: 50
+  Current: 0
 --- !u!1 &2145873639
 GameObject:
   m_ObjectHideFlags: 0

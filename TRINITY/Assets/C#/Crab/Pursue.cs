@@ -10,10 +10,11 @@ public class Pursue : CrabState
     [SerializeField] float RotateSpeed = 2;
     [SerializeField] float ThresholdAngle = 5;
 
-    [Header("Attack Range")]
+    [Header("Check Range")]
     [SerializeField] float RangeAttack = 28;
-    [SerializeField] float CloseAttackRange = 7;
-    [SerializeField] float JumpAwayRange = 7;
+    [SerializeField] float CloseAttackRange = 7.5f;
+    [SerializeField] float JumpAwayRange = 6;
+    [SerializeField] float ChargeFastMoveRange = 15;
 
 
     NavMeshAgent CrabAI;
@@ -23,7 +24,7 @@ public class Pursue : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack || fromState is Jump)
+        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack || fromState is ChargeFastAttack || fromState is Jump || fromState is GetHit)
         {
             return true;
         }
@@ -62,7 +63,12 @@ public class Pursue : CrabState
                 CrabFSM.EnqueueTransition<RoarStun>();
             }
         }
-        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= CloseAttackRange + 3)
+        else if (distanceToTarget >= ChargeFastMoveRange && distanceToTarget <= ChargeFastMoveRange + 5)
+        {
+            CrabFSM.EnqueueTransition<ChargeFastAttack>();
+
+        }
+        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= CloseAttackRange + 2)
         {
             CrabFSM.EnqueueTransition<ComboAttack>();
             CrabFSM.EnqueueTransition<NormalAttack>();
@@ -89,7 +95,7 @@ public class Pursue : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun || toState is NormalAttack || toState is Jump || toState is Death)
+        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun || toState is NormalAttack || toState is Jump || toState is Death || toState is ChargeFastAttack || toState is GetHit)
         {
             return true;
         }
@@ -105,7 +111,7 @@ public class Pursue : CrabState
 
         Vector3 directionToTarget = (playerTransform.position - crabTransform.position).normalized;
         float distanceToTarget = Vector3.Distance(playerTransform.position, crabTransform.position);
-        float angleToTarget = RotateTowardTarget(directionToTarget);
+        float angleToTarget = RotateTowardTarget(directionToTarget, RotateSpeed);
 
         if (angleToTarget > ThresholdAngle)
         {
@@ -138,11 +144,11 @@ public class Pursue : CrabState
 
         CrabAI.ResetPath();
     }
-    private float RotateTowardTarget(Vector3 directionToTarget)
+    private float RotateTowardTarget(Vector3 directionToTarget, float rotateSpeed)
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, RotateSpeed * Time.deltaTime);
+        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
 
         return Vector3.Angle(CrabFSM.CrabController.transform.forward, directionToTarget);
     }
