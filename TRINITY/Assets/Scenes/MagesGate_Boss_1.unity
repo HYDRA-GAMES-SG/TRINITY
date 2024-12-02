@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6037,6 +6037,7 @@ GameObject:
   - component: {fileID: 887534380}
   - component: {fileID: 887534381}
   - component: {fileID: 887534382}
+  - component: {fileID: 887534383}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -6161,6 +6162,33 @@ CapsuleCollider:
   m_Height: 3.5
   m_Direction: 1
   m_Center: {x: 0, y: 3.5, z: 1.84}
+--- !u!54 &887534383
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 887534372}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &916923831
 GameObject:
   m_ObjectHideFlags: 0
@@ -11053,7 +11081,7 @@ MonoBehaviour:
   RotateSpeed: 2
   ThresholdAngle: 5
   RangeAttack: 28
-  CloseAttackRange: 10
+  CloseAttackRange: 7
   JumpAwayRange: 7
 --- !u!114 &1126775660
 MonoBehaviour:
@@ -11069,7 +11097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialState: {fileID: 1126775659}
   CrabController: {fileID: 887534377}
-  PlayerController: {fileID: 0}
+  PlayerController: {fileID: 2125979928}
   Animator: {fileID: 887534381}
   ShowDebugLog: 0
 --- !u!114 &1126775661
@@ -11112,6 +11140,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 43e07b0f2603b1947b75aebd11127ef2, type: 2}
+  rb: {fileID: 887534383}
+  bJumped: 0
+  JumpRangeCheck: 30
+  JumpForce: 500
+  JumpUpForce: 500
+  EnqueueTimer: 2
+  ResetTimer: 2
+  forward: JumpForward
+  backward: JumpBackward
 --- !u!114 &1126775664
 MonoBehaviour:
   m_ObjectHideFlags: 0

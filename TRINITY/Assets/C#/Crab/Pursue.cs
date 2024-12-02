@@ -5,15 +5,15 @@ using UnityEngine.AI;
 public class Pursue : CrabState
 {
     [Header("AI Setting")]
-    [SerializeField] float MoveSpeed;
-    [SerializeField] float StopDistance;
-    [SerializeField] float RotateSpeed;
-    [SerializeField] float ThresholdAngle;
+    [SerializeField] float MoveSpeed = 7;
+    [SerializeField] float StopDistance = 11;
+    [SerializeField] float RotateSpeed = 2;
+    [SerializeField] float ThresholdAngle = 5;
 
     [Header("Attack Range")]
-    [SerializeField] float RangeAttack;
-    [SerializeField] float CloseAttackRange;
-    [SerializeField] float JumpAwayRange;
+    [SerializeField] float RangeAttack = 28;
+    [SerializeField] float CloseAttackRange = 7;
+    [SerializeField] float JumpAwayRange = 7;
 
 
     NavMeshAgent CrabAI;
@@ -23,7 +23,7 @@ public class Pursue : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack)
+        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack || fromState is Jump)
         {
             return true;
         }
@@ -62,7 +62,7 @@ public class Pursue : CrabState
                 CrabFSM.EnqueueTransition<RoarStun>();
             }
         }
-        else if (distanceToTarget <= CloseAttackRange)
+        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= CloseAttackRange + 3)
         {
             CrabFSM.EnqueueTransition<ComboAttack>();
             CrabFSM.EnqueueTransition<NormalAttack>();
