@@ -5,7 +5,7 @@ using UnityEngine;
 public class AGameManager : MonoBehaviour
 {
     [HideInInspector]
-    static public ATrinityCharacter PlayerCharacter;
+    static public ATrinitySpells PlayerCharacter;
 
     [HideInInspector]
     static public ATrinityController PlayerController;
@@ -16,7 +16,7 @@ public class AGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        PlayerCharacter = FindObjectOfType<ATrinityCharacter>();
+        PlayerCharacter = FindObjectOfType<ATrinitySpells>();
         PlayerController = FindObjectOfType<ATrinityController>();
     }
 

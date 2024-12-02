@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 34247061}
   - component: {fileID: 34247060}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Spells
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -381,14 +381,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68303a33611d645449cedb5d85ec6e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spellbook: []
+  CameraRef: {fileID: 1594050641}
   Brain: {fileID: 1485682130}
-  CastPos: {fileID: 0}
-  Fireball: {fileID: 0}
-  Icicles: {fileID: 0}
-  LightningBeam: {fileID: 0}
+  CastPos: {fileID: 922414425}
+  PrimaryFire: {fileID: 0}
+  PrimaryCold: {fileID: 0}
+  PrimaryLightning: {fileID: 0}
   ManaComponent: {fileID: 0}
-  HealthComponent: {fileID: 0}
 --- !u!114 &34247060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6033,6 +6032,7 @@ GameObject:
   - component: {fileID: 567174383}
   - component: {fileID: 567174385}
   - component: {fileID: 567174384}
+  - component: {fileID: 567174386}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Player
@@ -6069,6 +6069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceaca859b5d7fee46987d6e5f1f097c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HealthComponent: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -6131,6 +6132,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &567174386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567174381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d871bb7c46b1d74f80abcf47d1ba0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MAX: 50
+  Current: 0
 --- !u!1 &606392995
 GameObject:
   m_ObjectHideFlags: 0
@@ -7389,14 +7404,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aeb904ec1760eb4ebbe7c2669c19ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 0}
-  ExplosionVFX: {fileID: 0}
-  IgniteVFX: {fileID: 0}
-  CurrentSpeed: 0
-  CurrentDuration: 0
-  CurrentDamage: 0
-  CurrentMaxRange: 0
-  CurrentCooldown: 0
+  SpellPrefab: {fileID: 3852721855287756135, guid: 496706c361681bc488b8fadcb6108520,
+    type: 3}
+  Cooldown: 0
+  Element: 0
+  Type: 0
 --- !u!1 &780867960
 GameObject:
   m_ObjectHideFlags: 0
@@ -7521,6 +7533,8 @@ MonoBehaviour:
   BossHealthSlider: {fileID: 0}
   HealthText: {fileID: 0}
   ManaText: {fileID: 0}
+  TrinityController: {fileID: 567174383}
+  TrinitySpells: {fileID: 34247059}
 --- !u!4 &789692183
 Transform:
   m_ObjectHideFlags: 0
@@ -8021,6 +8035,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.16768612, y: -0.11499476, z: -0.0000017024577}
     m_Extent: {x: 0.03140755, y: 0.019611396, z: 0.059875898}
   m_DirtyAABB: 0
+--- !u!1 &922414424
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922414425}
+  m_Layer: 0
+  m_Name: CastPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &922414425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922414424}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7574582, y: 0.13036732, z: 0.63947195, w: -0.018357705}
+  m_LocalPosition: {x: -0.014, y: 0.897, z: 0.001}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6091881745139029740}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &933254251
 GameObject:
   m_ObjectHideFlags: 0
@@ -11501,8 +11546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def17e7c58b777f44a835aa6e8f74d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 0}
-  Spells: {fileID: 0}
+  GlobalCooldown: 0
   Controller: {fileID: 0}
 --- !u!114 &1485682131
 MonoBehaviour:
@@ -12409,10 +12453,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64e1919817b48748b8a37dbe7981cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 0}
+  SpellPrefab: {fileID: 3830785774540179595, guid: 951cd005babd9394f82dc4c71a76f6de,
+    type: 3}
+  Cooldown: 0
+  Element: 0
+  Type: 0
   Beam: {fileID: 0}
-  ImpactVFX: {fileID: 0}
-  ShockVFX: {fileID: 0}
+  ImpactVFX: {fileID: 5773043792457465958, guid: f1c8aac98a1496d4d80df6c435f04c8d,
+    type: 3}
+  ShockVFX: {fileID: 1484152931052635222, guid: 730d65a2e5713b14bb1e79d035bdf5ed,
+    type: 3}
 --- !u!1 &1774541636
 GameObject:
   m_ObjectHideFlags: 0
@@ -18211,7 +18261,8 @@ Transform:
   m_LocalPosition: {x: 0.038692582, y: -0.054113116, z: -0.030393336}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 922414425}
   m_Father: {fileID: 5847775884611911783}
   m_LocalEulerAnglesHint: {x: 51.641, y: 109.067, z: 73.708}
 --- !u!1 &6110732488681395620

@@ -2,8 +2,13 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
+[RequireComponent(typeof(UHealthComponent))]
 public class ATrinityController : MonoBehaviour
 {
+    
+    [HideInInspector]
+    public UHealthComponent HealthComponent;
+    
     [Header("Physics Settings")]
     [SerializeField] 
     public LayerMask GroundLayer;
@@ -48,6 +53,7 @@ public class ATrinityController : MonoBehaviour
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
         Rigidbody = GetComponent<Rigidbody>();
+        HealthComponent = GetComponent<UHealthComponent>();
 
         if (Collider == null)
         {

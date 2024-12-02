@@ -13,18 +13,20 @@ public class AGUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI HealthText, ManaText;
 
-    private ATrinityCharacter PlayerCharacter;
+    public ATrinityController TrinityController;
+    public ATrinitySpells TrinitySpells;
 
     void Start()
     {
-        if(PlayerCharacter != null)
+        if (TrinityController != null)
         {
-            PlayerCharacter.HealthComponent.OnHealthModified += UpdateHealthBar;
+            TrinityController.HealthComponent.OnHealthModified += UpdateHealthBar;
         }
-
-        if (PlayerCharacter != null)
+        
+        
+        if (TrinitySpells != null)
         {
-            PlayerCharacter.ManaComponent.OnManaModified += UpdateManaBar;
+            TrinitySpells.ManaComponent.OnManaModified += UpdateManaBar;
         }
     }
 
@@ -66,7 +68,7 @@ public class AGUI : MonoBehaviour
             HealthSlider.value = HealthPercent;
 
         if (HealthText != null)
-            HealthText.text = $"{PlayerCharacter.HealthComponent.Current}/{PlayerCharacter.HealthComponent.MAX}%";
+            HealthText.text = $"{TrinityController.HealthComponent.Current}/{TrinityController.HealthComponent.MAX}%";
     }
     public void UpdateManaBar(float ManaPercent)
     {
@@ -74,15 +76,15 @@ public class AGUI : MonoBehaviour
             ManaSlider.value = ManaPercent;
 
         if (ManaText != null)
-            ManaText.text = $"{PlayerCharacter.ManaComponent.Current}/{PlayerCharacter.ManaComponent.MAX}";
+            ManaText.text = $"{TrinitySpells.ManaComponent.Current}/{TrinitySpells.ManaComponent.MAX}";
     }
 
     void OnDestroy()
     {
-        if (PlayerCharacter != null)
-            PlayerCharacter.HealthComponent.OnHealthModified -= UpdateHealthBar;
+        if (TrinityController != null)
+            TrinityController.HealthComponent.OnHealthModified -= UpdateHealthBar;
 
-        if (PlayerCharacter != null)
-            PlayerCharacter.ManaComponent.OnManaModified -= UpdateManaBar;
+        if (TrinitySpells != null)
+            TrinitySpells.ManaComponent.OnManaModified -= UpdateManaBar;
     }
 }

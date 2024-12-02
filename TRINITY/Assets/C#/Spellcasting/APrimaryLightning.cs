@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
-public class PrimaryLightning : ASpell
+public class APrimaryLightning : ASpell
 {
+    [HideInInspector]
     public GameObject Beam;
     
     Rigidbody Rigidbody;
@@ -16,18 +17,13 @@ public class PrimaryLightning : ASpell
     // Start is called before the first frame update
     void Start()
     {
-        base.Start();
+        Brain = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
+        Spells = transform.parent.GetComponent<ATrinitySpells>();
         
-        SpellComponent = GetComponent<USpellComponent>();
 
 
     }
 
-
-    public override void Invoke()
-    {
-        SpellComponent.StartCooldown();
-    }
     // Update is called once per frame
     void Update()
     {
@@ -64,7 +60,7 @@ public class PrimaryLightning : ASpell
 
         if (Beam == null)
         {
-            spellPrefab = Instantiate(Beam, TrinitySpells.CastPos.position, Quaternion.Euler(0, 90, 0));
+            spellPrefab = Instantiate(Beam, Spells.CastPos.position, Quaternion.Euler(0, 90, 0));
             spellPrefab.transform.parent = Brain.Controller.transform;
             Beam = spellPrefab;
         }
