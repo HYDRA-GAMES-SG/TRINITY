@@ -1,0 +1,70 @@
+﻿#define KWS_COMPUTE
+#define UINT_MAX_VALUE 4294967295.0
+#define _FPS 6.0 // fps = KWS_ShorelineWaves.FPS / 3, because we skipped 2/3 frames
+
+#define _Scale float3(2.48, 1.35, 2.19);
+#define _Offset float3(0.36, 0.46, 0.494)
+#define _TimeLimit 10.5 //(14.0 * 15.0) / 20.0
+//#define _TimeLimit 70.0 //(14.0 * 15.0) / 20.0
+
+#define KWS_DISABLE_POINT_SPOT_SHADOWS
+
+#pragma multi_compile _ STEREO_INSTANCING_ON
+
+#pragma multi_compile _ KWS_FOAM_USE_FAST_MODE
+#pragma multi_compile _ USE_MULTIPLE_SIMULATIONS
+#pragma multi_compile _ USE_VOLUMETRIC_LIGHT
+#pragma multi_compile _ FOAM_RECEIVE_SHADOWS
+
+#pragma multi_compile _ _ADDITIONAL_LIGHTS
+#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+//#pragma multi_compile _ _SHADOWS_SOFT
+
+#include "Includes/KWS_VertFragIncludes.cginc"
+
+half3 GetSceneColorAfterWaterPass(float2 uv)
+{
+	//#if USE_VOLUMETRIC_LIGHT
+	//	half3 volumeScattering = GetVolumetricLight(uv).xyz;
+	//#else
+	//	half3 volumeScattering = GetAmbientColor();
+	//#endif
+	//float3 underwaterColor = ComputeUnderwaterSurfaceColor(volumeScattering, KW_Transparent, KW_WaterColor.xyz, KW_Turbidity, KW_TurbidityColor.xyz);
+	//return underwaterColor;
+	return saturate(GetAmbientColor(GetExposure()));
+}
+
+half3 GetLight(float3 worldPos, float2 screenUV)
+{
+	float3 lightColor = 0;
+	
+	#if defined(FOAM_RECEIVE_SHADOWS)
+		Light mainLight = GetMainLight(TransformWorldToShadowCoord(worldPos));
+	#else
+		Light mainLight = GetMainLight();
+	#endif
+
+	lightColor.rgb = mainLight.color * mainLight.shadowAttenuation;
+
+	#ifdef _ADDITIONAL_LIGHTS
+		uint pixelLightCount = _AdditionalLightsCount.x;
+		for (uint lightIndex = 0u; lightIndex < pixelLightCount; ++lightIndex)
+		{
+			Light addLight = GetAdditionalLight(lightIndex, worldPos);
+			#ifndef KWS_DISABLE_POINT_SPOT_SHADOWS
+				addLight.shadowAttenuation = AdditionalLightRealtimeShadow(lightIndex, worldPos, addLight.direction);
+			#endif
+			lightColor.rgb += addLight.color * addLight.distanceAttenuation * addLight.shadowAttenuation;
+		}
+	#endif
+
+	lightColor.rgb = lightColor.rgb + GetAmbientColor(GetExposure());
+	return lightColor;
+}
+
+#include "../Common/CommandPass/KWS_ShorelineFoam_Common.cginc"
+
+#pragma kernel ClearFoamBuffer
+#pragma kernel RenderFoamToBuffer
+#pragma kernel RenderFoamBufferToTexture

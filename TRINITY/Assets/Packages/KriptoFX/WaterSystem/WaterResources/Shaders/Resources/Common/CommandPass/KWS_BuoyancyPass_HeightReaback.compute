@@ -1,0 +1,35 @@
+#pragma kernel CopyTextureDataToArray
+
+struct FFTHeightData
+{
+    float height;
+    float3 normal;
+};
+
+RWStructuredBuffer<FFTHeightData> RawHeightData;
+Texture2D<half> RawHeightDataTex; 
+SamplerState sampler_linear_repeat;
+float KWS_TexSize;
+
+[numthreads(8,8,1)]
+void CopyTextureDataToArray(uint2 id : SV_DispatchThreadID)
+{
+   // float heightCenter = RawHeightDataTex[id].r;
+  //  float heightRight = RawHeightDataTex[id + uint3(4, 0, 0)].r;
+   // float heightUp = RawHeightDataTex[id + uint3(0, 4, 0)].r;
+    float texelSize = 1.0 / KWS_TexSize;
+    float2 uv = id.xy * texelSize;
+    float heightCenter = RawHeightDataTex.SampleLevel(sampler_linear_repeat, uv, 0).x;
+    float heightRight = RawHeightDataTex.SampleLevel(sampler_linear_repeat, uv + float2(texelSize * 2, 0), 0).x;
+    float heightUp = RawHeightDataTex.SampleLevel(sampler_linear_repeat, uv + float2(0, texelSize * 2), 0).x;
+
+    float3 normal = cross(float3(1, 0, heightRight - heightCenter), float3(0, 1, heightUp - heightCenter));
+    normal = normalize(normal.xzy);
+
+
+    FFTHeightData data;
+    data.height = heightCenter;
+    data.normal = normal;
+    
+    RawHeightData[id.x + id.y * KWS_TexSize] = data;
+}

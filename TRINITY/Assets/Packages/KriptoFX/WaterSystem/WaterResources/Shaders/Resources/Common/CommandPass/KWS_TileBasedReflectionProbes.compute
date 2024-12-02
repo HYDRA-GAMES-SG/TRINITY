@@ -1,0 +1,67 @@
+#pragma kernel ClearReflectionProbeList
+#pragma kernel BuildReflectionProbeList
+
+#include "../../PlatformSpecific/Includes/KWS_HelpersIncludes.cginc"
+
+[numthreads(8, 8, 1)]
+void ClearReflectionProbeList(uint3 id : SV_DispatchThreadID)
+{}
+
+[numthreads(8, 8, 1)]
+void BuildReflectionProbeList(uint3 id : SV_DispatchThreadID)
+{}
+
+//RWTexture2D<float> _result;
+/*RWStructuredBuffer<uint> KWS_ReflectionProbeTileListRW;
+
+uint KWS_ReflectionProbeDataCount;
+float2 KWS_TargetResolution;
+
+inline bool IsAABBIntersectSphere(float3 boundsMin, float3 boundsMax, float3 sphereCenter, float sphereRadius)
+{
+	float ex = max(boundsMin.x - sphereCenter.x, 0) + max(sphereCenter.x - boundsMax.x, 0);
+	float ey = max(boundsMin.y - sphereCenter.y, 0) + max(sphereCenter.y - boundsMax.y, 0);
+	float ez = max(boundsMin.z - sphereCenter.z, 0) + max(sphereCenter.z - boundsMax.z, 0);
+
+	return (ex < sphereRadius) && (ey < sphereRadius) && (ez < sphereRadius)
+		&& (ex * ex + ey * ey + ez * ez < sphereRadius * sphereRadius);
+}
+
+
+[numthreads(8, 8, 1)]
+void ClearReflectionProbeList(uint3 id : SV_DispatchThreadID)
+{
+	uint tileID = id.y * (KWS_ReflectionProbeTilesCount.x) + id.x;
+	KWS_ReflectionProbeTileListRW[tileID] = 0;
+}
+
+
+[numthreads(8, 8, 1)]
+void BuildReflectionProbeList(uint3 id : SV_DispatchThreadID)
+{
+	float2 uv = float2(id.xy + 0.5) / KWS_TargetResolution;
+	uint tileID = id.y * KWS_ReflectionProbeTilesCount.x + id.x;
+
+	float depth = GetWaterDepth(uv);
+	float3 worldPos = GetWorldSpacePositionFromDepth(uv, depth);
+
+	uint probeID = 0;
+	float lastImportance = -1;
+
+	for (uint idx = 0; idx < KWS_ReflectionProbeDataCount; idx++)
+	{
+		ReflectionProbeData probeData = KWS_ReflectionProbeData[idx];
+		if (IsAABBIntersectSphere(probeData.MinBounds, probeData.MaxBounds, worldPos, 2.0))
+		{
+			if ( probeData.Importance > lastImportance)	 
+			{
+				lastImportance = probeData.Importance;
+				probeID = idx + 1;
+			}
+		}
+	}
+	KWS_ReflectionProbeTileListRW[tileID] = probeID;
+	//InterlockedMax(KWS_ReflectionProbeTileListRW[tileID], probesCount);
+	//_result[tileUV] = probesCount;
+
+}*/

@@ -1,0 +1,13 @@
+#define KWS_COMPUTE
+
+#include "Includes/KWS_HelpersIncludes.cginc"
+#include "../Common/CommandPass/KWS_SSR_Common.cginc"
+
+#pragma multi_compile _ STEREO_INSTANCING_ON
+#pragma multi_compile _ PLANAR_REFLECTION
+#pragma multi_compile _ USE_HOLES_FILLING
+#pragma multi_compile _ USE_UNDERWATER_REFLECTION
+
+#pragma kernel Clear_kernel
+#pragma kernel RenderHash_kernel
+#pragma kernel RenderColorFromHash_kernel

@@ -1,0 +1,641 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+namespace KWS
+{
+    internal class MeshQuadTree
+    {
+        public QuadTreeChunksData QuadTreeData = new QuadTreeChunksData();
+
+        public class QuadTreeChunksData
+        {
+            public bool CanRender => InstancesArgs.Count > 0 && InstancesArgs[0] != null;
+            public int ActiveInstanceIndex = 0;
+
+            public List<Mesh> Instances = new List<Mesh>();
+            public List<ComputeBuffer> InstancesArgs = new List<ComputeBuffer>();
+            public Mesh BottomUnderwaterSkirt;
+            public List<ChunkInstance> VisibleChunks = new List<ChunkInstance>();
+            public ComputeBuffer VisibleChunksComputeBuffer;
+
+            public void Release()
+            {
+                foreach (var instance in Instances) KW_Extensions.SafeDestroy(instance);
+                foreach (var args in InstancesArgs) if (args != null) args.Release();
+                KW_Extensions.SafeDestroy(BottomUnderwaterSkirt);
+                if (VisibleChunksComputeBuffer != null) VisibleChunksComputeBuffer.Release();
+                VisibleChunksComputeBuffer = null;
+
+                Instances.Clear();
+                InstancesArgs.Clear();
+                
+                ActiveInstanceIndex = 0;
+            }
+        }
+
+
+        public struct ChunkInstance
+        {
+            public Vector3 Position;
+            public Vector3 Size;
+
+            public uint DownSeam;
+            public uint LeftSeam;
+            public uint TopSeam;
+            public uint RightSeam;
+
+            public uint DownInf;
+            public uint LeftInf;
+            public uint TopInf;
+            public uint RightInf;
+        }
+
+
+        public enum QuadTreeTypeEnum
+        {
+            Finite,
+            Infinite
+        }
+
+        internal HashSet<Node> VisibleNodes = new HashSet<Node>();
+
+        private QuadTreeTypeEnum _quadTreeType;
+        List<float> _lodDistances;
+        private Vector3 _startWaterPos;
+        private Vector3 _startCenter;
+        private Vector3 _startSize;
+        private Bounds _waterBounds;
+        private float _maxWavesAmplitude;
+        private Transform _waterTransform;
+        private Vector3 _camPos;
+        private Vector3 _currentWaterPos;
+        //private Vector3 _rootOffset;
+        private int[] _lastQuadTreeChunkSizesRelativeToWind;
+        private Node _root;
+        private Quaternion _rotation;
+        private float _displacementOffset;
+        int _maxLevelOutsideBox;
+        private bool _realBoundsLessXAxis;
+        static int _maxFiniteLevels = 8;
+
+        Vector3 _lastCameraPosition;
+        Vector3 _lastCameraRotationEuler;
+        Vector3 _lastWaterPos;
+        private Vector3 _lastWaterRotation;
+
+        public bool IsRequireReinitialize(Vector3 waterPos, Vector3 rotation, Camera currentCamera, WaterSystemScriptableData settings)
+        {
+            var requireUpdate = false;
+            if (_quadTreeType == QuadTreeTypeEnum.Infinite)
+            {
+                var minFarDistance = (int)Mathf.Min(settings.OceanDetailingFarDistance, currentCamera.farClipPlane);
+                if (Math.Abs(_startSize.x - minFarDistance) > 1) requireUpdate = true;
+            }
+            if ((_startWaterPos - waterPos).sqrMagnitude > 0.00001f) requireUpdate = true;
+            if (Vector3.SqrMagnitude(_lastWaterRotation - rotation) > 0.01f) requireUpdate = true;
+
+            return requireUpdate;
+        }
+
+        public void Initialize(QuadTreeTypeEnum quadTreeType, Bounds bounds, WaterSystem waterInstance, WaterSystemScriptableData.WaterMeshQualityEnum meshQuality, bool useTesselation)
+        {
+            _quadTreeType = quadTreeType;
+
+            _lodDistances = _quadTreeType == QuadTreeTypeEnum.Finite
+                ? InitialiseFiniteLodDistances(bounds.size)
+                : InitialiseInfiniteLodDistances(bounds.size, KWS_Settings.Water.QuadtreeInfiniteOceanMinDistance);
+
+            var leveledNodes = new List<LeveledNode>();
+            for (int i = 0; i < _lodDistances.Count; i++) leveledNodes.Add(new LeveledNode());
+
+            _startCenter = bounds.center;
+           
+            _startWaterPos = waterInstance.WaterPivotWorldPosition;
+            _lastWaterRotation = waterInstance.WaterPivotWorldRotation.eulerAngles;
+            _maxWavesAmplitude = waterInstance.CurrentMaxWaveHeight;
+            _rotation = waterInstance.WaterPivotWorldRotation;
+           
+
+            var maxSize = Mathf.Max(bounds.size.x, bounds.size.z);
+            _startSize = new Vector3(maxSize, bounds.size.y, maxSize);
+            _waterBounds = bounds;
+            _realBoundsLessXAxis = bounds.size.x < bounds.size.z;
+
+            _root = new Node(this, leveledNodes, 0, _startCenter, _startSize);
+
+            InitializeNeighbors(leveledNodes);
+
+            _lastQuadTreeChunkSizesRelativeToWind = quadTreeType == QuadTreeTypeEnum.Infinite
+                ? KWS_Settings.Water.QuadTreeChunkQuailityLevelsInfinite[meshQuality]
+                : KWS_Settings.Water.QuadTreeChunkQuailityLevelsFinite[meshQuality];
+
+            
+            QuadTreeData.Release();
+
+            for (int lodIndex = 0; lodIndex < _lastQuadTreeChunkSizesRelativeToWind.Length; lodIndex++)
+            {
+                var currentResolution = GetChunkLodResolution(quadTreeType, bounds, lodIndex, useTesselation);
+                var instanceMesh = MeshUtils.GenerateInstanceMesh(currentResolution, _quadTreeType);
+
+                QuadTreeData.Instances.Add(instanceMesh);
+                QuadTreeData.InstancesArgs.Add(null);
+            }
+            QuadTreeData.BottomUnderwaterSkirt = MeshUtils.GenerateUnderwaterBottomSkirt(Vector2Int.one);
+            QuadTreeData.ActiveInstanceIndex = QuadTreeData.Instances.Count - 1;
+
+            this.WaterLog($"Initialized Quadtree {quadTreeType} waterInstance: {waterInstance}", KW_Extensions.WaterLogMessageType.Initialize);
+        }
+
+
+        //public void UpdateQuadTree(Vector3 cameraPos, Vector3 cameraRotation, Vector3 cameraForward, ref Plane[] cameraFrustum, ref Vector3[] cameraCorners, Vector3 waterPos, float maxWaveHeight, Transform waterTransform, bool forceUpdate = false)
+        //                                                                                       ref CurrentCameraFrustumPlanes, ref CurrentCameraFrustumCorners, WaterPivotWorldPosition, CurrentMaxWaveHeight, WaterRootTransform, forceUpdate
+        public void UpdateQuadTree(Vector3 cameraPos, Vector3 cameraRotation, Vector3 cameraForward, WaterSystem waterInstance, bool forceUpdate = false)
+        {
+            if (_root == null) return;
+
+            var distanceToCamera = Vector3.Distance(cameraPos, _lastCameraPosition);
+            //forceUpdate = true;
+            if (!forceUpdate && !((cameraRotation - _lastCameraRotationEuler).magnitude > KWS_Settings.Water.UpdateQuadtreeEveryDegrees) &&
+                !(distanceToCamera >= KWS_Settings.Water.UpdateQuadtreeEveryMetersForward) &&
+                (!IsCameraMoveBackwards(cameraPos, cameraForward) || !(distanceToCamera >= KWS_Settings.Water.UpdateQuadtreeEveryMetersBackward)) &&
+                !(Mathf.Abs(_lastWaterPos.y - waterInstance.WaterPivotWorldPosition.y) > 0.001f) &&
+                Math.Abs(_maxWavesAmplitude - waterInstance.CurrentMaxWaveHeight) < 0.001f &&
+                QuadTreeData.CanRender) return;
+
+
+
+            VisibleNodes.Clear();
+            QuadTreeData.VisibleChunks.Clear();
+
+            _camPos = cameraPos;
+            _waterTransform = waterInstance.WaterRootTransform;
+            _currentWaterPos = waterInstance.WaterPivotWorldPosition;
+            _maxWavesAmplitude = waterInstance.CurrentMaxWaveHeight;
+           
+            _rotation = waterInstance.WaterPivotWorldRotation;
+            _displacementOffset = KWS_Settings.Water.UpdateQuadtreeEveryMetersForward + _maxWavesAmplitude * KWS_Settings.Mesh.QuadTreeAmplitudeDisplacementMultiplier;
+            _maxLevelOutsideBox = _maxFiniteLevels;
+
+            _root.UpdateVisibleNodes(this);
+
+            var camOffset = _camPos;
+            camOffset.y = 0;
+            var halfOffset = _startSize.y * 0.5f;
+            var angle = _rotation.eulerAngles.y * Mathf.Deg2Rad;
+            var sinAngle = Mathf.Sin(-angle);
+            var cosAngle = Mathf.Cos(-angle);
+           
+            foreach (var visibleNode in VisibleNodes)
+            {
+                var meshData = new ChunkInstance();
+                var center = visibleNode.ChunkCenter;
+
+                meshData.Position = KW_Extensions.RotateVectorXZ(center, sinAngle, cosAngle);
+                meshData.Position.y += halfOffset;
+                if (_quadTreeType == QuadTreeTypeEnum.Finite) meshData.Position += _currentWaterPos;
+                else meshData.Position += camOffset;
+
+                meshData.Size = visibleNode.ChunkSize;
+                meshData.Size.y = waterInstance.Settings.MeshSize.y;
+
+                if (_quadTreeType == QuadTreeTypeEnum.Finite)
+                {
+                    var scale = 1f / Mathf.Pow(2, Mathf.Max(0, visibleNode.CurrentLevel - _maxLevelOutsideBox)) * 0.5f;
+
+                    var newScale = _waterBounds.size.x < _waterBounds.size.z
+                        ? new Vector3(_waterBounds.size.x * scale, meshData.Size.y, meshData.Size.z)
+                        : new Vector3(meshData.Size.x,       meshData.Size.y, _waterBounds.size.z * scale);
+                    KW_Extensions.ScaleAround(ref meshData.Position, ref meshData.Size, _currentWaterPos, newScale);
+                }
+
+                meshData = InitializeSeamDataRelativeToNeighbors(meshData, visibleNode);
+
+                QuadTreeData.VisibleChunks.Add(meshData);
+            }
+
+            _lastCameraPosition = cameraPos;
+            _lastCameraRotationEuler = cameraRotation;
+            _lastWaterPos = waterInstance.WaterPivotWorldPosition;
+
+            for (int i = 0; i < QuadTreeData.InstancesArgs.Count; i++)
+            {
+                QuadTreeData.InstancesArgs[i] = MeshUtils.InitializeInstanceArgsBuffer(QuadTreeData.Instances[i], QuadTreeData.VisibleChunks.Count, QuadTreeData.InstancesArgs[i], KWS_CoreUtils.SinglePassStereoEnabled);
+            }
+
+            MeshUtils.InitializePropertiesBuffer(QuadTreeData.VisibleChunks, ref QuadTreeData.VisibleChunksComputeBuffer, KWS_CoreUtils.SinglePassStereoEnabled);
+
+        }
+
+        public void UpdateQuadTreeDetailingRelativeToWind(float windSpeed, int offset)
+        {
+            var windScales = KWS_Settings.Water.QuadTreeChunkLodRelativeToWind;
+            var maxInstanceIdx = QuadTreeData.Instances.Count - 1;
+            for (int i = 0; i < windScales.Length; i++)
+            {
+                if (windSpeed < windScales[i])
+                {
+                    QuadTreeData.ActiveInstanceIndex = Mathf.Clamp(offset + i, 0, maxInstanceIdx);
+                    return;
+                }
+            }
+            QuadTreeData.ActiveInstanceIndex = QuadTreeData.Instances.Count - 1;
+        }
+
+        public void Release()
+        {
+            QuadTreeData?.Release();
+
+
+            _lastCameraPosition = Vector3.positiveInfinity;
+            _lastCameraRotationEuler = Vector3.zero;
+            _lastWaterPos = Vector3.positiveInfinity;
+
+        }
+
+        bool IsCameraMoveBackwards(Vector3 cameraPos, Vector3 forwardVector)
+        {
+            var direction = (cameraPos - _lastCameraPosition).normalized;
+            var angle = Vector3.Dot(direction, forwardVector);
+            return angle < -0.1;
+        }
+
+        //internal Vector3 GetRootOffset()
+        //{
+        //    Vector3 offset;
+        //    if (_quadTreeType == QuadTreeTypeEnum.Infinite)
+        //    {
+        //        offset   = _camPos;
+        //        offset.y = 0;
+        //    }
+        //    else offset = _waterTransform.InverseTransformVector(_currentWaterPos);
+        //    return offset;
+        //}
+
+
+        Vector2Int GetChunkLodResolution(QuadTreeTypeEnum quadTreeType, Bounds bounds, int lodIndex, bool useTesselation)
+        {
+            Vector2Int chunkRes = Vector2Int.one;
+            int lodRes;
+            if (useTesselation)
+            {
+                lodRes = quadTreeType == QuadTreeTypeEnum.Infinite
+                    ? KWS_Settings.Mesh.TesselationInfiniteMeshChunksSize
+                    : KWS_Settings.Mesh.TesselationFiniteMeshChunksSize;
+            }
+            else lodRes = _lastQuadTreeChunkSizesRelativeToWind[lodIndex];
+
+            var quarterRes = lodRes * 4;
+            if (quadTreeType == QuadTreeTypeEnum.Infinite)
+            {
+                chunkRes *= quarterRes;
+            }
+            else
+            {
+                //if (bounds.size.x < bounds.size.z)
+                //{
+                //    var sizeMul = bounds.size.x / bounds.size.z;
+                //    chunkRes.x = (int)Mathf.Clamp(quarterRes * chunkRes.x * sizeMul, 4, quarterRes);
+                //    chunkRes.y = Mathf.Clamp(quarterRes * chunkRes.y, 4, quarterRes);
+                //}
+                //else
+                //{
+                //    var sizeMul = bounds.size.z / bounds.size.x;
+                //    chunkRes.x = Mathf.Clamp(quarterRes * chunkRes.x, 4, quarterRes);
+                //    chunkRes.y = (int)Mathf.Clamp(quarterRes * chunkRes.y * sizeMul, 4, quarterRes);
+
+                //}
+                chunkRes *= quarterRes;
+            }
+
+            return chunkRes;
+        }
+
+        void InitializeNeighbors(List<LeveledNode> leveledNodes)
+        {
+            foreach (var leveledNode in leveledNodes)
+            {
+                foreach (var pair in leveledNode.Chunks)
+                {
+                    var chunk = pair.Value;
+                    chunk.NeighborLeft = leveledNode.GetLeftNeighbor(chunk.UV);
+                    chunk.NeighborRight = leveledNode.GetRightNeighbor(chunk.UV);
+                    chunk.NeighborTop = leveledNode.GetTopNeighbor(chunk.UV);
+                    chunk.NeighborDown = leveledNode.GetDownNeighbor(chunk.UV);
+                }
+            }
+        }
+
+        List<float> InitialiseFiniteLodDistances(Vector3 size)
+        {
+            var maxSize = Mathf.Max(size.x, size.z);
+            var lodDistances = new List<float>();
+            var divider = 2f;
+            var sizeRatio = size.x < size.z ? size.x / size.z : size.z / size.x;
+           
+
+            var maxLevelsRelativeToSize = Mathf.CeilToInt(Mathf.Log(sizeRatio * maxSize / 4f, 2));
+            var maxLevels = Mathf.Min(_maxFiniteLevels, maxLevelsRelativeToSize);
+
+            lodDistances.Add(float.MaxValue);
+            var lastDistance = maxSize;
+            while (lodDistances.Count <= maxLevels)
+            {
+                var currentDistance = maxSize / divider;
+                lodDistances.Add(Mathf.Lerp(currentDistance, lastDistance, 0.6f));
+                lastDistance = currentDistance;
+                divider *= 2;
+
+            }
+
+            return lodDistances;
+        }
+
+        List<float> InitialiseInfiniteLodDistances(Vector3 size, float minLodDistance)
+        {
+            var maxSize = Mathf.Max(size.x, size.z);
+            var lodDistances = new List<float>();
+            var divider = 2f;
+
+            lodDistances.Add(float.MaxValue);
+            while (lodDistances[lodDistances.Count - 1] > minLodDistance)
+            {
+                lodDistances.Add(maxSize / divider);
+                divider *= 2;
+            }
+
+            return lodDistances;
+        }
+
+        internal class LeveledNode
+        {
+            public Dictionary<uint, Node> Chunks = new Dictionary<uint, Node>();
+
+            public void AddNodeToArray(Vector2Int uv, Node node)
+            {
+                node.UV = uv;
+                //long hashIdx = uv.x + uv.y * MaxLevelsRange;
+                var hashIdx = GetHashFromUV(uv);
+                if (!Chunks.ContainsKey(hashIdx)) Chunks.Add(hashIdx, node);
+            }
+
+            public Node GetLeftNeighbor(Vector2Int uv)
+            {
+                //long hashIdx = (uv.x - 1) + uv.y * MaxLevelsRange;
+                uv.x -= 1;
+                var hashIdx = GetHashFromUV(uv);
+                return Chunks.ContainsKey(hashIdx) ? Chunks[hashIdx] : null;
+            }
+
+            public Node GetRightNeighbor(Vector2Int uv)
+            {
+                //long hashIdx = (uv.x + 1) + uv.y * MaxLevelsRange;
+                uv.x += 1;
+                var hashIdx = GetHashFromUV(uv);
+                return Chunks.ContainsKey(hashIdx) ? Chunks[hashIdx] : null;
+            }
+
+            public Node GetTopNeighbor(Vector2Int uv)
+            {
+                // long hashIdx = uv.x + (uv.y + 1) * MaxLevelsRange;
+                uv.y += 1;
+                var hashIdx = GetHashFromUV(uv);
+                return Chunks.ContainsKey(hashIdx) ? Chunks[hashIdx] : null;
+            }
+
+            public Node GetDownNeighbor(Vector2Int uv)
+            {
+                //long hashIdx = uv.x + (uv.y - 1) * MaxLevelsRange;
+                uv.y -= 1;
+                var hashIdx = GetHashFromUV(uv);
+                return Chunks.ContainsKey(hashIdx) ? Chunks[hashIdx] : null;
+            }
+
+            uint GetHashFromUV(Vector2Int uv)
+            {
+                return (((uint)uv.x & 0xFFFF) << 16) | ((uint)uv.y & 0xFFFF);
+            }
+
+            //Vector2Int GetUVFromHash(uint p)
+            //{
+            //    return new Vector2Int((int)((p >> 16) & 0xFFFF), (int)(p & 0xFFFF));
+            //}
+
+        }
+
+
+        ChunkInstance InitializeSeamDataRelativeToNeighbors(ChunkInstance meshData, Node node)
+        {
+            var topNeighbor = node.NeighborTop;
+            if (topNeighbor == null || !VisibleNodes.Contains(topNeighbor) && VisibleNodes.Contains(topNeighbor.Parent))
+            {
+                meshData.TopSeam = 1;
+            }
+
+            var leftNeighbor = node.NeighborLeft;
+            if (leftNeighbor == null || !VisibleNodes.Contains(leftNeighbor) && VisibleNodes.Contains(leftNeighbor.Parent))
+            {
+                meshData.LeftSeam = 1;
+            }
+
+            var downNeighbor = node.NeighborDown;
+            if (downNeighbor == null || !VisibleNodes.Contains(downNeighbor) && VisibleNodes.Contains(downNeighbor.Parent))
+            {
+                meshData.DownSeam = 1;
+            }
+
+            var rightNeighbor = node.NeighborRight;
+            if (rightNeighbor == null || !VisibleNodes.Contains(rightNeighbor) && VisibleNodes.Contains(rightNeighbor.Parent))
+            {
+                meshData.RightSeam = 1;
+            }
+
+            if (node.CurrentLevel <= 2 || _quadTreeType == QuadTreeTypeEnum.Finite)
+            {
+                if (topNeighbor == null)
+                {
+                    meshData.TopInf = 1;
+                    meshData.TopSeam = 0;
+                }
+
+                if (leftNeighbor == null)
+                {
+                    meshData.LeftInf = 1;
+                    meshData.LeftSeam = 0;
+                }
+
+                if (downNeighbor == null)
+                {
+                    meshData.DownInf = 1;
+                    meshData.DownSeam = 0;
+                }
+
+                if (rightNeighbor == null)
+                {
+                    meshData.RightInf = 1;
+                    meshData.RightSeam = 0;
+                }
+
+
+            }
+
+            return meshData;
+        }
+
+        static Vector2Int PositionToUV(Vector3 pos, Vector3 quadSize, int chunksCounts)
+        {
+            var uv = new Vector2(pos.x / quadSize.x, pos.z / quadSize.z); //range [-1.0 - 1.0]
+
+            var x = (int)((uv.x * 0.5f + 0.5f) * chunksCounts * 0.999);
+            var y = (int)((uv.y * 0.5f + 0.5f) * chunksCounts * 0.999);
+            x = Mathf.Clamp(x, 0, chunksCounts - 1);
+            y = Mathf.Clamp(y, 0, chunksCounts - 1);
+            return new Vector2Int(x, y);
+        }
+
+        internal class Node
+        {
+            public int CurrentLevel;
+            public Vector3 ChunkCenter;
+            public Vector3 ChunkSize;
+            public Vector3 RelativeCenter;
+          
+            public Node Parent;
+            public Node[] Children;
+
+            public Node NeighborLeft;
+            public Node NeighborRight;
+            public Node NeighborTop;
+            public Node NeighborDown;
+
+            public Vector2Int UV;
+            public bool IsCenterNode;
+
+            internal Node(MeshQuadTree root, List<LeveledNode> leveledNodes, int currentLevel, Vector3 quadTreeCenter, Vector3 quadTreeStartSize, Node parent = null)
+            {
+                Parent = parent ?? this;
+
+                ChunkCenter =  (quadTreeCenter);
+                ChunkSize = quadTreeStartSize;
+               
+                RelativeCenter = root._rotation * ChunkCenter;
+                if (root._quadTreeType == QuadTreeTypeEnum.Finite) RelativeCenter += root._startWaterPos;
+               
+                CurrentLevel = currentLevel;
+
+                var maxDistanceForLevel = root._lodDistances[CurrentLevel];
+                if (root._quadTreeType == QuadTreeTypeEnum.Infinite && (ChunkCenter - root._startCenter).magnitude > maxDistanceForLevel) return;
+
+                if (currentLevel < root._lodDistances.Count - 1)
+                {
+                    Subdivide(root, leveledNodes);
+                }
+            }
+
+            void Subdivide(MeshQuadTree root, List<LeveledNode> leveledNodes)
+            {
+                var nextLevel = CurrentLevel + 1;
+                var quarterSize = ChunkSize / 4f;
+
+                var quadTreeHalfSize = new Vector3(ChunkSize.x / 2f, ChunkSize.y, ChunkSize.z / 2f);
+                var quadTreeRootHalfSize = new Vector3(root._startSize.x / 2f, root._startSize.y, root._startSize.z / 2f);
+
+                int chunksCounts = (int)Mathf.Pow(2, nextLevel);
+                var level = leveledNodes[nextLevel];
+
+                Children = new Node[4];
+                
+                var center = new Vector3(ChunkCenter.x - quarterSize.x, ChunkCenter.y, ChunkCenter.z + quarterSize.z); //left up
+                if (root._waterBounds.Intersects(new Bounds(center, quadTreeHalfSize)))
+                {
+                    Children[0] = new Node(root, leveledNodes, nextLevel, center, quadTreeHalfSize, this);
+                    level.AddNodeToArray(PositionToUV(center, quadTreeRootHalfSize, chunksCounts), Children[0]);
+                }
+
+                center = new Vector3(ChunkCenter.x + quarterSize.x, ChunkCenter.y, ChunkCenter.z + quarterSize.z); //right up
+                if (root._waterBounds.Intersects(new Bounds(center, quadTreeHalfSize)))
+                {
+                    Children[1] = new Node(root, leveledNodes, nextLevel, center, quadTreeHalfSize, this);
+                    level.AddNodeToArray(PositionToUV(center, quadTreeRootHalfSize, chunksCounts), Children[1]);
+                }
+
+                center = new Vector3(ChunkCenter.x - quarterSize.x, ChunkCenter.y, ChunkCenter.z - quarterSize.z); //left down
+                if (root._waterBounds.Intersects(new Bounds(center, quadTreeHalfSize)))
+                {
+                    Children[2] = new Node(root, leveledNodes, nextLevel, center, quadTreeHalfSize, this);
+                    level.AddNodeToArray(PositionToUV(center, quadTreeRootHalfSize, chunksCounts), Children[2]);
+                }
+
+                center = new Vector3(ChunkCenter.x + quarterSize.x, ChunkCenter.y, ChunkCenter.z - quarterSize.z); //right down
+                if (root._waterBounds.Intersects(new Bounds(center, quadTreeHalfSize)))
+                {
+                    Children[3] = new Node(root, leveledNodes, nextLevel, center, quadTreeHalfSize, this);
+                    level.AddNodeToArray(PositionToUV(center, quadTreeRootHalfSize, chunksCounts), Children[3]);
+                }
+            }
+
+            internal enum ChunkVisibilityEnum
+            {
+                Visible,
+                NotVisibile,
+                NotVisibleLod,
+                PartialVisible
+            }
+
+
+            internal ChunkVisibilityEnum UpdateVisibleNodes(MeshQuadTree root)
+            {
+                var currentSize = ChunkSize;
+                currentSize.y += root._maxWavesAmplitude;
+                var relativeCenter = RelativeCenter;
+
+                var halfSize = currentSize / 2f;
+                halfSize.x += root._displacementOffset;
+                halfSize.z += root._displacementOffset;
+
+                if (root._realBoundsLessXAxis)
+                {
+                    if (currentSize.x < root._waterBounds.size.x) root._maxLevelOutsideBox = Mathf.Min(root._maxLevelOutsideBox, CurrentLevel);
+                }
+                else
+                {
+                    if (currentSize.z < root._waterBounds.size.z) root._maxLevelOutsideBox = Mathf.Min(root._maxLevelOutsideBox, CurrentLevel);
+                }
+               
+                if (root._quadTreeType == QuadTreeTypeEnum.Infinite)
+                {
+                    if (CurrentLevel <= 2) halfSize += new Vector3(1000000, 0, 1000000);
+                    relativeCenter.x += root._camPos.x;
+                    relativeCenter.z += root._camPos.z;
+                }
+             
+                var min = relativeCenter - halfSize;
+                var max = relativeCenter + halfSize;
+                if (!KW_Extensions.IsBoxVisibleApproximated(ref WaterSharedResources.CurrentCameraFrustumPlanes, min, max)) return ChunkVisibilityEnum.NotVisibile;
+
+                var surfacePos = relativeCenter;
+                surfacePos.y += halfSize.y - root._maxWavesAmplitude;
+                if ((surfacePos - root._camPos).magnitude > root._lodDistances[CurrentLevel]) return ChunkVisibilityEnum.NotVisibleLod;
+
+                if (Children == null)
+                {
+                    root.VisibleNodes.Add(this);
+                    return ChunkVisibilityEnum.Visible;
+                }
+
+                foreach (var child in Children)
+                {
+                    if (child != null && child.UpdateVisibleNodes(root) == ChunkVisibilityEnum.NotVisibleLod)
+                    {
+                        root.VisibleNodes.Add(child);
+                    }
+                }
+
+                return ChunkVisibilityEnum.PartialVisible;
+            }
+
+        }
+
+    }
+}

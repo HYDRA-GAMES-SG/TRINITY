@@ -1,0 +1,203 @@
+#define INV2PI	0.15915494309f
+#define PI4	0.33661977236f
+#define INVPI2	0.63661977236f
+#define HPI		1.57079632679f
+#define PI		3.14159265358f
+#define PI2		6.28318530717f
+#define HSQRT2	0.70710678118f
+#define gravity	9.81f
+#define chopinessThreshhold	1.0
+
+#pragma kernel SpectrumInitalize
+#pragma kernel SpectrumUpdate
+
+#define MAX_FFT_WAVES_MAX_CASCADES 4
+float KWS_WavesDomainSizes[MAX_FFT_WAVES_MAX_CASCADES];
+//static const float _WavesDomainSizes[] = {5, 15, 45, 160, 640, 1500};
+float KWS_WavesAreaScale;
+
+uint KWS_Size;
+float KWS_WindSpeed;
+float KWS_Turbulence;
+float KWS_WindRotation;
+
+float GetTurbulenceRelativeToLod(uint idx)
+{
+	if(idx == 0) return max(KWS_Turbulence, 0.5);
+	if(idx == 1) return max(KWS_Turbulence, 0.25);
+	return KWS_Turbulence;
+	//return lerp(KWS_Turbulence, KWS_Turbulence * 0.25f, saturate(idx / 4.0));
+}
+
+uint WangHash(uint seed)
+{
+	seed = (seed ^ 61) ^ (seed >> 16);
+	seed *= 9;
+	seed = seed ^ (seed >> 4);
+	seed *= 0x27d4eb2d;
+	seed = seed ^ (seed >> 15);
+	return seed;
+}
+
+void Rand(inout uint rngState)
+{
+	rngState ^= (rngState << 13);
+	rngState ^= (rngState >> 17);
+	rngState ^= (rngState << 5);
+}
+
+float RandFloat(inout uint rngState)
+{
+	Rand(rngState);
+	return rngState / 4294967296.0f;
+}
+
+float RandGauss(inout uint rngState)
+{
+	float u1 = RandFloat(rngState);
+	float u2 = RandFloat(rngState);
+	if (u1 < 1e-6f)
+		u1 = 1e-6f;
+	return sqrt(-2.0f * log(u1)) * cos(PI2 * u2);
+}
+
+void DeepDispersion(float k, out float w, out float dwdk)
+{
+	w = sqrt(abs(gravity * k  * chopinessThreshhold));
+	dwdk = gravity / (2.0f * w);
+}
+
+float AlphaBetaSpectrum(float A, float B, float g, float w, float wm)
+{
+	return (A * g * g / pow(w, 5.0f)) * exp(-B * pow(wm / w, 4.0f));
+}
+
+float PiersonMoskowitzSpectrum(float w)
+{
+	float wm = 0.87f * gravity / KWS_WindSpeed;
+	return AlphaBetaSpectrum(8.1e-3f, 1.291f, gravity, w, wm);
+}
+
+float PosCosSquaredDirectionalSpreading(float w, float theta, float kMag, float dTheta, float turbulence)
+{
+	if (theta > -HPI && theta < HPI)
+	{
+		float ct = cos(theta);
+		return INVPI2 * (ct * ct) * (1 - turbulence) + PI4 * turbulence;
+	}
+	else
+	{
+		return PI4 * turbulence;
+	}
+}
+
+RWTexture2DArray<float4> RW_SpectrumInit;
+
+[numthreads(8,8,1)]
+void SpectrumInitalize(uint3 id : SV_DispatchThreadID)
+{
+	float2 center = KWS_Size.xx / 2;
+	float2 coord = id.xy - center;
+	
+	float s = sin(KWS_WindRotation);
+	float c = cos(KWS_WindRotation);
+	float2x2 rotationMatrix = float2x2(c, -s, s, c);
+	coord = mul(coord, rotationMatrix);
+
+	if (coord.x == 0 && coord.y == 0)
+	{
+		RW_SpectrumInit[id] = float4(0, 0, 0, 0);
+		return;
+	}
+	
+	// Init seed
+	uint rngState = WangHash(id.y * KWS_Size + id.x);
+	
+	float domainSize = KWS_WavesDomainSizes[id.z];
+	// Find wave vector and number
+	float2 k = PI2 * coord / domainSize;
+	float kMag = length(k);
+	
+    
+	// Dispersion
+	float w; float dwdk;
+	DeepDispersion(kMag, w, dwdk);
+
+	// Spectrum
+	float spectrum = PiersonMoskowitzSpectrum(w);
+	float deltaSPos = spectrum;
+	float deltaSNeg = spectrum;
+
+	// Directional spreading
+	float dK = PI2 / domainSize;
+	float thetaPos = atan2(-k.y, k.x);
+	float thetaNeg = atan2(k.y, -k.x);
+	float dTheta = abs(atan2(dK, kMag));
+	float turbulence = GetTurbulenceRelativeToLod(id.z);
+	deltaSPos *= PosCosSquaredDirectionalSpreading(w, thetaPos, kMag, dTheta, turbulence);
+	deltaSNeg *= PosCosSquaredDirectionalSpreading(w, thetaNeg, kMag, dTheta, turbulence);
+	deltaSPos *= (dK * dK) * dwdk / kMag;
+	deltaSNeg *= (dK * dK) * dwdk / kMag;
+
+	// Amplitude
+	float ampPos = RandGauss(rngState) * sqrt(abs(deltaSPos) * 2.0f);
+	float ampNeg = RandGauss(rngState) * sqrt(abs(deltaSNeg) * 2.0f);
+
+	
+	// Output
+	float phasePos = RandFloat(rngState) * PI2;
+	float phaseNeg = RandFloat(rngState) * PI2;
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//outputH0[id.xy] = float4(ampPos * cos(phasePos), 0, 0, 1);
+	//return;
+	//outputH0[id.xy] = float4(ampPos, 0, 0, 1);
+	RW_SpectrumInit[id] = float4(ampPos * float2(cos(phasePos), -sin(phasePos)), ampNeg * float2(cos(phaseNeg), -sin(phaseNeg)));
+}
+
+float time;
+
+Texture2DArray<float4> SpectrumInit;
+
+RWTexture2DArray<float2> SpectrumDisplaceX;
+RWTexture2DArray<float2> SpectrumDisplaceY;
+RWTexture2DArray<float2> SpectrumDisplaceZ;
+
+float2 cmul(float2 lhs, float2 rhs)
+{
+	return float2(
+		lhs.x * rhs.x - lhs.y * rhs.y,
+		lhs.x * rhs.y + lhs.y * rhs.x
+	);
+}
+
+[numthreads(8,8,1)]
+void SpectrumUpdate(uint3 id : SV_DispatchThreadID)
+{
+	int2 center = KWS_Size.xx / 2;
+	int2 coord = id.xy - center;
+	
+	float domainSize = KWS_WavesDomainSizes[id.z];
+	// Find wave vector and number
+	float2 k = PI2 * coord / domainSize;
+	float kMag = length(k);
+
+	// Dispersion
+	float w; float dwdk;
+	DeepDispersion(kMag, w, dwdk);
+
+	// Advance time
+	float sw; float cw;
+	sincos(w * time, sw, cw);
+
+	float2 fwd = float2(cw, -sw);
+	float2 bkwd = float2(cw, sw);
+
+	float4 h0 = SpectrumInit[id];
+	float2 h = cmul(h0.xy, fwd) + cmul(h0.zw, bkwd);
+
+	SpectrumDisplaceX[id] = float2(-h.y * k.x, h.x * k.x) / (kMag + 0.00001f);
+	SpectrumDisplaceY[id] = h;
+	SpectrumDisplaceZ[id] = float2(-h.y * k.y, h.x * k.y) / (kMag + 0.00001f);
+}
