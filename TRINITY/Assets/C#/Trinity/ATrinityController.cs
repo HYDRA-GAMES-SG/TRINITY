@@ -33,6 +33,8 @@ public class ATrinityController : MonoBehaviour
     // Movement Variables
     [HideInInspector]
     public Vector3 MoveDirection;
+
+    [HideInInspector] public Vector3 Position => transform.position;
     [HideInInspector] public Vector3 Forward => transform.forward;
     [HideInInspector] public Vector3 Right => transform.right;
     [HideInInspector] public Vector3 Rotation => transform.rotation.eulerAngles;

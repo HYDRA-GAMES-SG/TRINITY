@@ -20,6 +20,8 @@ public class ATrinitySpells : MonoBehaviour
     public APrimaryCold PrimaryCold;
     [HideInInspector]
     public APrimaryLightning PrimaryLightning;
+
+    [HideInInspector] public ABlink Blink;
     [HideInInspector]
     public UManaComponent ManaComponent;
     
@@ -33,6 +35,8 @@ public class ATrinitySpells : MonoBehaviour
         PrimaryFire = GetComponentInChildren<APrimaryFire>();
         PrimaryCold = GetComponentInChildren<APrimaryCold>();
         PrimaryLightning = GetComponentInChildren<APrimaryLightning>();
+        Blink = GetComponentInChildren<ABlink>();
+        
         // neeed to get component in children for every spell we add
         //have a game object for every spell
     }

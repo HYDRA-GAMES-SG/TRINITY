@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ESpellType
+{
+    EST_Primary,
+    EST_Utility,
+    EST_Secondary
+}
+
 public class ASpell : MonoBehaviour
 {
     public GameObject SpellPrefab;

@@ -18,6 +18,7 @@ public enum ETrinityElement
     ETE_Fire,
     ETE_Cold,
     ETE_Lightning,
+    ETE_None
 }
 
 public class ATrinityBrain : MonoBehaviour
@@ -53,6 +54,7 @@ public class ATrinityBrain : MonoBehaviour
         InputReference.OnElementalUtiltiyPressed += CastUtilitySpell;
         InputReference.OnNextElementPressed += NextElement;
         InputReference.OnPreviousElementPressed += PreviousElement;
+        InputReference.OnBlinkPressed += Spells.Blink.CastStart;
 
         InputReference.OnElementalPrimaryReleased += Spells.PrimaryLightning.CastEnd;
 
@@ -67,6 +69,7 @@ public class ATrinityBrain : MonoBehaviour
         InputReference.OnElementalUtiltiyPressed -= CastUtilitySpell;
         InputReference.OnNextElementPressed -= NextElement;
         InputReference.OnPreviousElementPressed -= PreviousElement;
+        InputReference.OnBlinkPressed -= Spells.Blink.CastStart;
     
         InputReference.OnElementalPrimaryReleased -= Spells.PrimaryLightning.CastEnd;
 
@@ -197,5 +200,4 @@ public class ATrinityBrain : MonoBehaviour
     {
         return Element;
     }
-    
 }

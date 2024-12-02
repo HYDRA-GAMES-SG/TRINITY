@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class AFireball : MonoBehaviour
 {
+    [HideInInspector]
     public ATrinitySpells Spells;
-    public Vector3 Direction;
+    [HideInInspector]
+    private  Vector3 Direction;
     public float Damage;
     public float Duration;
     public float Speed;

@@ -343,6 +343,7 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         {
             OnCameraReleased?.Invoke();
         }
+        
         CameraInput = context.ReadValue<Vector2>();
     }
 }

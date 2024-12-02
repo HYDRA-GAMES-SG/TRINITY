@@ -26,6 +26,7 @@ public class NormalMovement : TrinityState
     private string AnimKeyJump = "bJump";
     private string AnimKeyVertical = "vVertical";
     private string AnimKeyGlide = "bGlide";
+    private string AnimKeyBlink = "bBlink";
     
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -52,8 +53,12 @@ public class NormalMovement : TrinityState
         }
         
         bCanGlide = false;
+        
+
+        ABlink.OnBlink += OnBlink;
 
     }
+
 
     public override void PreUpdateBehaviour(float dt)
     {
@@ -65,10 +70,12 @@ public class NormalMovement : TrinityState
         HandleMovement();
         HandleJump();
         HandleFalling();
+        HandleBlink();
         CheckCanGlide();
         Controller.Rigidbody.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
         UpdateAnimParams();
     }
+
 
     public override void PostUpdateBehaviour(float dt)
     {
@@ -77,6 +84,8 @@ public class NormalMovement : TrinityState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        ABlink.OnBlink -= OnBlink;
+
     }
 
     public override bool CheckExitTransition(IState toState)
@@ -136,8 +145,23 @@ public class NormalMovement : TrinityState
                     bCanGlide = false;
                     Controller.VerticalVelocity = 0f;
                     TrinityFSM.Animator.SetBool(AnimKeyJump, false);
+                    TrinityFSM.Animator.SetBool(AnimKeyBlink, false);
                 }
             }
+        }
+    }
+    
+    
+    private void HandleBlink()
+    {
+        if (TrinityFSM.Animator.GetBool(AnimKeyBlink) && Controller.CheckGround().transform)
+        {
+            // Ground detected, ensure movement state remains grounded
+            SetMovementState(ETrinityMovement.ETM_Grounded);
+            bCanGlide = false;
+            Controller.VerticalVelocity = 0f;
+            TrinityFSM.Animator.SetBool(AnimKeyJump, false);
+            TrinityFSM.Animator.SetBool(AnimKeyBlink, false);
         }
     }
     
@@ -187,6 +211,12 @@ public class NormalMovement : TrinityState
     public ETrinityMovement GetMovementState()
     {
         return MovementState;
+    }
+    
+    
+    private void OnBlink()
+    {
+        TrinityFSM.Animator.SetBool(AnimKeyBlink, true);
     }
 
 }
