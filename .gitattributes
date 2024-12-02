@@ -3,6 +3,11 @@
 [attr]unity-json        eol=lf linguist-language=json
 [attr]unity-yaml        merge=unityyamlmerge eol=lf linguist-language=yaml
 
+#Random File Types
+OcclusionCullingData.asset filter=lfs diff=lfs merge=lfs
+LightingData.asset filter=lfs diff=lfs merge=lfs
+*.cubemap          filter=lfs diff=lfs merge=lfs
+
 # Unity source files
 *.cginc                 text
 *.compute               text linguist-language=hlsl
