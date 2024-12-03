@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(UHealthComponent))]
 public class ATrinityController : MonoBehaviour
 {
+    public bool bDebug = false;
     
     [HideInInspector]
     public UHealthComponent HealthComponent;
@@ -29,6 +30,8 @@ public class ATrinityController : MonoBehaviour
     
     [HideInInspector]
     public Rigidbody Rigidbody;
+
+    [SerializeField] public float MaxStableAngle = 50f;
 
     // Movement Variables
     [HideInInspector]
@@ -93,7 +96,32 @@ public class ATrinityController : MonoBehaviour
     {
         RaycastHit hit;
 
-        Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer);
+        bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer);
+        if (isHit)
+        {
+            if(bDebug){Debug.Log($"Ground hit: {hit.collider.name}, Normal: {hit.normal}");}
+        }
+        else
+        {
+            if(bDebug){Debug.Log("No ground detected!");}
+        }
+
+        return hit;
+    }
+
+    public RaycastHit FindUnstableGround()
+    {
+        RaycastHit hit;
+
+        bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance * 10f, GroundLayer);
+        if (isHit)
+        {
+            if(bDebug){Debug.Log($"Ground hit: {hit.collider.name}, Normal: {hit.normal}");}
+        }
+        else
+        {
+            if(bDebug){Debug.Log("No ground detected!");}
+        }
 
         return hit;
     }
@@ -104,7 +132,7 @@ public class ATrinityController : MonoBehaviour
         Vector3 rayOrigin = transform.position;
 
         // Draw the ground-check raycast
-        Gizmos.DrawLine(rayOrigin, rayOrigin + Vector3.down * GroundDistance);
+        Gizmos.DrawLine(rayOrigin, rayOrigin + Vector3.down * GroundDistance * 10f);
         Gizmos.DrawLine(rayOrigin, rayOrigin + Forward * 2f);
         Gizmos.DrawSphere(rayOrigin + Vector3.down * GroundDistance, 0.01f);
     }

@@ -39,10 +39,7 @@ public abstract class TrinityState : MonoBehaviour, IState
     
     public virtual void EnterBehaviour(float dt, IState fromState)
     {
-        if (TrinityFSM)
-        {
-            TrinityFSM.Animator.runtimeAnimatorController = StateAnimController;
-        }
+        
     }
 
     public virtual void PreUpdateBehaviour(float dt)
