@@ -6,30 +6,45 @@ using UnityEngine;
 
 public class APrimaryLightning : ASpell
 {
-    [HideInInspector]
-    public GameObject Beam;
-    
     Rigidbody Rigidbody;
 
     [Header("VFX Prefabs")]
     public GameObject ImpactVFX;
     public GameObject ShockVFX;
+
+    private GameObject Beam;
     // Start is called before the first frame update
-    void Start()
+    public override void Initialize()
     {
         Brain = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
         Spells = transform.parent.GetComponent<ATrinitySpells>();
         
-
-
+        if (Beam == null)
+        {
+            Beam = Instantiate(SpellPrefab, Spells.CastPos.position, Quaternion.identity);
+            Beam.transform.parent = Spells.CastPos.transform;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void CastStart()
     {
-        
+        Beam.SetActive(true);
     }
-    
+
+    public override void CastUpdate()
+    {
+        Quaternion newRot = Spells.CameraRef.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
+        Beam.transform.rotation = newRot;
+
+    }
+
+    public override void CastEnd()
+    {
+        Brain.ChangeAction(ETrinityAction.ETA_None);
+        Beam.SetActive(false);
+        
+
+    }
     
     private void OnCollisionEnter(Collision collision)
     {
@@ -50,36 +65,5 @@ public class APrimaryLightning : ASpell
             }
 
         }
-    }
-
-    public override void CastStart()
-    {
-        Brain.ChangeAction(ETrinityAction.ETA_Casting);
-        
-        GameObject spellPrefab;
-
-        if (Beam == null)
-        {
-            spellPrefab = Instantiate(Beam, Spells.CastPos.position, Quaternion.Euler(0, 90, 0));
-            spellPrefab.transform.parent = Brain.Controller.transform;
-            Beam = spellPrefab;
-        }
-        else 
-        {
-            Beam.SetActive(true);
-        }
-    }
-
-    public override void CastEnd()
-    {
-        Brain.ChangeAction(ETrinityAction.ETA_None);
-        
-        
-
-        if (Beam != null) 
-        {
-            Beam.SetActive(false);
-        }
-
     }
 }

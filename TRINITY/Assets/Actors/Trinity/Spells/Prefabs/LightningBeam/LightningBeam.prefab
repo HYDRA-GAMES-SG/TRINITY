@@ -53815,19 +53815,18 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3830785774540179596}
+  - component: {fileID: 3830785774540179593}
   - component: {fileID: 3830785774540179597}
   - component: {fileID: 3830785774540179594}
-  - component: {fileID: 3830785774540179593}
-  - component: {fileID: 4008405269026615995}
   - component: {fileID: 5319973692643668521}
   - component: {fileID: 147758921737837382}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: LightningBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3830785774540179596
 Transform:
   m_ObjectHideFlags: 0
@@ -53851,6 +53850,79 @@ Transform:
   - {fileID: 497163073378928432}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &3830785774540179593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3830785774540179595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7c0b21ed82f6c45873c1008e7a4e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beams:
+  - {fileID: 1957797589843813707}
+  beamSystems:
+  - {fileID: 2488432681095559155}
+  - {fileID: 2488432680775600806}
+  - {fileID: 2488432681510583661}
+  beamLifetime: 0
+  beamFormationTime: 0
+  beamTarget: {fileID: 1957797589484264705}
+  beamTargetHitFX: {fileID: 497163073378928433}
+  desiredWidth:
+  - 0.7
+  defaultDensity:
+  - m_Mode: 0
+    m_CurveMultiplier: 0
+    m_CurveMin:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_CurveMax:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ConstantMin: 0
+    m_ConstantMax: 12
+  - m_Mode: 0
+    m_CurveMultiplier: 0
+    m_CurveMin:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_CurveMax:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ConstantMin: 0
+    m_ConstantMax: 12
+  - m_Mode: 0
+    m_CurveMultiplier: 0
+    m_CurveMin:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_CurveMax:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ConstantMin: 0
+    m_ConstantMax: 60
 --- !u!198 &3830785774540179597
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -58648,95 +58720,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &3830785774540179593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3830785774540179595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a7c0b21ed82f6c45873c1008e7a4e77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  beams:
-  - {fileID: 1957797589843813707}
-  beamSystems:
-  - {fileID: 2488432681095559155}
-  - {fileID: 2488432680775600806}
-  - {fileID: 2488432681510583661}
-  beamLifetime: 0
-  beamFormationTime: 0
-  beamTarget: {fileID: 1957797589484264705}
-  beamTargetHitFX: {fileID: 497163073378928433}
-  desiredWidth:
-  - 0.7
-  defaultDensity:
-  - m_Mode: 0
-    m_CurveMultiplier: 0
-    m_CurveMin:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_CurveMax:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_ConstantMin: 0
-    m_ConstantMax: 12
-  - m_Mode: 0
-    m_CurveMultiplier: 0
-    m_CurveMin:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_CurveMax:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_ConstantMin: 0
-    m_ConstantMax: 12
-  - m_Mode: 0
-    m_CurveMultiplier: 0
-    m_CurveMin:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_CurveMax:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    m_ConstantMin: 0
-    m_ConstantMax: 60
---- !u!114 &4008405269026615995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3830785774540179595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b64e1919817b48748b8a37dbe7981cb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ImpactVFX: {fileID: 5773043792457465958, guid: f1c8aac98a1496d4d80df6c435f04c8d,
-    type: 3}
-  ShockVFX: {fileID: 1484152931052635222, guid: 730d65a2e5713b14bb1e79d035bdf5ed,
-    type: 3}
 --- !u!54 &5319973692643668521
 Rigidbody:
   m_ObjectHideFlags: 0

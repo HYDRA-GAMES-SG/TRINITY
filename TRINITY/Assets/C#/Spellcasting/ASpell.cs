@@ -15,37 +15,67 @@ public class ASpell : MonoBehaviour
     protected ATrinityBrain Brain;
     protected ATrinitySpells Spells;
     public float Cooldown;
-    public ETrinityElement Element;
-    public ESpellType Type;
+    public ETrinityElement SpellElement;
+    public ESpellType SpellType;
+    public ETrinityAction SpellAction;
     
     [HideInInspector]
-    public bool bSpellReady => CooldownTimer <= 0f;
+    public bool bSpellReady => CooldownCountdownTimer <= 0f;
 
-    private float CooldownTimer = 0f;
+    private float CooldownCountdownTimer = 0f;
 
 
-    void Update()
+    public void Start()
     {
+        Initialize();
+    }
+
+    public virtual void Initialize()
+    {
+        
+    }
+
+    public void Update()
+    {
+        UpdateCooldown();
+        CastUpdate();
 
     }
 
     protected void UpdateCooldown()
     {
-        if(CooldownTimer > Cooldown)
-        {
-            CooldownTimer -= Time.deltaTime;
-        }
+        CooldownCountdownTimer -= Time.deltaTime;
     }
 
     public void StartCooldown()
     {
-        CooldownTimer = Cooldown;
+        CooldownCountdownTimer = Cooldown;
     }
     
-    public virtual void Start()
-    {
-    }
 
+    public void Cast()
+    {
+        if (!bSpellReady)
+        {
+            //print("Spell not ready.");
+            return;
+        }
+
+        if (SpellAction != ETrinityAction.ETA_None && Brain.GetAction() != ETrinityAction.ETA_None)
+        {
+            //print("Cannot cast or channel yet.");
+            return;
+        }
+
+        if (SpellAction != ETrinityAction.ETA_None)
+        {
+            Brain.SetCurrentSpell(this);    
+        }
+
+        CastStart();
+        StartCooldown();
+    }
+    
     public virtual void CastStart()
     {
     }

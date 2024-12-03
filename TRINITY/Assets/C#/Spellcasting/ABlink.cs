@@ -18,7 +18,7 @@ public class ABlink : ASpell
 
     public static System.Action OnBlink;
 
-    void Start()
+    public override void Initialize()
     {
         // Check if required components are found
         Brain = transform.root.Find("Brain")?.GetComponent<ATrinityBrain>();
@@ -29,18 +29,18 @@ public class ABlink : ASpell
             Debug.LogError("Failed to initialize: Brain or Spells is null.");
         }
     }
-
-    void Update()
+    
+    public override void CastStart()
     {
-        UpdateCooldown();
-    }
-
-    public virtual void CastStart()
-    {
+        if (bSpellReady)
+        {
+                
+        }
+        
         float distance = BlinkDistance;
         BlinkPoint = Brain.Controller.Position;
         Vector3 startPos = Brain.Controller.Position;
-        Vector3 direction = Brain.Controller.Forward;
+        Vector3 direction = Spells.CameraRef.transform.forward;
 
         bool bInvalidBlink = true;
 
@@ -109,18 +109,20 @@ public class ABlink : ASpell
         }
     }
 
-    public virtual void CastUpdate()
+    public override void CastUpdate()
     {
-        // Debug update logic if needed
     }
 
-    public virtual void CastEnd()
+    public override void CastEnd()
     {
         // Debug end logic if needed
     }
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(BlinkPoint, BossShereCheckRadius);
+        if (bDebug)
+        {
+            Gizmos.DrawSphere(BlinkPoint, BossShereCheckRadius);
+        }
     }
 }

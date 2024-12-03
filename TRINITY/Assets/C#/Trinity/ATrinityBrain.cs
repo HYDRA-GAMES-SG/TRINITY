@@ -25,6 +25,7 @@ public class ATrinityBrain : MonoBehaviour
 {
     public float GlobalCooldown = 0f;
 
+    private ASpell CurrentSpell;
     private ATrinitySpells Spells; //reference
     [HideInInspector]
     public ATrinityController Controller; //reference
@@ -54,7 +55,7 @@ public class ATrinityBrain : MonoBehaviour
         InputReference.OnElementalUtiltiyPressed += CastUtilitySpell;
         InputReference.OnNextElementPressed += NextElement;
         InputReference.OnPreviousElementPressed += PreviousElement;
-        InputReference.OnBlinkPressed += Spells.Blink.CastStart;
+        InputReference.OnBlinkPressed += CastBlink;
 
         InputReference.OnElementalPrimaryReleased += Spells.PrimaryLightning.CastEnd;
 
@@ -69,7 +70,7 @@ public class ATrinityBrain : MonoBehaviour
         InputReference.OnElementalUtiltiyPressed -= CastUtilitySpell;
         InputReference.OnNextElementPressed -= NextElement;
         InputReference.OnPreviousElementPressed -= PreviousElement;
-        InputReference.OnBlinkPressed -= Spells.Blink.CastStart;
+        InputReference.OnBlinkPressed -= CastBlink;
     
         InputReference.OnElementalPrimaryReleased -= Spells.PrimaryLightning.CastEnd;
 
@@ -81,76 +82,77 @@ public class ATrinityBrain : MonoBehaviour
 
     }
 
-    public void CastPrimarySpell()
+    public bool CanAct()
     {
         if (Action != ETrinityAction.ETA_None)
+        {
+            return false;
+        }
+
+        // if (GlobalCooldown >= 0f)
+        // {
+        //     return false;
+        // }
+
+        return true;
+    }
+    public void CastPrimarySpell()
+    {
+        if (!CanAct())
         {
             return;
         }
         
-        if (GlobalCooldown <= 0f)
+        switch (GetElement())
         {
-            switch (GetElement())
-            {
-                case ETrinityElement.ETE_Cold:
-                    //Icicle.CastStart();
-                    break;
-                case ETrinityElement.ETE_Fire:
-                    if (Spells.PrimaryFire.bSpellReady)
-                    {
-                        Spells.PrimaryFire.CastStart();
-                    }
-                    break;
-                case ETrinityElement.ETE_Lightning:
-                    if (Spells.PrimaryLightning.bSpellReady)
-                    {
-                        Spells.PrimaryLightning.CastStart();
-                    }
-                    break;
-            }
+            case ETrinityElement.ETE_Cold:
+                //Icicle.CastStart();
+                break;
+            case ETrinityElement.ETE_Fire:
+                    Spells.PrimaryFire.Cast();
+                break;
+            case ETrinityElement.ETE_Lightning:
+                    Spells.PrimaryLightning.Cast();
+                break;
         }
     }
 
     public void CastSecondarySpell()
     {
-        
-        if (Action != ETrinityAction.ETA_None)
+        if (!CanAct())
         {
             return;
         }
     
-        if (GlobalCooldown <= 0f)
+        switch (GetElement())
         {
-            switch (GetElement())
-            {
-                case ETrinityElement.ETE_Cold:
-                    break;
-                case ETrinityElement.ETE_Fire:
-                    break;
-                case ETrinityElement.ETE_Lightning:
-                    break;
-            }
+            case ETrinityElement.ETE_Cold:
+                break;
+            case ETrinityElement.ETE_Fire:
+                break;
+            case ETrinityElement.ETE_Lightning:
+                break;
         }
     }
 
     public void CastUtilitySpell()
     {
-        if (Action != ETrinityAction.ETA_None)
+        switch (GetElement())
         {
-            return;
+            case ETrinityElement.ETE_Cold:
+                break;
+            case ETrinityElement.ETE_Fire:
+                break;
+            case ETrinityElement.ETE_Lightning:
+                break;
         }
+    }
 
-        if (GlobalCooldown <= 0f)
+    public void CastBlink()
+    {
+        if (GetAction() != ETrinityAction.ETA_Stunned)// && GlobalCooldown >= 0f)
         {
-            switch (GetElement())
-            {
-                case ETrinityElement.ETE_Cold:
-                    break;
-                case ETrinityElement.ETE_Fire:
-                    break;
-                case ETrinityElement.ETE_Lightning:
-                    break;
-            }
+            Spells.Blink.Cast();
         }
     }
     
@@ -199,5 +201,15 @@ public class ATrinityBrain : MonoBehaviour
     public ETrinityElement GetElement()
     {
         return Element;
+    }
+
+    public ASpell GetCurrentSpell()
+    {
+        return CurrentSpell;
+    }
+
+    public void SetCurrentSpell(ASpell newSpell)
+    {
+        CurrentSpell = newSpell;
     }
 }
