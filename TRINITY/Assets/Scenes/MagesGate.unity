@@ -404,6 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
 --- !u!1 &43138610
 GameObject:
@@ -3397,7 +3398,7 @@ Transform:
   m_GameObject: {fileID: 401901422}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3415,11 +3416,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a646450fafcd5e848b80603b0e31ece4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 0}
+  SpellPrefab: {fileID: 3430567750250834287, guid: b809323b907533e469ac0ac9e4d2fb38,
+    type: 3}
   Cooldown: 0
   SpellElement: 3
   SpellType: 1
   SpellAction: 3
+  DamageAbsorbedPerMana: 1
 --- !u!1 &408183409
 GameObject:
   m_ObjectHideFlags: 0
@@ -6120,6 +6123,7 @@ MonoBehaviour:
   MoveDirection: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
   PlanarVelocity: 0
+  bForcefieldActive: 0
 --- !u!136 &567174384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -6183,6 +6187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
 --- !u!1 &606392995
 GameObject:

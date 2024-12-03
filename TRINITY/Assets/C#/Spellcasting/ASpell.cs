@@ -12,6 +12,7 @@ public enum ESpellType
 public class ASpell : MonoBehaviour
 {
     public GameObject SpellPrefab;
+    protected ATrinityController Controller;
     protected ATrinityBrain Brain;
     protected ATrinitySpells Spells;
     public float Cooldown;
@@ -27,7 +28,7 @@ public class ASpell : MonoBehaviour
 
     public void Start()
     {
-        
+        Controller = transform.root.Find("Controller").GetComponent<ATrinityController>();
         Brain = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
         Spells = transform.parent.GetComponent<ATrinitySpells>();
         Initialize();
@@ -90,6 +91,11 @@ public class ASpell : MonoBehaviour
 
     public virtual void CastEnd()
     {
-        
+        if (SpellAction != ETrinityAction.ETA_None)
+        {
+            Brain.SetCurrentSpell(null);    
+        }
+
+        Brain.ChangeAction(ETrinityAction.ETA_None);
     }
 }

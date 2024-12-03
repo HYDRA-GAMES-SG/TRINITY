@@ -4,32 +4,40 @@ using UnityEngine;
 
 public class AForcefield : ASpell
 {
-    // public override void Initialize()
-    // {
-    //     if (Beam == null)
-    //     {
-    //         Beam = Instantiate(SpellPrefab, Spells.CastPos.position, Quaternion.identity);
-    //         Beam.transform.parent = Spells.CastPos.transform;
-    //     }
-    // }
-    //
-    // public override void CastStart()
-    // {
-    //     Beam.SetActive(true);
-    // }
-    //
-    // public override void CastUpdate()
-    // {
-    //     Quaternion newRot = Spells.CameraRef.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
-    //     Beam.transform.rotation = newRot;
-    //
-    // }
-    //
-    // public override void CastEnd()
-    // {
-    //     Brain.ChangeAction(ETrinityAction.ETA_None);
-    //     Beam.SetActive(false);
-    //     
-    //
-    // }
+    public float DamageAbsorbedPerMana = 1f;
+    private GameObject ForcefieldEffect;
+    
+    public override void Initialize()
+    {
+        if (ForcefieldEffect == null)
+        {
+            ForcefieldEffect = Instantiate(SpellPrefab, Controller.Position, Quaternion.identity);
+            ForcefieldEffect.transform.parent = Controller.transform;
+            ForcefieldEffect.SetActive(false);
+        }
+    }
+    
+    public override void CastStart()
+    {
+        if (Spells.ManaComponent.Current <= 0)
+        {
+            return;
+        }
+        Brain.Controller.bForcefieldActive = true;
+        ForcefieldEffect.SetActive(true);
+    }
+    
+    public override void CastUpdate()
+    {
+        if (Spells.ManaComponent.Current <= 0)
+        {
+            CastEnd();
+        }
+    }
+    
+    public override void CastEnd()
+    {
+        Brain.Controller.bForcefieldActive = false;
+        ForcefieldEffect.SetActive(false);
+    }
 }

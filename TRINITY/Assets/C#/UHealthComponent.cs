@@ -6,7 +6,9 @@ public class UHealthComponent : MonoBehaviour
 {
     [SerializeField]
     public float MAX = 50;
-    public float Current;
+
+    public float Regen = 5f;
+    public float Current = 0f;
 
     public float Percent => Current / MAX;
     private bool Dead;
@@ -24,6 +26,12 @@ public class UHealthComponent : MonoBehaviour
         Current = MAX;
     }
 
+    public void Update()
+    {
+        Current += Regen * Time.deltaTime;
+
+    }
+    
     public float Modify(float signedValue)
     {
         if (Dead) return Current;

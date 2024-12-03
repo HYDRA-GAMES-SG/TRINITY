@@ -42,15 +42,21 @@ public class ATrinityController : MonoBehaviour
     public float VerticalVelocity;
     [HideInInspector]
     public float PlanarVelocity;
+    
+    [HideInInspector]
+    public bool bForcefieldActive;
 
 
     private APlayerInput InputReference;
+    private ATrinitySpells SpellsReference;
     
     
 
     private void Awake()
     {
         InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
+        SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
+
         
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
@@ -106,5 +112,34 @@ public class ATrinityController : MonoBehaviour
     void ApplyRotation()
     {
         transform.Rotate(Vector3.up, InputReference.CameraInput.x * RotationSpeed * Time.deltaTime);
+    }
+
+    void ApplyDamage(float damageNumber)
+    {
+        float remainingDamage = damageNumber;
+        float remainingMana = SpellsReference.ManaComponent.Current;
+        float remainingHealth = HealthComponent.Current;
+
+        if (bForcefieldActive)
+        {
+            if (remainingMana >= remainingDamage / SpellsReference.Forcefield.DamageAbsorbedPerMana)
+            {
+                // Deduct all damage from mana
+                SpellsReference.ManaComponent.Modify(-remainingDamage / SpellsReference.Forcefield.DamageAbsorbedPerMana);
+                remainingDamage = 0;
+            }
+            else
+            {
+                // Deduct as much as possible from mana
+                SpellsReference.ManaComponent.Modify(-remainingMana / SpellsReference.Forcefield.DamageAbsorbedPerMana);
+                remainingDamage -= remainingMana;
+            }
+        }
+
+        if (remainingDamage > 0)
+        {
+            // Apply any remaining damage to health
+            HealthComponent.Modify(-remainingDamage);
+        }
     }
 }

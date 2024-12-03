@@ -37,10 +37,7 @@ public class APrimaryLightning : ASpell
 
     public override void CastEnd()
     {
-        Brain.ChangeAction(ETrinityAction.ETA_None);
         Beam.SetActive(false);
-        
-
     }
     
     private void OnCollisionEnter(Collision collision)

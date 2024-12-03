@@ -23,12 +23,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FireNoise_Shield
+  m_Name: FireNoise_Shield 1
   m_Shader: {fileID: 4800000, guid: d985403ea514e7c46bf7c2fab31b9d95, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _FRESNEL_ON
+  - _USEALPHAOVERRIDE_ON
+  - _USERAMP_ON
   m_InvalidKeywords:
   - _DISABLE_SSR
   - _DISABLE_SSR_TRANSPARENT
@@ -36,21 +38,21 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 2997
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
   - DistortionVectors
   - MOTIONVECTORS
   - TransparentBackface
-  m_LockedProperties: 
+  m_LockedProperties: _AlphaOverride
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaOverride:
         m_Texture: {fileID: 2800000, guid: ecd59c83444cf0a479afc5ba259cc069, type: 3}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: 0.02, y: 6.1}
     - _AnisotropyMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -77,7 +79,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _DetailNoise:
         m_Texture: {fileID: 2800000, guid: 3ac70e7ced6d23946ac37f602b2bc573, type: 3}
-        m_Scale: {x: 1, y: 0.4}
+        m_Scale: {x: 0.54, y: 4.52}
         m_Offset: {x: 0, y: 0}
     - _DistortionVectorMap:
         m_Texture: {fileID: 0}
@@ -177,7 +179,7 @@ Material:
     - _Culling: 0
     - _Cutoff: 0.5
     - _DepthOffsetEnable: 0
-    - _Desaturate: 1
+    - _Desaturate: 0.778
     - _DetailAlbedoScale: 1
     - _DetailNormalScale: 1
     - _DetailSmoothnessScale: 1
@@ -197,7 +199,7 @@ Material:
     - _DistortionDepthTest: 1
     - _DistortionDstBlend: 1
     - _DistortionEnable: 0
-    - _DistortionIntensity: 0.5
+    - _DistortionIntensity: 0.06
     - _DistortionOnly: 0
     - _DistortionScale: 1
     - _DistortionSrcBlend: 1
@@ -217,8 +219,8 @@ Material:
     - _EnergyConservingSpecularColor: 1
     - _Float1: 4.55
     - _Fresnel: 1
-    - _FresnelPower: 2
-    - _FresnelScale: 1
+    - _FresnelPower: 7.74
+    - _FresnelScale: 1.56
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -235,7 +237,7 @@ Material:
     - _LinkDetailsWithBase: 1
     - _MaterialID: 1
     - _Metallic: 0
-    - _MiddlePointPos: 0.5
+    - _MiddlePointPos: 0.15
     - _MiddlePointPos1: 0.5
     - _MultiplyNoiseDesaturation: 1
     - _NormalMapSpace: 0
@@ -247,7 +249,7 @@ Material:
     - _PPDPrimitiveLength: 1
     - _PPDPrimitiveWidth: 1
     - _QueueControl: 0
-    - _QueueOffset: 0
+    - _QueueOffset: -3
     - _ReceiveShadows: 1
     - _ReceivesSSR: 0
     - _ReceivesSSRTransparent: 0
@@ -292,10 +294,10 @@ Material:
     - _UVDetail: 0
     - _UVEmissive: 0
     - _UseAlphaDisolve: 0
-    - _UseAlphaOverride: 0
+    - _UseAlphaOverride: 1
     - _UseEmissiveIntensity: 0
     - _UsePixelation: 0
-    - _UseRamp: 0
+    - _UseRamp: 1
     - _UseShadowThreshold: 0
     - _UseSoftAlpha: 0
     - _UseUVOffset: 0
@@ -305,8 +307,8 @@ Material:
     - _ZTestTransparent: 4
     - _ZWrite: 0
     m_Colors:
-    - _AlphaOverrideChannel: {r: 1, g: 0, b: 0, a: 0}
-    - _AlphaOverridePanning: {r: 0, g: 0, b: 0, a: 0}
+    - _AlphaOverrideChannel: {r: 56.79, g: 0.93, b: 0.59, a: 0}
+    - _AlphaOverridePanning: {r: 1.98, g: 6.48, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -322,15 +324,15 @@ Material:
     - _EmissiveColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissiveColorLDR: {r: 0, g: 0, b: 0, a: 1}
     - _FlipbooksColumsRows: {r: 1, g: 1, b: 0, a: 0}
-    - _FresnelColor: {r: 1, g: 0, b: 0, a: 1}
+    - _FresnelColor: {r: 0, g: 0.06014329, b: 0.4339623, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _LastColor: {r: 1, g: 0, b: 0, a: 0}
+    - _LastColor: {r: 0.01886791, g: 0.01886791, b: 0.01886791, a: 0}
     - _MainAlphaChannel: {r: 0, g: 1, b: 0, a: 0}
     - _MainAlphaPanning: {r: 1, g: 1, b: 0, a: 0}
     - _MainTextureChannel: {r: 1, g: 0, b: 12, a: 0}
     - _MainTexturePanning: {r: 0.25, g: 0.5, b: 0, a: 0}
-    - _MidColor: {r: 1, g: 0.44479147, b: 0, a: 0}
+    - _MidColor: {r: 0.07169801, g: 0.07169801, b: 0.07169801, a: 0}
     - _Resolution: {r: 64, g: 64, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
@@ -339,5 +341,5 @@ Material:
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMaskEmissive: {r: 1, g: 0, b: 0, a: 0}
     - _UnlitColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _WhiteColor: {r: 1, g: 0.8950032, b: 0, a: 0}
+    - _WhiteColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

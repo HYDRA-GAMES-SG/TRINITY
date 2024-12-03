@@ -6,7 +6,9 @@ public class UManaComponent : MonoBehaviour
 {
     [SerializeField]
     public float MAX = 50;
-    public float Current;
+
+    public float Regen = 5f;
+    public float Current = 0f;
 
     private float Percent => Current / MAX;
 
@@ -20,7 +22,13 @@ public class UManaComponent : MonoBehaviour
     {
         Current = MAX;
     }
-    float Modify(float signedValue)
+
+    void Update()
+    {
+        Current += Regen * Time.deltaTime;
+    }
+    
+    public float Modify(float signedValue)
     {
         Current += signedValue;
         Current = Mathf.Clamp(Current, 0, MAX);
