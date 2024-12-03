@@ -56,7 +56,9 @@ public class ATrinityBrain : MonoBehaviour
         InputReference.OnNextElementPressed += NextElement;
         InputReference.OnPreviousElementPressed += PreviousElement;
         InputReference.OnBlinkPressed += CastBlink;
+        InputReference.OnForcefieldPressed += CastForcefield;
 
+        InputReference.OnForcefieldReleased += Spells.Forcefield.CastEnd;
         InputReference.OnElementalPrimaryReleased += Spells.PrimaryLightning.CastEnd;
 
         
@@ -71,7 +73,9 @@ public class ATrinityBrain : MonoBehaviour
         InputReference.OnNextElementPressed -= NextElement;
         InputReference.OnPreviousElementPressed -= PreviousElement;
         InputReference.OnBlinkPressed -= CastBlink;
+        InputReference.OnForcefieldPressed -= CastForcefield;
     
+        InputReference.OnForcefieldReleased += Spells.Forcefield.CastEnd;
         InputReference.OnElementalPrimaryReleased -= Spells.PrimaryLightning.CastEnd;
 
     }
@@ -153,6 +157,14 @@ public class ATrinityBrain : MonoBehaviour
         if (GetAction() != ETrinityAction.ETA_Stunned)// && GlobalCooldown >= 0f)
         {
             Spells.Blink.Cast();
+        }
+    }
+    
+    public void CastForcefield()
+    {
+        if (GetAction() != ETrinityAction.ETA_Stunned)// && GlobalCooldown >= 0f)
+        {
+            Spells.Forcefield.Cast();
         }
     }
     

@@ -367,6 +367,7 @@ Transform:
   - {fileID: 779503176}
   - {fileID: 1771738657}
   - {fileID: 1007123942}
+  - {fileID: 401901423}
   m_Father: {fileID: 749666644}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &34247059
@@ -387,6 +388,7 @@ MonoBehaviour:
   PrimaryFire: {fileID: 0}
   PrimaryCold: {fileID: 0}
   PrimaryLightning: {fileID: 0}
+  Forcefield: {fileID: 0}
   Blink: {fileID: 0}
   ManaComponent: {fileID: 0}
 --- !u!114 &34247060
@@ -3369,6 +3371,55 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &401901422
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401901423}
+  - component: {fileID: 401901424}
+  m_Layer: 0
+  m_Name: Forcefield
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &401901423
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401901422}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 34247058}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &401901424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401901422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a646450fafcd5e848b80603b0e31ece4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpellPrefab: {fileID: 0}
+  Cooldown: 0
+  SpellElement: 3
+  SpellType: 1
+  SpellAction: 3
 --- !u!1 &408183409
 GameObject:
   m_ObjectHideFlags: 0
@@ -12616,7 +12667,6 @@ MonoBehaviour:
   SpellElement: 2
   SpellType: 0
   SpellAction: 3
-  Beam: {fileID: 0}
   ImpactVFX: {fileID: 5773043792457465958, guid: f1c8aac98a1496d4d80df6c435f04c8d,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 730d65a2e5713b14bb1e79d035bdf5ed,
