@@ -114,7 +114,7 @@ public class ATrinityController : MonoBehaviour
         transform.Rotate(Vector3.up, InputReference.CameraInput.x * RotationSpeed * Time.deltaTime);
     }
 
-    void ApplyDamage(float damageNumber)
+    public void ApplyDamage(float damageNumber)
     {
         float remainingDamage = damageNumber;
         float remainingMana = SpellsReference.ManaComponent.Current;
