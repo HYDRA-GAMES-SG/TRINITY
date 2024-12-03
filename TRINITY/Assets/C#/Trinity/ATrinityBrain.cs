@@ -50,16 +50,16 @@ public class ATrinityBrain : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         
         InputReference.OnElementPressed += ChangeElement;
-        InputReference.OnElementalPrimaryPressed += CastPrimarySpell;
-        InputReference.OnElementalSecondaryPressed += CastSecondarySpell;
-        InputReference.OnElementalUtiltiyPressed += CastUtilitySpell;
+        InputReference.OnElementalPrimaryPressed += Primary;
+        InputReference.OnElementalSecondaryPressed += Secondary;
+        InputReference.OnElementalUtiltiyPressed += Utility;
         InputReference.OnNextElementPressed += NextElement;
         InputReference.OnPreviousElementPressed += PreviousElement;
-        InputReference.OnBlinkPressed += CastBlink;
-        InputReference.OnForcefieldPressed += CastForcefield;
+        InputReference.OnBlinkPressed += Blink;
+        InputReference.OnForcefieldPressed += Forcefield;
 
         InputReference.OnForcefieldReleased += Spells.Forcefield.CastEnd;
-        InputReference.OnElementalPrimaryReleased += Spells.PrimaryLightning.CastEnd;
+        InputReference.OnElementalPrimaryReleased += PrimaryRelease;
 
         
     }
@@ -67,16 +67,16 @@ public class ATrinityBrain : MonoBehaviour
     void Destroy()
     {
         InputReference.OnElementPressed -= ChangeElement;
-        InputReference.OnElementalPrimaryPressed -= CastPrimarySpell;
-        InputReference.OnElementalSecondaryPressed -= CastSecondarySpell;
-        InputReference.OnElementalUtiltiyPressed -= CastUtilitySpell;
+        InputReference.OnElementalPrimaryPressed -= Primary;
+        InputReference.OnElementalSecondaryPressed -= Secondary;
+        InputReference.OnElementalUtiltiyPressed -= Utility;
         InputReference.OnNextElementPressed -= NextElement;
         InputReference.OnPreviousElementPressed -= PreviousElement;
-        InputReference.OnBlinkPressed -= CastBlink;
-        InputReference.OnForcefieldPressed -= CastForcefield;
+        InputReference.OnBlinkPressed -= Blink;
+        InputReference.OnForcefieldPressed -= Forcefield;
     
-        InputReference.OnForcefieldReleased += Spells.Forcefield.CastEnd;
-        InputReference.OnElementalPrimaryReleased -= Spells.PrimaryLightning.CastEnd;
+        InputReference.OnForcefieldReleased -= Spells.Forcefield.CastEnd;
+        InputReference.OnElementalPrimaryReleased -= PrimaryRelease;
 
     }
 
@@ -100,7 +100,7 @@ public class ATrinityBrain : MonoBehaviour
 
         return true;
     }
-    public void CastPrimarySpell()
+    public void Primary()
     {
         if (!CanAct())
         {
@@ -120,8 +120,22 @@ public class ATrinityBrain : MonoBehaviour
                 break;
         }
     }
+    public void PrimaryRelease()
+    {
+        switch (GetElement())
+        {
+            case ETrinityElement.ETE_Cold:
+                //Icicle.CastStart();
+                break;
+            case ETrinityElement.ETE_Fire:
+                break;
+            case ETrinityElement.ETE_Lightning:
+                Spells.PrimaryLightning.CastEnd();
+                break;
+        }
+    }
 
-    public void CastSecondarySpell()
+    public void Secondary()
     {
         if (!CanAct())
         {
@@ -139,7 +153,7 @@ public class ATrinityBrain : MonoBehaviour
         }
     }
 
-    public void CastUtilitySpell()
+    public void Utility()
     {
         switch (GetElement())
         {
@@ -152,7 +166,7 @@ public class ATrinityBrain : MonoBehaviour
         }
     }
 
-    public void CastBlink()
+    public void Blink()
     {
         if (GetAction() != ETrinityAction.ETA_Stunned)// && GlobalCooldown >= 0f)
         {
@@ -160,7 +174,7 @@ public class ATrinityBrain : MonoBehaviour
         }
     }
     
-    public void CastForcefield()
+    public void Forcefield()
     {
         if (GetAction() != ETrinityAction.ETA_Stunned)// && GlobalCooldown >= 0f)
         {
