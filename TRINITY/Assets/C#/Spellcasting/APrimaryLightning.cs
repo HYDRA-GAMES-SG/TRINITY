@@ -16,9 +16,6 @@ public class APrimaryLightning : ASpell
     // Start is called before the first frame update
     public override void Initialize()
     {
-        Brain = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
-        Spells = transform.parent.GetComponent<ATrinitySpells>();
-        
         if (Beam == null)
         {
             Beam = Instantiate(SpellPrefab, Spells.CastPos.position, Quaternion.identity);

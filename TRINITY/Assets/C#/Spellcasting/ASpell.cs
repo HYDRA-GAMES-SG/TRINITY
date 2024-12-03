@@ -27,6 +27,9 @@ public class ASpell : MonoBehaviour
 
     public void Start()
     {
+        
+        Brain = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
+        Spells = transform.parent.GetComponent<ATrinitySpells>();
         Initialize();
     }
 

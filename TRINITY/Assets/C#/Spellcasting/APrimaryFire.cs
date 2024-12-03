@@ -6,8 +6,6 @@ public class APrimaryFire : ASpell
 {
     public override void Initialize()
     {
-        Brain = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
-        Spells = transform.parent.GetComponent<ATrinitySpells>();
         
     }
 
