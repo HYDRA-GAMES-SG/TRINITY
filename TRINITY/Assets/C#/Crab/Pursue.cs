@@ -6,7 +6,7 @@ public class Pursue : CrabState
 {
     [Header("AI Setting")]
     [SerializeField] float MoveSpeed = 7;
-    [SerializeField] float StopDistance = 11;
+    [SerializeField] float StopDistance = 9;
     [SerializeField] float RotateSpeed = 2;
     [SerializeField] float ThresholdAngle = 5;
 
@@ -24,7 +24,7 @@ public class Pursue : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack || fromState is ChargeFastAttack || fromState is Jump || fromState is GetHit)
+        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack || fromState is ChargeFastAttack || fromState is JumpAway || fromState is GetHit)
         {
             return true;
         }
@@ -51,7 +51,7 @@ public class Pursue : CrabState
 
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
 
-        if (distanceToTarget >= RangeAttack && distanceToTarget <= RangeAttack + 2)
+        if (distanceToTarget >= RangeAttack && distanceToTarget <= RangeAttack + 2) //between 28 - 30
         {
             float random = Random.value;
             if (random <= 0.5f)
@@ -63,19 +63,19 @@ public class Pursue : CrabState
                 CrabFSM.EnqueueTransition<RoarStun>();
             }
         }
-        else if (distanceToTarget >= ChargeFastMoveRange && distanceToTarget <= ChargeFastMoveRange + 5)
+        else if (distanceToTarget >= ChargeFastMoveRange && distanceToTarget <= ChargeFastMoveRange + 5) //between 15 - 20
         {
             CrabFSM.EnqueueTransition<ChargeFastAttack>();
 
         }
-        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= CloseAttackRange + 2)
+        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= StopDistance) //between 7.5 -11
         {
             CrabFSM.EnqueueTransition<ComboAttack>();
             CrabFSM.EnqueueTransition<NormalAttack>();
         }
-        else if (distanceToTarget <= JumpAwayRange)
+        else if (distanceToTarget <= JumpAwayRange) //less then 6
         {
-            CrabFSM.EnqueueTransition<Jump>();
+            CrabFSM.EnqueueTransition<JumpAway>();
         }
         else
         {
@@ -95,7 +95,7 @@ public class Pursue : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun || toState is NormalAttack || toState is Jump || toState is Death || toState is ChargeFastAttack || toState is GetHit)
+        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun || toState is NormalAttack || toState is JumpAway || toState is Death || toState is ChargeFastAttack || toState is GetHit)
         {
             return true;
         }

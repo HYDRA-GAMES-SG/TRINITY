@@ -84,6 +84,6 @@ public class ComboAttack : CrabState
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, Time.deltaTime);
+        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 10 * Time.deltaTime);
     }
 }

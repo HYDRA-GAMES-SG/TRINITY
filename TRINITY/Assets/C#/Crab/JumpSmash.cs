@@ -33,7 +33,7 @@ public class JumpSmash : CrabState
         Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
         if (CrabFSM.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= AnimationCheckExitTime)
         {
-            CrabFSM.CrabController.transform.rotation = Quaternion.LookRotation(faceDirection);
+            RotateTowardTarget(faceDirection);
         }
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
@@ -63,5 +63,11 @@ public class JumpSmash : CrabState
             return true;
         }
         return false;
+    }
+    private void RotateTowardTarget(Vector3 directionToTarget)
+    {
+        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
+        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 10 * Time.deltaTime);
     }
 }

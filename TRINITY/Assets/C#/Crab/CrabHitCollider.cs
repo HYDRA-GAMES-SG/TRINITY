@@ -4,28 +4,24 @@ using UnityEngine;
 
 public class CrabHitCollider : MonoBehaviour
 {
-    private Vector3 GroundContactPoint;
+    ACrabController CrabContoller;
 
+    private void Start()
+    {
+        CrabContoller = GetComponentInParent<ACrabController>();
+    }
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Hit player");
-            UHealthComponent health = collision.gameObject.GetComponent<UHealthComponent>();
+            ATrinityController health = collision.gameObject.GetComponent<ATrinityController>();
             if (health != null)
             {
-                health.Modify(-10);
+                //health.ApplyDamage(CrabContoller.GetCurrentAttackDamage());
             }
         }
-        if (collision.gameObject.name == "Plane")
-        {
-            GroundContactPoint = collision.contacts[0].point;
-        }
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(GroundContactPoint, 0.2f);
-    }
+
 }
