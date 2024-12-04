@@ -51,7 +51,7 @@ public class ACrabController : MonoBehaviour
         {
 
         }
-        else if (Health.Percent <= 0f)
+        if (Health.Current <= 0f)
         {
             CrabFSM.EnqueueTransition<Death>();
         }
