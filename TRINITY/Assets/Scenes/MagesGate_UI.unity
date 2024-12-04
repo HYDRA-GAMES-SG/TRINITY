@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &12039800
 Transform:
   m_ObjectHideFlags: 0
@@ -200,13 +200,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68303a33611d645449cedb5d85ec6e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraRef: {fileID: 0}
   Brain: {fileID: 0}
   CastPos: {fileID: 0}
-  Fireball: {fileID: 0}
-  Icicles: {fileID: 0}
-  LightningBeam: {fileID: 0}
+  PrimaryFire: {fileID: 0}
+  PrimaryCold: {fileID: 0}
+  PrimaryLightning: {fileID: 0}
+  Forcefield: {fileID: 0}
+  Blink: {fileID: 0}
   ManaComponent: {fileID: 0}
-  HealthComponent: {fileID: 0}
 --- !u!114 &34247060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
 --- !u!114 &34247061
 MonoBehaviour:
@@ -234,7 +237,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
+  bDead: 0
 --- !u!1 &51228949
 GameObject:
   m_ObjectHideFlags: 0
@@ -290,7 +295,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
+  bDead: 0
 --- !u!114 &51228953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -582,6 +589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
 --- !u!114 &349730358
 MonoBehaviour:
@@ -596,7 +604,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
+  bDead: 0
 --- !u!1 &390490033
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &407582436
 Transform:
   m_ObjectHideFlags: 0
@@ -725,11 +735,17 @@ MonoBehaviour:
   CrabFSM: {fileID: 0}
   AI: {fileID: 0}
   JumpSmashCooldown: 10
+  ChargeMoveFastCooldown: 15
   RoarStunCooldown: 10
   ComboCooldown: 5
+  NormalAttack: 0
+  ComboAttack: 0
+  JumpSmashAttack: 0
+  ChargeFastAttack: 0
   CanJumpSmash: 0
   CanRoarStun: 0
   CanComboAttack: 0
+  CanCharageMoveFast: 0
   RootMotionNotEnterDistance: 0
 --- !u!114 &407582438
 MonoBehaviour:
@@ -811,7 +827,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
+  Regen: 5
   Current: 0
+  bDead: 0
 --- !u!1 &408183409
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,7 +1145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &540187726
 Transform:
   m_ObjectHideFlags: 0
@@ -1167,6 +1185,7 @@ GameObject:
   - component: {fileID: 567174383}
   - component: {fileID: 567174385}
   - component: {fileID: 567174384}
+  - component: {fileID: 567174386}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -1203,6 +1222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceaca859b5d7fee46987d6e5f1f097c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bDebug: 0
+  HealthComponent: {fileID: 0}
   GroundLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -1211,10 +1232,12 @@ MonoBehaviour:
   Height: 0
   RotationSpeed: 5
   Collider: {fileID: 0}
-  Rigidbody: {fileID: 0}
+  RB: {fileID: 0}
+  MaxStableAngle: 50
   MoveDirection: {x: 0, y: 0, z: 0}
   VerticalVelocity: 0
   PlanarVelocity: 0
+  bForcefieldActive: 0
 --- !u!136 &567174384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1265,6 +1288,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &567174386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567174381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d871bb7c46b1d74f80abcf47d1ba0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MAX: 50
+  Regen: 5
+  Current: 0
+  bDead: 0
 --- !u!1 &567730140
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,7 +1574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: MenuScene
-  crabBossStage: CrabStageBossScene
+  crabBossStage: CrabStageDungeon
   flyingBossStage: FlyingBossStageScene
   humanoidBossStage: HumanoidBossStageScene
 --- !u!114 &718617421
@@ -1647,7 +1686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &749666644
 Transform:
   m_ObjectHideFlags: 0
@@ -1705,6 +1744,8 @@ MonoBehaviour:
   BossHealthSlider: {fileID: 51228955}
   HealthText: {fileID: 1525436951}
   ManaText: {fileID: 1293114365}
+  TrinityController: {fileID: 0}
+  TrinitySpells: {fileID: 0}
 --- !u!4 &789692183
 Transform:
   m_ObjectHideFlags: 0
@@ -2667,9 +2708,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def17e7c58b777f44a835aa6e8f74d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 0}
-  Spells: {fileID: 0}
+  GlobalCooldown: 0
+  StunnedCooldown: 0
   Controller: {fileID: 0}
+  Element: 0
+  Action: 0
 --- !u!1 &1495022208
 GameObject:
   m_ObjectHideFlags: 0
@@ -3055,13 +3098,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Camera: {fileID: 0}
-  Controller: {fileID: 0}
-  InputReference: {fileID: 0}
-  CharacterState: {fileID: 0}
   RotationSpeed: 5
   VerticalClampMin: -30
   VerticalClampMax: 60
-  LookTarget: {fileID: 0}
+  CinemachineCamera: {fileID: 0}
+  BlinkZDamping: 5
 --- !u!1 &1610064703
 GameObject:
   m_ObjectHideFlags: 0
@@ -3635,7 +3676,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1762656497
 Transform:
   m_ObjectHideFlags: 0
@@ -3925,7 +3966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1907732390
 Transform:
   m_ObjectHideFlags: 0
@@ -4063,6 +4104,9 @@ MonoBehaviour:
   InputReference: {fileID: 0}
   MoveSpeed: 5
   StrafeSpeed: 5
+  bMirror: 0
+  AnimKeyMirror: bMirror
+  AnimKeyDeath: bDeath
 --- !u!114 &1998517642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4082,6 +4126,7 @@ MonoBehaviour:
   MoveSpeed: 5
   StrafeSpeed: 5
   JumpVelocity: 10
+  bMirror: 0
 --- !u!4 &32772769424390111
 Transform:
   m_ObjectHideFlags: 0

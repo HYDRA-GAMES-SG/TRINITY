@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
 public abstract class TrinityState : MonoBehaviour, IState
 {
-    public AnimatorController StateAnimController;
+    public RuntimeAnimatorController StateAnimController;
     protected ATrinityFSM TrinityFSM;
     
     [HideInInspector]

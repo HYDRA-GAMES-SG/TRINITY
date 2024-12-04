@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum ETrinityAction 
 {
@@ -89,7 +90,13 @@ public class ATrinityBrain : MonoBehaviour
             ChangeAction(ETrinityAction.ETA_None);
             Controller.gameObject.SetActive(true);
         }
+
+        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            SceneManager.LoadScene("CrabBossDungeon");
+        }
     }
+
     public void Stunned(float duration) 
     {
         ChangeAction(ETrinityAction.ETA_Stunned);

@@ -1,10 +1,10 @@
-using UnityEditor.Animations;
+
 using UnityEngine;
 
 public abstract class CrabState : MonoBehaviour, IState
 {
     [Header("Animator Controller")]
-    public AnimatorController StateAnimController;
+    public RuntimeAnimatorController StateAnimController;
 
     protected ACrabFSM CrabFSM;
 
