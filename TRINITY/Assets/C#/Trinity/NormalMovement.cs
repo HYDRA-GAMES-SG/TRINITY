@@ -29,6 +29,7 @@ public class NormalMovement : TrinityState
     private string AnimKeyGlide = "bGlide";
     private string AnimKeyBlink = "bBlink";
     private string AnimKeyMirrorJump = "bMirror";
+    private string AnimKeyDeath = "bDeath";
     
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -54,6 +55,7 @@ public class NormalMovement : TrinityState
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
+        Controller.HealthComponent.OnDeath += HandleDeath;
     }
 
 
@@ -64,13 +66,18 @@ public class NormalMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
+        if (Controller.HealthComponent.bDead)
+        {
+            return;
+        }
+        
         HandleMovement();
         HandleJump();
         HandleFalling();
         HandleBlink();
         CheckCanGlide();
         HandleUnstableGround();
-        Controller.Rigidbody.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+        Controller.RB.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
         UpdateAnimParams();
     }
 
@@ -83,6 +90,7 @@ public class NormalMovement : TrinityState
     public override void ExitBehaviour(float dt, IState toState)
     {
         ABlink.OnBlink -= OnBlink;
+        Controller.HealthComponent.OnDeath -= HandleDeath;
 
     }
 
@@ -228,7 +236,7 @@ public class NormalMovement : TrinityState
     private void UpdateAnimParams()
     {
         // less damping if we are landing
-        Vector3 playerSpaceVelocity = Controller.transform.InverseTransformVector(Controller.Rigidbody.velocity);
+        Vector3 playerSpaceVelocity = Controller.transform.InverseTransformVector(Controller.RB.velocity);
         
         TrinityFSM.Animator.SetFloat(AnimKeyMove, playerSpaceVelocity.z, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeyStrafe, playerSpaceVelocity.x, .05f, Time.deltaTime);
@@ -244,6 +252,18 @@ public class NormalMovement : TrinityState
     private void OnBlink()
     {
         TrinityFSM.Animator.SetBool(AnimKeyBlink, true);
+    }
+
+    private void HandleDeath()
+    {
+        if (Controller.CheckGround().transform)
+        {
+            TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
+        }
+        else
+        {
+            Controller.EnableRagdoll();
+        }
     }
 
 }

@@ -10,6 +10,8 @@ public class GlideMovement : TrinityState
     public bool bMirror = false;
     [HideInInspector]
     public string AnimKeyMirror = "bMirror";
+
+    public string AnimKeyDeath = "bDeath";
     
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -24,6 +26,8 @@ public class GlideMovement : TrinityState
         {
             TrinityFSM.Animator.SetBool(AnimKeyMirror, !bMirror);
         }
+
+        Controller.HealthComponent.OnDeath += HandleDeath;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -34,6 +38,12 @@ public class GlideMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
+
+        if (Controller.HealthComponent.bDead)
+        {
+            return;
+        }
+        
         if (Controller.CheckGround().transform || !TrinityFSM.InputReference.JumpInput)
         {
             TrinityFSM.EnqueueTransition<NormalMovement>();
@@ -42,7 +52,7 @@ public class GlideMovement : TrinityState
         
         HandleMovement();
 
-        Controller.Rigidbody.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+        Controller.RB.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
     }
 
 
@@ -52,8 +62,10 @@ public class GlideMovement : TrinityState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        
+        Controller.HealthComponent.OnDeath -= HandleDeath;
+
     }
+
 
     public override bool CheckExitTransition(IState toState)
     {
@@ -67,6 +79,19 @@ public class GlideMovement : TrinityState
         Controller.MoveDirection = Vector3.zero;
         Controller.MoveDirection += moveZ;
         Controller.MoveDirection += moveX;
+    }
+    
+    
+    private void HandleDeath()
+    {
+        if (Controller.CheckGround().transform)
+        {
+            TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
+        }
+        else
+        {
+            Controller.EnableRagdoll();
+        }
     }
     
     
