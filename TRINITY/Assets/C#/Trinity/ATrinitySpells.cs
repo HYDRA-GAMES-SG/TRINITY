@@ -6,10 +6,8 @@ using UnityEngine;
 public class ATrinitySpells : MonoBehaviour
 {
     public ATrinityCamera CameraRef;
-    //public List<ASpell> Spellbook;
     public ATrinityBrain Brain;
     public Transform CastPos;
-
     private APlayerInput InputReference;
     
     [Header("Spells")]

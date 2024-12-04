@@ -55,7 +55,7 @@ public class NormalMovement : TrinityState
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
-        Controller.HealthComponent.OnDeath += HandleDeath;
+        //Controller.HealthComponent.OnDeath += HandleDeath;
     }
 
 
@@ -66,10 +66,11 @@ public class NormalMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
-        if (Controller.HealthComponent.bDead)
-        {
-            return;
-        }
+        // print(Controller.HealthComponent.bDead);
+        // if (Controller.HealthComponent.bDead)
+        // {
+        //     return;
+        // }
         
         HandleMovement();
         HandleJump();
@@ -90,7 +91,7 @@ public class NormalMovement : TrinityState
     public override void ExitBehaviour(float dt, IState toState)
     {
         ABlink.OnBlink -= OnBlink;
-        Controller.HealthComponent.OnDeath -= HandleDeath;
+        //Controller.HealthComponent.OnDeath -= HandleDeath;
 
     }
 
@@ -254,16 +255,6 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetBool(AnimKeyBlink, true);
     }
 
-    private void HandleDeath()
-    {
-        if (Controller.CheckGround().transform)
-        {
-            TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
-        }
-        else
-        {
-            Controller.EnableRagdoll();
-        }
-    }
+    //
 
 }

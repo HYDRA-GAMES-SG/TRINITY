@@ -55,6 +55,7 @@ public class UHealthComponent : MonoBehaviour
         if (!bDead)
         {
             Current += Regen * Time.deltaTime;
+            Current = Mathf.Clamp(Current, 0f, MAX);
         }
     }
 

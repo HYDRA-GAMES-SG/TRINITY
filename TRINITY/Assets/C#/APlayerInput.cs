@@ -104,9 +104,10 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         
         InputActions.PLAYER.LightningElement.started += OnLightningElement;
         InputActions.PLAYER.LightningElement.canceled += OnLightningElement;
-        
-        
-        
+
+        InputActions.PLAYER.Move.started += OnMove;
+        InputActions.PLAYER.Move.canceled += OnMove;
+
     }
 
     void OnDestroy()
@@ -151,6 +152,9 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         
         InputActions.PLAYER.Camera.started -= OnLightningElement;
         InputActions.PLAYER.Camera.canceled -= OnLightningElement;
+        
+        InputActions.PLAYER.Move.started += OnMove;
+        InputActions.PLAYER.Move.canceled += OnMove;
     }
     
     public void OnJumpGlide(InputAction.CallbackContext context)

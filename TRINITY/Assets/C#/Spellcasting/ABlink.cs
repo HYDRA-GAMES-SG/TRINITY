@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,34 +14,23 @@ public class ABlink : ASpell
     public float BossShereCheckRadius = 1f;
     public float CheckStepDistance = 0.5f;
     public bool bDebug;
-
     private Vector3 BlinkPoint;
 
     public static System.Action OnBlink;
 
     public override void Initialize()
     {
-        // Check if required components are found
-        Brain = transform.root.Find("Brain")?.GetComponent<ATrinityBrain>();
-        Spells = transform.parent?.GetComponent<ATrinitySpells>();
-
-        if (Brain == null || Spells == null)
-        {
-            Debug.LogError("Failed to initialize: Brain or Spells is null.");
-        }
     }
+
+
     
     public override void CastStart()
     {
-        if (bSpellReady)
-        {
-                
-        }
         
         float distance = BlinkDistance;
         BlinkPoint = Brain.Controller.Position;
         Vector3 startPos = Brain.Controller.Position;
-        Vector3 direction = Spells.CameraRef.transform.forward;
+        Vector3 direction = Spells.CameraRef.Camera.transform.forward;
 
         bool bInvalidBlink = true;
 
@@ -98,9 +88,8 @@ public class ABlink : ASpell
         // Set position and log final result
         if (!bInvalidBlink)
         {
-            Brain.Controller.transform.position = BlinkPoint;
-            Brain.Controller.transform.Find("CameraBoom").transform.position = startPos;
             OnBlink?.Invoke();
+            Brain.Controller.transform.position = BlinkPoint;
             if(bDebug){Debug.Log($"Blink successful to: {BlinkPoint}");}
         }
         else

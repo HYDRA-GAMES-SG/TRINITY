@@ -44,6 +44,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
         if (!Controller || !InputReference || !Camera)
         {
+            print("FSM:Null Camera Controller or Input");
             return;
         }
         

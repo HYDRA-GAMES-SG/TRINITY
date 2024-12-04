@@ -26,6 +26,7 @@ public class UManaComponent : MonoBehaviour
     void Update()
     {
         Current += Regen * Time.deltaTime;
+        Current = Mathf.Clamp(Current, 0f, MAX);
     }
     
     public float Modify(float signedValue)

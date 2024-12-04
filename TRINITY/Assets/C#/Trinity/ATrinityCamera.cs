@@ -1,66 +1,90 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class ATrinityCamera : MonoBehaviour
 {
+    [HideInInspector]
     public Camera Camera;
-    public ATrinityController Controller; // Reference to the player controller
-    public APlayerInput InputReference;   // Reference to the input script
+    private ATrinityController Controller; // Reference to the player controller
+    private APlayerInput InputReference;   // Reference to the input script
 
     public float RotationSpeed = 5f;
     public float VerticalClampMin = -30f; // Minimum vertical angle
     public float VerticalClampMax = 60f;  // Maximum vertical angle
-    public Transform LookTarget;          // The target the camera follows (usually the player)
 
-    private float VerticalRotationExtent = 0f;  // Track vertical rotation
-    public Vector3 CameraBoomOffset = new Vector3(0f, 1.2f, -3f); // Default offset from LookTarget
-    private GameObject CameraBoom;
+    //private float VerticalRotationExtent = 0f;  // Track vertical rotation
     
+    [HideInInspector] public CinemachineVirtualCamera CinemachineCamera; 
+    private CinemachineTransposer Transposer;
 
-    private Vector3 initialBoomPosition; // To store the original position
-    private float currentDistance;       // Current distance of the camera from the boom origin
+
+    //camera variables
+    private float OriginalZDamping;
+    public float BlinkZDamping = 5f;
+    private float LerpTime = 1f;
+    private float LerpClock = 0f;
 
     void Start()
     {
-        CameraBoom = Camera.transform.parent.gameObject;
-
-        if (LookTarget == null && Controller != null)
-        {
-            LookTarget = Controller.transform; // Default to the controller's transform
-        }
-
-        // Store the original position of the camera boom
-        if (CameraBoom != null)
-        {
-            initialBoomPosition = CameraBoom.transform.localPosition;
-        }
-
-        currentDistance = CameraBoomOffset.z; // Initialize with the default offset
+        Controller = transform.parent.GetComponent<ATrinityController>();
+        InputReference = transform.root.Find("Brain").GetComponent<APlayerInput>();
+        CinemachineCamera = GetComponentInChildren<CinemachineVirtualCamera>();
+        Camera = CinemachineCamera.GetComponent<Camera>();
+        Transposer = CinemachineCamera.GetCinemachineComponent<CinemachineTransposer>();
+        LerpClock = LerpTime;
+        ABlink.OnBlink += Blink;
     }
 
-    void Update()
+    private void OnDestroy()
     {
+        ABlink.OnBlink -= Blink;
     }
+
+    // void Update()
+    // {
+    // }
 
     void LateUpdate()
     {
-        if (InputReference == null || LookTarget == null)
-        {
-            print("ATrinityCamera: InputRef or LookTarget null.");
-            return;
-        }
-        HandleVerticalRotation();
+        UpdateZDamping();
     }
 
-    private void HandleVerticalRotation()
+    public void Blink()
     {
-        // Calculate vertical rotation and clamp it
-        VerticalRotationExtent -= InputReference.CameraInput.y * RotationSpeed * Time.deltaTime;
-        VerticalRotationExtent = Mathf.Clamp(VerticalRotationExtent, VerticalClampMin, VerticalClampMax);
-
-        // Apply vertical rotation by adjusting the camera's local rotation
-        CameraBoom.transform.localRotation = Quaternion.Euler(VerticalRotationExtent, 0f, 0f);
+        SetZDamping(BlinkZDamping);
+    }
+    
+    private void SetZDamping(float value)
+    {
+        // Set the target value to 3 (or any other value)
+        LerpClock = 0f; // Reset the lerp timer when starting a new lerp
+        Transposer.m_ZDamping = value;
     }
 
+    private void UpdateZDamping()
+    {
+        if (LerpClock < LerpTime)
+        {
+            LerpClock += Time.deltaTime;
+            float lerpedValue = Mathf.Lerp(BlinkZDamping, OriginalZDamping, LerpClock / LerpTime);
+            Transposer.m_ZDamping = lerpedValue;
+        }
+    }
+    
+    
+    
+    // private void HandleVerticalRotation()
+    // {
+    //     // Calculate the vertical rotation and clamp it
+    //     VerticalRotationExtent -= InputReference.CameraInput.y * RotationSpeed * Time.deltaTime;
+    //     VerticalRotationExtent = Mathf.Clamp(VerticalRotationExtent, VerticalClampMin, VerticalClampMax);
+    //
+    //     // Update the CameraBoom position and rotation
+    //     Vector3 offset = Quaternion.Euler(VerticalRotationExtent, 0f, 0f) * CameraBoomOffset; // Rotate the offset
+    //     CameraBoom.transform.position = LookTarget.position + offset; // Position the boom around the LookTarget
+    //     CameraBoom.transform.LookAt(LookTarget); // Ensure the camera faces the LookTarget
+    // }
 }

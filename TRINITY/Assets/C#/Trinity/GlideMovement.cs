@@ -27,7 +27,7 @@ public class GlideMovement : TrinityState
             TrinityFSM.Animator.SetBool(AnimKeyMirror, !bMirror);
         }
 
-        Controller.HealthComponent.OnDeath += HandleDeath;
+        //Controller.HealthComponent.OnDeath += HandleDeath;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -39,10 +39,10 @@ public class GlideMovement : TrinityState
     public override void UpdateBehaviour(float dt)
     {
 
-        if (Controller.HealthComponent.bDead)
-        {
-            return;
-        }
+        // if (Controller.HealthComponent.bDead)
+        // {
+        //     return;
+        // }
         
         if (Controller.CheckGround().transform || !TrinityFSM.InputReference.JumpInput)
         {
@@ -62,7 +62,7 @@ public class GlideMovement : TrinityState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        Controller.HealthComponent.OnDeath -= HandleDeath;
+        //Controller.HealthComponent.OnDeath -= HandleDeath;
 
     }
 
@@ -82,17 +82,17 @@ public class GlideMovement : TrinityState
     }
     
     
-    private void HandleDeath()
-    {
-        if (Controller.CheckGround().transform)
-        {
-            TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
-        }
-        else
-        {
-            Controller.EnableRagdoll();
-        }
-    }
+    // private void HandleDeath()
+    // {
+    //     if (Controller.CheckGround().transform)
+    //     {
+    //         TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
+    //     }
+    //     else
+    //     {
+    //         Controller.EnableRagdoll();
+    //     }
+    // }
     
     
 }
