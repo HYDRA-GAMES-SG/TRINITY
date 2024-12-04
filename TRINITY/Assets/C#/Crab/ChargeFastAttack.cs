@@ -36,7 +36,7 @@ public class ChargeFastAttack : CrabState
     {
         CrabFSM.CrabController.AI.enabled = false;
         bIsCharging = true;
-        StateTimer = 0f; 
+        StateTimer = 0f;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -64,6 +64,14 @@ public class ChargeFastAttack : CrabState
         }
         else if (bIsDashing)
         {
+            Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * 0.5f;
+            if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, CrabFSM.CrabController.AI.radius * 2, LayerMask.GetMask("Obstacle")))
+            {
+                bIsDashing = false;
+                CapCollider.enabled = false;
+                CrabFSM.Animator.SetBool("Release", false);
+                CrabFSM.EnqueueTransition<Pursue>();
+            }
             StateTimer += Time.deltaTime;
             if (StateTimer >= DashDuration)
             {

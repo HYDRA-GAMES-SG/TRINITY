@@ -84,22 +84,20 @@ public class JumpAway : CrabState
         Vector3 forwardDirection = CrabFSM.CrabController.transform.forward;
         CalculateLandingPosition(forwardDirection);
 
-        NavMeshHit hitBack, hitFront;
-        bool canJumpBack = NavMesh.SamplePosition(LandingPosBack, out hitBack, CrabAI.radius, NavMesh.AllAreas);
-        bool canJumpFront = NavMesh.SamplePosition(LandingPosFront, out hitFront, CrabAI.radius, NavMesh.AllAreas);
+        bool canJumpBack = IsValidJumpPosition(LandingPosBack);
+        bool canJumpFront = IsValidJumpPosition(LandingPosFront);
         Debug.Log(canJumpBack);
         Debug.Log(canJumpFront);
 
         if (canJumpBack)
         {
-            Debug.Log("JUmped");
             ApplyJumpForce(-forwardDirection);
             CrabFSM.Animator.SetBool(AnimKeyJumpBackward, true);
         }
         else if (canJumpFront)
         {
             ApplyJumpForce(forwardDirection);
-            CrabFSM.Animator.SetTrigger(AnimKeyJumpForward);
+            CrabFSM.Animator.SetBool(AnimKeyJumpForward,true);
         }
         yield return new WaitForSeconds(0.2f);
 
@@ -109,6 +107,7 @@ public class JumpAway : CrabState
         }
 
         CrabFSM.Animator.SetBool(AnimKeyJumpBackward, false);
+        CrabFSM.Animator.SetBool(AnimKeyJumpForward, false);
         CrabFSM.EnqueueTransition<Pursue>();
     }
     private void ApplyJumpForce(Vector3 direction)
@@ -150,19 +149,30 @@ public class JumpAway : CrabState
         LandingPosBack = CrabFSM.CrabController.transform.position + -horizontalDirection * horizontalDistance;
     }
 
-    private bool IsPathObstructed(Vector3 direction, Vector3 targetPosition)
+    private bool IsValidJumpPosition(Vector3 targetPosition)
     {
-        Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * 0.5f;
-        float distance = Vector3.Distance(start, targetPosition);
+        NavMeshHit navMeshHit;
+        bool isOnNavMesh = NavMesh.SamplePosition(targetPosition, out navMeshHit, CrabAI.radius, NavMesh.AllAreas);
 
-        if (Physics.Raycast(start, direction, distance, GroundLayer))
+        Debug.Log($"Checking NavMesh for position {targetPosition}: {isOnNavMesh}");
+
+        if (!isOnNavMesh)
+            return false;
+
+        // Check for obstacles in the path
+        Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * 3.5f;
+        Vector3 direction = navMeshHit.position - start;
+        float distance = direction.magnitude;
+
+        Debug.DrawRay(start, direction.normalized * distance, Color.red, 2.0f);
+
+        if (Physics.Raycast(start, direction.normalized, distance, LayerMask.GetMask("Obstacle")))
         {
-            Debug.DrawRay(start, direction * distance, Color.red, 2f);
-            return true;
+            Debug.Log("Obstacle detected in path!");
+            return false;
         }
 
-        Debug.DrawRay(start, direction * distance, Color.green, 2f);
-        return false;
+        return true;
     }
 
     private void OnDrawGizmos()
@@ -178,10 +188,10 @@ public class JumpAway : CrabState
             Gizmos.DrawSphere(LandingPosFront, CrabAI.radius);
             Gizmos.DrawSphere(LandingPosBack, CrabAI.radius);
 
-        Gizmos.color = Color.red;
-        Vector3 start = CrabFSM.CrabController.transform.position;
-        Vector3 direction = Vector3.down;
-        Gizmos.DrawRay(start, direction * GroundCheckDistance);
+            Gizmos.color = Color.red;
+            Vector3 start = CrabFSM.CrabController.transform.position;
+            Vector3 direction = Vector3.down;
+            Gizmos.DrawRay(start, direction * GroundCheckDistance);
         }
     }
 }
