@@ -64,8 +64,8 @@ public class ChargeFastAttack : CrabState
         }
         else if (bIsDashing)
         {
-            Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * 0.5f;
-            if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, CrabFSM.CrabController.AI.radius * 2, LayerMask.GetMask("Obstacle")))
+            Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * 3.5f;
+            if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, 6, LayerMask.GetMask("Obstacle")))
             {
                 bIsDashing = false;
                 CapCollider.enabled = false;

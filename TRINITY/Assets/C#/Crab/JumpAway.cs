@@ -88,8 +88,11 @@ public class JumpAway : CrabState
         bool canJumpFront = IsValidJumpPosition(LandingPosFront);
         Debug.Log(canJumpBack);
         Debug.Log(canJumpFront);
-
-        if (canJumpBack)
+        if (!canJumpBack && !canJumpFront)
+        {
+            CrabFSM.EnqueueTransition<Pursue>();
+        }
+        else if (canJumpBack)
         {
             ApplyJumpForce(-forwardDirection);
             CrabFSM.Animator.SetBool(AnimKeyJumpBackward, true);
@@ -97,7 +100,7 @@ public class JumpAway : CrabState
         else if (canJumpFront)
         {
             ApplyJumpForce(forwardDirection);
-            CrabFSM.Animator.SetBool(AnimKeyJumpForward,true);
+            CrabFSM.Animator.SetBool(AnimKeyJumpForward, true);
         }
         yield return new WaitForSeconds(0.2f);
 
