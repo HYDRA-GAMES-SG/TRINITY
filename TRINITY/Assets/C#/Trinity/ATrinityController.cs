@@ -29,7 +29,7 @@ public class ATrinityController : MonoBehaviour
     public CapsuleCollider Collider;
     
     [HideInInspector]
-    public Rigidbody Rigidbody;
+    public Rigidbody RB;
 
     [SerializeField] public float MaxStableAngle = 50f;
 
@@ -65,7 +65,7 @@ public class ATrinityController : MonoBehaviour
         
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
-        Rigidbody = GetComponent<Rigidbody>();
+        RB = GetComponent<Rigidbody>();
         HealthComponent = GetComponent<UHealthComponent>();
 
         if (Collider == null)
@@ -79,13 +79,13 @@ public class ATrinityController : MonoBehaviour
             Collider.center = new Vector3(0f, .8f, 0f);
         }
 
-        if (Rigidbody == null)
+        if (RB == null)
         {
             Debug.LogError("Rigidbody is missing!", this);
         }
         else
         {
-            Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            RB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         }
     }
 
@@ -171,5 +171,15 @@ public class ATrinityController : MonoBehaviour
             // Apply any remaining damage to health
             HealthComponent.Modify(-remainingDamage);
         }
+    }
+
+    public void EnableRagdoll()
+    {
+        // Disable the Animator to stop animations
+        Animator AnimatorComponent = transform.Find("Graphics").GetComponent<Animator>();
+        
+        AnimatorComponent.enabled = false;
+
+        RB.isKinematic = false;
     }
 }
