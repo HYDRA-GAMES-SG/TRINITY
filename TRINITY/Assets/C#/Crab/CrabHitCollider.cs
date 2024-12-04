@@ -19,7 +19,7 @@ public class CrabHitCollider : MonoBehaviour
             ATrinityController health = collision.gameObject.GetComponent<ATrinityController>();
             if (health != null)
             {
-                //health.ApplyDamage(CrabContoller.GetCurrentAttackDamage());
+                health.ApplyDamage(CrabContoller.GetCurrentAttackDamage());
             }
         }
     }

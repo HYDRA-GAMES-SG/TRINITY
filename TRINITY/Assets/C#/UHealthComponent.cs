@@ -28,7 +28,10 @@ public class UHealthComponent : MonoBehaviour
 
     public void Update()
     {
-        Current += Regen * Time.deltaTime;
+        if (!Dead) 
+        {
+            Current += Regen * Time.deltaTime;
+        }
 
     }
     

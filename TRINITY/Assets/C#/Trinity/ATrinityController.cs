@@ -52,6 +52,7 @@ public class ATrinityController : MonoBehaviour
 
     private APlayerInput InputReference;
     private ATrinitySpells SpellsReference;
+    private ATrinityBrain BrainReference;
     
     
 
@@ -59,6 +60,7 @@ public class ATrinityController : MonoBehaviour
     {
         InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
         SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
+        BrainReference = transform.parent.Find("Brain").GetComponent<ATrinityBrain>();
 
         
         // Ensure required components are assigned

@@ -56,19 +56,21 @@ public class AFireball : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
+            HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
+            enemyHitbox.ApplyDamage(Damage);
             SpawnExplosion();
-            if (collision.gameObject.transform.childCount == 0)
-            {
-                GameObject enemyVFX = Instantiate(IgniteVFX, collision.transform.position, Quaternion.identity);
-                enemyVFX.transform.parent = collision.transform;
-            }
-            else
-            {
-                GameObject enemyObject = collision.transform.GetChild(0).gameObject;
-                ParticleSystem enemyVFX = enemyObject.GetComponent<ParticleSystem>();
-                enemyVFX.gameObject.SetActive(true);
-                enemyVFX.Play();
-            }
+            //if (collision.gameObject.transform.childCount == 0)
+            //{
+            //    GameObject enemyVFX = Instantiate(IgniteVFX, collision.transform.position, Quaternion.identity);
+            //    enemyVFX.transform.parent = collision.transform;
+            //}
+            //else
+            //{
+            //    GameObject enemyObject = collision.transform.GetChild(0).gameObject;
+            //    ParticleSystem enemyVFX = enemyObject.GetComponent<ParticleSystem>();
+            //    enemyVFX.gameObject.SetActive(true);
+            //    enemyVFX.Play();
+            //}
 
         }
     }

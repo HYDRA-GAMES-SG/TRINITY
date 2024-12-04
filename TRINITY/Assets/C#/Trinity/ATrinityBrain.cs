@@ -18,12 +18,12 @@ public enum ETrinityElement
     ETE_Fire,
     ETE_Cold,
     ETE_Lightning,
-    ETE_None
 }
 
 public class ATrinityBrain : MonoBehaviour
 {
     public float GlobalCooldown = 0f;
+    [SerializeField]private float StunnedCooldown = 0f;
 
     private ASpell CurrentSpell;
     private ATrinitySpells Spells; //reference
@@ -31,8 +31,8 @@ public class ATrinityBrain : MonoBehaviour
     public ATrinityController Controller; //reference
     public IAA_TrinityControls Controls;
     
-    private ETrinityElement Element;
-    private ETrinityAction Action;
+    [SerializeField]private ETrinityElement Element;
+    [SerializeField]private ETrinityAction Action;
     private APlayerInput InputReference; //reference
 
 
@@ -83,9 +83,19 @@ public class ATrinityBrain : MonoBehaviour
 
     void Update()
     {
-
+        StunnedCooldown -= Time.deltaTime;
+        if (StunnedCooldown < 0 && Action == ETrinityAction.ETA_Stunned) //Remove stun after stun duration
+        {
+            ChangeAction(ETrinityAction.ETA_None);
+            Controller.gameObject.SetActive(true);
+        }
     }
-
+    public void Stunned(float duration) 
+    {
+        ChangeAction(ETrinityAction.ETA_Stunned);
+        StunnedCooldown = duration;
+        Controller.gameObject.SetActive(false);
+    }
     public bool CanAct()
     {
         if (Action != ETrinityAction.ETA_None)
@@ -110,7 +120,7 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
-                //Icicle.CastStart();
+                Spells.PrimaryCold.Cast();
                 break;
             case ETrinityElement.ETE_Fire:
                     Spells.PrimaryFire.Cast();
@@ -125,7 +135,7 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
-                //Icicle.CastStart();
+                Spells.PrimaryCold.CastEnd();
                 break;
             case ETrinityElement.ETE_Fire:
                 break;
@@ -184,6 +194,7 @@ public class ATrinityBrain : MonoBehaviour
     
     public void NextElement()
     {
+        PrimaryRelease();
         int intElement = (int)Element;
         intElement++;
         ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
@@ -193,6 +204,7 @@ public class ATrinityBrain : MonoBehaviour
 
     public void PreviousElement()
     {
+        PrimaryRelease();
         int intElement = (int)Element;
         intElement--;
         if (intElement < 0)
