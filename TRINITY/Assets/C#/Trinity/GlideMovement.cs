@@ -6,18 +6,29 @@ public class GlideMovement : TrinityState
 {
     [SerializeField] private float MoveSpeed = 5f;
     [SerializeField] private float StrafeSpeed = 5f;
+    [HideInInspector]
+    public bool bMirror = false;
+    [HideInInspector]
+    public string AnimKeyMirror = "bMirror";
     
     public override bool CheckEnterTransition(IState fromState)
     {
+        
         return true;
     }
     
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        
+        if (fromState is NormalMovement)
+        {
+            TrinityFSM.Animator.SetBool(AnimKeyMirror, !bMirror);
+        }
     }
 
     public override void PreUpdateBehaviour(float dt)
     {
+        
     }
     
     
@@ -41,6 +52,7 @@ public class GlideMovement : TrinityState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        
     }
 
     public override bool CheckExitTransition(IState toState)

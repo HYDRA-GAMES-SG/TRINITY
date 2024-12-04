@@ -18,10 +18,17 @@ public class ACrabController : MonoBehaviour
     private float ComboTimer = 0f;
     private float ChargeMoveFastTimer = 0f;
 
+    [Header("Attack Deal")]
+    [SerializeField] float NormalAttack;
+    [SerializeField] float ComboAttack;
+    [SerializeField] float JumpSmashAttack;
+    [SerializeField] float ChargeFastAttack;
+
     [HideInInspector] public bool CanJumpSmash = false;
     [HideInInspector] public bool CanRoarStun = false;
     [HideInInspector] public bool CanComboAttack = false;
     [HideInInspector] public bool CanCharageMoveFast = false;
+
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
 
@@ -37,7 +44,7 @@ public class ACrabController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position));
+        //Debug.Log(Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position));
         CheckCooldown();
 
         if (Health.Percent < 0.5f) //next element phrese
@@ -113,7 +120,30 @@ public class ACrabController : MonoBehaviour
         else if (CrabFSM.CurrentState is JumpSmash || CrabFSM.CurrentState is ChargeFastAttack)
         {
             CrabFSM.CrabController.transform.position += Animator.deltaPosition;
-            CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
         }
+    }
+    public float GetCurrentAttackDamage()
+    {
+        if (CrabFSM.CurrentState is JumpSmash)
+        {
+            return JumpSmashAttack;
+        }
+        else if (CrabFSM.CurrentState is ComboAttack)
+        {
+            return ComboAttack;
+        }
+        else if (CrabFSM.CurrentState is ChargeFastAttack)
+        {
+            return ChargeFastAttack;
+        }
+        else
+        {
+            return NormalAttack; // Default attack
+        }
+    }
+
+    public void ApplyDamage(float damageNumber)
+    {
+        Health.Modify(-damageNumber);
     }
 }

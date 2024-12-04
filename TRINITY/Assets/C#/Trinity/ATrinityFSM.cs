@@ -95,8 +95,11 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         Debug.Log("PLAYER: "  + CurrentState + "=>" + nextState);
         
         CurrentState = nextState;
+        Animator.enabled = false;
         Animator.runtimeAnimatorController = CurrentState.StateAnimController;
         CurrentState.EnterBehaviour(Time.deltaTime, PreviousState);
+        Animator.enabled = true;
+        
     }
 
     public TrinityState GetState(string stateName)

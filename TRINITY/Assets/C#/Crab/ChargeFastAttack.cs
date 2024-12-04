@@ -22,7 +22,7 @@ public class ChargeFastAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue || fromState is Jump || fromState is RoarStun)
+        if (fromState is Pursue || fromState is JumpAway || fromState is RoarStun)
         {
             if (CrabFSM.CrabController.CanCharageMoveFast)
             {
@@ -99,7 +99,7 @@ public class ChargeFastAttack : CrabState
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 2 * Time.deltaTime);
+        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 5 * Time.deltaTime);
     }
 
     private void PredictTargetPosition()
