@@ -92,6 +92,7 @@ public class ChargeFastAttack : CrabState
         CrabFSM.Animator.applyRootMotion = false;
         CrabFSM.CrabController.AI.enabled = true;
         CapCollider.enabled = false;
+        CrabFSM.CrabController.CanCharageMoveFast = false;
     }
 
     public override bool CheckExitTransition(IState toState)
