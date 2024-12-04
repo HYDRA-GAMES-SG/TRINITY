@@ -141,9 +141,4 @@ public class ACrabController : MonoBehaviour
             return NormalAttack; // Default attack
         }
     }
-
-    public void ApplyDamage(float damageNumber)
-    {
-        Health.Modify(-damageNumber);
-    }
 }
