@@ -18,8 +18,11 @@ public class APrimaryCold : ASpell
                 IceSlicer[i].transform.rotation = new Quaternion(0, -1, 0, 0);
             }
         }
-    }    
+    }
+    public void Chill() 
+    {
 
+    }
     public override void CastStart()
     {
         for (int i = 0; i < IceSlicer.Length; i++)

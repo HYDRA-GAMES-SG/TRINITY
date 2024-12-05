@@ -13,6 +13,19 @@ public class UHealthComponent : MonoBehaviour
     public float Percent => Current / MAX;
     public bool bDead;
 
+    [Header("Status Effect Stacks")]
+    [SerializeField]
+    private float IgniteStacks;
+    [SerializeField]
+    private float ChillStacks;
+    [SerializeField]
+    private float ShockStacks;
+
+    [Header ("Status Effects")]
+    public bool bIgnited;
+    public bool bChilled;
+    public bool bShocked;
+
     public System.Action<float> OnHealthModified;
     public System.Action OnDeath;
 
@@ -31,6 +44,7 @@ public class UHealthComponent : MonoBehaviour
     {
         CheckForDeath();
         ApplyRegen();
+        ApplyStatusEffect();
     }
     
     public float Modify(float signedValue)
@@ -58,7 +72,21 @@ public class UHealthComponent : MonoBehaviour
             Current = Mathf.Clamp(Current, 0f, MAX);
         }
     }
-
+    public void ApplyStatusEffect() 
+    {
+        if (bIgnited) 
+        {
+            //Deals damage over time (DOT) 
+        }
+        if (bChilled)
+        {
+            //Slows movement speed (MS)
+        }
+        if (bShocked)
+        {
+            //TBD
+        }
+    }
     public void CheckForDeath()
     {
         if (Current <= 0f)
