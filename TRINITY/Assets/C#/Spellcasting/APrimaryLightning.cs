@@ -17,8 +17,8 @@ public class APrimaryLightning : ASpell
     {
         if (Beam == null)
         {
-            Beam = Instantiate(SpellPrefab, Spells.CastPos.position, Quaternion.identity);
-            Beam.transform.parent = Spells.CastPos.transform;
+            Beam = Instantiate(SpellPrefab, Spells.CastPoint.position, Quaternion.identity);
+            Beam.transform.parent = Spells.CastPoint.transform;
         }
     }
 
@@ -29,7 +29,7 @@ public class APrimaryLightning : ASpell
 
     public override void CastUpdate()
     {
-        Quaternion newRot = Spells.CameraRef.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
+        Quaternion newRot = Spells.CameraRef.LookAtObject.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
         Beam.transform.rotation = newRot;
 
     }

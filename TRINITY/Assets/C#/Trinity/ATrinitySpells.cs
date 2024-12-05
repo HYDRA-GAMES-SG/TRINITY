@@ -5,9 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(UManaComponent))]
 public class ATrinitySpells : MonoBehaviour
 {
+    public Vector3 CastDirection => CameraRef.LookAtObject.transform.forward;
     public ATrinityCamera CameraRef;
     public ATrinityBrain Brain;
-    public Transform CastPos;
+    public Transform CastPoint;
     private APlayerInput InputReference;
     
     [Header("Spells")]

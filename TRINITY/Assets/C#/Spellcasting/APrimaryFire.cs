@@ -11,7 +11,7 @@ public class APrimaryFire : ASpell
 
     public override void CastStart()
     {
-        GameObject go = Instantiate(SpellPrefab.gameObject, Spells.CastPos.position, Quaternion.identity);
+        GameObject go = Instantiate(SpellPrefab.gameObject, Spells.CastPoint.position, Quaternion.identity);
         go.GetComponent<AFireball>().Spells = Spells;
 
 

@@ -24,7 +24,7 @@ public class AFireball : MonoBehaviour
     void Start()
     {
         RB = GetComponent<Rigidbody>();
-        Direction = Spells.CameraRef.transform.forward;
+        Direction = Spells.CastDirection;
     }
 
     // Update is called once per frame

@@ -23,7 +23,12 @@ public class ATrinityController : MonoBehaviour
     [SerializeField]
     public float Height; // => Collider.bounds.extents.y;
 
-    [SerializeField] public float RotationSpeed = 5f;
+    [SerializeField] public float HorizontalRotationSpeed = 5f;
+
+    [Header("Look/Camera Rotation Vertical")]
+    public GameObject LookTarget;
+
+    private float VerticalRotation;
 
     [HideInInspector]
     public CapsuleCollider Collider;
@@ -41,10 +46,10 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public Vector3 Forward => transform.forward;
     [HideInInspector] public Vector3 Right => transform.right;
     [HideInInspector] public Vector3 Rotation => transform.rotation.eulerAngles;
-    [HideInInspector]
-    public float VerticalVelocity;
-    [HideInInspector]
-    public float PlanarVelocity;
+
+    [HideInInspector] public float VerticalVelocity;
+    
+    [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
     
     [HideInInspector]
     public bool bForcefieldActive;
@@ -53,6 +58,7 @@ public class ATrinityController : MonoBehaviour
     private APlayerInput InputReference;
     private ATrinitySpells SpellsReference;
     private ATrinityBrain BrainReference;
+    private ATrinityCamera CameraReference;
     
     
 
@@ -61,6 +67,7 @@ public class ATrinityController : MonoBehaviour
         InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
         SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
         BrainReference = transform.parent.Find("Brain").GetComponent<ATrinityBrain>();
+        CameraReference = transform.Find("Camera").GetComponent<ATrinityCamera>();
 
         
         // Ensure required components are assigned
@@ -92,7 +99,31 @@ public class ATrinityController : MonoBehaviour
     private void Update()
     {
         ApplyRotation();
+        ApplyVerticalRotationToLookTarget();
+        ZeroLookAtRoll();
     }
+
+    private void ZeroLookAtRoll()
+    {
+        Vector3 lookRot = LookTarget.transform.rotation.eulerAngles;
+        lookRot.z = 0f;
+        LookTarget.transform.rotation = Quaternion.Euler(lookRot);
+    }
+
+    private void ApplyVerticalRotationToLookTarget()
+    {
+        // Adjust the vertical rotation based on input
+        VerticalRotation -= InputReference.CameraInput.y * CameraReference.VerticalRotationSpeed * Time.deltaTime;
+
+        // Clamp the vertical rotation to the allowed range
+        VerticalRotation = Mathf.Clamp(VerticalRotation, CameraReference.VerticalClampMin, CameraReference.VerticalClampMax);
+
+        // Apply the vertical rotation to LookTarget's pitch (x-axis)
+        Vector3 lookTargetRotation = LookTarget.transform.localEulerAngles;
+        lookTargetRotation.x = VerticalRotation;
+        LookTarget.transform.localEulerAngles = lookTargetRotation;
+    }
+
 
     public RaycastHit CheckGround()
     {
@@ -141,7 +172,8 @@ public class ATrinityController : MonoBehaviour
 
     void ApplyRotation()
     {
-        transform.Rotate(Vector3.up, InputReference.CameraInput.x * RotationSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.up, InputReference.CameraInput.x * HorizontalRotationSpeed * Time.deltaTime);
+        //LookTarget.transform.Rotate(Vector3.up, InputReference.CameraInput.x * xRotationSpeed * Time.deltaTime);
     }
 
     public void ApplyDamage(float damageNumber)

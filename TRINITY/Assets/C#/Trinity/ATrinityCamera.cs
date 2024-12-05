@@ -11,14 +11,16 @@ public class ATrinityCamera : MonoBehaviour
     private ATrinityController Controller; // Reference to the player controller
     private APlayerInput InputReference;   // Reference to the input script
 
-    public float RotationSpeed = 5f;
+    public float HorizontalRotationSpeed = 5f;
+    [SerializeField] public float VerticalRotationSpeed = 1.5f;
     public float VerticalClampMin = -30f; // Minimum vertical angle
     public float VerticalClampMax = 60f;  // Maximum vertical angle
 
     //private float VerticalRotationExtent = 0f;  // Track vertical rotation
     
-    [HideInInspector] public CinemachineVirtualCamera CinemachineCamera; 
+    [HideInInspector] public CinemachineVirtualCamera CinemachineCamera;
     private CinemachineTransposer Transposer;
+    public GameObject LookAtObject;
 
 
     //camera variables
@@ -26,6 +28,7 @@ public class ATrinityCamera : MonoBehaviour
     public float BlinkZDamping = 5f;
     private float LerpTime = 1f;
     private float LerpClock = 0f;
+    private float VerticalOffset = 0f;
 
     void Start()
     {
@@ -43,13 +46,16 @@ public class ATrinityCamera : MonoBehaviour
         ABlink.OnBlink -= Blink;
     }
 
-    // void Update()
-    // {
-    // }
+    void Update()
+    {
+        //DO NOT USE
+    }
+    
 
     void LateUpdate()
     {
         UpdateZDamping();
+        //HandleTrackedAimOffset();
     }
 
     public void Blink()
@@ -74,7 +80,18 @@ public class ATrinityCamera : MonoBehaviour
         }
     }
     
-    
+    // private void HandleTrackedAimOffset()
+    // {
+    //     if (Composer == null) return;
+    //
+    //     // Adjust the vertical offset based on input
+    //     VerticalOffset -= InputReference.CameraInput.y * VerticalRotationSpeed * Time.deltaTime;
+    //     VerticalOffset = Mathf.Clamp(VerticalOffset, VerticalClampMin, VerticalClampMax);
+    //
+    //     print(VerticalOffset);
+    //     // Apply the new offset to the Cinemachine Composer
+    //     Composer.m_TrackedObjectOffset.x = VerticalOffset;
+    // }
     
     // private void HandleVerticalRotation()
     // {
