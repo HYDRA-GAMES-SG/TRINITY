@@ -14,6 +14,8 @@ public class ATrinityCamera : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
         Controller = transform.parent.GetComponent<ATrinityController>();
         InputReference = transform.root.Find("Brain").GetComponent<APlayerInput>();
         Camera = GetComponent<Camera>();

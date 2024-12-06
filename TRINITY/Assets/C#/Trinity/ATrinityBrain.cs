@@ -48,7 +48,6 @@ public class ATrinityBrain : MonoBehaviour
         
         InputReference = GetComponent<APlayerInput>();
         Element = ETrinityElement.ETE_Fire;
-        Cursor.lockState = CursorLockMode.Locked;
         
         InputReference.OnElementPressed += ChangeElement;
         InputReference.OnElementalPrimaryPressed += Primary;

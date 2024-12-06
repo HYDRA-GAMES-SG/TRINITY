@@ -24,7 +24,8 @@ public class ATrinityController : MonoBehaviour
     [SerializeField]
     public float Height; // => Collider.bounds.extents.y;
 
-    [SerializeField] public float HorizontalRotationSpeed = 55f;
+    [SerializeField] public float HorizontalRotationSpeed = 1000f;
+    [SerializeField] public float HorizontalRotationTime = 22f;
 
     [HideInInspector]
     public CapsuleCollider Collider;
@@ -159,18 +160,13 @@ public class ATrinityController : MonoBehaviour
 
     void AlignWithCameraYaw()
     {
-        
-        
-        // Get the camera's forward direction (ignore the camera's pitch/roll)
+        // Option 1: Use a fixed interpolation speed
         Vector3 cameraForward = CameraReference.transform.forward;
-        //cameraForward.y = 0; // Flatten the forward vector on the Y-axis
+        cameraForward.y = 0; // Flatten the forward vector on the Y-axis
         cameraForward.Normalize();
 
-        // Calculate target rotation to look in the same direction as the camera
         Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
-
-        // Smoothly rotate the controller to the target rotation
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * HorizontalRotationSpeed);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, HorizontalRotationTime * Time.deltaTime);
     }
 
     public void ApplyDamage(float damageNumber)
@@ -212,23 +208,3 @@ public class ATrinityController : MonoBehaviour
         RB.isKinematic = false;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
