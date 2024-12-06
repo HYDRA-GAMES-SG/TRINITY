@@ -14,12 +14,14 @@ public class UHealthComponent : MonoBehaviour
     public bool bDead;
 
     [Header("Status Effect Stacks")]
-    [SerializeField]
-    private float IgniteStacks;
-    [SerializeField]
-    private float ChillStacks;
-    [SerializeField]
-    private float ShockStacks;
+    public float IgniteTimer;
+    public float ChillTimer;
+    public float ShockTimer;
+
+    [Header("Status Effect Stacks")]
+    public float IgniteStacks;
+    public float ChillStacks;
+    public float ShockStacks;
 
     [Header ("Status Effects")]
     public bool bIgnited;
@@ -76,15 +78,22 @@ public class UHealthComponent : MonoBehaviour
     {
         if (bIgnited) 
         {
-            //Deals damage over time (DOT) 
+            IgniteTimer -= Time.deltaTime;
+
+            if (IgniteTimer > 0)  //Deals damage over time * IgniteStacks(DOT)
+            {
+
+            }
         }
         if (bChilled)
         {
-            //Slows movement speed (MS)
+            ChillTimer -= Time.deltaTime;
+            //Slows movement speed * ChillStacks(MS)
         }
         if (bShocked)
         {
-            //TBD
+            ShockTimer -= Time.deltaTime;
+            //TBD * ShockStacks
         }
     }
     public void CheckForDeath()

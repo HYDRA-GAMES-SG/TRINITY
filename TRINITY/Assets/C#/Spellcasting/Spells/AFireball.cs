@@ -11,7 +11,7 @@ public class AFireball : MonoBehaviour
     public float Damage;
     public float Duration;
     public float Speed;
-    
+    public int StacksApplied;
     [HideInInspector]
     public Rigidbody RB;
     
@@ -41,11 +41,6 @@ public class AFireball : MonoBehaviour
 
     }
     
-    public void Ignite()
-    {
-
-    }
-    
     public void SpawnExplosion()
     {
         GameObject vfx = Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
@@ -58,6 +53,8 @@ public class AFireball : MonoBehaviour
         {
             ACrabHitBox enemyHitbox = collision.gameObject.GetComponent<ACrabHitBox>();
             enemyHitbox.ApplyDamage(Damage);
+            UAilmentComponent enemyAilment = collision.gameObject.GetComponent<UAilmentComponent>();
+            enemyAilment.ModifyStack(EEnemyAilment.EEA_Ignite, StacksApplied);
             SpawnExplosion();
             //if (collision.gameObject.transform.childCount == 0)
             //{
