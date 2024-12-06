@@ -30,7 +30,9 @@ public class ACrabFSM : MonoBehaviour, IFSM
     {
         if (ShowDebugLog)
         {
-            Debug.Log(TransitionQueue.Count);
+            //Debug.Log(TransitionQueue.Count);
+            Debug.Log(Vector3.Distance(PlayerController.transform.position, CrabController.transform.position));
+
         }
 
         TryInitialize();

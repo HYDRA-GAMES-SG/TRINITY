@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CrabHitCollider : MonoBehaviour
+public class ACrabAttackCollider : MonoBehaviour
 {
     ACrabController CrabContoller;
 
@@ -12,11 +12,23 @@ public class CrabHitCollider : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.tag);
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Hit player");
             ATrinityController health = collision.gameObject.GetComponent<ATrinityController>();
+            if (health != null)
+            {
+                health.ApplyDamage(CrabContoller.GetCurrentAttackDamage());
+            }
+        }
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Hit player");
+            ATrinityController health = other.gameObject.GetComponent<ATrinityController>();
             if (health != null)
             {
                 health.ApplyDamage(CrabContoller.GetCurrentAttackDamage());

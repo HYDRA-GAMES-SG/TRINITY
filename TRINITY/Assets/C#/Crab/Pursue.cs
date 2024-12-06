@@ -24,7 +24,7 @@ public class Pursue : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarStun || fromState is NormalAttack || fromState is ChargeFastAttack || fromState is JumpAway || fromState is GetHit)
+        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarIceSpray || fromState is NormalAttack || fromState is ChargeFastAttack || fromState is JumpAway || fromState is GetHit)
         {
             return true;
         }
@@ -60,7 +60,7 @@ public class Pursue : CrabState
             }
             else
             {
-                CrabFSM.EnqueueTransition<RoarStun>();
+                CrabFSM.EnqueueTransition<RoarIceSpray>();
             }
         }
         else if (distanceToTarget >= ChargeFastMoveRange && distanceToTarget <= ChargeFastMoveRange + 5) //between 15 - 20
@@ -77,10 +77,8 @@ public class Pursue : CrabState
         {
             CrabFSM.EnqueueTransition<JumpAway>();
         }
-        else
-        {
-            RotateAndMoveTowardTarget();
-        }
+
+        RotateAndMoveTowardTarget();
     }
 
 
@@ -95,7 +93,7 @@ public class Pursue : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is ComboAttack || toState is JumpSmash || toState is RoarStun || toState is NormalAttack || toState is JumpAway || toState is Death || toState is ChargeFastAttack || toState is GetHit)
+        if (toState is ComboAttack || toState is JumpSmash || toState is RoarIceSpray || toState is NormalAttack || toState is JumpAway || toState is Death || toState is ChargeFastAttack || toState is GetHit)
         {
             return true;
         }

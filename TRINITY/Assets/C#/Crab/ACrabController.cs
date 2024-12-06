@@ -23,6 +23,7 @@ public class ACrabController : MonoBehaviour
     [SerializeField] float ComboAttack;
     [SerializeField] float JumpSmashAttack;
     [SerializeField] float ChargeFastAttack;
+    [SerializeField] float IceSprayAttack;
 
     [HideInInspector] public bool CanJumpSmash = false;
     [HideInInspector] public bool CanRoarStun = false;
@@ -44,7 +45,6 @@ public class ACrabController : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position));
         CheckCooldown();
 
         if (Health.Percent < 0.5f) //next element phrese
@@ -136,9 +136,13 @@ public class ACrabController : MonoBehaviour
         {
             return ChargeFastAttack;
         }
+        else if (CrabFSM.CurrentState is RoarIceSpray)
+        {
+            return IceSprayAttack;
+        }
         else
         {
-            return NormalAttack; // Default attack
+            return NormalAttack; 
         }
     }
 }

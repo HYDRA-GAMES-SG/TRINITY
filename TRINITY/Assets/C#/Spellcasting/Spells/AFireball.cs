@@ -56,7 +56,7 @@ public class AFireball : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
+            ACrabHitBox enemyHitbox = collision.gameObject.GetComponent<ACrabHitBox>();
             enemyHitbox.ApplyDamage(Damage);
             SpawnExplosion();
             //if (collision.gameObject.transform.childCount == 0)

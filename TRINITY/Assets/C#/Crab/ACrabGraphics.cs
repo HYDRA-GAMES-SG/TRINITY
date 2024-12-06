@@ -23,9 +23,9 @@ public class Boss : MonoBehaviour
     {
         foreach (var r in rigBody)
         {
-            if (r.gameObject.GetComponent<HitBox>() == null)
+            if (r.gameObject.GetComponent<ACrabHitBox>() == null)
             {
-                HitBox hb = r.gameObject.AddComponent<HitBox>();
+                ACrabHitBox hb = r.gameObject.AddComponent<ACrabHitBox>();
                 hb.Health = Health;
             }
         }
