@@ -1,0 +1,956 @@
+<h1 id="3rd-person-camera">3rd Person Camera</h1>
+<p>Copyright © 2015-2024
+  Thomas Enzenebner</p>
+<h2 id="version-1-1">Version 1.1</h2>
+<p>Thank you for buying the 3rd Person Camera Asset!</p>
+<p>If you have any questions, suggestions, comments or feature requests, please send
+  an <a href="mailto:support@enzenebner.com">email</a>.</p>
+<p>Visit the forum: <a href="https://forum.unity.com/threads/3rd-person-camera-emulating-the-world-of-warcraft-camera-with-smart-pivot-and-thickness-checks.383754/#post-4356535">https://forum.unity.com/threads/3rd-person-camera-emulating-the-world-of-warcraft-camera-with-smart-pivot-and-thickness-checks.383754/#post-4356535</a></p>
+<p>Beta access: <a href="https://www.enzenebner.com/beta">https://www.enzenebner.com/beta</a></p>
+<hr>
+<h2 id="upgrade-guide">Upgrade Guide</h2>
+<h3 id="update-to-1-0-8-from-previous-versions">Update to 1.0.8 from previous versions</h3>
+<p>Before upgrading, remove the old &quot;3rdPersonCamera&quot; folder before importing as some files were moved.</p>
+<h3 id="update-to-1-0-5-8-from-previous-versions">Update to 1.0.5.8 from previous versions</h3>
+<p>When upgrading from a previous version add the relevant CameraInputSampling script to the game object.
+  The scripts will throw an error when the CameraInputSampling components are not found and CustomInput is not activated.</p>
+<hr>
+<h2 id="how-to-use-3rd-person-camera">How To use 3rd Person Camera</h2>
+<p>There are several prebuilt camera gameobjects in the &quot;Prefabs&quot; folder to start from. These are:</p>
+<ul>
+  <li>3rdPersonCamera_Basic: Most basic setup to enable clipping logic</li>
+  <li>3rdPersonCamera_FreeForm: 360 Orbit Camera with distance.</li>
+  <li>3rdPersonCamera_FreeFormAndTargeting: Orbit camera with lookAt/targeting support</li>
+  <li>3rdPersonCamera_Follow: smoothly aligns itself to the transform.forward of the target</li>
+  <li>3rdPersonCamera_OverTheShoulder: FreeForm and over the shoulder camera from games like The Division</li>
+</ul>
+<p>In this asset there are 7 demo scenes to see how it&#39;s done.</p>
+<ul>
+  <li>Adventure</li>
+  <li>Ball</li>
+  <li>Car</li>
+  <li>Soulslike</li>
+  <li>Shooter</li>
+  <li>Follow</li>
+  <li>Freeform </li>
+</ul>
+<h3 id="base-components">Base components</h3>
+<p>There are 6 basic components which usually can be put safely on the main camera gameobject. (excluding Targetable)</p>
+<ul>
+  <li><code>CameraController</code>
+    The main script and always needed for the following scripts</li>
+  <li><code>Freeform</code>
+    Orbital script to look around 360 degrees with a given distance and user input</li>
+  <li><code>Follow</code>
+    Enables automatic camera movement without user input</li>
+  <li><code>OverTheShoulder</code>
+    Using this in default mode, the camera is able to move left or right with a given input without changing the direction
+    to the target.</li>
+  <li><code>DisableFollow</code>
+    Helper script to disable follow on certain conditions    </li>
+  <li><code>LockOnTarget</code>
+    Enables locking on gameobjects with a Targetable component. LockOn will keep the target in the middle
+    of the screen without user input.</li>
+  <li><code>Targetable</code>
+    This component makes the gameobject available for the LockOnTarget component</li>
+</ul>
+<hr>
+<h2 id="input-system">Input System</h2>
+<h3 id="new-input-system-setup">New Input system Setup</h3>
+<p>Step 1:</p>
+<ul>
+  <li>Navigate to &quot;Project Settings&quot; -&gt; &quot;Player&quot;</li>
+  <li>In &quot;Other Settings&quot; -&gt; &quot;Active Input Handling&quot;
+    select &quot;Both&quot; or &quot;Input System Package (New)&quot;</li>
+  <li>When prompted to restart, do so</li>
+</ul>
+<p>Step 2:</p>
+<ul>
+  <li>Go to Window-&gt;Package Manager</li>
+  <li>Select Packages: Unity Registry</li>
+  <li>Search for &quot;Input System&quot; (version 1.7+) and click install
+    (If you don&#39;t see a version, there&#39;s a small arrow to the left of &quot;Input System&quot; which expands the versions)</li>
+</ul>
+<p>Step 3:</p>
+<ul>
+  <li>&quot;Input System&quot; will automatically code generate <code>TPC_Input.cs</code> in <code>3rdPersonCamera\Settings\Input\</code></li>
+  <li>It&#39;s possible Unity hasn&#39;t registered the file correctly which means another Unity restart.</li>
+  <li>In case the restart also doesn&#39;t generate the file, try opening the <code>TPC_Input</code> input schema, trigger a change and
+    resave.</li>
+</ul>
+<h3 id="new-input-system-usage">New Input system Usage</h3>
+<p>For the new input system, only a single component is used <code>CameraInputSampling</code>.</p>
+<p>Input bindings can be found in the folder <code>3rdPersonCamera\Settings\Input\TPC_Input</code>
+  This provides a default scheme to use or edit.</p>
+<h3 id="legacy-input-system">Legacy Input system</h3>
+<p>In addition when using any of the upper components, a corresponding
+  input sampling component has to be added on the game object with the CharacterController.</p>
+<p>There are 3 input sampling components</p>
+<ul>
+  <li><code>CameraInputSampling_FreeForm</code>
+    Needed when FreeForm is used</li>
+  <li><code>CameraInputSampling_LockOn</code>
+    Needed when LockOnTarget is used</li>
+  <li><code>CameraInputSampling_Shoulder</code>
+    Needed when OverTheShoulder is used</li>
+</ul>
+<hr>
+<h2 id="basic-setup">Basic Setup</h2>
+<p>Add the following scripts to the main camera gameobject:</p>
+<ul>
+  <li><code>CameraController</code></li>
+  <li><code>FreeForm</code></li>
+  <li><code>CameraInputSampling_FreeForm</code> (Legacy Input) or <code>CameraInputSampling</code> (New Input System)</li>
+</ul>
+<p>The most important option is which Transform to follow. Set this in <code>Target</code>.</p>
+<p>Then set the collision layer which layers should be picked up by the camera. (Usually default)</p>
+<blockquote>
+  <p>When your target has a collider, which it likely has, it&#39;s important to set the <code>Player Layer</code>.
+    The layer of the target has to be a seperate layer (for example &quot;Player&quot; layer) so the 3rd Person Camera
+    can differentiate between player and the surrounding world and resolve self-collisions.</p>
+</blockquote>
+<p>The rest can be tweaked in a number of ways:
+  (Instead of reading this document, the same descriptions can found in each tooltip!)</p>
+<hr>
+<h2 id="cameracontroller-component">CameraController component</h2>
+<h3 id="basic-settings">BASIC SETTINGS</h3>
+<ul>
+  <li><code>Target</code> (Transform)<ul>
+    <li>Set this to the transform the camera should follow, can be changed at runtime</li>
+  </ul>
+  </li>
+  <li><code>Desired Distance</code> (float)<ul>
+    <li>The distance how far away the camera should be away from the target</li>
+  </ul>
+  </li>
+  <li><code>Collision Distance</code> (float)<ul>
+    <li>Offset for the camera to not clip in objects</li>
+  </ul>
+  </li>
+  <li><code>Offset vector</code> (Vector3)<ul>
+    <li>change this vector to offset the pivot the camera is rotating around    </li>
+  </ul>
+  </li>
+  <li><p><code>Camera Offset</code> vector (Vector3)</p>
+    <ul>
+      <li>offset the camera in any axis without changing the pivot point</li>
+    </ul>
+  </li>
+  <li><p><code>DisableZooming</code> (bool)</p>
+    <ul>
+      <li>Prevents any input to zoom in/out</li>
+    </ul>
+  </li>
+  <li><code>Zoom Out Step Value</code> (float)<ul>
+    <li>The distance how fast the player can zoom out with each mousewheel event</li>
+  </ul>
+  </li>
+  <li><code>Occluded Zoom In Speed</code> (float)<ul>
+    <li>The speed, how fast the camera can zoom in automatically to the desired distance.</li>
+  </ul>
+  </li>
+  <li><code>Unoccluded Zoom Out Speed</code> (float)<ul>
+    <li>The speed, how fast the camera can zoom out automatically to the desired distance.</li>
+  </ul>
+  </li>
+  <li><code>Camera Offset Change Speed</code> (float)<ul>
+    <li>How fast the offset can change.</li>
+  </ul>
+  </li>
+  <li><code>Camera Offset Min Distance</code> (float)<ul>
+    <li>The minimum distance the camera offset can decrease to.</li>
+  </ul>
+  </li>
+  <li><code>Hide Skinned Mesh Renderes</code> (bool)<ul>
+    <li>Automatically turns off a targets skinned mesh renderer when the camera collider hits the player collider</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="collision-layer-settings">COLLISION LAYER SETTINGS</h3>
+<ul>
+  <li><code>Collision Layer</code> (LayerMask)<ul>
+    <li>Set this layermask to specify with which layers the camera should collide</li>
+  </ul>
+  </li>
+  <li><code>Player Layer</code> (LayerMask)<ul>
+    <li>Set this to your player layer so ground checks will ignore the player collider</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="features">FEATURES</h3>
+<ul>
+  <li><code>Occlusion Check</code> (bool) <ul>
+    <li>Automatically reposition the camera when the character is blocked by an obstacle.</li>
+  </ul>
+  </li>
+  <li><code>Smart Pivot</code> (bool) <ul>
+    <li>Uses a pivot when the camera hits the ground and prevents moving the camera closer to the target
+      when looking up.</li>
+  </ul>
+  </li>
+  <li><code>Thickness Check</code> (bool) <ul>
+    <li>Thickness checking can be configured to ignore  smaller obstacles like sticks,
+      trees, etc... to not reposition or zoom in the camera.  <h4 id="smooth-target-mode">SMOOTH TARGET MODE</h4>
+    </li>
+  </ul>
+  </li>
+  <li><code>Smooth Target Mode</code> (bool)<ul>
+    <li>Enable to smooth out target following, to hide noisy position changes that should not be picked up by the camera immediately
+      or to enable smooth transitions to other targets that are changed during runtime</li>
+  </ul>
+  </li>
+  <li><code>Smoothing Target Value/Speed</code> (Vector3)<ul>
+    <li>The speed at which the camera lerps to the actual target position for each axis. 0 means no smoothing!</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="thickness-check-settings">THICKNESS CHECK SETTINGS</h3>
+<ul>
+  <li><code>Max Thickness</code> (float) <ul>
+    <li>Adjusts the thickness check. The higher, the thicker the objects can be and there will be no
+      occlusion check. Warning: Very high values could make Occlusion checking obsolete and as a result
+      the followed target can be occluded</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="smart-pivot-settings">SMART PIVOT SETTINGS</h3>
+<ul>
+  <li><code>Smart Pivot only on ground</code> (bool)<ul>
+    <li>Smart pivot is only activated on stable grounds</li>
+  </ul>
+  </li>
+  <li><code>Floor Normal Up</code> (Vector3)<ul>
+    <li>Default ground up for smart pivot</li>
+  </ul>
+  </li>
+  <li><code>Max Floor Dot</code> (float)<ul>
+    <li>Only hit results from maxFloorDot to 1 will be valid</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="static-pivot-rotation-settings">STATIC PIVOT ROTATION SETTINGS</h3>
+<ul>
+  <li><code>Pivot Rotation Enabled</code> (bool)<ul>
+    <li>Enable pivot rotation feature to rotate the camera in any direction without the camera moving or rotation around. Used in LockOn and Follow.</li>
+  </ul>
+  </li>
+  <li><code>Smooth pivot</code> (bool)<ul>
+    <li>When enabled the pivot will smoothly slerp to the new pivot angles</li>
+  </ul>
+  </li>
+  <li><code>Custom Pivot</code> (bool) <ul>
+    <li>Enable overriding the pivot with the public variable &#39;pivotAngles&#39;</li>
+  </ul>
+  </li>
+  <li><code>Pivot Angles</code> (Vector3)<ul>
+    <li>Custom override vector in Euler angles to modify the current pivot rotation</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="extra-settings">EXTRA SETTINGS</h3>
+<ul>
+  <li><code>Max Raycast Hit Count</code> (int)<ul>
+    <li>The maximum amount of raycast hits that are available for occlusion hits. Can be tweaked
+      for performance. Don&#39;t set amount less than 2 when your geometry has many polygons as this can
+      make repositioning unreliable.</li>
+  </ul>
+  </li>
+  <li><code>Max Thickness Raycast Hit Count</code> (int)<ul>
+    <li>The maximum amount of raycast hits that are available for thickness hits. Can be tweaked for
+      performance. Use an even amount to account for back-front face and don&#39;t use less than 2.    </li>
+  </ul>
+  </li>
+</ul>
+<h3 id="public-variables">Public variables</h3>
+<ul>
+  <li>bool <code>playerCollision</code> (get/set)<ul>
+    <li>Set to true to deactivate the player model    </li>
+  </ul>
+  </li>
+  <li>float <code>Distance</code> (get)<ul>
+    <li>The current distance from the target plus offsetvector to the camera</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="public-methods-needed-for-runtime-changes-">Public methods (needed for runtime changes)</h3>
+<ul>
+  <li><code>UpdateOffsetVector(Vector3)</code><ul>
+    <li>Updates the offset vector during runtime and fixes vectors which are too small</li>
+  </ul>
+  </li>
+  <li><code>UpdateCameraOffsetVector(Vector3)</code><ul>
+    <li>Updates the camera offset vector during runtime. Important! -&gt; Direct manipulation of camera offset vector won&#39;t update the needed boolean for testing camera offset vector collisions</li>
+  </ul>
+  </li>
+  <li><p><code>InitFromTarget()</code> or <code>InitFromTarget(Transform)</code></p>
+    <ul>
+      <li>Re-Init a new target during runtime. No parameters uses the current target</li>
+    </ul>
+  </li>
+  <li><p><code>CameraControllerState GetControllerState()</code></p>
+    <ul>
+      <li>Get all the state values from the camera controller</li>
+    </ul>
+  </li>
+  <li><code>GetCameraPosition(in CameraControllerState, Vector3 targetPosition)</code>
+    Get the unoccluded/desired camera position</li>
+</ul>
+<hr>
+<h2 id="freeform-component-">FreeForm component:</h2>
+<p>This script handles the main rotation mechanic of the camera and is used for Freeform camera movement. It&#39;s not needed if you just
+  want follow mode! It&#39;s dependency is the CameraController. It can be extended with the LockOnTarget component or OverTheShoulder component.    </p>
+<h3 id="basic-settings">BASIC SETTINGS</h3>
+<ul>
+  <li><code>Camera Enabled</code> (bool) <ul>
+    <li>Enables/Disables the camera rotation updates. Useful when you want to lock the camera in place or
+      to turn off the camera, for example, when hovering an interface element with the mouse</li>
+  </ul>
+  </li>
+  <li><code>Rotation Speed</code> (Vector2)<ul>
+    <li>How fast the camera can rotate.</li>
+  </ul>
+  </li>
+  <li><code>Min/Max distance</code> (float) <ul>
+    <li>Sets a min/max distance for zooming in or out    </li>
+  </ul>
+  </li>
+  <li><code>Min/Max Angle limit</code> (float) :<ul>
+    <li>Sets a limit for the angle how much you can look up or down        </li>
+  </ul>
+  </li>
+</ul>
+<h3 id="stationary-settings">STATIONARY SETTINGS</h3>
+<ul>
+  <li>enum <code>StationaryModeType</code>:<ul>
+    <li>Free: no limits in angle</li>
+    <li>Fixed: can&#39;t move axis</li>
+    <li>Limited: limited in angles</li>
+    <li>Rotate when Limited: limited by angles, when over threshold rotate the camera</li>
+  </ul>
+  </li>
+  <li><code>Stationary Mode Horizontal</code> (StationaryModeType)<ul>
+    <li>Sets a stationary mode for the horizontal axis</li>
+  </ul>
+  </li>
+  <li><code>Stationary Mode Vertical</code> (StationaryModeType)<ul>
+    <li>Sets a stationary mode for the vertical axis</li>
+  </ul>
+  </li>
+  <li><code>Stationary Max Angle Horizontal</code> (float)<ul>
+    <li>Maximum angle for the horizontal axis</li>
+  </ul>
+  </li>
+  <li><code>Stationary Max Angle Vertical</code> (float)<ul>
+    <li>Maximum angle for the vertical axis</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="extra-settings">EXTRA SETTINGS</h3>
+<ul>
+  <li><code>Smoothing</code> (bool)<ul>
+    <li>Enables smoothing for the camera rotation when looking around - Beware, introduces interpolation lag</li>
+  </ul>
+  </li>
+  <li><code>Smooth speed</code> (float) <ul>
+    <li>The speed at which the camera will lerp to the final rotation</li>
+  </ul>
+  </li>
+  <li><code>Force character direction</code> (bool)<ul>
+    <li>Sets the targets y-axis to have the same y rotation as the camera.</li>
+  </ul>
+  </li>
+  <li><code>Stabilize rotation</code> (bool)<ul>
+    <li>Sets the z-axis rotation to 0 and stabilizes the rotation. Only use when the z-axis is drifting.</li>
+  </ul>
+  </li>
+  <li><code>Custom Input</code> (bool)<ul>
+    <li>Inform the script of using a custom input script to set the CameraInputFreeForm model</li>
+  </ul>
+  </li>
+  <li><code>Looking backwards enabled</code> (bool)<ul>
+    <li>Enables looking backward with pressing middle mouse button</li>
+  </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="follow-component">Follow component</h2>
+<p>This script handles following the target without any manual camera input. Useful for games that handle non-humanoid targets
+  like racing or flying games. Its dependency is the CameraController.</p>
+<h3 id="basic-settings">BASIC SETTINGS</h3>
+<ul>
+  <li><code>EnableFollow</code> (bool) <ul>
+    <li>Enables/Disables the follow mode</li>
+  </ul>
+  </li>
+  <li><code>FollowMode</code> (enum)<ul>
+    <li>TargetForward: Always aligns with the target forward.</li>
+    <li>LookAt: Adventure camera which tries to look at the target and moving as little as possible.</li>
+  </ul>
+  </li>
+  <li><code>Rotation Speed</code> (float) <ul>
+    <li>How fast the camera should align to the transform.forward of the target</li>
+  </ul>
+  </li>
+  <li><code>Tilt Vector</code> (Vector3) <ul>
+    <li>Applies an additional vector to the target position to tilt the camera.</li>
+  </ul>
+  </li>
+  <li><code>Disable Time</code> (float)<ul>
+    <li>The default time in seconds the script will be disabled when the player has input in FreeForm</li>
+  </ul>
+  </li>
+  <li><code>EnablePreemptiveSweeping</code> (bool)<ul>
+    <li>Used for LookAt mode. Rotates the camera when target moves around a corner. </li>
+  </ul>
+  </li>
+  <li><code>SweepSpeed</code> (float)<ul>
+    <li>How fast the camera should align to the target.forward when sweeping.</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="slope-aligning">SLOPE ALIGNING</h3>
+<ul>
+  <li><code>Align on Slopes</code> (bool) <ul>
+    <li>Enables/Disables automatic alignment of the camera when the target is moving on upward or downward slopes</li>
+  </ul>
+  </li>
+  <li><code>Rotation speed slopes</code> (float)<ul>
+    <li>The speed at which the camera lerps to the adjusted slope rotation</li>
+  </ul>
+  </li>
+  <li><code>Align direction downwards</code> (bool) <ul>
+    <li>Set the camera to rotate downwards instead of upwards when the target hits a slope</li>
+  </ul>
+  </li>
+  <li><code>Ground Layer Mask</code> (LayerMask) <ul>
+    <li>The layer which should be used for the ground/slope checks. Usually just the Default layer.</li>
+  </ul>
+  </li>
+</ul>
+<h4 id="backward-motion-aligning">BACKWARD MOTION ALIGNING</h4>
+<ul>
+  <li><code>Look Backwards</code> (bool)<ul>
+    <li>Enables/Disables looking backwards</li>
+  </ul>
+  </li>
+  <li><code>Check Motion for Backwards</code> (bool) <ul>
+    <li>Enables/Disables automatic checking when the camera should look back</li>
+  </ul>
+  </li>
+  <li><code>Backwards Motion Threshold</code> (float) T<ul>
+    <li>The minimum magnitude of the motion vector when the camera should consider looking back</li>
+  </ul>
+  </li>
+  <li><code>Angle Threshold</code> (float) <ul>
+    <li>The minimum angle when the camera should consider looking back</li>
+  </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="lockontarget-component">LockOnTarget component</h2>
+<p>This script handles locking onto targets. It&#39;s dependencies are the CameraController and Freeform component.</p>
+<h3 id="basic-settings">BASIC SETTINGS</h3>
+<ul>
+  <li><code>Follow Target</code> (Targetable) <ul>
+    <li>When not null, the camera will align itself to focus the Follow Target.</li>
+  </ul>
+  </li>
+  <li><code>CastRadius</code> (float)<ul>
+    <li>The radius/units around the target in which targets will be acquired.</li>
+  </ul>
+  </li>
+  <li><code>Rotation Speed</code> (float) <ul>
+    <li>How fast the camera should align to the Follow Target</li>
+  </ul>
+  </li>
+  <li><code>Tilt Vector</code> (Vector3)    <ul>
+    <li>Applies an additional vector to the target position to tilt the camera.</li>
+  </ul>
+  </li>
+  <li><code>Normalize Height</code> (bool)<ul>
+    <li>Ignores the resulting height difference from the direction to the target.</li>
+  </ul>
+  </li>
+  <li><code>Disable Time</code> (float)<ul>
+    <li>The default time in seconds the script will disable &#39;Smooth Pivot&#39; when the player has input in FreeForm</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="targetables-sorting-settings">TARGETABLES SORTING SETTINGS</h3>
+<ul>
+  <li><code>Default Distance</code> (float)        <ul>
+    <li>A default distance value to handle targetables sorting. Increase when game world and distances are very large.</li>
+  </ul>
+  </li>
+  <li><code>Angle Weight</code> (float) <ul>
+    <li>A weight value to handle targetables sorting. Increase to prefer angles over distance</li>
+  </ul>
+  </li>
+  <li><code>Distance Weight</code> (float) <ul>
+    <li>A weight value to handle targetables sorting. Increase to prefer distance over angles        </li>
+  </ul>
+  </li>
+</ul>
+<h3 id="extra-settings">EXTRA SETTINGS</h3>
+<ul>
+  <li><code>Forward from target</code> (bool) <ul>
+    <li>Use the forward vector of the target to find the nearest Targetable. Default is the camera forward vector    </li>
+  </ul>
+  </li>
+  <li><code>Custom Input</code> (bool)<ul>
+    <li>Inform the script of using a custom input method to set the CameraInputLockOn model</li>
+  </ul>
+  </li>
+  <li><code>Max allocated targets</code><ul>
+    <li>The amount of maximum targets that will be acquired for the sphere overlap cast.</li>
+  </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="targetable-component-">Targetable component:</h2>
+<p>Every Target that&#39;s focusable needs a Targetable component.    </p>
+<ul>
+  <li><code>Offset</code> (Vector3)<ul>
+    <li>Set an offset for the target when the transform.position is not fitting.</li>
+  </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="disablefollow-component">DisableFollow component</h2>
+<p>Disables follow component at adjustable triggers to allow FreeForm. Its triggers are target motion, time and mouse input.</p>
+<h3 id="basic-settings">BASIC SETTINGS</h3>
+<ul>
+  <li><code>activateMotionCheck</code> (bool) <ul>
+    <li>Enables motion check with its motionThreshold</li>
+  </ul>
+  </li>
+  <li><code>activateTimeCheck</code>  (bool) <ul>
+    <li>Enables timed checks and resets to follow after timeToActivate seconds are elapsed</li>
+  </ul>
+  </li>
+  <li><code>activateMouseCheck</code> (bool) <ul>
+    <li>Enables reactivation of follow when mouse buttons are released</li>
+  </ul>
+  </li>
+  <li><code>timeToActivate</code> (float) <ul>
+    <li>Time in seconds when follow is reactivated. It will also not reactivate when the user still has input.</li>
+  </ul>
+  </li>
+  <li><code>motionThreshold</code> (float) <ul>
+    <li>Distance which has to be crossed to reactivate follow</li>
+  </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="overtheshoulder-component">OverTheShoulder component</h2>
+<p>With this script the camera can change into an aim and release mode by pressing the right mouse button.</p>
+<h3 id="basic-settings">BASIC SETTINGS</h3>
+<ul>
+  <li><code>Aim offset length</code> (float) <ul>
+    <li>The distance the camera moves away from its zero position. 0.5 means it&#39;ll set the max camera offset vector to (axis * maxValue), so -0.5f to 0.5f</li>
+  </ul>
+  </li>
+  <li><code>Aim distance</code> (float)<ul>
+    <li>The distance from the target when aiming</li>
+  </ul>
+  </li>
+  <li><p><code>Release distance</code> (float)</p>
+    <ul>
+      <li>The distance from the target when released</li>
+    </ul>
+  </li>
+  <li><p><code>Base Offset</code> (Vector3) </p>
+    <ul>
+      <li>The base offset serves as starting and endpoint when releasing.</li>
+    </ul>
+  </li>
+  <li><code>Slide Axis</code> (Vector3) <ul>
+    <li>You can tweak the axis on which the camera slides on, usually it will be just operating on the x axis to slide
+      left and right from the targeted character but it can be changed to any direction in case gravity changes for example.
+      The intended design is to use normalized values between -1 and 1
+      The difference to the &quot;Additional Axis Movement&quot; vector is that the slide axis goes back and forth when aiming/releasing
+      were the additional axis is fixed.</li>
+  </ul>
+  </li>
+  <li><code>Additional Axis Movement</code> (Vector3) <ul>
+    <li>This axis can be used to have additional offsets when aiming. Unlike the slide axis this
+      axis is intended for non-normalized values much like the base offset.
+      It can be used to make the camera zoom high above the character for example when aiming.    </li>
+  </ul>
+  </li>
+</ul>
+<h3 id="extra-settings">EXTRA SETTINGS</h3>
+<ul>
+  <li><code>Custom Input</code> (bool)<ul>
+    <li>Inform the script of using a custom input method to set the CameraInputShoulder model</li>
+  </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="freeform-camera-input-sampling-component-legacy-">FreeForm - Camera Input Sampling component (Legacy)</h2>
+<p>This script handles input sampling and automatically updates the needed input model of FreeForm</p>
+<h3 id="input-settings">INPUT SETTINGS</h3>
+<ul>
+  <li><code>Camera Mode</code> (enum)<ul>
+    <li>Always and hold - Either the camera rotation is always on or you have to press the mouse button to look around</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="mouse-settings">MOUSE SETTINGS</h3>
+<ul>
+  <li><code>Mouse Input</code> (List<int>)<ul>
+    <li>A list of integer mouseButton values to enable freelook, default is left/right mouse button</li>
+  </ul>
+  </li>
+  <li><code>Mouse Sensitivity</code> (Vector2)<ul>
+    <li>Adjusts the sensitivity of looking around with the mouse</li>
+  </ul>
+  </li>
+  <li><code>Mouse Invert Y</code> (bool)<ul>
+    <li>Inverts the Y-Axis</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="keyboard-input-settings">KEYBOARD INPUT SETTINGS</h3>
+<ul>
+  <li><code>Keyboard Input</code> (List<KeyCode>:<ul>
+    <li>A list of KeyCodes to enable freelook</li>
+  </ul>
+  </li>
+</ul>
+<h4 id="controller-input-settings">CONTROLLER INPUT SETTINGS</h4>
+<ul>
+  <li><code>Controller Enabled</code> (bool)<ul>
+    <li>Enables controller support</li>
+  </ul>
+  </li>
+  <li><code>Gamepad/Button Input</code> (List<string>:<ul>
+    <li>A list of button strings to enable freelook</li>
+  </ul>
+  </li>
+  <li><code>Controller Invert Y</code> (bool)<ul>
+    <li>Inverts the Y-axis</li>
+  </ul>
+  </li>
+  <li><code>Controller Sensitivity</code> (Vector2)<ul>
+    <li>Adjusts the sensitivity of looking around with the controller</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="lock-mouse-settings">LOCK MOUSE SETTINGS</h3>
+<ul>
+  <li><code>Lock Mouse Cursor</code> (bool)<ul>
+    <li>When looking around the mouse cursor will be locked</li>
+  </ul>
+  </li>
+  <li><code>Keyboard Input Toggle</code> (KeyCode)<ul>
+    <li>A list of KeyCodes to cancel locked mouse cursor</li>
+  </ul>
+  </li>
+  <li><code>Keyboard Input Cancel</code> (KeyCode)<ul>
+    <li>A list of KeyCodes to cancel locked mouse cursor</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="extra-settings">EXTRA SETTINGS</h3>
+<ul>
+  <li><code>Force Direction Feature</code> (bool)<ul>
+    <li>Enable this feature to automatically handle FreeForm.forceCharacterDirection with given inputs</li>
+  </ul>
+  </li>
+  <li><code>Mouse Input Force Direction</code><ul>
+    <li>A list of integer mouseButton values to enable forcing character/target rotation</li>
+  </ul>
+  </li>
+</ul>
+<p>Public variables:</p>
+<ul>
+  <li><code>InputSamplingEnabled</code> (bool)<ul>
+    <li>Hidden in inspector, enables input sampling</li>
+  </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="lockon-camera-input-sampling-component-legacy-">LockOn - Camera Input Sampling component (Legacy)</h2>
+<p>This script handles input sampling and automatically updates the needed input model of LockOnTarget</p>
+<h3 id="basic-settings">BASIC SETTINGS</h3>
+<ul>
+  <li><code>Cycle cooldown</code> (float)<ul>
+    <li>The time in seconds after which next/previous cycling gets reset to the beginning or 0 index of available Targetables</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="input-mouse-settings">INPUT MOUSE SETTINGS</h3>
+<ul>
+  <li><code>Mouse LockOn Input</code> (List<int>)<ul>
+    <li>A list of integer mouseButton values to lock on a target, default is right mouse button</li>
+  </ul>
+  </li>
+  <li><code>Mouse - Cycle target Next</code> (List<int>)<ul>
+    <li>A list of integer mouseButton values to cycle to the next locked on target</li>
+  </ul>
+  </li>
+  <li><code>Mouse - Cycle target Previous</code> (List<int>)<ul>
+    <li>A list of integer mouseButton values to cycle to the previous locked on target</li>
+  </ul>
+  </li>
+</ul>
+<h3 id="input-keyboard-settings">INPUT KEYBOARD SETTINGS</h3>
+<ul>
+  <li><code>Keyboard LockOn Input</code> (List<KeyCode>)
+    A list of KeyCode values to lock on a target</li>
+  <li><code>Keyboard - Cycle target Next</code> (List<KeyCode>)
+    A list of KeyCode values to cycle to the next locked on target</li>
+  <li><code>Keyboard - Cycle target Previous</code> (List<KeyCode>)
+    A list of KeyCode values to cycle to the previous locked on target</li>
+</ul>
+<h3 id="input-controller-settings">INPUT CONTROLLER SETTINGS</h3>
+<ul>
+  <li><code>Gamepad/Button LockOn Input</code> (List<string>)<ul>
+    <li>A list of button strings to lock on a target</li>
+  </ul>
+  </li>
+  <li><code>Gamepad/Button - Cycle target Next</code> (List<KeyCode>)<ul>
+    <li>A list of button strings to cycle to the next locked on target</li>
+  </ul>
+  </li>
+  <li><p><code>Gamepad/Button - Cycle target Previous</code> (List<KeyCode>)</p>
+    <ul>
+      <li>A list of button strings to cycle to the previous locked on target</li>
+    </ul>
+    <p>Public Variables:</p>
+    <ul>
+      <li><code>InputSamplingEnabled</code> (bool)
+        Hidden in inspector, enables input sampling</li>
+    </ul>
+  </li>
+</ul>
+<hr>
+<h2 id="shoulder-camera-input-sampling-component-legacy-">Shoulder - Camera Input Sampling  component (Legacy)</h2>
+<p>This script handles input sampling and automatically updates the needed input model of OverTheShoulder</p>
+<h3 id="input-settings">INPUT SETTINGS</h3>
+<ul>
+  <li><code>Input Mouse Aim Mode</code> (List<int>) <ul>
+    <li>A list of Mouse button values to activate aiming - Default is right mouse button</li>
+  </ul>
+  </li>
+  <li><code>Input Keyboard Aim Mode</code> (List<KeyCode>)<ul>
+    <li>A list of KeyCode values to activate aiming</li>
+  </ul>
+  </li>
+  <li><code>Input Gamepad Aim Mode</code> (List<string>) <ul>
+    <li>A list of button strings to activate aiming</li>
+  </ul>
+  </li>
+  <li><code>Input Mouse Change Leaning</code> (List<int>) <ul>
+    <li>A list of Mouse button values to toggle the side you are leaning to</li>
+  </ul>
+  </li>
+  <li><code>Input Keyboard Change Leaning</code> (List&lt;KeyCode) <ul>
+    <li>A list of KeyCode values to toggle the side you are leaning to        </li>
+  </ul>
+  </li>
+  <li><code>Input Gamepad Change Leaning</code> (List<string>) <ul>
+    <li>A list of button strings to toggle the side you are leaning to</li>
+  </ul>
+  </li>
+  <li><code>InputSamplingEnabled</code> (bool) <ul>
+    <li>Hidden in inspector, enables input sampling</li>
+  </ul>
+  </li>
+</ul>
+<p>Public Variables:</p>
+<ul>
+  <li>Input Sampling Enabled (bool)<ul>
+    <li>Enable/Disable input sampling</li>
+  </ul>
+  </li>
+</ul>
+<p>Additional setup for controller support:
+  For an easier setup use the preconfigured InputManager.asset from the 3rdPersonCamera/ProjectSettings folder.
+  !Caution! - Doing so will overwrite any InputManager data you already have!</p>
+<p>If you get this warning: &quot;Controller Error - Right axis not set in InputManager. Controller is disabled!&quot;
+  you have to set the following axis in the InputManager:
+  &quot;Right_3&quot;: 3rd axis
+  &quot;Right_4&quot;: 4th axis
+  &quot;Right_5&quot;: 5th axis
+  0 gravity, 0.3 dead, 1 sensitivity are good standard values.</p>
+<p>If you need other names you can change them in the script.</p>
+<hr>
+<h3 id="controls-for-demos">Controls for demos</h3>
+<ul>
+  <li>WASD for movement</li>
+  <li>Left/right click to rotate in freeform demo</li>
+  <li>Right click, lock on target in target demo</li>
+  <li>&quot;r&quot; key to reset car/ball</li>
+  <li>&quot;q&quot; and &quot;e&quot; to rotate camera in ball demo</li>
+</ul>
+<hr>
+<h2 id="version-history">Version History</h2>
+<h3 id="1-1-2">1.1.2</h3>
+<pre><code>-<span class="ruby"> Hotfix <span class="hljs-keyword">for</span> <span class="hljs-string">'AlignOnSlopes'</span> feature missing the smart pivot rotation <span class="hljs-keyword">in</span> <span class="hljs-string">`TargetForward`</span> mode</span>
+</code></pre><h3 id="1-1-1">1.1.1</h3>
+<pre><code>- Fixed `AlignOnSlopes` feature to work <span class="hljs-keyword">with</span> `LookAt` follow mode
+</code></pre><h3 id="1-1">1.1</h3>
+<pre><code>- Camera <span class="hljs-built_in">offset</span> vector behaviour has been improved <span class="hljs-keyword">and</span> <span class="hljs-keyword">instead of</span> just switching sides when 
+  <span class="hljs-keyword">it</span>'s colliding, <span class="hljs-keyword">it</span> will smoothly realign <span class="hljs-keyword">to</span> <span class="hljs-keyword">the</span> center. Furthermore, <span class="hljs-keyword">it</span> will <span class="hljs-keyword">try</span> <span class="hljs-keyword">to</span> lerp smoothly
+  <span class="hljs-keyword">in</span> almost <span class="hljs-keyword">every</span> situation unless <span class="hljs-keyword">the</span> camera will collide <span class="hljs-keyword">with</span> something.
+- Moved all relevant data <span class="hljs-keyword">to</span> `CameraControllerState` <span class="hljs-keyword">to</span> support better saving/loading.
+  Use `GetControllerState` <span class="hljs-keyword">and</span> `ApplyControllerState`. Keep <span class="hljs-keyword">in</span> mind this only applies <span class="hljs-keyword">to</span> 
+  state <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> settings <span class="hljs-keyword">or</span> <span class="hljs-keyword">the</span> current `Target`!
+</code></pre><h3 id="1-0-8-1">1.0.8.1</h3>
+<pre><code>- fixed <span class="hljs-keyword">a</span> clamp bug <span class="hljs-keyword">in</span> LockOnTarget
+- renamed <span class="hljs-string">"InputManager.asset"</span> <span class="hljs-built_in">to</span> <span class="hljs-string">"InputManager.asset.template"</span> <span class="hljs-built_in">to</span> supress <span class="hljs-keyword">the</span> warning
+- removed default code generated <span class="hljs-built_in">file</span> <span class="hljs-string">"TPC_Input"</span> <span class="hljs-built_in">from</span> base package
+</code></pre><h3 id="1-0-8">1.0.8</h3>
+<pre><code>- Improved <span class="hljs-keyword">and</span> rewrote every feature
+- Added <span class="hljs-string">"Adventure"</span> camera <span class="hljs-keyword">for</span> <span class="hljs-string">"Follow"</span>: 
+    <span class="hljs-keyword">Use</span> FollowMode <span class="hljs-string">"LookAt"</span> <span class="hljs-keyword">to</span> activate
+- Added <span class="hljs-keyword">new</span> Input system bindings:
+    Remove the old <span class="hljs-string">"CameraInputSampling_xxx"</span> scripts <span class="hljs-keyword">and</span> add the <span class="hljs-string">"CameraInputSampling"</span> <span class="hljs-keyword">component</span>.
+    Don<span class="hljs-symbol">'t</span> forget <span class="hljs-keyword">to</span> change <span class="hljs-keyword">to</span> the <span class="hljs-keyword">new</span> Input System <span class="hljs-keyword">in</span> the Player preferences.
+    Control bindings can be found <span class="hljs-keyword">in</span> <span class="hljs-string">"3rdPersonCamera\Settings\Input"</span>
+- Split demo scenes into its own .unityPackage
+- Integrated the free KCC (KinematicCharacterController) <span class="hljs-keyword">for</span> better <span class="hljs-built_in">character</span> movement
+  <span class="hljs-keyword">and</span> easier <span class="hljs-keyword">out</span> <span class="hljs-keyword">of</span> the box usage  
+- Updated <span class="hljs-keyword">and</span> reformated documentation
+</code></pre><h3 id="1-0-7-2">1.0.7.2</h3>
+<pre><code>- The main transform.rotation has been split up <span class="hljs-keyword">in</span> <span class="hljs-keyword">new</span> Quaternions <span class="hljs-keyword">for</span> camera rotation, pivot <span class="hljs-keyword">and</span> smart pivot rotations:
+  <span class="hljs-keyword">Not</span> only <span class="hljs-keyword">is</span> the smart pivot now smoothly integrated <span class="hljs-keyword">in</span> the rest <span class="hljs-keyword">of</span> the systems, the <span class="hljs-keyword">new</span> pivot opens up another level <span class="hljs-keyword">of</span> control. Rotations without the camera moving/rotating around.
+- Raycast hit sorting has been improved which should solve most jitter issues (Haven<span class="hljs-symbol">'t</span> found them <span class="hljs-keyword">while</span> testing)
+- Thickness check improvements, more stable results
+- Smart pivot ground check improvement where it would <span class="hljs-keyword">not</span> trigger smart pivot <span class="hljs-keyword">on</span> slopes. There <span class="hljs-keyword">is</span> now also an option <span class="hljs-keyword">to</span> have smart pivot only <span class="hljs-keyword">on</span> grounds <span class="hljs-keyword">and</span>/<span class="hljs-keyword">or</span> walls
+- Repositioning <span class="hljs-keyword">when</span> colliding has been improved <span class="hljs-keyword">and</span> getting back <span class="hljs-keyword">to</span> the the desired distance should be more stable/smooth
+- A <span class="hljs-keyword">new</span> demo scene: car <span class="hljs-keyword">with</span> lock <span class="hljs-keyword">on</span>
+- Introduced <span class="hljs-keyword">new</span> parameters:
+    Camera Controller
+    - Smart Pivot only <span class="hljs-keyword">on</span> ground
+    - Pivot Rotation Enabled
+    - Smooth pivot: pivot will smoothly slerp <span class="hljs-keyword">to</span> <span class="hljs-keyword">new</span> pivot
+    - Custom Pivot: enable <span class="hljs-keyword">to</span> <span class="hljs-keyword">use</span> pivot angles <span class="hljs-keyword">for</span> override
+    - Pivot Angles
+    Free Form
+    - Stationary Mode Horizontal/Vertical
+    - Stationary Modes (enum)
+        * Free: no limits <span class="hljs-keyword">in</span> angle
+        * Fixed: can<span class="hljs-symbol">'t</span> move axis
+        * Limited: limited <span class="hljs-keyword">in</span> angles
+        * Rotate <span class="hljs-keyword">when</span> Limited: limited by angles, <span class="hljs-keyword">when</span> over threshold rotate the camera
+    - Stationary max angle Horizontal/Vertical
+    Follow
+    - Disable <span class="hljs-built_in">time</span>: The <span class="hljs-keyword">default</span> <span class="hljs-built_in">time</span> <span class="hljs-keyword">in</span> seconds the script will be disabled <span class="hljs-keyword">when</span> the player has input <span class="hljs-keyword">in</span> FreeForm
+    LockOn
+    - Disable <span class="hljs-built_in">time</span>: <span class="hljs-keyword">When</span> there <span class="hljs-keyword">is</span> input <span class="hljs-keyword">in</span> freeform, LockOn will disable the <span class="hljs-string">"smooth pivot"</span> mode <span class="hljs-keyword">and</span> enable it <span class="hljs-keyword">after</span> the disable <span class="hljs-built_in">time</span> 
+</code></pre><h3 id="1-0-6-3">1.0.6.3</h3>
+<pre><code>- fixed regression in <span class="hljs-built_in">input</span> sampling where camera <span class="hljs-keyword">mode</span> <span class="hljs-keyword">set</span> <span class="hljs-keyword">to</span> Always was not working
+- added <span class="hljs-string">"Ignore X Rotation"</span> <span class="hljs-keyword">to</span> Follow <span class="hljs-keyword">so</span> the player can look <span class="hljs-keyword">up</span>/down in follow <span class="hljs-keyword">mode</span>
+</code></pre><h3 id="1-0-6-2">1.0.6.2</h3>
+<pre><code>- cleanup <span class="hljs-keyword">of</span> prefabs
+</code></pre><h3 id="1-0-6-1">1.0.6.1</h3>
+<pre><code>- added MouseCursorHelper <span class="hljs-keyword">for</span> Windows <span class="hljs-built_in">platform</span> <span class="hljs-built_in">to</span> support cursor locking <span class="hljs-keyword">in</span> place
+  <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> center <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> screen
+- added gamepad button sampling <span class="hljs-built_in">to</span> FreeForm input sampling
+- added public bool inputSamplingEnabled <span class="hljs-built_in">to</span> all input sampling scripts
+  <span class="hljs-keyword">with</span> which sampling can be disabled (<span class="hljs-keyword">for</span> example when hovering interface elements)
+- added forceDirectionFeature <span class="hljs-built_in">to</span> FreeForm input sampling, which handles
+  forcing <span class="hljs-keyword">the</span> direction <span class="hljs-keyword">of</span> FreeForm <span class="hljs-keyword">with</span> mouse buttons (<span class="hljs-keyword">for</span> example, only force direction <span class="hljs-keyword">with</span> <span class="hljs-literal">right</span> mouse button)
+- added stabilizeRotation <span class="hljs-built_in">to</span> FreeForm <span class="hljs-keyword">in</span> <span class="hljs-keyword">case</span> <span class="hljs-keyword">the</span> z-rotation starts <span class="hljs-built_in">to</span> drift
+</code></pre><h3 id="1-0-6-0">1.0.6.0</h3>
+<pre><code>- added TPC_DEBUG <span class="hljs-keyword">to</span> CameraController which enables debugging options <span class="hljs-keyword">for</span> raycasts visualization.
+  Either uncomment TPC_DEBUG <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> <span class="hljs-keyword">script</span> directly <span class="hljs-keyword">or</span> define <span class="hljs-keyword">in</span> Unity project settings
+- improved unreliable raycast hit handling <span class="hljs-keyword">on</span> edges <span class="hljs-keyword">and</span> sorting <span class="hljs-keyword">for</span> <span class="hljs-keyword">the</span> best results
+- improved distance handling <span class="hljs-keyword">on</span> repositions
+</code></pre><h3 id="1-0-5-9">1.0.5.9</h3>
+<pre><code>- Fixed <span class="hljs-keyword">a</span> glitch <span class="hljs-keyword">for</span> <span class="hljs-number">0</span>/<span class="hljs-number">0</span>/<span class="hljs-number">0</span> <span class="hljs-built_in">offset</span> vectors where <span class="hljs-keyword">the</span> pivot point <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> target is inside <span class="hljs-keyword">the</span> collision sphere.
+  The <span class="hljs-built_in">offset</span> gets fixed <span class="hljs-keyword">in</span> Awake <span class="hljs-keyword">of</span> <span class="hljs-keyword">the</span> CameraController, during runtime please use UpdateOffsetVector(Vector3) <span class="hljs-built_in">to</span> prevent glitches.
+</code></pre><h3 id="1-0-5-8">1.0.5.8</h3>
+<pre><code>- Input sampling <span class="hljs-keyword">of</span> FreeForm, OverTheShoulder <span class="hljs-keyword">and</span> LockOn <span class="hljs-keyword">has</span> been split <span class="hljs-keyword">into</span> seperate scripts
+  <span class="hljs-keyword">and</span> a data oriented model <span class="hljs-keyword">is</span> now used <span class="hljs-keyword">for</span> main scripts:
+  * FreeForm <span class="hljs-keyword">uses</span> struct CameraInputFreeForm
+  * LockOnTarget <span class="hljs-keyword">uses</span> struct CameraInputLockOn
+  * OverTheShoulder <span class="hljs-keyword">uses</span> struct CameraInputShoulder
+
+  These scripts are updated <span class="hljs-keyword">with</span> the UpdateInput(CameraInput...) <span class="hljs-function"><span class="hljs-keyword">method</span>. <span class="hljs-title">This</span> <span class="hljs-title">method</span> <span class="hljs-title">should</span> <span class="hljs-title">be</span> <span class="hljs-title">used</span> <span class="hljs-title">for</span> 
+  <span class="hljs-title">custom</span> <span class="hljs-title">input</span> <span class="hljs-title">sampling</span> <span class="hljs-title">scripts</span>
+
+- <span class="hljs-title">added</span> <span class="hljs-title">CameraInputSampling_X</span> <span class="hljs-title">components</span> <span class="hljs-title">which</span> <span class="hljs-title">samples</span> <span class="hljs-title">inputs</span> <span class="hljs-title">and</span> <span class="hljs-title">automatically</span> <span class="hljs-title">updates</span> 
+  <span class="hljs-title">the</span> <span class="hljs-title">according</span> <span class="hljs-title">input</span> <span class="hljs-title">model</span> <span class="hljs-title">with</span> <span class="hljs-title">UpdateInput</span><span class="hljs-params">(CameraInput...)</span>
+  <span class="hljs-title">These</span> <span class="hljs-title">scripts</span> <span class="hljs-title">can</span> <span class="hljs-title">be</span> <span class="hljs-title">used</span> <span class="hljs-title">as</span> <span class="hljs-title">a</span> <span class="hljs-title">template</span> <span class="hljs-title">for</span> <span class="hljs-title">custom</span> <span class="hljs-title">input</span> <span class="hljs-title">sampling</span> <span class="hljs-title">or</span> <span class="hljs-title">adding</span> <span class="hljs-title">additional</span> <span class="hljs-title">inputs</span>
+- <span class="hljs-title">added</span> <span class="hljs-title">component</span> <span class="hljs-title">CameraInputSampling_FreeForm</span>
+- <span class="hljs-title">added</span> <span class="hljs-title">component</span> <span class="hljs-title">CameraInputSampling_Shoulder</span>
+- <span class="hljs-title">added</span> <span class="hljs-title">component</span> <span class="hljs-title">CameraInputSampling_LockOn</span>    </span>
+</code></pre><h3 id="1-0-5-7">1.0.5.7</h3>
+<pre><code>-<span class="ruby"> fixed occurances where automatic zooming out failed <span class="hljs-keyword">and</span> the camera would reposition itself too fast
+</span>-<span class="ruby"> improved smart pivot transition
+</span>-<span class="ruby"> improved camera offset clipping</span>
+</code></pre><h3 id="1-0-5-6">1.0.5.6</h3>
+<pre><code>- added headers <span class="hljs-keyword">and</span> tooltips <span class="hljs-keyword">to</span> components <span class="hljs-keyword">and</span> fields <span class="hljs-keyword">to</span> provide easier documentation
+- changed smoothTargetValue <span class="hljs-keyword">in</span> CameraController <span class="hljs-keyword">from</span> float <span class="hljs-keyword">to</span> Vector3 <span class="hljs-keyword">to</span> have more control <span class="hljs-keyword">over</span> axis 
+</code></pre><h3 id="1-0-5-5">1.0.5.5</h3>
+<pre><code>- added a stabilization <span class="hljs-keyword">for</span> follow/lock <span class="hljs-keyword">on</span> rotations <span class="hljs-keyword">to</span> prevent wrong rotations <span class="hljs-keyword">in</span> Z-axis
+- added mouse/keyboard/gamepad input <span class="hljs-keyword">to</span> LockOnTarget <span class="hljs-keyword">for</span> locking <span class="hljs-keyword">on</span> target <span class="hljs-keyword">and</span> switching <span class="hljs-keyword">to</span> next/previous
+- improved lock <span class="hljs-keyword">on</span> target mode <span class="hljs-keyword">with</span> weighted distance <span class="hljs-keyword">and</span> angle
+- added input properties <span class="hljs-keyword">for</span> aiming <span class="hljs-keyword">and</span> switching sides <span class="hljs-keyword">to</span> OverTheShoulder
+- added <span class="hljs-string">"forwardFromTarget"</span> <span class="hljs-keyword">to</span> LockOnTarget which provides a more stable sampling <span class="hljs-keyword">of</span> targets when cycling <span class="hljs-keyword">through</span> targets <span class="hljs-keyword">is</span> preferred
+  <span class="hljs-keyword">the</span> default mode takes <span class="hljs-keyword">the</span> forward <span class="hljs-keyword">from</span> camera - which gives <span class="hljs-keyword">the</span> best results when cycling <span class="hljs-keyword">isn't</span> needed <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> target <span class="hljs-keyword">that</span> <span class="hljs-keyword">is</span> looked <span class="hljs-keyword">at</span> <span class="hljs-keyword">is</span> more important
+</code></pre><h3 id="1-0-5-4">1.0.5.4</h3>
+<pre><code>- added forceCharacterDirection <span class="hljs-keyword">to</span> FreeForm so <span class="hljs-keyword">the</span> <span class="hljs-built_in">character</span> turns automatically <span class="hljs-keyword">in</span> <span class="hljs-keyword">the</span> same direction <span class="hljs-keyword">the</span> camera <span class="hljs-keyword">is</span> facing.
+  This works only <span class="hljs-keyword">for</span> <span class="hljs-built_in">character</span> controllers <span class="hljs-keyword">that</span> use absolute directions <span class="hljs-keyword">for</span> movement. The demo <span class="hljs-built_in">character</span> controller
+  uses relative movement, so <span class="hljs-keyword">it</span> won't work right.
+- fixed a sorting bug <span class="hljs-keyword">with</span> occlusion hits
+- improved thickness logic <span class="hljs-keyword">for</span> clipping geometry <span class="hljs-keyword">that</span> occurs often <span class="hljs-keyword">in</span> prefab based level design
+</code></pre><h3 id="1-0-5-3">1.0.5.3</h3>
+<pre><code>-<span class="ruby"> improved jitter <span class="hljs-keyword">when</span> camera was zooming out against a wall
+</span>-<span class="ruby"> improved thickness handling</span>
+</code></pre><h3 id="1-0-5-2">1.0.5.2</h3>
+<pre><code>- added <span class="hljs-built_in">min</span>/<span class="hljs-built_in">max</span> <span class="hljs-built_in">distance</span> <span class="hljs-keyword">to</span> CameraController
+- added namespace <span class="hljs-keyword">for</span> demoscene scripts
+</code></pre><h3 id="1-0-5">1.0.5</h3>
+<pre><code>- added <span class="hljs-keyword">an</span> additional camera <span class="hljs-built_in">offset</span> vector <span class="hljs-keyword">for</span> skewed over-<span class="hljs-keyword">the</span>-shoulder camera type <span class="hljs-keyword">of</span> games like <span class="hljs-string">"The Division"</span>
+  that can either be fixed <span class="hljs-keyword">or</span> controlled via <span class="hljs-keyword">the</span> OverTheShoulder script
+- added OverTheShoulder component
+- added <span class="hljs-built_in">new</span> scene <span class="hljs-built_in">to</span> demonstrate Camera Offset called <span class="hljs-string">"DivisionCamera - DemoScene"</span>
+- changed PlayerLayer data type <span class="hljs-built_in">from</span> <span class="hljs-keyword">integer</span> <span class="hljs-built_in">to</span> LayerMask <span class="hljs-keyword">for</span> convenience <span class="hljs-keyword">and</span> <span class="hljs-keyword">the</span> possibility <span class="hljs-built_in">to</span> have more player layers
+- added <span class="hljs-string">"Smooth Target Mode"</span> <span class="hljs-keyword">and</span> <span class="hljs-string">"Smooth Target Value"</span> that lerps <span class="hljs-built_in">to</span> <span class="hljs-keyword">the</span> target position <span class="hljs-keyword">for</span> smoother translations/rotations
+  <span class="hljs-built_in">to</span> dampen noisy position changes <span class="hljs-keyword">for</span> either physics <span class="hljs-keyword">or</span> network based games    
+- added support <span class="hljs-keyword">for</span> having no target when initializing <span class="hljs-keyword">or</span> starting
+- added mouse/keyboard inputs <span class="hljs-built_in">to</span> FreeForm which uses <span class="hljs-keyword">a</span> list <span class="hljs-keyword">of</span> mouse buttons (Integer) <span class="hljs-keyword">and</span> keyboard inputs (KeyCode)
+</code></pre><h3 id="1-0-4">1.0.4</h3>
+<pre><code>-<span class="ruby"> added smart DisableFollow script to utilize FreeForm + Follow
+</span>-<span class="ruby"> added Ball demo scene
+</span>-<span class="ruby"> added simple BallController script
+</span>-<span class="ruby"> added namespace <span class="hljs-string">"ThirdPersonCamera"</span> to scripts
+</span>-<span class="ruby"> added more camera prefabs (Basic, Follow, FreeForm <span class="hljs-keyword">and</span> Ultimate (Freeform/Follow/DisableFollow))
+</span>-<span class="ruby"> improved smart pivot transition from sloped surfaces
+</span>-<span class="ruby"> improved smoothness of alignToSlopes feature
+</span>-<span class="ruby"> improved camera <span class="hljs-keyword">when</span> offset clips into geometry
+</span>-<span class="ruby"> restored Ethan crouch animation
+</span>-<span class="ruby"> removed Ethan air-&gt;ground crouch animation</span>
+</code></pre><h3 id="1-0-3">1.0.3</h3>
+<pre><code>-<span class="ruby"> added <span class="hljs-number">2</span> new demo scenes (follow <span class="hljs-keyword">and</span> follow+lock on)
+</span>-<span class="ruby"> added support <span class="hljs-keyword">for</span> follow mode
+</span>-<span class="ruby"> added support <span class="hljs-keyword">for</span> target locking
+</span>-<span class="ruby"> split CameraController into CameraController <span class="hljs-keyword">and</span> Freeform    
+</span>-<span class="ruby"> improved smart pivot <span class="hljs-keyword">and</span> occurances of snapping
+</span>-<span class="ruby"> improved thickness check    
+</span>-<span class="ruby"> changed hardcoded raycast layermasks to be configured <span class="hljs-keyword">in</span> the editor</span>
+</code></pre><h3 id="1-0-2">1.0.2</h3>
+<pre><code>-<span class="ruby"> changed collision sensitivity to be spherical
+</span>-<span class="ruby"> removed camera position/rotation initialization, editor values are now taken
+</span>-<span class="ruby"> improved smart pivoting <span class="hljs-keyword">and</span> smart pivoting start <span class="hljs-keyword">and</span> resets
+</span>-<span class="ruby"> improved detection algorithm <span class="hljs-keyword">when</span> multiple raycasts are hit
+</span>-<span class="ruby"> added terrain to demoscene
+</span>-<span class="ruby"> added RotateTo public method
+</span>-<span class="ruby"> added x/y, playerCollision, Distance public get <span class="hljs-keyword">or</span>/<span class="hljs-keyword">and</span> set</span>
+</code></pre><h3 id="1-0-1">1.0.1</h3>
+<pre><code>-<span class="ruby"> improved thickness checking
+</span>-<span class="ruby"> improved smart pivoting on slopes
+</span>-<span class="ruby"> added collision distance to improve clipping occurrences    
+</span>-<span class="ruby"> added automatic mouse cursor locking <span class="hljs-keyword">when</span> looking around (currently unstable <span class="hljs-keyword">in</span> WebGL)
+</span>-<span class="ruby"> added interface handling to demo scene    
+</span>-<span class="ruby"> changed sensitivity handling
+</span>-<span class="ruby"> removed unnecessary files
+</span>-<span class="ruby"> added a script only package</span>
+</code></pre><h3 id="1-0-0">1.0.0</h3>
+<pre><code>- <span class="hljs-keyword">initial</span> <span class="hljs-keyword">release</span>
+</code></pre>

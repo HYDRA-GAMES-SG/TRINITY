@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -23,12 +24,7 @@ public class ATrinityController : MonoBehaviour
     [SerializeField]
     public float Height; // => Collider.bounds.extents.y;
 
-    [SerializeField] public float HorizontalRotationSpeed = 5f;
-
-    [Header("Look/Camera Rotation Vertical")]
-    public GameObject LookTarget;
-
-    private float VerticalRotation;
+    [SerializeField] public float HorizontalRotationSpeed = 55f;
 
     [HideInInspector]
     public CapsuleCollider Collider;
@@ -36,6 +32,7 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector]
     public Rigidbody RB;
 
+    [Header("Unstable Ground")]
     [SerializeField] public float MaxStableAngle = 50f;
 
     // Movement Variables
@@ -64,10 +61,13 @@ public class ATrinityController : MonoBehaviour
 
     private void Awake()
     {
+        
         InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
         SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
         BrainReference = transform.parent.Find("Brain").GetComponent<ATrinityBrain>();
         CameraReference = transform.Find("Camera").GetComponent<ATrinityCamera>();
+
+        AForcefield.ForcefieldStateChanged += UpdateForcefieldState;
 
         
         // Ensure required components are assigned
@@ -96,32 +96,19 @@ public class ATrinityController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void OnDestroy()
     {
-        ApplyRotation();
-        ApplyVerticalRotationToLookTarget();
-        ZeroLookAtRoll();
+        AForcefield.ForcefieldStateChanged -= UpdateForcefieldState;
     }
 
-    private void ZeroLookAtRoll()
+    private void UpdateForcefieldState(bool obj)
     {
-        Vector3 lookRot = LookTarget.transform.rotation.eulerAngles;
-        lookRot.z = 0f;
-        LookTarget.transform.rotation = Quaternion.Euler(lookRot);
+        bForcefieldActive = obj;
     }
 
-    private void ApplyVerticalRotationToLookTarget()
+    private void LateUpdate()
     {
-        // Adjust the vertical rotation based on input
-        VerticalRotation -= InputReference.CameraInput.y * CameraReference.VerticalRotationSpeed * Time.deltaTime;
-
-        // Clamp the vertical rotation to the allowed range
-        VerticalRotation = Mathf.Clamp(VerticalRotation, CameraReference.VerticalClampMin, CameraReference.VerticalClampMax);
-
-        // Apply the vertical rotation to LookTarget's pitch (x-axis)
-        Vector3 lookTargetRotation = LookTarget.transform.localEulerAngles;
-        lookTargetRotation.x = VerticalRotation;
-        LookTarget.transform.localEulerAngles = lookTargetRotation;
+        AlignWithCameraYaw();
     }
 
 
@@ -170,10 +157,20 @@ public class ATrinityController : MonoBehaviour
         Gizmos.DrawSphere(rayOrigin + Vector3.down * GroundDistance, 0.01f);
     }
 
-    void ApplyRotation()
+    void AlignWithCameraYaw()
     {
-        transform.Rotate(Vector3.up, InputReference.CameraInput.x * HorizontalRotationSpeed * Time.deltaTime);
-        //LookTarget.transform.Rotate(Vector3.up, InputReference.CameraInput.x * xRotationSpeed * Time.deltaTime);
+        
+        
+        // Get the camera's forward direction (ignore the camera's pitch/roll)
+        Vector3 cameraForward = CameraReference.transform.forward;
+        //cameraForward.y = 0; // Flatten the forward vector on the Y-axis
+        cameraForward.Normalize();
+
+        // Calculate target rotation to look in the same direction as the camera
+        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+
+        // Smoothly rotate the controller to the target rotation
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * HorizontalRotationSpeed);
     }
 
     public void ApplyDamage(float damageNumber)
@@ -215,3 +212,23 @@ public class ATrinityController : MonoBehaviour
         RB.isKinematic = false;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

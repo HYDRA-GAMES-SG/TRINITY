@@ -195,6 +195,7 @@ public class ATrinityBrain : MonoBehaviour
     {
         if (GetAction() != ETrinityAction.ETA_Stunned)// && GlobalCooldown >= 0f)
         {
+            
             Spells.Forcefield.Cast();
         }
     }

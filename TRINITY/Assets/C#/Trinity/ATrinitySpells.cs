@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(UManaComponent))]
 public class ATrinitySpells : MonoBehaviour
 {
-    public Vector3 CastDirection => CameraRef.LookAtObject.transform.forward;
+    public Vector3 CastDirection => CameraRef.Camera.transform.forward;
     public ATrinityCamera CameraRef;
     public ATrinityBrain Brain;
     public Transform CastPoint;
