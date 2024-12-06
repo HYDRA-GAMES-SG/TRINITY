@@ -54,7 +54,7 @@ public class AFireball : MonoBehaviour
             ACrabHitBox enemyHitbox = collision.gameObject.GetComponent<ACrabHitBox>();
             enemyHitbox.ApplyDamage(Damage);
             UAilmentComponent enemyAilment = collision.gameObject.GetComponent<UAilmentComponent>();
-            enemyAilment.ModifyStack(EEnemyAilment.EEA_Ignite, StacksApplied);
+            enemyAilment.ModifyStack(EAilmentType.EAT_Ignite, StacksApplied);
             SpawnExplosion();
             //if (collision.gameObject.transform.childCount == 0)
             //{

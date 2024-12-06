@@ -3,83 +3,83 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public enum EEnemyAilment
+public enum EAilmentType
 {
-    EEA_Ignite,
-    EEA_Shock,
-    EEA_Chill
+    EAT_Ignite,
+    EAT_Shock,
+    EAT_Chill
 }
 
 public class UAilmentComponent : MonoBehaviour
 {
-    public bool bIgnited => AilmentStacks[EEnemyAilment.EEA_Ignite] > 0;
-    public bool bShocked => AilmentStacks[EEnemyAilment.EEA_Shock] > 0;
-    public bool bChilled => AilmentStacks[EEnemyAilment.EEA_Chill] > 0;
+    private class Ailment
+    {
+        public int Stacks { get; set; }
+        public float Timer { get; set; }
+        public float Duration { get; set; }
+    }
 
-    //public float IgniteDuration = 5f;
-    //public float ShockDuration = 5f;
-    //public float ChillDuration = 5f;
     public float AilmentDuration = 5f;
 
-    public Dictionary<EEnemyAilment, float> AilmentDurations = new Dictionary<EEnemyAilment, float>();
-    private Dictionary<EEnemyAilment, int> AilmentStacks = new Dictionary<EEnemyAilment, int>();
-    private Dictionary<EEnemyAilment, float> AilmentTimers = new Dictionary<EEnemyAilment, float>();
+    private Dictionary<EAilmentType, Ailment> Ailments = new();
 
-    void Start()
+    public bool IsAilmentActive(EAilmentType ailment) => Ailments[ailment].Stacks > 0;
+
+    private void Start()
     {
-        // Loop through each value in the enum
-        foreach (EEnemyAilment ailment in Enum.GetValues(typeof(EEnemyAilment)))
+        foreach (EAilmentType ailment in Enum.GetValues(typeof(EAilmentType)))
         {
-            // Add the key & pair value to the dictionary with a default value (e.g., 0)
-            AilmentDurations.Add(ailment, AilmentDuration);
-            AilmentStacks.Add(ailment, 0);
-            AilmentTimers.Add(ailment, 0);
+            Ailments[ailment] = new Ailment
+            {
+                Stacks = 0,
+                Timer = 0f,
+                Duration = AilmentDuration
+            };
         }
     }
 
-    public void ModifyStack(EEnemyAilment ailment, int stackModifier)
+    public void ModifyStack(EAilmentType ailment, int stackModifier)
     {
+        var data = Ailments[ailment];
+
         if (stackModifier > 0)
         {
-            AilmentTimers[ailment] = AilmentDurations[ailment];
+            data.Timer = data.Duration; // Reset the timer on new stacks.
         }
 
-        AilmentStacks[ailment] += stackModifier;
-        int newStackSize = AilmentStacks[ailment];
+        data.Stacks = Mathf.Max(0, data.Stacks + stackModifier);
 
-        if (newStackSize < 0)
+        if (data.Stacks == 0)
         {
-            AilmentStacks[ailment] = 0;
+            data.Timer = 0f;
         }
+    }
 
-        if (newStackSize <= 0)
+    public void RemoveStacks(EAilmentType ailmentType)
+    {
+        Ailment ailment = Ailments[ailmentType];
+        ailment.Stacks = 0;
+        ailment.Timer = 0f;
+    }
+
+    private void Update()
+    {
+        float deltaTime = Time.deltaTime;
+
+        foreach (EAilmentType ailmentType in Ailments.Keys)
         {
-            AilmentTimers[ailment] = 0f;
+            Ailment ailment = Ailments[ailmentType];
+
+            if (ailment.Stacks > 0)
+            {
+                ailment.Timer -= deltaTime;
+
+                if (ailment.Timer <= 0f)
+                {
+                    ailment.Stacks = 0;
+                    ailment.Timer = 0f;
+                }
+            }
         }
     }
-
-    public void RemoveStacks(EEnemyAilment ailment)
-    {
-        AilmentStacks[ailment] = 0;
-    }
-
-    public void Update()
-    {
-        UpdateAilmentTimers();
-    }
-
-    public void UpdateAilmentTimers()
-    {
-        AilmentTimers[EEnemyAilment.EEA_Ignite] -= Time.deltaTime;
-        AilmentTimers[EEnemyAilment.EEA_Chill] -= Time.deltaTime;
-        AilmentTimers[EEnemyAilment.EEA_Shock] -= Time.deltaTime;
-        UpdateStacks();
-    }
-    public void UpdateStacks()
-    {
-        AilmentStacks[EEnemyAilment.EEA_Ignite] = AilmentTimers[EEnemyAilment.EEA_Ignite] <= 0f ? 0 : AilmentStacks[EEnemyAilment.EEA_Ignite];
-        AilmentStacks[EEnemyAilment.EEA_Shock] = AilmentTimers[EEnemyAilment.EEA_Shock] <= 0f ? 0 : AilmentStacks[EEnemyAilment.EEA_Shock];
-        AilmentStacks[EEnemyAilment.EEA_Chill] = AilmentTimers[EEnemyAilment.EEA_Chill] <= 0f ? 0 : AilmentStacks[EEnemyAilment.EEA_Chill];
-    }   
 }
-
