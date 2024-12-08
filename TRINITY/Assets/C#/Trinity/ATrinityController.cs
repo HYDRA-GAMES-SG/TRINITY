@@ -22,10 +22,7 @@ public class ATrinityController : MonoBehaviour
     public float GroundDistance = .1f;
     
     [SerializeField]
-    public float Height; // => Collider.bounds.extents.y;
-
-    [SerializeField] public float HorizontalRotationSpeed = 1000f;
-    [SerializeField] public float HorizontalRotationTime = 22f;
+    public float Height => Collider.bounds.extents.y;
 
     [HideInInspector]
     public CapsuleCollider Collider;
@@ -160,13 +157,8 @@ public class ATrinityController : MonoBehaviour
 
     void AlignWithCameraYaw()
     {
-        // Option 1: Use a fixed interpolation speed
-        Vector3 cameraForward = CameraReference.transform.forward;
-        cameraForward.y = 0; // Flatten the forward vector on the Y-axis
-        cameraForward.Normalize();
-
-        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, HorizontalRotationTime * Time.deltaTime);
+        Vector3 cameraYaw = new Vector3(0f, CameraReference.transform.rotation.eulerAngles.y, 0f);
+        transform.rotation = Quaternion.Euler(cameraYaw);
     }
 
     public void ApplyDamage(float damageNumber)
