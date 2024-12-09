@@ -3570,7 +3570,7 @@ ParticleSystem:
     serializedVersion: 4
     type: 1
     collisionMode: 0
-    colliderForce: 10
+    colliderForce: 1
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 1
     multiplyColliderForceByCollisionAngle: 0
@@ -4795,6 +4795,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CrabContoller: {fileID: 0}
+  DealDamageOnlyOnce: 0
 --- !u!1 &7091628070343446947
 GameObject:
   m_ObjectHideFlags: 0
@@ -17947,7 +17949,7 @@ ParticleSystem:
   CollisionModule:
     enabled: 0
     serializedVersion: 4
-    type: 0
+    type: 1
     collisionMode: 0
     colliderForce: 0
     multiplyColliderForceByParticleSize: 0

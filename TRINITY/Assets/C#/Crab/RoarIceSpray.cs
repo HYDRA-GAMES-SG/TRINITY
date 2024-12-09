@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class RoarIceSpray : CrabState
 {
@@ -26,6 +27,8 @@ public class RoarIceSpray : CrabState
         if (iceSpray == null)
         {
             iceSpray = Instantiate(IceSpray, CrabMounth);
+            ACrabAttackCollider projectileController = iceSpray.GetComponentInChildren<ACrabAttackCollider>(); 
+            projectileController.GetCrabController(CrabFSM.CrabController); 
         }
         else
         {

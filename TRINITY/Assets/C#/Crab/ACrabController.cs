@@ -10,31 +10,40 @@ public class ACrabController : MonoBehaviour
     [Header("Cooldown Time")]
     [SerializeField] float JumpSmashCooldown = 20;
     [SerializeField] float ChargeMoveFastCooldown = 15;
-    [SerializeField] float RoarStunCooldown = 10f;
+    [SerializeField] float RoarIceSprayCooldown = 10f;
     [SerializeField] float ComboCooldown = 5f;
 
     private float JumpSmashTimer = 0f;
-    private float RoarStunTimer = 0f;
-    private float ComboTimer = 0f;
     private float ChargeMoveFastTimer = 0f;
+    private float RoarIceSprayTimer = 0f;
+    private float ComboTimer = 0f;
 
     [Header("Attack Deal")]
     [SerializeField] float NormalAttack;
     [SerializeField] float ComboAttack;
     [SerializeField] float JumpSmashAttack;
     [SerializeField] float ChargeFastAttack;
+
+    [Header("Particle Attack Deal")]
     [SerializeField] float IceSprayAttack;
+    [SerializeField] float IceSlashAttack;
+    [SerializeField] float SmashFrozenGroundAttack;
+    [SerializeField] float JumpSmashFrozenGroundAttack;
 
     [HideInInspector] public bool CanJumpSmash = false;
     [HideInInspector] public bool CanRoarStun = false;
     [HideInInspector] public bool CanComboAttack = false;
     [HideInInspector] public bool CanCharageMoveFast = false;
 
+    /*[HideInInspector]*/
+    public bool bElementPhase = false;
+
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
 
     private UHealthComponent Health;
     private Animator Animator;
+
 
     void Start()
     {
@@ -49,7 +58,8 @@ public class ACrabController : MonoBehaviour
 
         if (Health.Percent < 0.5f) //next element phrese
         {
-
+            bElementPhase = true;
+            ComboAttack = 0;
         }
         if (Health.Current <= 0f)
         {
@@ -70,11 +80,11 @@ public class ACrabController : MonoBehaviour
         }
         if (!CanRoarStun)
         {
-            RoarStunTimer += Time.deltaTime;
-            if (RoarStunTimer >= RoarStunCooldown)
+            RoarIceSprayTimer += Time.deltaTime;
+            if (RoarIceSprayTimer >= RoarIceSprayCooldown)
             {
                 CanRoarStun = true;
-                RoarStunTimer = 0f;
+                RoarIceSprayTimer = 0f;
             }
         }
         if (!CanComboAttack)
@@ -96,32 +106,6 @@ public class ACrabController : MonoBehaviour
             }
         }
     }
-
-    public bool IsActiveState(CrabState state)
-    {
-        return state is NormalAttack || state is ComboAttack;
-    }
-
-    public void OnAnimatorMove()
-    {
-        if (IsActiveState(CrabFSM.CurrentState))
-        {
-            float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
-            if (distanceToTarget > RootMotionNotEnterDistance)
-            {
-                CrabFSM.CrabController.transform.position += Animator.deltaPosition;
-                CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
-            }
-            else
-            {
-                CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
-            }
-        }
-        else if (CrabFSM.CurrentState is JumpSmash || CrabFSM.CurrentState is ChargeFastAttack)
-        {
-            CrabFSM.CrabController.transform.position += Animator.deltaPosition;
-        }
-    }
     public float GetCurrentAttackDamage()
     {
         if (CrabFSM.CurrentState is JumpSmash)
@@ -136,13 +120,69 @@ public class ACrabController : MonoBehaviour
         {
             return ChargeFastAttack;
         }
+        else
+        {
+            return NormalAttack;
+        }
+    }
+
+    public float GetParticleAttack()
+    {
+        if (CrabFSM.CurrentState is JumpSmash)
+        {
+            Debug.Log("A");
+            return JumpSmashFrozenGroundAttack;
+        }
+        else if (CrabFSM.CurrentState is ComboAttack comboAttack)
+        {
+            if (comboAttack.AnimKey == "2HitComboClawsAttack_RM")
+            {
+            Debug.Log("B");
+                return IceSlashAttack;
+            }
+            else if (comboAttack.AnimKey == "2HitComboSmashAttack_RM")
+            {
+            Debug.Log("C");
+                return SmashFrozenGroundAttack;
+            }
+            return 0;
+        }
         else if (CrabFSM.CurrentState is RoarIceSpray)
         {
+            Debug.Log("D");
             return IceSprayAttack;
         }
         else
         {
-            return NormalAttack; 
+            return 0;
         }
     }
+
+    public bool IsActiveState(CrabState state)
+    {
+        return state is NormalAttack || state is ComboAttack;
+    }
+
+
+    void OnAnimatorMove()
+    {
+        if (IsActiveState(CrabFSM.CurrentState))
+        {
+            float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+            if (distanceToTarget > RootMotionNotEnterDistance)
+            {
+                CrabFSM.CrabController.transform.position += Animator.deltaPosition;
+            }
+            else
+            {
+                CrabFSM.CrabController.transform.position -= Animator.deltaPosition * 0.1f;
+            }
+            CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
+        }
+        else if (CrabFSM.CurrentState is JumpSmash || CrabFSM.CurrentState is ChargeFastAttack)
+        {
+            CrabFSM.CrabController.transform.position += Animator.deltaPosition;
+        }
+    }
+
 }

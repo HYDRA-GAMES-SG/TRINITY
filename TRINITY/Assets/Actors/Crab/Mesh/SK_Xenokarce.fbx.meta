@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 97c2a89a65454fc46b95d91f9e08163a
 ModelImporter:
-  serializedVersion: 20300
+  serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
@@ -17,6 +17,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -26,7 +27,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 0
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -42,10 +43,12 @@ ModelImporter:
     addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
@@ -57,6 +60,7 @@ ModelImporter:
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -67,6 +71,7 @@ ModelImporter:
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -80,7 +85,327 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: SK_Xenokarce(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SK_Xenokarce
+      parentName: SK_Xenokarce(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: root
+      parentName: SK_Xenokarce(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Xenokarce_Pelvis
+      parentName: root
+      position: {x: 0, y: 0.29876375, z: 4.682828}
+      rotation: {x: 0.06770852, y: 0.70385766, z: 0.06770852, w: 0.70385766}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: Xenokarce_LegFrontRight_1
+      parentName: Xenokarce_Pelvis
+      position: {x: -0.111526795, y: -0.7699394, z: 0.565}
+      rotation: {x: -0.07050744, y: 0.25477934, z: 0.8633494, w: 0.4298186}
+      scale: {x: 1, y: 1.0000002, z: 1.0000001}
+    - name: Xenokarce_LegFrontRight_2
+      parentName: Xenokarce_LegFrontRight_1
+      position: {x: -0.966258, y: 0, z: 0.000000019073486}
+      rotation: {x: 0.00000014528631, y: 0.00000019371507, z: -0.50685817, w: 0.8620295}
+      scale: {x: 0.99999994, y: 1.0000006, z: 1.0000002}
+    - name: Xenokarce_LegFrontRight_3
+      parentName: Xenokarce_LegFrontRight_2
+      position: {x: -1.4183939, y: -0.00000030517577, z: -0.000000114440915}
+      rotation: {x: -0.00000010803342, y: -0.0000007748604, z: 0.7129133, w: 0.7012523}
+      scale: {x: 0.9999996, y: 1.0000004, z: 0.99999994}
+    - name: Xenokarce_LegFrontRight_4
+      parentName: Xenokarce_LegFrontRight_3
+      position: {x: -2.2711027, y: 0, z: 0.00000028610228}
+      rotation: {x: 0.000073124975, y: 0.000006138767, z: -0.5671087, w: 0.823643}
+      scale: {x: 0.99999994, y: 0.9999998, z: 1.0000001}
+    - name: Xenokarce_LegRearLeft_1
+      parentName: Xenokarce_Pelvis
+      position: {x: -0.058523864, y: 0.97170347, z: -0.45485106}
+      rotation: {x: 0.09030467, y: 0.22683138, z: 0.9454214, w: -0.21580324}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: Xenokarce_LegRearLeft_2
+      parentName: Xenokarce_LegRearLeft_1
+      position: {x: -0.9662586, y: -0.00000030517577, z: 0.000000114440915}
+      rotation: {x: 0.000000011175871, y: 0.000000009313226, z: 0.49849102, w: 0.86689496}
+      scale: {x: 1.0000002, y: 1.0000011, z: 1.0000007}
+    - name: Xenokarce_LegRearLeft_3
+      parentName: Xenokarce_LegRearLeft_2
+      position: {x: -1.5075915, y: 0, z: 0.000000076293944}
+      rotation: {x: -0.00000032782555, y: -0.00000027753413, z: -0.7266736, w: 0.686983}
+      scale: {x: 0.99999934, y: 1.0000001, z: 0.9999998}
+    - name: Xenokarce_LegRearLeft_4
+      parentName: Xenokarce_LegRearLeft_3
+      position: {x: -2.251435, y: 0.0000009155273, z: -0.000000076293944}
+      rotation: {x: 0.0070474157, y: -0.00037414575, z: 0.60011417, w: 0.79988325}
+      scale: {x: 0.9999998, y: 1.0000005, z: 1}
+    - name: Xenokarce_LegMiddleLeft_1
+      parentName: Xenokarce_Pelvis
+      position: {x: -0.06899963, y: 0.053339995, z: -0.6577566}
+      rotation: {x: -0.06809096, y: 0.69980764, z: 0.68153423, w: 0.20284012}
+      scale: {x: 0.9999998, y: 1.0000004, z: 1.0000001}
+    - name: Xenokarce_LegMiddleLeft_2
+      parentName: Xenokarce_LegMiddleLeft_1
+      position: {x: -0.9662585, y: 0, z: 0.000000076293944}
+      rotation: {x: 7.566996e-10, y: -0.0000000018335413, z: 0.49733692, w: 0.8675575}
+      scale: {x: 0.9999997, y: 1.0000005, z: 1.0000001}
+    - name: Xenokarce_LegMiddleLeft_3
+      parentName: Xenokarce_LegMiddleLeft_2
+      position: {x: -1.4469969, y: 0, z: 0.000000076293944}
+      rotation: {x: 0.042311143, y: 0.041974828, z: -0.4367483, w: 0.8976073}
+      scale: {x: 0.9999997, y: 1.0000002, z: 1.0000001}
+    - name: Xenokarce_LegRearMiddle_4
+      parentName: Xenokarce_LegMiddleLeft_3
+      position: {x: -2.253226, y: 0.00000061035155, z: -0.000000076293944}
+      rotation: {x: -0.05477766, y: -0.023799296, z: 0.7297906, w: 0.68105704}
+      scale: {x: 0.99999946, y: 1.0000001, z: 1}
+    - name: Xenokarce_Spine1
+      parentName: Xenokarce_Pelvis
+      position: {x: -0.86120087, y: 0.00000015258789, z: -0.000000020623556}
+      rotation: {x: 0.00000001117587, y: -0.000000119209275, z: 0.051232535, w: 0.9986868}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1.0000005}
+    - name: Xenokarce_Spine2
+      parentName: Xenokarce_Spine1
+      position: {x: -0.50347257, y: 0.000000076293944, z: -7.2759575e-14}
+      rotation: {x: -0.00000052154064, y: -0, z: 0.03258793, w: 0.9994689}
+      scale: {x: 1, y: 0.99999994, z: 0.9999998}
+    - name: Xenokarce_Spine3
+      parentName: Xenokarce_Spine2
+      position: {x: -0.6610623, y: 0, z: 0.00000013159384}
+      rotation: {x: -0.0000006199103, y: 0.0000003838926, z: 0.046847556, w: 0.99890214}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Xenokarce_UpperArmLeft
+      parentName: Xenokarce_Spine3
+      position: {x: -1.457861, y: 0.10665588, z: -1.0825915}
+      rotation: {x: -0.1869601, y: -0.6907996, z: -0.14744851, w: 0.68271583}
+      scale: {x: 1.0000002, y: 1, z: 0.9999997}
+    - name: Xenokarce_ForeamrLeft
+      parentName: Xenokarce_UpperArmLeft
+      position: {x: -2.4884622, y: 0, z: 0}
+      rotation: {x: -0.0028555235, y: 0.010990795, z: 0.003560676, w: 0.9999292}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: Xenokarce_HandLeft
+      parentName: Xenokarce_ForeamrLeft
+      position: {x: -2.313919, y: 0.00000030517577, z: 0.00000030517577}
+      rotation: {x: -0.0000011324881, y: -0.00000012293457, z: -0.011355271, w: 0.9999355}
+      scale: {x: 1.0000004, y: 1.0000004, z: 1}
+    - name: Xenokarce_FingerLeftA1
+      parentName: Xenokarce_HandLeft
+      position: {x: -0.5476758, y: -0.76606107, z: -0.27052718}
+      rotation: {x: 0.103965, y: 0.0043119686, z: 0.15597436, w: 0.9822651}
+      scale: {x: 0.99999994, y: 1.0000002, z: 1.0000004}
+    - name: Xenokarce_FingerLeftA2
+      parentName: Xenokarce_FingerLeftA1
+      position: {x: -0.5584484, y: 5.9604643e-10, z: 0.0000000460149}
+      rotation: {x: -0.00000049173826, y: -0.000000029802319, z: -0.31974137, w: 0.9475049}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: Xenokarce_FingerLeftB1
+      parentName: Xenokarce_HandLeft
+      position: {x: -0.9840756, y: -0.22904876, z: 0.08378448}
+      rotation: {x: 0.6697185, y: 0.11797363, z: -0.026170291, w: 0.7327173}
+      scale: {x: 0.9999996, y: 1, z: 0.9999998}
+    - name: Xenokarce_FingerLeftB2
+      parentName: Xenokarce_FingerLeftB1
+      position: {x: -0.53282166, y: 0.00000068902966, z: -0.000000010021549}
+      rotation: {x: -0.00000020861623, y: -0.00000002235174, z: 0.562662, w: 0.8266871}
+      scale: {x: 1.0000004, y: 1.0000006, z: 1.0000001}
+    - name: Xenokarce_FingerLeftC1
+      parentName: Xenokarce_HandLeft
+      position: {x: -0.8978735, y: 0.3855945, z: 0.0059420774}
+      rotation: {x: 0.6350172, y: 0.046928577, z: 0.014110648, w: 0.77094215}
+      scale: {x: 0.9999998, y: 1.0000004, z: 0.99999994}
+    - name: Xenokarce_FingerLeftC2
+      parentName: Xenokarce_FingerLeftC1
+      position: {x: -0.51363915, y: -0.000000004917383, z: 0.000000014792058}
+      rotation: {x: -0.0000002682209, y: 0.00000035762787, z: 0.54034036, w: 0.84144664}
+      scale: {x: 1.0000001, y: 1.0000006, z: 0.99999994}
+    - name: Xenokarce_Neck
+      parentName: Xenokarce_Spine3
+      position: {x: -2.6458862, y: 0.00000027954573, z: 0.0000004729204}
+      rotation: {x: -0.00000007835871, y: -0.000001132219, z: -0.4669386, w: 0.8842898}
+      scale: {x: 1.0000002, y: 0.9999998, z: 1.0000002}
+    - name: Xenokarce_Head
+      parentName: Xenokarce_Neck
+      position: {x: -0.3731394, y: -0.000000048168108, z: 0.00000006095392}
+      rotation: {x: -0.00000065705115, y: 0.0000028220215, z: 0.06512135, w: 0.9978774}
+      scale: {x: 1.0000006, y: 1, z: 1.0000004}
+    - name: Xenokarce_EyeLeftB1
+      parentName: Xenokarce_Head
+      position: {x: -0.69249284, y: 0.0752713, z: -0.59052306}
+      rotation: {x: 0.006383382, y: -0.48075128, z: -0.3014944, w: 0.8233703}
+      scale: {x: 0.99999946, y: 0.9999998, z: 0.9999996}
+    - name: Xenokarce_EyeLeftB2
+      parentName: Xenokarce_EyeLeftB1
+      position: {x: -0.2337537, y: -0.000000047683713, z: -0.00000010592487}
+      rotation: {x: 0.000000035855916, y: -0.00000008940696, z: -0.015641106, w: 0.9998777}
+      scale: {x: 1.0000001, y: 1.0000002, z: 1}
+    - name: Xenokarce_EyeLRightA1
+      parentName: Xenokarce_Head
+      position: {x: -0.98022735, y: 0.11523803, z: 0.3449945}
+      rotation: {x: -0.8915775, y: 0.34496838, z: 0.2878277, w: -0.056935567}
+      scale: {x: 1, y: 1, z: 0.99999934}
+    - name: Xenokarce_EyeRightA2
+      parentName: Xenokarce_EyeLRightA1
+      position: {x: -0.2203894, y: 0.00000061035155, z: 0}
+      rotation: {x: -0.00000022351743, y: 0.00000024959448, z: 0.053602252, w: 0.9985624}
+      scale: {x: 1, y: 1.0000001, z: 1.0000002}
+    - name: Xenokarce_EyeRightB1
+      parentName: Xenokarce_Head
+      position: {x: -0.69249576, y: 0.075263366, z: 0.5909952}
+      rotation: {x: -0.82337165, y: 0.30149162, z: 0.4807508, w: -0.006377507}
+      scale: {x: 1.0000002, y: 1.0000004, z: 0.9999997}
+    - name: Xenokarce_EyeRightB2
+      parentName: Xenokarce_EyeRightB1
+      position: {x: -0.23375365, y: -0.00000061035155, z: -0.0000012207031}
+      rotation: {x: -0.000000019557774, y: -0.000000074040145, z: 0.015641004, w: 0.9998777}
+      scale: {x: 1.0000005, y: 1.0000007, z: 1.0000001}
+    - name: Xenokarce_MandibuleUpperRight
+      parentName: Xenokarce_Head
+      position: {x: -0.76328427, y: -0.23629668, z: 0.3169928}
+      rotation: {x: -0.986679, y: -0.10909569, z: 0.013260289, w: 0.11994543}
+      scale: {x: 0.9999996, y: 1.0000005, z: 0.9999998}
+    - name: Xenokarce_MandibuleUpperLeft
+      parentName: Xenokarce_Head
+      position: {x: -0.7632823, y: -0.2362924, z: -0.31738678}
+      rotation: {x: -0.11993954, y: -0.013263345, z: 0.109095305, w: 0.9866797}
+      scale: {x: 0.99999934, y: 0.99999994, z: 0.99999946}
+    - name: Xenokarce_MandibuleLowerRight
+      parentName: Xenokarce_Head
+      position: {x: -0.50362295, y: -0.5046722, z: 0.2139917}
+      rotation: {x: -0.97002023, y: -0.2316448, z: 0.017068362, w: 0.07148494}
+      scale: {x: 0.9999996, y: 1.0000001, z: 0.9999997}
+    - name: Xenokarce_MandibuleLowerLeft
+      parentName: Xenokarce_Head
+      position: {x: -0.50362176, y: -0.5046698, z: -0.2138446}
+      rotation: {x: -0.07147938, y: -0.017072141, z: 0.23164459, w: 0.97002065}
+      scale: {x: 0.9999997, y: 1.0000001, z: 0.9999998}
+    - name: Xenokarce_EyeLeftA1
+      parentName: Xenokarce_Head
+      position: {x: -0.98022556, y: 0.11524231, z: -0.3453552}
+      rotation: {x: 0.05694202, y: -0.28782782, z: -0.34497014, w: 0.8915764}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: Xenokarce_EyeLeftA2
+      parentName: Xenokarce_EyeLeftA1
+      position: {x: -0.22038923, y: 0.000000034570693, z: -0.000000023678876}
+      rotation: {x: -0.000000040978193, y: 0.00000008940697, z: -0.053602904, w: 0.99856234}
+      scale: {x: 0.9999997, y: 0.9999998, z: 0.9999992}
+    - name: Xenokarce_Jaw
+      parentName: Xenokarce_Head
+      position: {x: -0.80502117, y: -0.40568724, z: -0.00000793457}
+      rotation: {x: 0.0000028704496, y: -0.0000015779366, z: 0.095945045, w: 0.99538666}
+      scale: {x: 1, y: 1.0000002, z: 1.0000001}
+    - name: Xenokarce_UpperArmRight
+      parentName: Xenokarce_Spine3
+      position: {x: -1.457865, y: 0.10665466, z: 1.0829971}
+      rotation: {x: -0.68268555, y: 0.14755678, z: 0.6907777, w: 0.18706597}
+      scale: {x: 1.0000006, y: 1.0000006, z: 0.99999994}
+    - name: Xenokarce_ForeamrRight
+      parentName: Xenokarce_UpperArmRight
+      position: {x: -2.488462, y: 0.00000030517577, z: 0}
+      rotation: {x: 0.0028580264, y: 0.011000298, z: -0.0035674183, w: 0.99992913}
+      scale: {x: 1.0000001, y: 1, z: 1.0000002}
+    - name: Xenokarce_HandRight
+      parentName: Xenokarce_ForeamrRight
+      position: {x: -2.3139193, y: -0.00000030517577, z: 0.00000061035155}
+      rotation: {x: 0.0000012796372, y: 0.00000013411045, z: 0.011355188, w: 0.99993557}
+      scale: {x: 1.0000005, y: 1.0000002, z: 0.99999994}
+    - name: Xenokarce_FingerRightA1
+      parentName: Xenokarce_HandRight
+      position: {x: -0.5476759, y: 0.7660605, z: -0.27052733}
+      rotation: {x: -0.10396518, y: 0.0043121623, z: -0.15597461, w: 0.982265}
+      scale: {x: 0.9999998, y: 0.99999934, z: 0.9999998}
+    - name: Xenokarce_FingerRightA2
+      parentName: Xenokarce_FingerRightA1
+      position: {x: -0.5584489, y: 0.00000030517577, z: -0.00000015258789}
+      rotation: {x: 0.000000119209275, y: -0.000000059604638, z: 0.31974134, w: 0.9475048}
+      scale: {x: 1.0000001, y: 1.0000006, z: 1}
+    - name: Xenokarce_FingerRightB1
+      parentName: Xenokarce_HandRight
+      position: {x: -0.9840751, y: 0.22904815, z: 0.08378456}
+      rotation: {x: -0.6697182, y: 0.117973655, z: 0.026171256, w: 0.7327175}
+      scale: {x: 0.9999997, y: 1.0000004, z: 0.99999946}
+    - name: Xenokarce_FingerRightB2
+      parentName: Xenokarce_FingerRightB1
+      position: {x: -0.53282255, y: -0.00000061035155, z: -0.00000015258789}
+      rotation: {x: -0.000000119209275, y: -0.000000059604638, z: -0.562662, w: 0.8266871}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000004}
+    - name: Xenokarce_FingerRightC1
+      parentName: Xenokarce_HandRight
+      position: {x: -0.8978729, y: -0.38559538, z: 0.0059414674}
+      rotation: {x: -0.6350172, y: 0.046928573, z: -0.014110601, w: 0.7709422}
+      scale: {x: 1, y: 1.0000007, z: 0.99999946}
+    - name: Xenokarce_FingerRightC2
+      parentName: Xenokarce_FingerRightC1
+      position: {x: -0.5136395, y: 0.00000030517577, z: 0}
+      rotation: {x: 0.000000059604645, y: 0.00000008940697, z: -0.5403404, w: 0.8414465}
+      scale: {x: 1.0000002, y: 0.99999994, z: 1.0000002}
+    - name: Xenokarce_LegRearRight_1
+      parentName: Xenokarce_Pelvis
+      position: {x: -0.058523864, y: 0.97170347, z: 0.45499998}
+      rotation: {x: -0.21596208, y: 0.94538236, z: 0.22679351, w: 0.09042882}
+      scale: {x: 1.0000004, y: 1.0000002, z: 1.0000005}
+    - name: Xenokarce_LegRearRight_2
+      parentName: Xenokarce_LegRearRight_1
+      position: {x: -0.9662583, y: 0.00000030517577, z: 0.0000004959106}
+      rotation: {x: -0.000000074505806, y: -0.000000059604645, z: 0.4984911, w: -0.86689484}
+      scale: {x: 1.0000004, y: 0.9999997, z: 1}
+    - name: Xenokarce_LegRearRight_3
+      parentName: Xenokarce_LegRearRight_2
+      position: {x: -1.5075909, y: -0.00000030517577, z: 0.0000004959106}
+      rotation: {x: -0.000000027939677, y: 0.00000086426735, z: -0.72667354, w: -0.6869829}
+      scale: {x: 1.0000002, y: 0.99999946, z: 0.9999998}
+    - name: Xenokarce_LegRearRight_4
+      parentName: Xenokarce_LegRearRight_3
+      position: {x: -2.2514355, y: -0.00000061035155, z: 0}
+      rotation: {x: 0.007090926, y: 0.00030088425, z: 0.59996134, w: -0.79999757}
+      scale: {x: 1, y: 0.9999998, z: 1}
+    - name: Xenokarce_LegMiddleRight_1
+      parentName: Xenokarce_Pelvis
+      position: {x: -0.06899963, y: 0.053339995, z: 0.6579999}
+      rotation: {x: 0.20290388, y: 0.6816704, z: 0.6996602, w: -0.06805334}
+      scale: {x: 1.0000004, y: 1.0000005, z: 1.0000008}
+    - name: Xenokarce_LegMiddleRight_2
+      parentName: Xenokarce_LegMiddleRight_1
+      position: {x: -0.96625876, y: -0.00000045776366, z: 0.00000022888183}
+      rotation: {x: -0.00000013690442, y: -0.00000025844201, z: -0.49733678, w: 0.86755764}
+      scale: {x: 1.0000002, y: 0.9999998, z: 1}
+    - name: Xenokarce_LegMiddleRight_3
+      parentName: Xenokarce_LegMiddleRight_2
+      position: {x: -1.4469969, y: -0.00000045776366, z: -0.0000006866455}
+      rotation: {x: -0.042325344, y: 0.04198898, z: 0.43671876, w: 0.8976203}
+      scale: {x: 1.0000001, y: 0.9999997, z: 1.0000001}
+    - name: Xenokarce_LegMiddleRight_4
+      parentName: Xenokarce_LegMiddleRight_3
+      position: {x: -2.2532272, y: -0.0000015258788, z: 0.0000005340576}
+      rotation: {x: 0.054771367, y: -0.023919336, z: -0.72977114, w: 0.6810742}
+      scale: {x: 0.9999997, y: 0.9999996, z: 0.99999934}
+    - name: Xenokarce_LegFrontLeft_1
+      parentName: Xenokarce_Pelvis
+      position: {x: -0.11152649, y: -0.7699395, z: -0.56450623}
+      rotation: {x: 0.42982426, y: 0.8633312, z: 0.2548403, w: -0.070475005}
+      scale: {x: 1.0000002, y: 1.0000005, z: 1.0000005}
+    - name: Xenokarce_LegFrontLeft_2
+      parentName: Xenokarce_LegFrontLeft_1
+      position: {x: -0.96625847, y: -0.00000015258789, z: 0.000000019073486}
+      rotation: {x: 0.000000018626451, y: -0.000000035390258, z: 0.50685805, w: 0.8620296}
+      scale: {x: 1.0000001, y: 1.0000005, z: 1.0000002}
+    - name: Xenokarce_LegFrontLeft_3
+      parentName: Xenokarce_LegFrontLeft_2
+      position: {x: -1.4183937, y: 0, z: 0.00000017166137}
+      rotation: {x: -0.00000014901161, y: -0.00000037066638, z: -0.71291333, w: 0.7012522}
+      scale: {x: 0.9999996, y: 1, z: 1}
+    - name: Xenokarce_LegFrontLeft_4
+      parentName: Xenokarce_LegFrontLeft_3
+      position: {x: -2.271103, y: 0.00000061035155, z: -0.0000001335144}
+      rotation: {x: -0.00017368421, y: 0.000010684133, z: 0.56710905, w: 0.82364273}
+      scale: {x: 0.9999996, y: 1.0000004, z: 0.99999994}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -91,7 +416,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: root
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
@@ -99,6 +424,7 @@ ModelImporter:
   humanoidOversampling: 1
   avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 0
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 

@@ -12,8 +12,8 @@ public class Pursue : CrabState
 
     [Header("Check Range")]
     [SerializeField] float RangeAttack = 28;
-    [SerializeField] float CloseAttackRange = 7.5f;
-    [SerializeField] float JumpAwayRange = 6;
+    [SerializeField] float CloseAttackRange = 6f;
+    [SerializeField] float JumpAwayRange = 6f;
     [SerializeField] float ChargeFastMoveRange = 15;
 
 
@@ -68,7 +68,7 @@ public class Pursue : CrabState
             CrabFSM.EnqueueTransition<ChargeFastAttack>();
 
         }
-        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= StopDistance) //between 7.5 -11
+        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= StopDistance) //between 7.5 -9
         {
             CrabFSM.EnqueueTransition<ComboAttack>();
             CrabFSM.EnqueueTransition<NormalAttack>();

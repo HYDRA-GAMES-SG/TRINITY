@@ -10,7 +10,7 @@ public class ComboAttack : CrabState
     private string AnimKeyClawAttackCombo = "2HitComboClawsAttack_RM";
     private string AnimKeySmashAttackCombo = "2HitComboSmashAttack_RM";
 
-    private string AnimKey;
+    public string AnimKey;
 
     public override bool CheckEnterTransition(IState fromState)
     {

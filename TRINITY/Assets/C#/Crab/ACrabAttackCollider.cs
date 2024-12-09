@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class ACrabAttackCollider : MonoBehaviour
 {
-    ACrabController CrabContoller;
+    public ACrabController CrabContoller;
 
-    private void Start()
-    {
-        CrabContoller = GetComponentInParent<ACrabController>();
-    }
+    [Tooltip("If true, particles will deal damage only once during the lifetime of the particle system.")]
+    public bool DealDamageOnlyOnce = true;
+
+    private bool hasDealtDamage = false;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Hit player");
+            //Debug.Log("Hit player");
             ATrinityController health = collision.gameObject.GetComponent<ATrinityController>();
             if (health != null)
             {
@@ -25,15 +26,22 @@ public class ACrabAttackCollider : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        if (other.CompareTag("Player"))
+        if (DealDamageOnlyOnce && hasDealtDamage)
         {
-            Debug.Log("Hit player");
-            ATrinityController health = other.gameObject.GetComponent<ATrinityController>();
-            if (health != null)
-            {
-                health.ApplyDamage(CrabContoller.GetCurrentAttackDamage());
-            }
+            return; 
+        }
+
+        ATrinityController health = other.GetComponent<ATrinityController>();
+        if (health != null)
+        {
+            health.ApplyDamage(CrabContoller.GetParticleAttack());
+            hasDealtDamage = true;
+            //Debug.Log("Particles Hit player");
         }
     }
 
+    public void GetCrabController(ACrabController controller)
+    {
+        CrabContoller = controller;
+    }
 }
