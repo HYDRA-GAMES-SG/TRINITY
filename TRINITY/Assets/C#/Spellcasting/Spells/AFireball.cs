@@ -57,9 +57,9 @@ public class AFireball : MonoBehaviour
             //enemyHitbox.ApplyDamage(Damage);
             //UAilmentComponent enemyAilment = collision.gameObject.GetComponent<UAilmentComponent>();
             //enemyAilment.ModifyStack(EAilmentType.EAT_Ignite, StacksApplied);
-            UEnemyStatus enemyEntity = enemyHitbox.EnemyEntity; 
+            UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus; 
             FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);
-            enemyEntity += damageSource;
+            enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {AilmentType} + {StacksApplied}");
             SpawnExplosion();
             //if (collision.gameObject.transform.childCount == 0)

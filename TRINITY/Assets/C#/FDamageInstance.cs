@@ -19,7 +19,7 @@ public struct FDamageInstance
 
     public static UEnemyStatus operator +(UEnemyStatus enemy, FDamageInstance damageSource) 
     {
-        enemy.Health.Current -= damageSource.Damage;    
+        enemy.Health.Modify(damageSource);
         enemy.Ailment.ModifyStack(damageSource.AilmentType,damageSource.StatusStacks);
         Debug.Log($"Damage Taken : {damageSource.Damage}, Ailment type & stacks applied : {damageSource.AilmentType},{damageSource.StatusStacks}");
         return enemy;

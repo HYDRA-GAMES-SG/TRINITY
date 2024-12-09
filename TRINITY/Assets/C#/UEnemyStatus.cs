@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(UHealthComponent))]
+[RequireComponent(typeof(UAilmentComponent))]
 public class UEnemyStatus : MonoBehaviour
 {
     public UHealthComponent Health;

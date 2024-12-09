@@ -34,6 +34,22 @@ public class UHealthComponent : MonoBehaviour
         ApplyRegen();
     }
     
+    public float Modify(FDamageInstance damageSource)
+    {
+        if (bDead) return Current;
+
+        Current -= damageSource.Damage;
+        Current = Mathf.Clamp(Current, 0, MAX);
+
+        if (Current <= 0)
+        {
+            bDead = true;
+            Current = 0;
+        }
+
+        OnHealthModified?.Invoke(Percent);
+        return Current;
+    }
     public float Modify(float signedValue)
     {
         if (bDead) return Current;
@@ -50,6 +66,7 @@ public class UHealthComponent : MonoBehaviour
         OnHealthModified?.Invoke(Percent);
         return Current;
     }
+
 
     public void ApplyRegen()
     {

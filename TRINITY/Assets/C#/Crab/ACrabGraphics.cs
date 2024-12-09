@@ -30,7 +30,7 @@ public class Boss : MonoBehaviour
             {
                 ACrabHitBox hb = r.gameObject.AddComponent<ACrabHitBox>();
                 hb.Health = Health;
-                hb.EnemyEntity = EnemyEntity;
+                hb.EnemyStatus = EnemyEntity;
             }
         }
     }
