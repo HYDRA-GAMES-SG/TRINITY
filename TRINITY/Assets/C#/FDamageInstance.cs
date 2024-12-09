@@ -4,12 +4,12 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
-public struct FDamageModifier
+public struct FDamageInstance
 {
     public float Damage;
     public int StatusStacks;
     public EAilmentType AilmentType;
-    public FDamageModifier(float targetHealth, EAilmentType ailmentType , int targetAilmentStacks)
+    public FDamageInstance(float targetHealth, EAilmentType ailmentType , int targetAilmentStacks)
     {
         //Things included inside damage
         Damage = targetHealth;
@@ -17,7 +17,7 @@ public struct FDamageModifier
         AilmentType = ailmentType;
     }
 
-    public static UEnemyEntity operator +(UEnemyEntity enemy, FDamageModifier damageSource) 
+    public static UEnemyStatus operator +(UEnemyStatus enemy, FDamageInstance damageSource) 
     {
         enemy.Health.Current -= damageSource.Damage;    
         enemy.Ailment.ModifyStack(damageSource.AilmentType,damageSource.StatusStacks);

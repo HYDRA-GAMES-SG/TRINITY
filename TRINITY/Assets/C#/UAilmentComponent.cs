@@ -12,7 +12,7 @@ public enum EAilmentType
 
 public class UAilmentComponent : MonoBehaviour
 {
-    private class Ailment
+    public class Ailment
     {
         public int Stacks { get; set; }
         public float Timer { get; set; }
@@ -21,7 +21,7 @@ public class UAilmentComponent : MonoBehaviour
 
     public float AilmentDuration = 5f;
 
-    private Dictionary<EAilmentType, Ailment> Ailments = new();
+    public Dictionary<EAilmentType, Ailment> Ailments = new();
 
     public bool IsAilmentActive(EAilmentType ailment) => Ailments[ailment].Stacks > 0;
 

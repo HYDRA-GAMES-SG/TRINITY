@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UEnemyEntity : MonoBehaviour
+public class UEnemyStatus : MonoBehaviour
 {
     public UHealthComponent Health;
     public UAilmentComponent Ailment;
