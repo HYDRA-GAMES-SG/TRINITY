@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GlideMovement : TrinityState
 {
+    private bool bStunned => Brain.GetAction() != ETrinityAction.ETA_Stunned;
     [SerializeField] private float MoveSpeed = 5f;
     [SerializeField] private float StrafeSpeed = 5f;
     [HideInInspector]
@@ -49,6 +50,13 @@ public class GlideMovement : TrinityState
             TrinityFSM.EnqueueTransition<NormalMovement>();
             return;
         }
+
+        HandleDeath();
+
+        if (bStunned)
+        {
+            return;
+        }
         
         HandleMovement();
 
@@ -82,17 +90,17 @@ public class GlideMovement : TrinityState
     }
     
     
-    // private void HandleDeath()
-    // {
-    //     if (Controller.CheckGround().transform)
-    //     {
-    //         TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
-    //     }
-    //     else
-    //     {
-    //         Controller.EnableRagdoll();
-    //     }
-    // }
+    private void HandleDeath()
+    {
+        // if (Controller.CheckGround().transform)
+        // {
+            TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
+        // }
+        // else
+        // {
+        //     Controller.EnableRagdoll();
+        // }
+    }
     
     
 }

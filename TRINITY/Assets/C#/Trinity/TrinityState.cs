@@ -12,6 +12,8 @@ public abstract class TrinityState : MonoBehaviour, IState
     public ATrinityController Controller;
     [HideInInspector]
     public APlayerInput InputReference;
+    [HideInInspector] 
+    public ATrinityBrain Brain;
     
     public void Awake()
     {

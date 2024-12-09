@@ -190,13 +190,13 @@ public class ATrinityController : MonoBehaviour
         }
     }
 
-    public void EnableRagdoll()
-    {
-        // Disable the Animator to stop animations
-        Animator AnimatorComponent = transform.Find("Graphics").GetComponent<Animator>();
-        
-        AnimatorComponent.enabled = false;
-
-        RB.isKinematic = false;
-    }
+    // public void EnableRagdoll()
+    // {
+    //     // Disable the Animator to stop animations
+    //     Animator AnimatorComponent = transform.Find("Graphics").GetComponent<Animator>();
+    //     
+    //     AnimatorComponent.enabled = false;
+    //
+    //     RB.isKinematic = false;
+    // }
 }

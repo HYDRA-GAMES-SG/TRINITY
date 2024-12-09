@@ -96,12 +96,13 @@ public class ATrinityBrain : MonoBehaviour
         }
     }
 
-    public void Stunned(float duration) 
+    public void SetStunnedState(float duration) 
     {
         ChangeAction(ETrinityAction.ETA_Stunned);
         StunnedCooldown = duration;
         Controller.gameObject.SetActive(false);
     }
+    
     public bool CanAct()
     {
         if (Action != ETrinityAction.ETA_None)

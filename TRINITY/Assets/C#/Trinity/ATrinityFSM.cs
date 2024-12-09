@@ -15,6 +15,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
     public event Action<TrinityState, TrinityState> OnStateChange;
     public ATrinityController Controller;
+    public ATrinityBrain Brain;
     public ATrinityCamera Camera;
     public APlayerInput InputReference;
     public Animator Animator;
@@ -155,6 +156,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
                 state.SetStateMachine(this);
                 state.Controller = Controller;
                 state.InputReference = InputReference;
+                state.Brain = Brain;
             }
             else
             {

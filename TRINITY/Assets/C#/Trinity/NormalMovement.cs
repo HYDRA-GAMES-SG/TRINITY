@@ -15,6 +15,8 @@ public class NormalMovement : TrinityState
     public bool ENABLE_DEBUG = false;
     private ETrinityMovement MovementState;
 
+    private bool bStunned => Brain.GetAction() != ETrinityAction.ETA_Stunned;
+
     [SerializeField] private float MoveSpeed = 5f;
     [SerializeField] private float StrafeSpeed = 5f;
     [SerializeField] private float JumpVelocity = 10f;
@@ -30,6 +32,7 @@ public class NormalMovement : TrinityState
     private string AnimKeyBlink = "bBlink";
     private string AnimKeyMirrorJump = "bMirror";
     private string AnimKeyDeath = "bDeath";
+    private string AnimKeyStunned = "bStunned";
     
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -55,7 +58,19 @@ public class NormalMovement : TrinityState
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
-        //Controller.HealthComponent.OnDeath += HandleDeath;
+        Controller.HealthComponent.OnDeath += HandleDeath;
+    }
+
+    private void HandleDeath()
+    {
+        // if (Controller.CheckGround().transform)
+        // {
+            TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
+        // }
+        // else
+        // {
+        //     Controller.EnableRagdoll();
+        // }
     }
 
 
@@ -66,17 +81,16 @@ public class NormalMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
-        // print(Controller.HealthComponent.bDead);
-        // if (Controller.HealthComponent.bDead)
-        // {
-        //     return;
-        // }
+        if (Controller.HealthComponent.bDead)
+        {
+            return;
+        }
         
         HandleMovement();
         HandleJump();
         HandleFalling();
         HandleBlink();
-        CheckCanGlide();
+        TryEnterGlide();
         HandleUnstableGround();
         Controller.RB.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
         UpdateAnimParams();
@@ -91,7 +105,7 @@ public class NormalMovement : TrinityState
     public override void ExitBehaviour(float dt, IState toState)
     {
         ABlink.OnBlink -= OnBlink;
-        //Controller.HealthComponent.OnDeath -= HandleDeath;
+        Controller.HealthComponent.OnDeath -= HandleDeath;
 
     }
 
@@ -114,6 +128,11 @@ public class NormalMovement : TrinityState
 
     private void HandleMovement()
     {
+        if (bStunned)
+        {
+            return;
+        }
+        
         Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * MoveSpeed;
         Vector3 moveX = Controller.Right * InputReference.MoveInput.x * StrafeSpeed;
         Controller.MoveDirection = moveZ;
@@ -122,6 +141,11 @@ public class NormalMovement : TrinityState
     
     private void HandleJump()
     {
+        if (bStunned)
+        {
+            return;
+        }
+        
         if (InputReference.JumpInput)
         {
             if (MovementState == ETrinityMovement.ETM_Grounded)
@@ -171,6 +195,11 @@ public class NormalMovement : TrinityState
     
     private void HandleBlink()
     {
+        if (bStunned)
+        {
+            return;
+        }
+        
         if (TrinityFSM.Animator.GetBool(AnimKeyBlink) && Controller.CheckGround().transform)
         {
             // Ground detected, ensure movement state remains grounded
@@ -203,8 +232,13 @@ public class NormalMovement : TrinityState
     
     
 
-    private void CheckCanGlide()
+    private void TryEnterGlide()
     {
+        if (bStunned)
+        {
+            return;
+        }
+        
         if (MovementState == ETrinityMovement.ETM_Falling || MovementState == ETrinityMovement.ETM_Jumping)
         {
             if (!InputReference.JumpInput)
@@ -242,6 +276,7 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetFloat(AnimKeyMove, playerSpaceVelocity.z, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeyStrafe, playerSpaceVelocity.x, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeyVertical, Controller.VerticalVelocity);
+        TrinityFSM.Animator.SetBool(AnimKeyStunned, bStunned);
     }
     
     public ETrinityMovement GetMovementState()
