@@ -54,14 +54,12 @@ public class AFireball : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             ACrabHitBox enemyHitbox = collision.gameObject.GetComponent<ACrabHitBox>();
-            //enemyHitbox.ApplyDamage(Damage);
-            //UAilmentComponent enemyAilment = collision.gameObject.GetComponent<UAilmentComponent>();
-            //enemyAilment.ModifyStack(EAilmentType.EAT_Ignite, StacksApplied);
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus; 
             FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {AilmentType} + {StacksApplied}");
             SpawnExplosion();
+
             //if (collision.gameObject.transform.childCount == 0)
             //{
             //    GameObject enemyVFX = Instantiate(IgniteVFX, collision.transform.position, Quaternion.identity);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum ETrinityAction 
 {
@@ -40,6 +41,13 @@ public class ATrinityBrain : MonoBehaviour
     public event Action<ETrinityElement> OnElementChanged;
     public event Action<ETrinityAction> OnActionChanged;
 
+    [Header("UI Objects")]
+    public Image FrameBackground;
+    public GameObject CurrentElementImage;
+    public GameObject[] ElementImages = new GameObject[3];
+    public string FireHexademicalCode = "#FF0000";
+    public string ColdHexademicalCode = "#00CDFF";
+    public string LightningHexademicalCode = "#FFC400";
     void Start()
     {
         Spells = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
@@ -90,7 +98,7 @@ public class ATrinityBrain : MonoBehaviour
             Controller.gameObject.SetActive(true);
         }
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("CrabBossDungeon");
         }
@@ -207,6 +215,7 @@ public class ATrinityBrain : MonoBehaviour
         intElement++;
         ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
         ChangeElement(newElement);
+        ChangeElementUI(intElement);
         OnElementChanged?.Invoke(newElement);
     }
 
@@ -221,9 +230,56 @@ public class ATrinityBrain : MonoBehaviour
         }
         ETrinityElement newElement = (ETrinityElement)intElement;
         ChangeElement(newElement);
+        ChangeElementUI(intElement);
         OnElementChanged?.Invoke(newElement);
     }
-
+    public void ChangeElementUI(int intElement) 
+    {
+        switch (intElement) 
+        {
+            case 0: 
+                {
+                    CurrentElementImage.SetActive(false);
+                    CurrentElementImage = ElementImages[intElement];
+                    CurrentElementImage.SetActive(true);
+                    SetColorByHexademical(FireHexademicalCode);
+                    break;
+                }
+            case 1:
+                {
+                    CurrentElementImage.SetActive(false);
+                    CurrentElementImage = ElementImages[intElement];
+                    CurrentElementImage.SetActive(true);
+                    SetColorByHexademical(ColdHexademicalCode);
+                    break;
+                }
+            case 2:
+                {
+                    CurrentElementImage.SetActive(false);
+                    CurrentElementImage = ElementImages[intElement];
+                    CurrentElementImage.SetActive(true);
+                    SetColorByHexademical(LightningHexademicalCode);
+                    break;
+                }
+        }
+    }
+    public void SetColorByHexademical(string hexCode) 
+    {
+        print($"Changing color of frame to {hexCode}");
+        Color newColor;
+        if (ColorUtility.TryParseHtmlString(hexCode, out newColor))
+        {
+            FrameBackground.color = newColor;
+            Color frameBackgroundColor = FrameBackground.color;
+            frameBackgroundColor.a = (40f / 255f);
+            FrameBackground.color = frameBackgroundColor;
+            print($"Image hexademical color changed to {hexCode}");
+        }
+        else 
+        {
+            Debug.LogWarning($"Invalid hexademical color code : {hexCode}");
+        }
+    }
     public void ChangeElement(ETrinityElement newElement)
     {
         Element = newElement;
