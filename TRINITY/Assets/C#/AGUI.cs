@@ -22,8 +22,8 @@ public class AGUI : MonoBehaviour
         {
             TrinityController.HealthComponent.OnHealthModified += UpdateHealthBar;
         }
-        
-        
+
+
         if (TrinitySpells != null)
         {
             TrinitySpells.ManaComponent.OnManaModified += UpdateManaBar;
@@ -33,7 +33,8 @@ public class AGUI : MonoBehaviour
     void Update()
     {
         HandleBossHealth();
-
+        UpdateHealthBar(TrinityController.HealthComponent.Percent);
+        UpdateManaBar(TrinitySpells.ManaComponent.Percent);
     }
 
     private void HandleBossHealth()
@@ -65,18 +66,27 @@ public class AGUI : MonoBehaviour
     public void UpdateHealthBar(float HealthPercent)
     {
         if (HealthSlider != null)
+        {
             HealthSlider.value = HealthPercent;
-
-        if (HealthText != null)
+            print("Health value changed");
+        }
+        if (HealthText != null) 
+        {
             HealthText.text = $"{TrinityController.HealthComponent.Current}/{TrinityController.HealthComponent.MAX}HP";
+        }
     }
     public void UpdateManaBar(float ManaPercent)
     {
-        if (ManaSlider != null)
+        if (ManaSlider != null) 
+        {   
             ManaSlider.value = ManaPercent;
+            print("Mana value changed");
+        }
 
-        if (ManaText != null)
+        if (ManaText != null) 
+        {
             ManaText.text = $"{TrinitySpells.ManaComponent.Current}/{TrinitySpells.ManaComponent.MAX}";
+        }      
     }
 
     void OnDestroy()

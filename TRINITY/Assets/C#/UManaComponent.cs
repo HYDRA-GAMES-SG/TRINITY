@@ -10,7 +10,7 @@ public class UManaComponent : MonoBehaviour
     public float Regen = 5f;
     public float Current = 0f;
 
-    private float Percent => Current / MAX;
+    public float Percent => Current / MAX;
 
     public System.Action<float> OnManaModified;
 

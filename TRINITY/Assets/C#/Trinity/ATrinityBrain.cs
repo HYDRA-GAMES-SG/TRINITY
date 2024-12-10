@@ -273,7 +273,7 @@ public class ATrinityBrain : MonoBehaviour
             Color frameBackgroundColor = FrameBackground.color;
             frameBackgroundColor.a = (40f / 255f);
             FrameBackground.color = frameBackgroundColor;
-            print($"Image hexademical color changed to {hexCode}");
+            print($"Image hexademical color changed to {hexCode}, hexademical color in RGB : {ColorUtility.ToHtmlStringRGB(frameBackgroundColor)}");
         }
         else 
         {
