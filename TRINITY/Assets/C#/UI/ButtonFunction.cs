@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class ButtonFunction : MonoBehaviour
 {
     public string menu = "MenuScene";
-    public string crabBossStage = "CrabStageBossScene";
+    public string crabBossStage = "CrabBossDungeon";
     public string flyingBossStage = "FlyingBossStageScene";
     public string humanoidBossStage = "HumanoidBossStageScene";
 
