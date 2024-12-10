@@ -68,7 +68,7 @@ public class AGUI : MonoBehaviour
             HealthSlider.value = HealthPercent;
 
         if (HealthText != null)
-            HealthText.text = $"{TrinityController.HealthComponent.Current}/{TrinityController.HealthComponent.MAX}%";
+            HealthText.text = $"{TrinityController.HealthComponent.Current}/{TrinityController.HealthComponent.MAX}HP";
     }
     public void UpdateManaBar(float ManaPercent)
     {

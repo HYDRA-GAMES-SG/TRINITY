@@ -3490,8 +3490,10 @@ GameObject:
   - component: {fileID: 9144458036026273463}
   - component: {fileID: 590067304611633414}
   - component: {fileID: 1727026065975959313}
-  - component: {fileID: 492054999584268895}
   - component: {fileID: 7996638140476010524}
+  - component: {fileID: 492054999584268895}
+  - component: {fileID: 1422212878879520057}
+  - component: {fileID: 5370612012707908729}
   - component: {fileID: 8615689596737175229}
   - component: {fileID: 8427644227223135767}
   - component: {fileID: 1643759408695698379}
@@ -3512,7 +3514,7 @@ Transform:
   m_GameObject: {fileID: 6244054646282926487}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 17.89}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3567,20 +3569,6 @@ MonoBehaviour:
   Regen: 5
   Current: 0
   bDead: 0
---- !u!114 &492054999584268895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6244054646282926487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CrabContoller: {fileID: 590067304611633414}
-  DealDamageOnlyOnce: 1
 --- !u!114 &7996638140476010524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3601,6 +3589,47 @@ MonoBehaviour:
     type: 3}
   LeftClaw: {fileID: 5848169551067447597}
   RightClaw: {fileID: 6346969674465272153}
+--- !u!114 &492054999584268895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244054646282926487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CrabContoller: {fileID: 590067304611633414}
+  DealDamageOnlyOnce: 1
+--- !u!114 &1422212878879520057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244054646282926487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1a2a52e8c6a134bbdcd47750275a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: {fileID: 1727026065975959313}
+  Ailment: {fileID: 5370612012707908729}
+--- !u!114 &5370612012707908729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244054646282926487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AilmentDuration: 5
 --- !u!195 &8615689596737175229
 NavMeshAgent:
   m_ObjectHideFlags: 0
