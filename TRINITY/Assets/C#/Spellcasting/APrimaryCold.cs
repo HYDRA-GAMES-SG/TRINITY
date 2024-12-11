@@ -2,10 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class APrimaryCold : ASpell
 {
     Rigidbody Rigidbody;
     private GameObject[] IceSlicer = new GameObject[2];
+
+    public AudioSource ColdSource;
+    public AudioClip ColdAttack, ColdSustain, ColdRelease;
+
     // Start is called before the first frame update
     public override void Initialize()
     {
@@ -18,6 +23,8 @@ public class APrimaryCold : ASpell
                 IceSlicer[i].transform.rotation = new Quaternion(0, -1, 0, 0);
             }
         }
+        ColdSource = GetComponent<AudioSource>();
+        ColdSource.clip = ColdSustain;
     }
     public void Chill() 
     {
@@ -29,6 +36,8 @@ public class APrimaryCold : ASpell
         {
             IceSlicer[i].SetActive(true);
         }
+        ColdSource.PlayOneShot(ColdAttack);
+        ColdSource.Play();
     }
 
     public override void CastUpdate()
@@ -42,6 +51,8 @@ public class APrimaryCold : ASpell
         {
             IceSlicer[i].SetActive(false);
         }
+        //ColdSource.PlayOneShot(ColdRelease);
+        ColdSource.Stop();
     }
 
     private void OnCollisionEnter(Collision collision)

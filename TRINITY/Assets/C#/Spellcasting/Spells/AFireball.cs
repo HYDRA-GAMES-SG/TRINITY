@@ -15,8 +15,10 @@ public class AFireball : MonoBehaviour
     public EAilmentType AilmentType;
     [HideInInspector]
     public Rigidbody RB;
-    
-    
+
+    public AudioSource FireSource;
+    public AudioClip[] FireRelease;
+
     [Header("VFX Prefabs")]
     public GameObject ExplosionVFX;
     public GameObject IgniteVFX;
@@ -26,7 +28,7 @@ public class AFireball : MonoBehaviour
     {
         RB = GetComponent<Rigidbody>();
         Direction = Spells.CastDirection;
-        AilmentType = EAilmentType.EAT_Ignite;
+        AilmentType = EAilmentType.EAT_Ignite;  
     }
 
     // Update is called once per frame
@@ -46,6 +48,8 @@ public class AFireball : MonoBehaviour
     public void SpawnExplosion()
     {
         GameObject vfx = Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
+        int i = Random.Range(0, FireRelease.Length - 1);
+        FireSource.PlayOneShot(FireRelease[i]);
         Destroy(this.gameObject);
     }
     
@@ -54,6 +58,11 @@ public class AFireball : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             ACrabHitBox enemyHitbox = collision.gameObject.GetComponent<ACrabHitBox>();
+
+            ACrabController enemyController = enemyHitbox.CrabController;
+            print(enemyController.name);
+            enemyController.TriggerGetHit();
+
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus; 
             FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);
             enemyStatus += damageSource;

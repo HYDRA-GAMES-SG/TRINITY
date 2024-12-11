@@ -8,12 +8,14 @@ public class Boss : MonoBehaviour
     Animator animator;
     UHealthComponent Health;
     UEnemyStatus EnemyEntity;
+    ACrabController CrabController;
     void Start()
     {
         rigBody = GetComponentsInChildren<Rigidbody>();
         Health = GetComponentInParent<UHealthComponent>();
         animator = GetComponentInParent<Animator>();
         EnemyEntity = GetComponentInParent<UEnemyStatus>();
+        CrabController = GetComponentInParent<ACrabController>();
 
 
         AddHitBoxScriptToAllParts();
@@ -31,6 +33,7 @@ public class Boss : MonoBehaviour
                 ACrabHitBox hb = r.gameObject.AddComponent<ACrabHitBox>();
                 hb.Health = Health;
                 hb.EnemyStatus = EnemyEntity;
+                hb.CrabController = CrabController;
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class APrimaryLightning : ASpell
 {
     Rigidbody Rigidbody;
@@ -12,6 +13,9 @@ public class APrimaryLightning : ASpell
     public GameObject ShockVFX;
 
     private GameObject Beam;
+    public AudioSource LightningSource;
+    public AudioClip LightningAttack, LightningSustain, LightningRelease;
+
     // Start is called before the first frame update
     public override void Initialize()
     {
@@ -20,23 +24,28 @@ public class APrimaryLightning : ASpell
             Beam = Instantiate(SpellPrefab, Spells.CastPoint.position, Quaternion.identity);
             Beam.transform.parent = Spells.CastPoint.transform;
         }
+        LightningSource = GetComponent<AudioSource>();
+        LightningSource.clip = LightningSustain;
     }
 
     public override void CastStart()
     {
         Beam.SetActive(true);
+        //LightningSource.PlayOneShot(LightningAttack);
+        LightningSource.Play();
     }
 
     public override void CastUpdate()
     {
         Quaternion newRot = Spells.CameraRef.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
         Beam.transform.rotation = newRot;
-
     }
 
     public override void CastEnd()
     {
         Beam.SetActive(false);
+        //LightningSource.PlayOneShot(LightningRelease);
+        LightningSource.Stop();
     }
     
     private void OnCollisionEnter(Collision collision)

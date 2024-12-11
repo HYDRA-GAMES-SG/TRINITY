@@ -62,6 +62,10 @@ public class ALightningBeam : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             ACrabHitBox enemyHitbox = collision.gameObject.GetComponent<ACrabHitBox>();
+
+            ACrabController enemyController = enemyHitbox.CrabController;
+            enemyController.TriggerGetHit();
+
             FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             enemyStatus += damageSource;

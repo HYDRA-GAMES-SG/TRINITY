@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 52384058030199024}
   - component: {fileID: 52384058030199027}
   - component: {fileID: 52384058030199026}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Impact_Frost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4932,7 +4932,7 @@ GameObject:
   - component: {fileID: 1234315415443409829}
   - component: {fileID: 1234315415443409831}
   - component: {fileID: 1234315415443409830}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flecks_Clipped
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9634,7 +9634,7 @@ GameObject:
   - component: {fileID: 1234315415470296711}
   - component: {fileID: 1234315415470296713}
   - component: {fileID: 1234315415470296712}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dummy_Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14415,7 +14415,7 @@ GameObject:
   - component: {fileID: 1234315415576527635}
   - component: {fileID: 1234315415576527637}
   - component: {fileID: 1234315415576527636}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19051,7 +19051,7 @@ GameObject:
   - component: {fileID: 1234315415676325663}
   - component: {fileID: 1234315415676325665}
   - component: {fileID: 1234315415676325664}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ice_Shards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23843,7 +23843,7 @@ GameObject:
   - component: {fileID: 1234315415849617316}
   - component: {fileID: 1234315415849617318}
   - component: {fileID: 1234315415849617317}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28659,7 +28659,7 @@ GameObject:
   - component: {fileID: 1234315415971691097}
   - component: {fileID: 1234315415971691099}
   - component: {fileID: 1234315415971691098}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Slash_Add
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33547,7 +33547,7 @@ GameObject:
   - component: {fileID: 1234315416566394021}
   - component: {fileID: 1234315416566394023}
   - component: {fileID: 1234315416566394022}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Snowflakes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38327,7 +38327,7 @@ GameObject:
   - component: {fileID: 1234315416639638296}
   - component: {fileID: 1234315416639638298}
   - component: {fileID: 1234315416639638297}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Slash_Dark_Alpha
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43216,7 +43216,9 @@ GameObject:
   - component: {fileID: 1234315416888464986}
   - component: {fileID: 1234315416888464985}
   - component: {fileID: 5961806318098155278}
-  m_Layer: 0
+  - component: {fileID: 5041601314333609402}
+  - component: {fileID: 4893923725855887802}
+  m_Layer: 7
   m_Name: IceSlicer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48056,9 +48058,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29fb5c9a1aa1874a8dc055340f43db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Damage: 0.03
+  StacksApplied: 0
+  AilmentType: 0
   XRotMultiplier: 1
   YRotMultiplier: 1
   ZRotMultiplier: 0
+--- !u!54 &5041601314333609402
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234315416888464984}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 14
+  m_CollisionDetection: 0
+--- !u!65 &4893923725855887802
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234315416888464984}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.17, y: 1, z: 4.43}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1786628948923747647
 GameObject:
   m_ObjectHideFlags: 0
@@ -48070,7 +48123,7 @@ GameObject:
   - component: {fileID: 1786628948923747632}
   - component: {fileID: 1786628948923747634}
   - component: {fileID: 1786628948923747633}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Snowflakes
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -50522,7 +50575,7 @@ GameObject:
   - component: {fileID: 2302416003550661489}
   - component: {fileID: 2302416003550661495}
   - component: {fileID: 2302416003550661488}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shockwave
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -52848,7 +52901,7 @@ GameObject:
   - component: {fileID: 780765118508047311}
   - component: {fileID: 2365021209182253407}
   - component: {fileID: 5174346447335063032}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Smoke
   m_TagString: 
   m_Icon: {fileID: 0}
@@ -55669,7 +55722,7 @@ GameObject:
   - component: {fileID: 6219809736834453895}
   - component: {fileID: 7473185012863783264}
   - component: {fileID: 8010217381618299535}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Slash_Add_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
