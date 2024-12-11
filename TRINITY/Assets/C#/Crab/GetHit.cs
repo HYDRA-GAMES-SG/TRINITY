@@ -38,7 +38,7 @@ public class GetHit : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Death)
+        if (toState is Death || toState is Pursue)
         {
             return true;
         }
