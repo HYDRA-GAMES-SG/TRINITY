@@ -61,6 +61,7 @@ public class ATrinityBrain : MonoBehaviour
         
         InputReference = GetComponent<APlayerInput>();
         Element = ETrinityElement.ETE_Fire;
+        Action = ETrinityAction.ETA_None;
         
         InputReference.OnElementalPrimaryPressed += Primary;
         InputReference.OnElementalSecondaryPressed += Secondary;
