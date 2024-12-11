@@ -35,8 +35,9 @@ public class ACrabController : MonoBehaviour
     [HideInInspector] public bool CanComboAttack = false;
     [HideInInspector] public bool CanCharageMoveFast = false;
 
-    /*[HideInInspector]*/
-    public bool bElementPhase = false;
+
+    [HideInInspector] public bool bElementPhase = false;
+    [HideInInspector] public bool bCrabDie = false;
 
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
@@ -185,4 +186,8 @@ public class ACrabController : MonoBehaviour
         }
     }
 
+    public void TriggerGetHit()
+    {
+        CrabFSM.EnqueueTransition<GetHit>();
+    }
 }

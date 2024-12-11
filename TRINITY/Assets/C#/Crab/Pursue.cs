@@ -49,7 +49,10 @@ public class Pursue : CrabState
     {
         if (CrabFSM.PlayerController == null) return;
 
-        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+        Vector3 PlayerPos = new Vector3(CrabFSM.PlayerController.transform.position.x, 0, CrabFSM.PlayerController.transform.position.z);
+        Vector3 CrabPos = new Vector3(CrabFSM.CrabController.transform.position.x, 0, CrabFSM.CrabController.transform.position.z);
+
+        float distanceToTarget = Vector3.Distance(PlayerPos, CrabPos);
 
         if (distanceToTarget >= RangeAttack && distanceToTarget <= RangeAttack + 2) //between 28 - 30
         {

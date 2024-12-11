@@ -13,7 +13,7 @@ public class ACrabAttackCollider : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !CrabContoller.bCrabDie)
         {
             //Debug.Log("Hit player");
             ATrinityController health = collision.gameObject.GetComponent<ATrinityController>();
@@ -28,7 +28,7 @@ public class ACrabAttackCollider : MonoBehaviour
     {
         if (DealDamageOnlyOnce && hasDealtDamage)
         {
-            return; 
+            return;
         }
 
         ATrinityController health = other.GetComponent<ATrinityController>();
