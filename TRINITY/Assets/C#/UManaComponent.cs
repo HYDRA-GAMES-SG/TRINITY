@@ -23,12 +23,17 @@ public class UManaComponent : MonoBehaviour
         Current = MAX;
     }
 
-    void Update()
+    void LateUpdate()
+    {
+        ApplyRegen();
+    }
+
+    public void ApplyRegen() 
     {
         Current += Regen * Time.deltaTime;
         Current = Mathf.Clamp(Current, 0f, MAX);
+        OnManaModified?.Invoke(Percent);
     }
-    
     public float Modify(float signedValue)
     {
         Current += signedValue;

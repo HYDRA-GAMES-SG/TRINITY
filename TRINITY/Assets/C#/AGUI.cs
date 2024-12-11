@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class AGUI : MonoBehaviour
 {
-    [SerializeField] private UHealthComponent BossHealth;
 
     [SerializeField] private Slider HealthSlider, ManaSlider, BossHealthSlider;
 
@@ -28,40 +27,34 @@ public class AGUI : MonoBehaviour
         {
             TrinitySpells.ManaComponent.OnManaModified += UpdateManaBar;
         }
+        ATrinityBrain.OnBossSet += SetupBossUI;
     }
 
     void Update()
     {
-        HandleBossHealth();
-        UpdateHealthBar(TrinityController.HealthComponent.Percent);
-        UpdateManaBar(TrinitySpells.ManaComponent.Percent);
+
+    }
+    private void SetupBossUI(GameObject bossGameObject)
+    {
+        print(bossGameObject.name);
+        bossGameObject.GetComponent<UEnemyStatus>().Health.OnHealthModified += UpdateBossHealthBar;
+        bossGameObject.GetComponent<UEnemyStatus>().Health.OnDeath += HandleBossDeath;
+        BossHealthSlider.gameObject.SetActive(true);
+        BossHealthSlider.value = 100f;
     }
 
-    private void HandleBossHealth()
+    private void HandleBossDeath()
     {
-        if (AGameManager.Boss != null)
-        {
-            if (BossHealth == null)
-            {
-                BossHealth = AGameManager.Boss.GetComponent<UHealthComponent>();
-                
-                if (!BossHealthSlider.gameObject.activeSelf)
-                {
-                    BossHealthSlider.gameObject.SetActive(true);
-                }
-            }
-            
-            BossHealthSlider.value = BossHealth.Percent;
-        }
-        else
-        {
-            if (BossHealth != null)
-            {
-                BossHealthSlider.gameObject.SetActive(false);
-                BossHealth = null;
-            }
-        }
+        BossHealthSlider.value = 0f;
+        BossHealthSlider.gameObject.SetActive(false);
+
     }
+    private void UpdateBossHealthBar(float healthPercent)
+    {
+        print($"Health value : {healthPercent}");
+        BossHealthSlider.value = healthPercent;
+    }
+
 
     public void UpdateHealthBar(float HealthPercent)
     {
@@ -96,5 +89,7 @@ public class AGUI : MonoBehaviour
 
         if (TrinitySpells != null)
             TrinitySpells.ManaComponent.OnManaModified -= UpdateManaBar;
+
+        ATrinityBrain.OnBossSet -= SetupBossUI;
     }
 }

@@ -24,6 +24,18 @@ public enum ETrinityElement
 
 public class ATrinityBrain : MonoBehaviour
 {
+    static public GameObject Boss;
+
+    public static void SetBoss(GameObject bossObject)
+    {
+        print("boss is set");
+        if (Boss != bossObject && bossObject != null)
+        {
+            Boss = bossObject;
+            OnBossSet?.Invoke(bossObject);
+        }
+    }
+
     public float GlobalCooldown = 0f;
     [SerializeField]private float StunnedCooldown = 0f;
 
@@ -40,6 +52,7 @@ public class ATrinityBrain : MonoBehaviour
 
     public event Action<ETrinityElement> OnElementChanged;
     public event Action<ETrinityAction> OnActionChanged;
+    public static event Action<GameObject> OnBossSet;
 
     [Header("UI Objects")]
     public Image FrameBackground;
@@ -215,7 +228,6 @@ public class ATrinityBrain : MonoBehaviour
         intElement++;
         ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
         ChangeElement(newElement);
-        ChangeElementUI(intElement);
         OnElementChanged?.Invoke(newElement);
     }
 
@@ -230,38 +242,7 @@ public class ATrinityBrain : MonoBehaviour
         }
         ETrinityElement newElement = (ETrinityElement)intElement;
         ChangeElement(newElement);
-        ChangeElementUI(intElement);
         OnElementChanged?.Invoke(newElement);
-    }
-    public void ChangeElementUI(int intElement) 
-    {
-        switch (intElement) 
-        {
-            case 0: 
-                {
-                    CurrentElementImage.SetActive(false);
-                    CurrentElementImage = ElementImages[intElement];
-                    CurrentElementImage.SetActive(true);
-                    SetColorByHexademical(FireHexademicalCode);
-                    break;
-                }
-            case 1:
-                {
-                    CurrentElementImage.SetActive(false);
-                    CurrentElementImage = ElementImages[intElement];
-                    CurrentElementImage.SetActive(true);
-                    SetColorByHexademical(ColdHexademicalCode);
-                    break;
-                }
-            case 2:
-                {
-                    CurrentElementImage.SetActive(false);
-                    CurrentElementImage = ElementImages[intElement];
-                    CurrentElementImage.SetActive(true);
-                    SetColorByHexademical(LightningHexademicalCode);
-                    break;
-                }
-        }
     }
     public void SetColorByHexademical(string hexCode) 
     {
@@ -283,6 +264,28 @@ public class ATrinityBrain : MonoBehaviour
     public void ChangeElement(ETrinityElement newElement)
     {
         Element = newElement;
+        CurrentElementImage.SetActive(false);
+        CurrentElementImage = ElementImages[(int)newElement];
+        CurrentElementImage.SetActive(true);
+        switch ((int)newElement)
+        {
+
+            case 0:
+                {
+                    SetColorByHexademical(FireHexademicalCode);
+                    break;
+                }
+            case 1:
+                {
+                    SetColorByHexademical(ColdHexademicalCode);
+                    break;
+                }
+            case 2:
+                {
+                    SetColorByHexademical(LightningHexademicalCode);
+                    break;
+                }
+        }
         OnElementChanged?.Invoke(Element);
     }
 

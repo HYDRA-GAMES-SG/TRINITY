@@ -49,13 +49,11 @@ public class ACrabController : MonoBehaviour
     {
         Health = GetComponent<UHealthComponent>();
         Animator = GetComponent<Animator>();
-        AGameManager.SetBoss(this.gameObject);
     }
 
     void Update()
     {
         CheckCooldown();
-
         if (Health.Percent < 0.5f) //next element phrese
         {
             bElementPhase = true;
@@ -64,6 +62,10 @@ public class ACrabController : MonoBehaviour
         if (Health.Current <= 0f)
         {
             CrabFSM.EnqueueTransition<Death>();
+        }
+        if (ATrinityBrain.Boss == null)
+        {
+            ATrinityBrain.SetBoss(this.gameObject);
         }
     }
 

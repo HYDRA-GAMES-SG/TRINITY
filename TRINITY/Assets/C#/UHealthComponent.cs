@@ -28,7 +28,7 @@ public class UHealthComponent : MonoBehaviour
         Current = MAX;
     }
 
-    public void Update()
+    public void LateUpdate()
     {
         CheckForDeath();
         ApplyRegen();
@@ -74,6 +74,7 @@ public class UHealthComponent : MonoBehaviour
         {
             Current += Regen * Time.deltaTime;
             Current = Mathf.Clamp(Current, 0f, MAX);
+            OnHealthModified?.Invoke(Percent);
         }
     }
     
