@@ -80,7 +80,7 @@ public class UHealthComponent : MonoBehaviour
     
     public void CheckForDeath()
     {
-        if (Current <= 0f)
+        if (Current <= 0f && !bDead)
         {
             bDead = true;
             OnDeath?.Invoke();
