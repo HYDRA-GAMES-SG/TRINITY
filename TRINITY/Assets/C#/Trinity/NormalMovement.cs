@@ -15,7 +15,7 @@ public class NormalMovement : TrinityState
     public bool ENABLE_DEBUG = false;
     private ETrinityMovement MovementState;
 
-    private bool bStunned => Brain.GetAction() != ETrinityAction.ETA_Stunned;
+    private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
 
     [SerializeField] private float MoveSpeed = 5f;
     [SerializeField] private float StrafeSpeed = 5f;
