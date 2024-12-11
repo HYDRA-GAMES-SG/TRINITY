@@ -8,7 +8,10 @@ public class GetHit : CrabState
     {
         if (fromState is Pursue || fromState is NormalAttack)
         {
-            return true;
+            if (CrabFSM.CrabController.CanGetHit)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -34,6 +37,7 @@ public class GetHit : CrabState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        CrabFSM.CrabController.CanGetHit = false;
     }
 
     public override bool CheckExitTransition(IState toState)

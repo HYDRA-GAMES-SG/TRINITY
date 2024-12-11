@@ -12,11 +12,13 @@ public class ACrabController : MonoBehaviour
     [SerializeField] float ChargeMoveFastCooldown = 15;
     [SerializeField] float RoarIceSprayCooldown = 10f;
     [SerializeField] float ComboCooldown = 5f;
+    [SerializeField] float GetHitCooldown = 1f;
 
     private float JumpSmashTimer = 0f;
     private float ChargeMoveFastTimer = 0f;
     private float RoarIceSprayTimer = 0f;
     private float ComboTimer = 0f;
+    private float GetHitTimer = 0f;
 
     [Header("Attack Deal")]
     [SerializeField] float NormalAttack;
@@ -34,6 +36,7 @@ public class ACrabController : MonoBehaviour
     [HideInInspector] public bool CanRoarStun = false;
     [HideInInspector] public bool CanComboAttack = false;
     [HideInInspector] public bool CanCharageMoveFast = false;
+    [HideInInspector] public bool CanGetHit = false;
 
 
     [HideInInspector] public bool bElementPhase = false;
@@ -108,6 +111,15 @@ public class ACrabController : MonoBehaviour
             {
                 CanCharageMoveFast = true;
                 ChargeMoveFastTimer = 0f;
+            }
+        }
+        if (!CanGetHit)
+        {
+            GetHitTimer += Time.deltaTime;
+            if (GetHitTimer >= GetHitCooldown)
+            {
+                CanGetHit = true;
+                GetHitTimer = 0f;
             }
         }
     }

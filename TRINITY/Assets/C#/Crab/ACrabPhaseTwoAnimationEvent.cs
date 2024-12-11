@@ -13,6 +13,8 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
     ACrabController Controller;
 
+    [SerializeField] AudioSource CrabAttackSource;
+
 
     private void Start()
     {
@@ -68,5 +70,10 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
             projectileController.GetCrabController(Controller); 
 
         }
+    }
+
+    public void PlayLeftClawAttackSound(AudioClip attackSound)
+    {
+        CrabAttackSource.PlayOneShot(attackSound);
     }
 }

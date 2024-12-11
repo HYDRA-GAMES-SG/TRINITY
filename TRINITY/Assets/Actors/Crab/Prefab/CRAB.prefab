@@ -3539,6 +3539,7 @@ MonoBehaviour:
   ChargeMoveFastCooldown: 15
   RoarIceSprayCooldown: 10
   ComboCooldown: 5
+  GetHitCooldown: 0.5
   NormalAttack: 10
   ComboAttack: 15
   JumpSmashAttack: 30
@@ -3551,7 +3552,9 @@ MonoBehaviour:
   CanRoarStun: 0
   CanComboAttack: 0
   CanCharageMoveFast: 0
+  CanGetHit: 0
   bElementPhase: 0
+  bCrabDie: 0
   RootMotionNotEnterDistance: 8
 --- !u!114 &1727026065975959313
 MonoBehaviour:
@@ -3589,6 +3592,8 @@ MonoBehaviour:
     type: 3}
   LeftClaw: {fileID: 5848169551067447597}
   RightClaw: {fileID: 6346969674465272153}
+  CrabAttackSource: {fileID: 4718642061185292164, guid: 5417a9607d92300469601a69a9652f0f,
+    type: 3}
 --- !u!114 &492054999584268895
 MonoBehaviour:
   m_ObjectHideFlags: 0
