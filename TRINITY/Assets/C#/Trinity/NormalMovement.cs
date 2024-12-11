@@ -31,7 +31,7 @@ public class NormalMovement : TrinityState
     private string AnimKeyGlide = "bGlide";
     private string AnimKeyBlink = "bBlink";
     private string AnimKeyMirrorJump = "bMirror";
-    private string AnimKeyDeath = "bDeath";
+    private string AnimKeyDeath = "Death";
     private string AnimKeyStunned = "bStunned";
     
     public override bool CheckEnterTransition(IState fromState)
@@ -65,7 +65,7 @@ public class NormalMovement : TrinityState
     {
         // if (Controller.CheckGround().transform)
         // {
-            TrinityFSM.Animator.SetBool(AnimKeyDeath, true);
+        TrinityFSM.Animator.SetTrigger(AnimKeyDeath);
         // }
         // else
         // {
