@@ -22,7 +22,7 @@ public class ChargeFastAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue || fromState is JumpAway || fromState is RoarIceSpray)
+        if (fromState is Pursue)
         {
             if (CrabFSM.CrabController.CanCharageMoveFast)
             {
@@ -97,7 +97,7 @@ public class ChargeFastAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Death || toState is Pursue)
+        if (toState is Pursue || toState is Death)
         {
             return true;
         }

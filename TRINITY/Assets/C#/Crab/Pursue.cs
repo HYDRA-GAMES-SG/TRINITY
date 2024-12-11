@@ -24,7 +24,7 @@ public class Pursue : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is ComboAttack || fromState is JumpSmash || fromState is RoarIceSpray || fromState is NormalAttack || fromState is ChargeFastAttack || fromState is JumpAway || fromState is GetHit)
+        if (fromState is NormalAttack || fromState is ComboAttack || fromState is JumpSmash || fromState is RoarIceSpray || fromState is ChargeFastAttack || fromState is JumpAway || fromState is IcePhaseRoar || fromState is GetHit)
         {
             return true;
         }
@@ -93,7 +93,7 @@ public class Pursue : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is ComboAttack || toState is JumpSmash || toState is RoarIceSpray || toState is NormalAttack || toState is JumpAway || toState is Death || toState is ChargeFastAttack || toState is GetHit)
+        if (toState is NormalAttack || toState is ComboAttack || toState is JumpSmash || toState is RoarIceSpray || toState is ChargeFastAttack || toState is JumpAway || toState is IcePhaseRoar || toState is GetHit || toState is Death)
         {
             return true;
         }

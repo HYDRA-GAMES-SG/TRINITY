@@ -55,7 +55,7 @@ public class NormalAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Pursue || toState is Death)
+        if (toState is Pursue || toState is IcePhaseRoar || toState is GetHit || toState is Death)
         {
             return true;
         }

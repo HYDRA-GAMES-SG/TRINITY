@@ -6,11 +6,16 @@ public class IcePhaseRoar : CrabState
 {
     public override bool CheckEnterTransition(IState fromState)
     {
+        if (fromState is Pursue || fromState is NormalAttack)
+        {
+            return true;
+        }
         return false;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        CrabFSM.CrabController.bElementPhase = true;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -20,6 +25,10 @@ public class IcePhaseRoar : CrabState
 
     public override void UpdateBehaviour(float dt)
     {
+        if (CrabFSM.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
+        {
+            CrabFSM.EnqueueTransition<Pursue>();
+        }
     }
 
 
@@ -33,7 +42,7 @@ public class IcePhaseRoar : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return false;
+        return true;
     }
 
     private void RotateTowardTarget(Vector3 directionToTarget)

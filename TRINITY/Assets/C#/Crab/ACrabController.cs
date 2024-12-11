@@ -54,9 +54,11 @@ public class ACrabController : MonoBehaviour
     void Update()
     {
         CheckCooldown();
-        if (Health.Percent < 0.5f) //next element phrese
+
+
+        if (Health.Percent < 0.5f && !bElementPhase) //next element phrese
         {
-            bElementPhase = true;
+            CrabFSM.EnqueueTransition<IcePhaseRoar>();
             ComboAttack = 0;
         }
         if (Health.Current <= 0f)
@@ -132,26 +134,22 @@ public class ACrabController : MonoBehaviour
     {
         if (CrabFSM.CurrentState is JumpSmash)
         {
-            Debug.Log("A");
             return JumpSmashFrozenGroundAttack;
         }
         else if (CrabFSM.CurrentState is ComboAttack comboAttack)
         {
             if (comboAttack.AnimKey == "2HitComboClawsAttack_RM")
             {
-            Debug.Log("B");
                 return IceSlashAttack;
             }
             else if (comboAttack.AnimKey == "2HitComboSmashAttack_RM")
             {
-            Debug.Log("C");
                 return SmashFrozenGroundAttack;
             }
             return 0;
         }
         else if (CrabFSM.CurrentState is RoarIceSpray)
         {
-            Debug.Log("D");
             return IceSprayAttack;
         }
         else

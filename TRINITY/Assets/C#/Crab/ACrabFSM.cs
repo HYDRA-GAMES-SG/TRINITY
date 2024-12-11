@@ -108,7 +108,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
         OnStateChange?.Invoke(PreviousState, nextState);
 
-        Debug.Log("AI: " + CurrentState + "=>" + nextState);
+        //Debug.Log("AI: " + CurrentState + "=>" + nextState);
 
         CurrentState = nextState;
         Animator.runtimeAnimatorController = CurrentState.StateAnimController;
