@@ -11,9 +11,18 @@ public class AGUI : MonoBehaviour
 
     [SerializeField]
     private TextMeshProUGUI HealthText, ManaText;
-
     public ATrinityController TrinityController;
+    public ATrinityBrain TrinityBrain;
     public ATrinitySpells TrinitySpells;
+    
+    
+    [Header("UI Objects")]
+    public Image FrameBackground;
+    public GameObject CurrentElementImage;
+    public GameObject[] ElementImages = new GameObject[3];
+    public string FireHexademicalCode = "#FF0000";
+    public string ColdHexademicalCode = "#00CDFF";
+    public string LightningHexademicalCode = "#FFC400";
 
     void Start()
     {
@@ -22,21 +31,73 @@ public class AGUI : MonoBehaviour
             TrinityController.HealthComponent.OnHealthModified += UpdateHealthBar;
         }
 
-
+        
         if (TrinitySpells != null)
         {
             TrinitySpells.ManaComponent.OnManaModified += UpdateManaBar;
         }
+        
         ATrinityBrain.OnBossSet += SetupBossUI;
+        
+        CurrentElementImage = ElementImages[(int)TrinityBrain.GetElement()];
+        
+        if (TrinityBrain != null)
+        {
+            TrinityBrain.OnElementChanged += UpdateElement;
+        }
+
     }
 
     void Update()
     {
 
     }
+    
+    public void UpdateElement(ETrinityElement newElement)
+    {
+        CurrentElementImage.SetActive(false); //turn off previous image
+        
+        CurrentElementImage = ElementImages[(int)newElement];
+        CurrentElementImage.SetActive(true);
+
+        
+        switch ((int)newElement)
+        {
+
+            case 0:
+            {
+                SetColorByHexademical(FireHexademicalCode);
+                break;
+            }
+            case 1:
+            {
+                SetColorByHexademical(ColdHexademicalCode);
+                break;
+            }
+            case 2:
+            {
+                SetColorByHexademical(LightningHexademicalCode);
+                break;
+            }
+        }
+    }
+    
+    public void SetColorByHexademical(string hexCode) 
+    {
+        Color newColor;
+        if (ColorUtility.TryParseHtmlString(hexCode, out newColor))
+        {
+            FrameBackground.color = newColor;
+            Color frameBackgroundColor = FrameBackground.color;
+            frameBackgroundColor.a = (40f / 255f);
+            FrameBackground.color = frameBackgroundColor;
+        }
+    }
+    
+    
+
     private void SetupBossUI(GameObject bossGameObject)
     {
-        print(bossGameObject.name);
         bossGameObject.GetComponent<UEnemyStatus>().Health.OnHealthModified += UpdateBossHealthBar;
         bossGameObject.GetComponent<UEnemyStatus>().Health.OnDeath += HandleBossDeath;
         BossHealthSlider.gameObject.SetActive(true);
@@ -51,7 +112,6 @@ public class AGUI : MonoBehaviour
     }
     private void UpdateBossHealthBar(float healthPercent)
     {
-        print($"Health value : {healthPercent}");
         BossHealthSlider.value = healthPercent;
     }
 
@@ -61,7 +121,6 @@ public class AGUI : MonoBehaviour
         if (HealthSlider != null)
         {
             HealthSlider.value = HealthPercent;
-            print("Health value changed");
         }
         if (HealthText != null) 
         {
@@ -73,7 +132,6 @@ public class AGUI : MonoBehaviour
         if (ManaSlider != null) 
         {   
             ManaSlider.value = ManaPercent;
-            print("Mana value changed");
         }
 
         if (ManaText != null) 

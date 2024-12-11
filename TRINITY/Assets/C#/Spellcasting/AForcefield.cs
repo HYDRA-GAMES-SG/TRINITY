@@ -31,10 +31,8 @@ public class AForcefield : ASpell
     
     public override void CastUpdate()
     {
-        print(Spells.ManaComponent.Current);
         if (Spells.ManaComponent.Current <= 0)
         {
-            print("ending");
             CastEnd();
         }
     }

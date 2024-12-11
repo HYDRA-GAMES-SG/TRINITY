@@ -6516,9 +6516,6 @@ MonoBehaviour:
     m_Bits: 1
   Gravity: 9.81
   GroundDistance: 0.1
-  Height: 0
-  HorizontalRotationSpeed: 1500
-  HorizontalRotationTime: 18
   Collider: {fileID: 0}
   RB: {fileID: 0}
   MaxStableAngle: 45
@@ -6591,12 +6588,6 @@ MonoBehaviour:
   Regen: 5
   Current: 50
   bDead: 0
-  IgniteStacks: 0
-  ChillStacks: 0
-  ShockStacks: 0
-  bIgnited: 0
-  bChilled: 0
-  bShocked: 0
 --- !u!1 &606392995
 GameObject:
   m_ObjectHideFlags: 0
@@ -8086,14 +8077,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ff69e7d27eeaf43b43f416cb96cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BossHealth: {fileID: 0}
   HealthSlider: {fileID: 0}
   ManaSlider: {fileID: 0}
   BossHealthSlider: {fileID: 0}
   HealthText: {fileID: 0}
   ManaText: {fileID: 0}
   TrinityController: {fileID: 567174383}
+  TrinityBrain: {fileID: 1485682130}
   TrinitySpells: {fileID: 34247059}
+  FrameBackground: {fileID: 0}
+  CurrentElementImage: {fileID: 0}
+  ElementImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  FireHexademicalCode: '#FF0000'
+  ColdHexademicalCode: '#00CDFF'
+  LightningHexademicalCode: '#FFC400'
 --- !u!4 &789692183
 Transform:
   m_ObjectHideFlags: 0
@@ -16511,6 +16511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialState: {fileID: 1998517642}
   Controller: {fileID: 567174383}
+  Brain: {fileID: 0}
   Camera: {fileID: 3465016985819942347}
   InputReference: {fileID: 1485682132}
   Animator: {fileID: 390490036}
@@ -16529,6 +16530,7 @@ MonoBehaviour:
   StateAnimController: {fileID: 9100000, guid: af274cdfd4d0acf4291c7897e641208a, type: 2}
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
+  Brain: {fileID: 0}
   MoveSpeed: 5
   StrafeSpeed: 5
   bMirror: 0
@@ -16549,6 +16551,7 @@ MonoBehaviour:
   StateAnimController: {fileID: 9100000, guid: 03779519027632845963c1d50d8aa073, type: 2}
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
+  Brain: {fileID: 0}
   ENABLE_DEBUG: 0
   MoveSpeed: 5
   StrafeSpeed: 5

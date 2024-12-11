@@ -2925,7 +2925,17 @@ MonoBehaviour:
   HealthText: {fileID: 517403336}
   ManaText: {fileID: 1771006781}
   TrinityController: {fileID: 982710449}
+  TrinityBrain: {fileID: 1583857962}
   TrinitySpells: {fileID: 1650994655}
+  FrameBackground: {fileID: 394972844}
+  CurrentElementImage: {fileID: 0}
+  ElementImages:
+  - {fileID: 751577556}
+  - {fileID: 750377112}
+  - {fileID: 797989236}
+  FireHexademicalCode: '#FF0000'
+  ColdHexademicalCode: '#00CDFF'
+  LightningHexademicalCode: '#FFC400'
 --- !u!4 &141515506
 Transform:
   m_ObjectHideFlags: 0
@@ -7690,6 +7700,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CRAB
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284984948269296454, guid: e3784b80389aec3409ecc8f462973893,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21261,15 +21276,6 @@ MonoBehaviour:
   Controller: {fileID: 0}
   Element: 0
   Action: 0
-  FrameBackground: {fileID: 394972844}
-  CurrentElementImage: {fileID: 751577556}
-  ElementImages:
-  - {fileID: 751577556}
-  - {fileID: 750377112}
-  - {fileID: 797989236}
-  FireHexademicalCode: '#FF0000'
-  ColdHexademicalCode: '#00CDFF'
-  LightningHexademicalCode: '#FFC400'
 --- !u!1 &1586307821
 GameObject:
   m_ObjectHideFlags: 0

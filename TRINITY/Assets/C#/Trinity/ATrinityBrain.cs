@@ -28,7 +28,6 @@ public class ATrinityBrain : MonoBehaviour
 
     public static void SetBoss(GameObject bossObject)
     {
-        print("boss is set");
         if (Boss != bossObject && bossObject != null)
         {
             Boss = bossObject;
@@ -54,13 +53,6 @@ public class ATrinityBrain : MonoBehaviour
     public event Action<ETrinityAction> OnActionChanged;
     public static event Action<GameObject> OnBossSet;
 
-    [Header("UI Objects")]
-    public Image FrameBackground;
-    public GameObject CurrentElementImage;
-    public GameObject[] ElementImages = new GameObject[3];
-    public string FireHexademicalCode = "#FF0000";
-    public string ColdHexademicalCode = "#00CDFF";
-    public string LightningHexademicalCode = "#FFC400";
     void Start()
     {
         Spells = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
@@ -70,7 +62,6 @@ public class ATrinityBrain : MonoBehaviour
         InputReference = GetComponent<APlayerInput>();
         Element = ETrinityElement.ETE_Fire;
         
-        InputReference.OnElementPressed += ChangeElement;
         InputReference.OnElementalPrimaryPressed += Primary;
         InputReference.OnElementalSecondaryPressed += Secondary;
         InputReference.OnElementalUtiltiyPressed += Utility;
@@ -82,7 +73,8 @@ public class ATrinityBrain : MonoBehaviour
         InputReference.OnForcefieldReleased += Spells.Forcefield.CastEnd;
         InputReference.OnElementalPrimaryReleased += PrimaryRelease;
 
-        
+        InputReference.OnElementPressed += ChangeElement;
+
     }
 
     void Destroy()
@@ -221,14 +213,20 @@ public class ATrinityBrain : MonoBehaviour
         }
     }
     
+    public void ChangeElement(ETrinityElement newElement)
+    {
+        Element = newElement;
+        OnElementChanged?.Invoke(Element);
+    }
+    
     public void NextElement()
     {
         PrimaryRelease();
         int intElement = (int)Element;
         intElement++;
         ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
-        ChangeElement(newElement);
         OnElementChanged?.Invoke(newElement);
+        Element = newElement;
     }
 
     public void PreviousElement()
@@ -236,59 +234,17 @@ public class ATrinityBrain : MonoBehaviour
         PrimaryRelease();
         int intElement = (int)Element;
         intElement--;
+        
+
         if (intElement < 0)
         {
             intElement = Enum.GetValues(typeof(ETrinityElement)).Length - 1;
         }
         ETrinityElement newElement = (ETrinityElement)intElement;
-        ChangeElement(newElement);
         OnElementChanged?.Invoke(newElement);
-    }
-    public void SetColorByHexademical(string hexCode) 
-    {
-        print($"Changing color of frame to {hexCode}");
-        Color newColor;
-        if (ColorUtility.TryParseHtmlString(hexCode, out newColor))
-        {
-            FrameBackground.color = newColor;
-            Color frameBackgroundColor = FrameBackground.color;
-            frameBackgroundColor.a = (40f / 255f);
-            FrameBackground.color = frameBackgroundColor;
-            print($"Image hexademical color changed to {hexCode}, hexademical color in RGB : {ColorUtility.ToHtmlStringRGB(frameBackgroundColor)}");
-        }
-        else 
-        {
-            Debug.LogWarning($"Invalid hexademical color code : {hexCode}");
-        }
-    }
-    public void ChangeElement(ETrinityElement newElement)
-    {
         Element = newElement;
-        CurrentElementImage.SetActive(false);
-        CurrentElementImage = ElementImages[(int)newElement];
-        CurrentElementImage.SetActive(true);
-        switch ((int)newElement)
-        {
-
-            case 0:
-                {
-                    SetColorByHexademical(FireHexademicalCode);
-                    break;
-                }
-            case 1:
-                {
-                    SetColorByHexademical(ColdHexademicalCode);
-                    break;
-                }
-            case 2:
-                {
-                    SetColorByHexademical(LightningHexademicalCode);
-                    break;
-                }
-        }
-        OnElementChanged?.Invoke(Element);
     }
-
+    
     public void ChangeAction(ETrinityAction newAction)
     {
         if (newAction != Action)

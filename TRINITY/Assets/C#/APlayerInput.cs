@@ -105,9 +105,6 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         InputActions.PLAYER.LightningElement.started += OnLightningElement;
         InputActions.PLAYER.LightningElement.canceled += OnLightningElement;
 
-        InputActions.PLAYER.Move.started += OnMove;
-        InputActions.PLAYER.Move.canceled += OnMove;
-
     }
 
     void OnDestroy()
@@ -143,18 +140,15 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         InputActions.PLAYER.Camera.started -= OnCamera;
         InputActions.PLAYER.Camera.canceled -= OnCamera;
 
-        InputActions.PLAYER.Camera.started -= OnFireElement;
-        InputActions.PLAYER.Camera.canceled -= OnFireElement;
+        InputActions.PLAYER.FireElement.started -= OnFireElement;
+        InputActions.PLAYER.FireElement.canceled -= OnFireElement;
         
         
-        InputActions.PLAYER.Camera.started -= OnColdElement;
-        InputActions.PLAYER.Camera.canceled -= OnColdElement;
+        InputActions.PLAYER.ColdElement.started -= OnColdElement;
+        InputActions.PLAYER.ColdElement.canceled -= OnColdElement;
         
-        InputActions.PLAYER.Camera.started -= OnLightningElement;
-        InputActions.PLAYER.Camera.canceled -= OnLightningElement;
-        
-        InputActions.PLAYER.Move.started += OnMove;
-        InputActions.PLAYER.Move.canceled += OnMove;
+        InputActions.PLAYER.LightningElement.started -= OnLightningElement;
+        InputActions.PLAYER.LightningElement.canceled -= OnLightningElement;
     }
     
     public void OnJumpGlide(InputAction.CallbackContext context)
