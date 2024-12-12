@@ -85,7 +85,8 @@ public class NormalMovement : TrinityState
         {
             return;
         }
-        
+
+        CheckGround();
         HandleMovement();
         HandleJump();
         HandleFalling();
@@ -94,6 +95,19 @@ public class NormalMovement : TrinityState
         HandleUnstableGround();
         Controller.RB.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
         UpdateAnimParams();
+    }
+
+    private void CheckGround()
+    {
+        if (Controller.CheckGround().transform)
+        {
+            return;
+        }
+
+        if (MovementState != ETrinityMovement.ETM_Jumping)
+        {
+            MovementState = ETrinityMovement.ETM_Falling;
+        }
     }
 
 
