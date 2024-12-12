@@ -20,7 +20,7 @@ public class NormalMovement : TrinityState
     [SerializeField] private float MoveSpeed = 5f;
     [SerializeField] private float StrafeSpeed = 5f;
     [SerializeField] private float JumpVelocity = 10f;
-    [SerializeField] private int bMirror = 0;
+    [HideInInspector] private int bMirror = 0;
     
     private bool bCanGlide = false;
 
@@ -86,7 +86,6 @@ public class NormalMovement : TrinityState
             return;
         }
 
-        CheckGround();
         HandleMovement();
         HandleJump();
         HandleFalling();
@@ -97,18 +96,6 @@ public class NormalMovement : TrinityState
         UpdateAnimParams();
     }
 
-    private void CheckGround()
-    {
-        if (Controller.CheckGround().transform)
-        {
-            return;
-        }
-
-        if (MovementState != ETrinityMovement.ETM_Jumping)
-        {
-            MovementState = ETrinityMovement.ETM_Falling;
-        }
-    }
 
 
     public override void PostUpdateBehaviour(float dt)
@@ -203,6 +190,18 @@ public class NormalMovement : TrinityState
                     TrinityFSM.Animator.SetBool(AnimKeyGlide, false);
                 }
             }
+        }
+        else
+        {
+            // if (Controller.CheckGround().transform)
+            // {
+            //     return;
+            // }
+            //
+            // if (MovementState != ETrinityMovement.ETM_Jumping)
+            // {
+            //     MovementState = ETrinityMovement.ETM_Falling;
+            // }
         }
     }
     

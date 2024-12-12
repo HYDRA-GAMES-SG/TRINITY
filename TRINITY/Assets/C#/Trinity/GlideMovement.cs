@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class GlideMovement : TrinityState
 {
-    private bool bStunned => Brain.GetAction() != ETrinityAction.ETA_Stunned;
-    [SerializeField] private float MoveSpeed = 5f;
-    [SerializeField] private float StrafeSpeed = 5f;
+    private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
+    [SerializeField] private float AirMoveSpeed = 5f;
+    [SerializeField] private float AirStrafeSpeed = 5f;
+    [SerializeField] private float GravityModifier = .5f;
     [HideInInspector]
     public bool bMirror = false;
     [HideInInspector]
     public string AnimKeyMirror = "bMirror";
-
+    [HideInInspector]
     public string AnimKeyDeath = "bDeath";
     
     public override bool CheckEnterTransition(IState fromState)
@@ -28,7 +29,6 @@ public class GlideMovement : TrinityState
             TrinityFSM.Animator.SetBool(AnimKeyMirror, !bMirror);
         }
 
-        //Controller.HealthComponent.OnDeath += HandleDeath;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -51,18 +51,21 @@ public class GlideMovement : TrinityState
             return;
         }
 
-        HandleDeath();
-
         if (bStunned)
         {
             return;
         }
         
         HandleMovement();
-
+        HandleFalling();
+        
         Controller.RB.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
     }
 
+    private void HandleFalling()
+    {
+            Controller.VerticalVelocity -= Controller.Gravity * GravityModifier * Time.deltaTime;
+    }
 
     public override void PostUpdateBehaviour(float dt)
     {
@@ -70,7 +73,7 @@ public class GlideMovement : TrinityState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        //Controller.HealthComponent.OnDeath -= HandleDeath;
+        Controller.HealthComponent.OnDeath -= HandleDeath;
 
     }
 
@@ -82,8 +85,8 @@ public class GlideMovement : TrinityState
     
     private void HandleMovement()
     {
-        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * MoveSpeed;
-        Vector3 moveX = Controller.Right * InputReference.MoveInput.x * StrafeSpeed;
+        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * AirMoveSpeed;
+        Vector3 moveX = Controller.Right * InputReference.MoveInput.x * AirStrafeSpeed;
         Controller.MoveDirection = Vector3.zero;
         Controller.MoveDirection += moveZ;
         Controller.MoveDirection += moveX;
