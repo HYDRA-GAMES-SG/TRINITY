@@ -17,9 +17,13 @@ public class NormalMovement : TrinityState
 
     private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
 
+    [SerializeField] private float DesiredVelocityControlModifier = .5f;
     [SerializeField] private float MoveSpeed = 5f;
     [SerializeField] private float StrafeSpeed = 5f;
     [SerializeField] private float JumpVelocity = 10f;
+
+    private Vector3 DesiredVelocity = Vector3.zero;
+    
     [HideInInspector] private int bMirror = 0;
     
     private bool bCanGlide = false;
@@ -92,7 +96,9 @@ public class NormalMovement : TrinityState
         HandleBlink();
         TryEnterGlide();
         HandleUnstableGround();
-        Controller.RB.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+        DesiredVelocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+        Vector3 externalVelocity = Controller.RB.velocity;
+        Controller.RB.velocity = Vector3.Lerp(externalVelocity, DesiredVelocity, DesiredVelocityControlModifier);
         UpdateAnimParams();
     }
 

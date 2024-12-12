@@ -5,6 +5,8 @@ using UnityEngine;
 public class GlideMovement : TrinityState
 {
     private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
+    [SerializeField] private float DesiredVelocityControlModifier = .5f;
+    [SerializeField] private Vector3 DesiredVelocity = Vector3.zero;
     [SerializeField] private float AirMoveSpeed = 5f;
     [SerializeField] private float AirStrafeSpeed = 5f;
     [SerializeField] private float GravityModifier = .5f;
@@ -59,7 +61,10 @@ public class GlideMovement : TrinityState
         HandleMovement();
         HandleFalling();
         
-        Controller.RB.velocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+        
+        DesiredVelocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+        Vector3 externalVelocity = Controller.RB.velocity;
+        Controller.RB.velocity = Vector3.Lerp(externalVelocity, DesiredVelocity, DesiredVelocityControlModifier);
     }
 
     private void HandleFalling()
