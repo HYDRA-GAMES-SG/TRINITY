@@ -28,6 +28,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
     {
         Controller = GetComponent<ACrabController>();
     }
+    
     public void RPhaseTwoComboClawAttack()
     {
         if (Controller.bElementPhase)

@@ -94,7 +94,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
         
         
-        Debug.Log("PLAYER: "  + CurrentState + "=>" + nextState);
+        //Debug.Log("PLAYER: "  + CurrentState + "=>" + nextState);
         
         CurrentState = nextState;
         Animator.enabled = false;

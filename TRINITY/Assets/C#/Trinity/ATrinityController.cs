@@ -42,15 +42,12 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public Vector3 Forward => transform.forward;
     [HideInInspector] public Vector3 Right => transform.right;
     [HideInInspector] public Vector3 Rotation => transform.rotation.eulerAngles;
-
-    [HideInInspector] public float VerticalVelocity;
-    
+    [HideInInspector] public float VerticalVelocity => RB.velocity.y;
     [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
     
     [HideInInspector]
     public bool bForcefieldActive;
-
-
+    
     private APlayerInput InputReference;
     private ATrinitySpells SpellsReference;
     private ATrinityBrain BrainReference;
@@ -105,6 +102,9 @@ public class ATrinityController : MonoBehaviour
         bForcefieldActive = obj;
     }
 
+    private void Update()
+    {
+    }
     private void LateUpdate()
     {
         AlignWithCameraYaw();
@@ -116,6 +116,7 @@ public class ATrinityController : MonoBehaviour
         RaycastHit hit;
 
         bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer);
+        
         if (isHit)
         {
             if(bDebug){Debug.Log($"Ground hit: {hit.collider.name}, Normal: {hit.normal}");}
@@ -161,19 +162,8 @@ public class ATrinityController : MonoBehaviour
         Vector3 cameraYaw = new Vector3(0f, CameraReference.transform.rotation.eulerAngles.y, 0f);
         transform.rotation = Quaternion.Euler(cameraYaw);
     }
-    public void ApplyKnockback(Vector3 direction, float force)
-    {
-        if (!bForcefieldActive)
-        {
-            print($"knockbacked : {direction} * {force}");
-            direction.y = Mathf.Max(direction.y, 0.2f); // Add a slight vertical lift if needed
-            direction.Normalize();
-
-            // Apply knockback force
-            Vector3 knockbackForce = direction * force;
-            RB.AddForce(knockbackForce, ForceMode.Impulse);
-        }
-    }
+    
+    
     public void ApplyDamage(float damageNumber)
     {
         float remainingDamage = damageNumber;
@@ -202,7 +192,7 @@ public class ATrinityController : MonoBehaviour
             HealthComponent.Modify(-remainingDamage);
         }
     }
-
+    
     // public void EnableRagdoll()
     // {
     //     // Disable the Animator to stop animations

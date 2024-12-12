@@ -5,10 +5,11 @@ using UnityEngine;
 public class GlideMovement : TrinityState
 {
     private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
-    [SerializeField] private float DesiredVelocityControlModifier = .5f;
-    [SerializeField] private Vector3 DesiredVelocity = Vector3.zero;
-    [SerializeField] private float AirMoveSpeed = 5f;
-    [SerializeField] private float AirStrafeSpeed = 5f;
+    
+    [SerializeField] private float AirMoveAcceleration = 10f;
+    [SerializeField] private float AirStrafeAcceleration = 10f;
+    [SerializeField] private float AirMaxMoveSpeed = 5f;
+    [SerializeField] private float AirMaxStrafeSpeed = 5f;
     [SerializeField] private float GravityModifier = .5f;
     [HideInInspector]
     public bool bMirror = false;
@@ -59,17 +60,15 @@ public class GlideMovement : TrinityState
         }
         
         HandleMovement();
-        HandleFalling();
-        
-        
-        DesiredVelocity = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
-        Vector3 externalVelocity = Controller.RB.velocity;
-        Controller.RB.velocity = Vector3.Lerp(externalVelocity, DesiredVelocity, DesiredVelocityControlModifier);
+        HandleGravity();
+
+        Vector3 moveVec = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+        Controller.RB.AddForce(moveVec * Controller.RB.mass);
     }
 
-    private void HandleFalling()
+    private void HandleGravity()
     {
-            Controller.VerticalVelocity -= Controller.Gravity * GravityModifier * Time.deltaTime;
+        Controller.RB.AddForce(-Controller.Up * Controller.Gravity * GravityModifier * Controller.RB.mass);
     }
 
     public override void PostUpdateBehaviour(float dt)
@@ -90,8 +89,8 @@ public class GlideMovement : TrinityState
     
     private void HandleMovement()
     {
-        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * AirMoveSpeed;
-        Vector3 moveX = Controller.Right * InputReference.MoveInput.x * AirStrafeSpeed;
+        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * AirMoveAcceleration;
+        Vector3 moveX = Controller.Right * InputReference.MoveInput.x * AirStrafeAcceleration;
         Controller.MoveDirection = Vector3.zero;
         Controller.MoveDirection += moveZ;
         Controller.MoveDirection += moveX;
