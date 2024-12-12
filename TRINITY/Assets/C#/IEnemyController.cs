@@ -21,7 +21,7 @@ public class IEnemyController : MonoBehaviour
     [HideInInspector]
     public NavMeshAgent AI;
 
-    public void Initialize()
+    private void Awake()
     {
         AI = GetComponent<NavMeshAgent>();
         RB = GetComponent<Rigidbody>();

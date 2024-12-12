@@ -46,7 +46,7 @@ public class ACrabController : IEnemyController
 
     private void Start()
     {
-        Initialize();
+        
     }
 
     void Update()
@@ -173,8 +173,6 @@ public class ACrabController : IEnemyController
 
     void OnAnimatorMove()
     {
-        print(CrabFSM);
-        print(CrabFSM.CurrentState);
         if (IsActiveState(CrabFSM.CurrentState))
         {
             float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
