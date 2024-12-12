@@ -161,7 +161,19 @@ public class ATrinityController : MonoBehaviour
         Vector3 cameraYaw = new Vector3(0f, CameraReference.transform.rotation.eulerAngles.y, 0f);
         transform.rotation = Quaternion.Euler(cameraYaw);
     }
+    public void ApplyKnockback(Vector3 direction, float force)
+    {
+        if (!bForcefieldActive)
+        {
+            print($"knockbacked : {direction} * {force}");
+            direction.y = Mathf.Max(direction.y, 0.2f); // Add a slight vertical lift if needed
+            direction.Normalize();
 
+            // Apply knockback force
+            Vector3 knockbackForce = direction * force;
+            RB.AddForce(knockbackForce, ForceMode.Impulse);
+        }
+    }
     public void ApplyDamage(float damageNumber)
     {
         float remainingDamage = damageNumber;

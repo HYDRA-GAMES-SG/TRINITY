@@ -19,6 +19,17 @@ public class ACrabAttackCollider : MonoBehaviour
             ATrinityController health = collision.gameObject.GetComponent<ATrinityController>();
             if (health != null)
             {
+                Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
+                Vector3 direction = -collision.GetContact(0).normal;
+
+                //direction.y = Mathf.Max(direction.y, 0.2f); // Add a slight vertical lift if needed
+                //direction.Normalize();
+                //Debug.Log(direction);
+
+                // Apply knockback force
+                Vector3 knockbackForce = direction * 150;
+                rb.AddForce(knockbackForce, ForceMode.Impulse); 
+
                 health.ApplyDamage(CrabContoller.GetCurrentAttackDamage());
             }
         }

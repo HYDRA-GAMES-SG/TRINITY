@@ -2742,8 +2742,11 @@ MonoBehaviour:
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
   Brain: {fileID: 0}
-  MoveSpeed: 5
-  StrafeSpeed: 5
+  DesiredVelocityControlModifier: 0.5
+  DesiredVelocity: {x: 0, y: 0, z: 0}
+  AirMoveSpeed: 0.4
+  AirStrafeSpeed: 5
+  GravityModifier: 0.2
   bMirror: 0
   AnimKeyMirror: bMirror
   AnimKeyDeath: bDeath
@@ -2764,10 +2767,10 @@ MonoBehaviour:
   InputReference: {fileID: 0}
   Brain: {fileID: 0}
   ENABLE_DEBUG: 0
+  DesiredVelocityControlModifier: 0.4
   MoveSpeed: 5
   StrafeSpeed: 5
   JumpVelocity: 10
-  bMirror: 0
 --- !u!114 &428817865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18569,7 +18572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 50
-  Regen: 5
+  Regen: 10000
   Current: 50
   bDead: 0
 --- !u!136 &1928986252
@@ -22825,6 +22828,11 @@ PrefabInstance:
     - target: {fileID: 2521724703613241179, guid: e3784b80389aec3409ecc8f462973893,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8427644227223135767, guid: e3784b80389aec3409ecc8f462973893,
+        type: 3}
+      propertyPath: m_UpdateMode
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
