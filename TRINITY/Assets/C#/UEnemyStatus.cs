@@ -6,7 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(UAilmentComponent))]
 public class UEnemyStatus : MonoBehaviour
 {
+    [HideInInspector]
     public UHealthComponent Health;
+    [HideInInspector]
     public UAilmentComponent Ailment;
     // Start is called before the first frame update
     void Start()

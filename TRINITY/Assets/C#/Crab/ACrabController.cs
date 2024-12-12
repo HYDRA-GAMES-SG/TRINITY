@@ -1,11 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(UHealthComponent))]
-public class ACrabController : MonoBehaviour
+public class ACrabController : IEnemyController
 {
     public ACrabFSM CrabFSM;
-    public NavMeshAgent AI;
 
     [Header("Cooldown Time")]
     [SerializeField] float JumpSmashCooldown = 20;
@@ -45,14 +43,10 @@ public class ACrabController : MonoBehaviour
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
 
-    private UHealthComponent Health;
-    private Animator Animator;
 
-
-    void Start()
+    private void Start()
     {
-        Health = GetComponent<UHealthComponent>();
-        Animator = GetComponent<Animator>();
+        Initialize();
     }
 
     void Update()
@@ -60,12 +54,12 @@ public class ACrabController : MonoBehaviour
         CheckCooldown();
 
 
-        if (Health.Percent < 0.5f && !bElementPhase) //next element phrese
+        if (EnemyStatus.Health.Percent < 0.5f && !bElementPhase) //next element phrese
         {
             CrabFSM.EnqueueTransition<IcePhaseRoar>();
             ComboAttack = 0;
         }
-        if (Health.Current <= 0f)
+        if (EnemyStatus.Health.Current <= 0f)
         {
             CrabFSM.EnqueueTransition<Death>();
         }
@@ -179,6 +173,8 @@ public class ACrabController : MonoBehaviour
 
     void OnAnimatorMove()
     {
+        print(CrabFSM);
+        print(CrabFSM.CurrentState);
         if (IsActiveState(CrabFSM.CurrentState))
         {
             float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
