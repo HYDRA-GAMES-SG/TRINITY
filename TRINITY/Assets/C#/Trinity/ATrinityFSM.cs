@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ATrinityFSM : MonoBehaviour, IFSM
 {
+    public bool ENABLE_DEBUG = false;
     [Tooltip("The state used to start the state machine.")]
     public TrinityState InitialState;
 
@@ -92,9 +93,14 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
         OnStateChange?.Invoke(PreviousState, nextState);
 
-        
-        
-        //Debug.Log("PLAYER: "  + CurrentState + "=>" + nextState);
+
+
+
+
+        if (ENABLE_DEBUG)
+        {
+            Debug.Log("PLAYER: "  + CurrentState + "=>" + nextState);
+        }
         
         CurrentState = nextState;
         Animator.enabled = false;

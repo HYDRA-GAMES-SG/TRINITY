@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class GlideMovement : TrinityState
 {
+    public bool ENABLE_DEBUG = false;
+    
     private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
     
     [SerializeField] private float AirMoveAcceleration = 10f;
     [SerializeField] private float AirStrafeAcceleration = 10f;
-    [SerializeField] private float AirMaxMoveSpeed = 5f;
-    [SerializeField] private float AirMaxStrafeSpeed = 5f;
+    [SerializeField] private float AirMaxSpeed = 5f;
     [SerializeField] private float GravityModifier = .5f;
     [HideInInspector]
     public bool bMirror = false;
@@ -31,7 +32,6 @@ public class GlideMovement : TrinityState
         {
             TrinityFSM.Animator.SetBool(AnimKeyMirror, !bMirror);
         }
-
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -51,24 +51,42 @@ public class GlideMovement : TrinityState
         if (Controller.CheckGround().transform || !TrinityFSM.InputReference.JumpInput)
         {
             TrinityFSM.EnqueueTransition<NormalMovement>();
+            if (ENABLE_DEBUG)
+            {
+                Debug.Log("Returning to NormalMovement");
+            }
             return;
         }
 
         if (bStunned)
         {
+            if (ENABLE_DEBUG)
+            {
+                Debug.Log("Stunned!");
+            }
             return;
         }
         
         HandleMovement();
-        HandleGravity();
 
-        Vector3 moveVec = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
-        Controller.RB.AddForce(moveVec * Controller.RB.mass);
+        float verticalVelocity = Controller.VerticalVelocity < 0
+            ? -Controller.VerticalVelocity * GravityModifier
+            : Controller.VerticalVelocity;
+        
+        Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, verticalVelocity, Controller.MoveDirection.z);
+        
+        float speedInMoveDirection = Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude;
+        
+        
+        if (speedInMoveDirection < AirMaxSpeed)
+        {
+            Controller.RB.AddForce(Controller.MoveDirection);
+        }
     }
 
-    private void HandleGravity()
+    private void FixedUpdate()
     {
-        Controller.RB.AddForce(-Controller.Up * Controller.Gravity * GravityModifier * Controller.RB.mass);
+        HandleGravity();
     }
 
     public override void PostUpdateBehaviour(float dt)
@@ -96,6 +114,19 @@ public class GlideMovement : TrinityState
         Controller.MoveDirection += moveX;
     }
     
+    private void HandleGravity()
+    {
+        Controller.RB.AddForce(-Controller.Up * Controller.Gravity * GravityModifier, ForceMode.Force);
+    }
+
+    private void HandleGlide()
+    {
+        if (Controller.VerticalVelocity < 0)
+        {
+            float glideForce = Controller.VerticalVelocity * (1 - GravityModifier);
+            Controller.RB.AddForce(Controller.Up * Mathf.Abs(glideForce), ForceMode.Force);
+        }
+    }
     
     private void HandleDeath()
     {

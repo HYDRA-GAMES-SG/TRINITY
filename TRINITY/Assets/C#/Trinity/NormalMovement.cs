@@ -89,7 +89,6 @@ public class NormalMovement : TrinityState
             return;
         }
 
-        HandleGravity();
         HandleMovement();
         HandleJump();
         HandleFalling();
@@ -99,34 +98,25 @@ public class NormalMovement : TrinityState
         
         Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
         
-        float speedInMoveDirection = Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude;
-        
-        
-        if (speedInMoveDirection < MaxSpeed)
+        // if speed in the direction of the movedirection is not faster than max speed
+        if (Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude < MaxSpeed) 
         {
-            Controller.RB.AddForce(Controller.MoveDirection * Controller.RB.mass);
+            Controller.RB.AddForce(Controller.MoveDirection);
         }
-        
-        
         
         UpdateAnimParams();
     }
 
     public void FixedUpdate()
     {
-        Vector3 planarVelocity = Controller.PlanarVelocity;
-        if (planarVelocity.magnitude > GlobalSpeedLimit)
-        {
-            planarVelocity = planarVelocity.normalized * GlobalSpeedLimit;
-        }
-        
-        Controller.RB.velocity = planarVelocity + new Vector3(0f, Controller.VerticalVelocity, 0f);
+        HandleAirStrafing();
+        HandleGravity();
         bFixedUpdate = true;
     }
 
     private void HandleGravity()
     {
-        Controller.RB.AddForce(-Controller.Up * Controller.Gravity * Controller.RB.mass);
+        Controller.RB.AddForce(-Controller.Up * Controller.Gravity);
     }
 
 
@@ -158,6 +148,17 @@ public class NormalMovement : TrinityState
         return false;
     }
 
+    private void HandleAirStrafing()
+    {
+        Vector3 planarVelocity = Controller.PlanarVelocity;
+        if (planarVelocity.magnitude > GlobalSpeedLimit)
+        {
+            planarVelocity = planarVelocity.normalized * GlobalSpeedLimit;
+        }
+        
+        Controller.RB.velocity = planarVelocity + new Vector3(0f, Controller.VerticalVelocity, 0f);
+
+    }
 
     private void HandleMovement()
     {
@@ -183,7 +184,7 @@ public class NormalMovement : TrinityState
         {
             if (MovementState == ETrinityMovement.ETM_Grounded)
             {
-                Controller.RB.AddForce(Controller.Up * JumpForce * Controller.RB.mass, ForceMode.Impulse);
+                Controller.RB.AddForce(Controller.Up * JumpForce / Controller.RB.mass, ForceMode.Impulse);
                 SetMovementState(ETrinityMovement.ETM_Jumping);
                 TrinityFSM.Animator.SetBool(AnimKeyJump, true);
                 bMirror++; //increment counter
