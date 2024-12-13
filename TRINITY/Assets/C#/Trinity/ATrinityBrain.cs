@@ -191,6 +191,7 @@ public class ATrinityBrain : MonoBehaviour
             case ETrinityElement.ETE_Cold:
                 break;
             case ETrinityElement.ETE_Fire:
+                Spells.UtilityFire.CastStart();
                 break;
             case ETrinityElement.ETE_Lightning:
                 break;

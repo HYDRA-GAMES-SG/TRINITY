@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UtilityLightning : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class UtilityLightning : ASpell
 {
-    // Start is called before the first frame update
-    void Start()
+    public AudioSource UtilityLightningSource;
+    public ATrinitySpells TrinitySpells;
+    public override void Initialize()
     {
-        
+        UtilityLightningSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void CastStart()
     {
-        
+       //Speed boost that you can increase its duration by hitting up to a max
+    }
+
+    public override void CastUpdate()
+    {
+
+    }
+
+    public override void CastEnd()
+    {
+
     }
 }

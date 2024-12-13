@@ -2,17 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UtilityCold : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class UtilityCold : ASpell
 {
-    // Start is called before the first frame update
-    void Start()
+    public AudioSource ColdUtilitySource;
+    public ATrinitySpells TrinitySpells;
+    public override void Initialize()
     {
-        
+        ColdUtilitySource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void CastStart()
     {
-        
+       //Frozen pulse that launches you into the air & chills enemies AOE
+    }
+
+    public override void CastUpdate()
+    {
+
+    }
+
+    public override void CastEnd()
+    {
+
     }
 }
