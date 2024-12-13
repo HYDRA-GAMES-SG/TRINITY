@@ -68,12 +68,8 @@ public class GlideMovement : TrinityState
         }
         
         HandleMovement();
-
-        float verticalVelocity = Controller.VerticalVelocity < 0
-            ? -Controller.VerticalVelocity * GravityModifier
-            : Controller.VerticalVelocity;
         
-        Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, verticalVelocity, Controller.MoveDirection.z);
+        Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
         
         float speedInMoveDirection = Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude;
         
@@ -82,10 +78,8 @@ public class GlideMovement : TrinityState
         {
             Controller.RB.AddForce(Controller.MoveDirection);
         }
-    }
-
-    private void FixedUpdate()
-    {
+        
+        HandleGlide();
         HandleGravity();
     }
 
@@ -114,18 +108,13 @@ public class GlideMovement : TrinityState
         Controller.MoveDirection += moveX;
     }
     
-    private void HandleGravity()
-    {
-        Controller.RB.AddForce(-Controller.Up * Controller.Gravity * GravityModifier, ForceMode.Force);
-    }
-
     private void HandleGlide()
     {
-        if (Controller.VerticalVelocity < 0)
-        {
-            float glideForce = Controller.VerticalVelocity * (1 - GravityModifier);
-            Controller.RB.AddForce(Controller.Up * Mathf.Abs(glideForce), ForceMode.Force);
-        }
+        Controller.RB.AddForce(Controller.Up * Controller.Gravity * (1 - GravityModifier), ForceMode.Force);
+    }
+    private void HandleGravity()
+    {
+        Controller.RB.AddForce(-Controller.Up * Controller.Gravity, ForceMode.Force);
     }
     
     private void HandleDeath()

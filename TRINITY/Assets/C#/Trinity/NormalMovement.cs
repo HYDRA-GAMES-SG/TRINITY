@@ -18,6 +18,8 @@ public class NormalMovement : TrinityState
 
     private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
 
+    [SerializeField] private float MoveAirAcceleration = 5f;
+    [SerializeField] private float StrafeAirAcceleration = 5f;
     [SerializeField] private float MoveAcceleration = 10f;
     [SerializeField] private float StrafeAcceleration = 10f;
     [SerializeField] private float MaxSpeed = 5f;
@@ -84,6 +86,8 @@ public class NormalMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
+        bFixedUpdate = true;
+
         if (Controller.HealthComponent.bDead)
         {
             return;
@@ -104,14 +108,10 @@ public class NormalMovement : TrinityState
             Controller.RB.AddForce(Controller.MoveDirection);
         }
         
-        UpdateAnimParams();
-    }
-
-    public void FixedUpdate()
-    {
         HandleAirStrafing();
         HandleGravity();
-        bFixedUpdate = true;
+        
+        UpdateAnimParams();
     }
 
     private void HandleGravity()
@@ -166,9 +166,22 @@ public class NormalMovement : TrinityState
         {
             return;
         }
+
+        Vector3 moveZ = Vector3.zero;
+        Vector3 moveX = Vector3.zero;
         
-        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y * MoveAcceleration;
-        Vector3 moveX = Controller.Right * InputReference.MoveInput.x * StrafeAcceleration;
+        if (MovementState == ETrinityMovement.ETM_Grounded)
+        {
+            
+            moveZ = Controller.Forward * InputReference.MoveInput.y * MoveAcceleration;
+            moveX = Controller.Right * InputReference.MoveInput.x * StrafeAcceleration;
+        }
+        else
+        {
+            moveZ = Controller.Forward * InputReference.MoveInput.y * MoveAirAcceleration;
+            moveX = Controller.Right * InputReference.MoveInput.x * StrafeAirAcceleration;
+        }
+        
         Controller.MoveDirection = moveZ;
         Controller.MoveDirection += moveX;
     }
