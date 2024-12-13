@@ -156,22 +156,32 @@ public class JumpAway : CrabState
     {
         NavMeshHit navMeshHit;
         bool isOnNavMesh = NavMesh.SamplePosition(targetPosition, out navMeshHit, CrabAI.radius, NavMesh.AllAreas);
-
-        Debug.Log($"Checking NavMesh for position {targetPosition}: {isOnNavMesh}");
-
         if (!isOnNavMesh)
             return false;
+        //---------------------------------------
+        float radius = CrabAI.radius;
+        float height = CrabAI.height;
+        Vector3 checkPosition = navMeshHit.position + Vector3.up * height;
 
-        // Check for obstacles in the path
-        Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * 3.5f;
-        Vector3 direction = navMeshHit.position - start;
-        float distance = direction.magnitude;
+        Debug.DrawLine(navMeshHit.position, checkPosition, Color.green, 5.0f);
 
-        Debug.DrawRay(start, direction.normalized * distance, Color.red, 2.0f);
-
-        if (Physics.Raycast(start, direction.normalized, distance, LayerMask.GetMask("Obstacle")))
+        if (Physics.CheckCapsule(navMeshHit.position, checkPosition, radius, LayerMask.GetMask("Obstacle")))
         {
-            Debug.Log("Obstacle detected in path!");
+            Debug.DrawLine(navMeshHit.position, checkPosition, Color.red, 5.0f);
+            return false;
+        }
+
+        //---------------------------------------
+        Vector3 rayOrigin = new Vector3(CrabFSM.CrabController.transform.position.x, height, CrabFSM.CrabController.transform.position.z);
+        Vector3 targetpoint = new Vector3(navMeshHit.position.x, height, navMeshHit.position.z);
+        Vector3 direction = (targetpoint - rayOrigin).normalized;
+        float rayLength = Vector3.Distance(targetpoint, rayOrigin);
+
+        Debug.DrawRay(rayOrigin, direction * rayLength, Color.green, 5.0f);
+
+        if (Physics.Raycast(rayOrigin, direction, rayLength, LayerMask.GetMask("Obstacle")))
+        {
+            Debug.DrawRay(rayOrigin, direction * rayLength, Color.red, 5.0f);
             return false;
         }
 

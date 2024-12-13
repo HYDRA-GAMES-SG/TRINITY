@@ -3533,8 +3533,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dac8b36d81e2ef34690025739ebaf1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrabFSM: {fileID: 4812435512381346427}
+  RB: {fileID: 0}
+  Animator: {fileID: 0}
+  EnemyStatus: {fileID: 0}
   AI: {fileID: 8615689596737175229}
+  CrabFSM: {fileID: 4812435512381346427}
   JumpSmashCooldown: 20
   ChargeMoveFastCooldown: 15
   RoarIceSprayCooldown: 10
@@ -3650,7 +3653,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6244054646282926487}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 4
+  m_Radius: 6
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -3659,7 +3662,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 7
+  m_Height: 10
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -4936,8 +4939,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3765410599053852209}
   - {fileID: 4013008775068282575}
