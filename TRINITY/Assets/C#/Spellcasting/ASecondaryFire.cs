@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class SecondaryFire : ASpell
+public class ASecondaryFire : ASpell
 {
     public bool ENABLE_DEBUG = false;
 
     // Flameblast Properties
-    [Header("Properties")]
+    [Header("Properties")] 
+    public LayerMask GroundLayer;
     public float Range = 10f;
     public float MaxChannelTime = 2f;
     public float MaxSize = 4f;
@@ -32,6 +33,8 @@ public class SecondaryFire : ASpell
 
     public override void Initialize()
     {
+        if (ENABLE_DEBUG) { Debug.Log("Initialized"); }
+
         RunePrefab = SpellPrefab;
         if (Rune == null)
         {
@@ -39,19 +42,21 @@ public class SecondaryFire : ASpell
             Rune.SetActive(false); // Ensure the rune is initially inactive
         }
         SFX = GetComponent<AudioSource>();
+        
     }
 
     public override void CastStart()
     {
+        if (ENABLE_DEBUG) { Debug.Log("Cast Start"); }
+
         if (Rune == null) return;
 
-        // Position the rune at a valid point in front of the caster within the specified range
-        Vector3 position = GetTargetPositionInRange();
+        Vector3 invokePosition = GetGroundPosition();
         
-        if (position != Vector3.zero)
+        if (invokePosition != Vector3.zero)
         {
-            Rune.transform.position = position;
-            Rune.transform.localScale = Vector3.one * MinSize; // Start with the minimum size
+            Rune.transform.position = invokePosition;
+            Rune.transform.localScale = Vector3.one * MinSize; 
             Rune.SetActive(true);
             ChannelTime = 0f;
 
@@ -61,28 +66,40 @@ public class SecondaryFire : ASpell
                 SFX.Play();
             }
         }
+        else
+        {
+            Release();
+        }
     }
 
     public override void CastUpdate()
     {
+        if (ENABLE_DEBUG) { Debug.Log("Cast Update"); }
+
         if (Rune == null || !Rune.activeSelf) return;
 
         // Update the channeling time
         ChannelTime += Time.deltaTime;
 
-        // Calculate the new size based on channeling time
         float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
         float newSize = Mathf.Lerp(MinSize, MaxSize, t);
         Rune.transform.localScale = Vector3.one * newSize;
 
         if (ChannelTime >= MaxChannelTime)
         {
-            CastEnd(); // Automatically trigger end when max channel time is reached
+            Release(); //trigger end when max channel time is reached
         }
     }
 
     public override void CastEnd()
     {
+        if (ENABLE_DEBUG) { Debug.Log("Cast End"); }
+
+        if (!Rune.activeSelf)
+        {
+            return; //do nothing if rune does not exist since no valid placement found
+        }
+
         if (Rune == null || !Rune.activeSelf) return;
 
         Rune.SetActive(false); // Disable the rune
@@ -91,11 +108,16 @@ public class SecondaryFire : ASpell
         if (GlyphPrefab != null)
         {
             Glyph = Instantiate(GlyphPrefab, Rune.transform.position, Quaternion.identity);
+            Glyph.transform.localScale = Rune.transform.localScale / 3f;
+            Destroy(Glyph, 6f);
         }
 
         if (PillarPrefab != null)
         {
             Pillar = Instantiate(PillarPrefab, Rune.transform.position, Quaternion.identity);
+            Pillar.transform.localScale = Rune.transform.localScale / 5f;
+            Pillar.GetComponent<ParticleSystem>().Play();
+            Destroy(Pillar, 7f);
         }
 
         if (Explosion != null)
@@ -104,11 +126,11 @@ public class SecondaryFire : ASpell
         }
     }
 
-    private Vector3 GetTargetPositionInRange()
+    private Vector3 GetGroundPosition()
     {
         Ray ray = Spells.CameraRef.Camera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
             
-        if (Physics.Raycast(ray, out RaycastHit hit, Range))
+        if (Physics.Raycast(ray, out RaycastHit hit, Range, GroundLayer))
         {
             // Ensure the hit point is within range and on valid ground
             if (Vector3.Distance(Spells.CastPoint.position, hit.point) <= Range)
@@ -116,6 +138,17 @@ public class SecondaryFire : ASpell
                 return hit.point;
             }
         }
-        return Vector3.zero; // Return zero vector if no valid point is found
+        else
+        {
+            //if we don't get a valid ground hit we just find ground at the max range in the forward vector
+            Vector3 searchOrigin = Spells.CastPoint.position + Controller.Forward * Range;
+            
+            if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range, GroundLayer))
+            {
+                return groundHit.point;
+            }
+        }
+        
+        return Vector3.zero;
     }
 }

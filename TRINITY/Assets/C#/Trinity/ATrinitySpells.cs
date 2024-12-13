@@ -10,9 +10,10 @@ public class ATrinitySpells : MonoBehaviour
     public ATrinityBrain Brain;
     public Transform CastPoint;
     private APlayerInput InputReference;
-    
-    [Header("Spells")]
-    
+
+    [Header("Spells")] 
+    [HideInInspector] 
+    public ASecondaryFire SecondaryFire;
     [HideInInspector]
     public APrimaryFire PrimaryFire;
     [HideInInspector]
@@ -35,8 +36,9 @@ public class ATrinitySpells : MonoBehaviour
     void Start()
     {
         ManaComponent = GetComponent<UManaComponent>();
-
+        SecondaryFire = GetComponent<ASecondaryFire>();
         PrimaryFire = GetComponentInChildren<APrimaryFire>();
+        SecondaryFire = GetComponentInChildren<ASecondaryFire>();
         PrimaryCold = GetComponentInChildren<APrimaryCold>();
         PrimaryLightning = GetComponentInChildren<APrimaryLightning>();
         UtilityFire = GetComponentInChildren<UtilityFire>();

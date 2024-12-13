@@ -25,21 +25,15 @@ public enum ETrinityElement
 public class ATrinityBrain : MonoBehaviour
 {
     static public GameObject Boss;
-
-    public static void SetBoss(GameObject bossObject)
-    {
-        if (Boss != bossObject && bossObject != null)
-        {
-            Boss = bossObject;
-            OnBossSet?.Invoke(bossObject);
-        }
-    }
-
+    
     public float GlobalCooldown = 0f;
-    [SerializeField]private float StunnedCooldown = 0f;
+    
+    [SerializeField]
+    private float StunnedCooldown = 0f;
 
     private ASpell CurrentSpell;
     private ATrinitySpells Spells; //reference
+    
     [HideInInspector]
     public ATrinityController Controller; //reference
     public IAA_TrinityControls Controls;
@@ -47,8 +41,7 @@ public class ATrinityBrain : MonoBehaviour
     [SerializeField]private ETrinityElement Element;
     [SerializeField]private ETrinityAction Action;
     private APlayerInput InputReference; //reference
-
-
+    
     public event Action<ETrinityElement> OnElementChanged;
     public event Action<ETrinityAction> OnActionChanged;
     public static event Action<GameObject> OnBossSet;
@@ -62,59 +55,41 @@ public class ATrinityBrain : MonoBehaviour
         InputReference = GetComponent<APlayerInput>();
         Element = ETrinityElement.ETE_Fire;
         Action = ETrinityAction.ETA_None;
-        
-        InputReference.OnElementalPrimaryPressed += Primary;
-        InputReference.OnElementalSecondaryPressed += Secondary;
-        InputReference.OnElementalUtiltiyPressed += Utility;
-        InputReference.OnNextElementPressed += NextElement;
-        InputReference.OnPreviousElementPressed += PreviousElement;
-        InputReference.OnBlinkPressed += Blink;
-        InputReference.OnForcefieldPressed += Forcefield;
 
-        InputReference.OnForcefieldReleased += Spells.Forcefield.CastEnd;
-        InputReference.OnElementalPrimaryReleased += PrimaryRelease;
-
-        InputReference.OnElementPressed += ChangeElement;
-
+        BindToInputEvents(true);
     }
 
     void Destroy()
     {
-        InputReference.OnElementPressed -= ChangeElement;
-        InputReference.OnElementalPrimaryPressed -= Primary;
-        InputReference.OnElementalSecondaryPressed -= Secondary;
-        InputReference.OnElementalUtiltiyPressed -= Utility;
-        InputReference.OnNextElementPressed -= NextElement;
-        InputReference.OnPreviousElementPressed -= PreviousElement;
-        InputReference.OnBlinkPressed -= Blink;
-        InputReference.OnForcefieldPressed -= Forcefield;
-    
-        InputReference.OnForcefieldReleased -= Spells.Forcefield.CastEnd;
-        InputReference.OnElementalPrimaryReleased -= PrimaryRelease;
-
+        BindToInputEvents(false);
     }
 
 
     void Update()
     {
-        StunnedCooldown -= Time.deltaTime;
-        if (StunnedCooldown < 0 && Action == ETrinityAction.ETA_Stunned) //Remove stun after stun duration
-        {
-            ChangeAction(ETrinityAction.ETA_None);
-            Controller.gameObject.SetActive(true);
-        }
-
+        HandleStun();
+        
         if (Input.GetKeyDown(KeyCode.Return))
         {
             SceneManager.LoadScene("CrabBossDungeon");
         }
     }
 
+    private void HandleStun()
+    {
+        StunnedCooldown -= Time.deltaTime;
+        
+        if (StunnedCooldown < 0 && Action == ETrinityAction.ETA_Stunned) //Remove stun after stun duration
+        {
+            ChangeAction(ETrinityAction.ETA_None);
+        }
+
+    }
+
     public void SetStunnedState(float duration) 
     {
         ChangeAction(ETrinityAction.ETA_Stunned);
         StunnedCooldown = duration;
-        Controller.gameObject.SetActive(false);
     }
     
     public bool CanAct()
@@ -156,12 +131,12 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
-                Spells.PrimaryCold.CastEnd();
+                Spells.PrimaryCold.Release();
                 break;
             case ETrinityElement.ETE_Fire:
                 break;
             case ETrinityElement.ETE_Lightning:
-                Spells.PrimaryLightning.CastEnd();
+                Spells.PrimaryLightning.Release();
                 break;
         }
     }
@@ -178,6 +153,26 @@ public class ATrinityBrain : MonoBehaviour
             case ETrinityElement.ETE_Cold:
                 break;
             case ETrinityElement.ETE_Fire:
+                Spells.SecondaryFire.Cast();
+                break;
+            case ETrinityElement.ETE_Lightning:
+                break;
+        }
+    }
+    
+    public void SecondaryRelease()
+    {
+        if (!CanAct())
+        {
+            return;
+        }
+    
+        switch (GetElement())
+        {
+            case ETrinityElement.ETE_Cold:
+                break;
+            case ETrinityElement.ETE_Fire:
+                Spells.SecondaryFire.Release();
                 break;
             case ETrinityElement.ETE_Lightning:
                 break;
@@ -274,5 +269,52 @@ public class ATrinityBrain : MonoBehaviour
     public void SetCurrentSpell(ASpell newSpell)
     {
         CurrentSpell = newSpell;
+    }
+    
+    void BindToInputEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            InputReference.OnElementalPrimaryPressed += Primary;
+            InputReference.OnElementalSecondaryPressed += Secondary;
+            InputReference.OnElementalUtiltiyPressed += Utility;
+            InputReference.OnNextElementPressed += NextElement;
+            InputReference.OnPreviousElementPressed += PreviousElement;
+            InputReference.OnBlinkPressed += Blink;
+            InputReference.OnForcefieldPressed += Forcefield;
+
+            InputReference.OnForcefieldReleased += Spells.Forcefield.CastEnd;
+            InputReference.OnElementalPrimaryReleased += PrimaryRelease;
+            InputReference.OnElementalSecondaryReleased += SecondaryRelease;
+
+            InputReference.OnElementPressed += ChangeElement;
+            return;
+        }
+        else
+        {
+            InputReference.OnElementPressed -= ChangeElement;
+            InputReference.OnElementalPrimaryPressed -= Primary;
+            InputReference.OnElementalSecondaryPressed -= Secondary;
+            InputReference.OnElementalUtiltiyPressed -= Utility;
+            InputReference.OnNextElementPressed -= NextElement;
+            InputReference.OnPreviousElementPressed -= PreviousElement;
+            InputReference.OnBlinkPressed -= Blink;
+            InputReference.OnForcefieldPressed -= Forcefield;
+
+            InputReference.OnForcefieldReleased -= Spells.Forcefield.CastEnd;
+            InputReference.OnElementalPrimaryReleased -= PrimaryRelease;
+            InputReference.OnElementalSecondaryReleased -= SecondaryRelease;
+        }
+    }
+    
+    
+
+    public static void SetBoss(GameObject bossObject)
+    {
+        if (Boss != bossObject && bossObject != null)
+        {
+            Boss = bossObject;
+            OnBossSet?.Invoke(bossObject);
+        }
     }
 }

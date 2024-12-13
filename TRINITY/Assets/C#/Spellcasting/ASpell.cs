@@ -42,8 +42,11 @@ public class ASpell : MonoBehaviour
     public void Update()
     {
         UpdateCooldown();
-        CastUpdate();
 
+        if (Brain.GetCurrentSpell() == this)
+        {
+            CastUpdate();
+        }
     }
 
     protected void UpdateCooldown()
@@ -91,11 +94,17 @@ public class ASpell : MonoBehaviour
 
     public virtual void CastEnd()
     {
+    }
+
+    public virtual void Release()
+    {
         if (SpellAction != ETrinityAction.ETA_None)
         {
             Brain.SetCurrentSpell(null);    
         }
 
         Brain.ChangeAction(ETrinityAction.ETA_None);
+
+        CastEnd();
     }
 }
