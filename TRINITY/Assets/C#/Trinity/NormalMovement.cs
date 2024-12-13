@@ -270,7 +270,7 @@ public class NormalMovement : TrinityState
 
         Controller.MoveDirection += slideDirection * MaxSpeed * Time.deltaTime;
 
-        // Check if the angle is steep enough to transition into falling
+        //check if the angle is steep enough to transition into falling
         float groundAngle = Vector3.Angle(Vector3.up, groundNormal);
         
         if (groundAngle > Controller.MaxStableAngle)
