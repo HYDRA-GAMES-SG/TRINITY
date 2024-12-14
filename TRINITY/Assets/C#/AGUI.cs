@@ -9,7 +9,6 @@ public class AGUI : MonoBehaviour
     [SerializeField] private Slider HealthSlider, ManaSlider, BossHealthSlider, DamageSlider, BossDamageSlider;
 
     [SerializeField]
-    private TextMeshProUGUI HealthText, ManaText;
     public ATrinityController TrinityController;
     public ATrinityBrain TrinityBrain;
     public ATrinitySpells TrinitySpells;
@@ -123,10 +122,6 @@ public class AGUI : MonoBehaviour
             PlayerHealthTarget = HealthSlider.value; // Record the current value
             HealthSlider.value = healthPercent;
         }
-        if (HealthText != null)
-        {
-            HealthText.text = $"{TrinityController.HealthComponent.Current}/{TrinityController.HealthComponent.MAX}HP";
-        }
     }
 
     public void UpdateManaBar(float manaPercent)
@@ -134,11 +129,6 @@ public class AGUI : MonoBehaviour
         if (ManaSlider != null)
         {
             ManaSlider.value = manaPercent;
-        }
-
-        if (ManaText != null)
-        {
-            ManaText.text = $"{TrinitySpells.ManaComponent.Current}/{TrinitySpells.ManaComponent.MAX}";
         }
     }
 
