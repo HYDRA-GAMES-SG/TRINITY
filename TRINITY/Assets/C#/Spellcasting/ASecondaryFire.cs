@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class ASecondaryFire : ASpell
 {
     public bool ENABLE_DEBUG = false;

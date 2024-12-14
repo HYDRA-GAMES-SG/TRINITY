@@ -8,7 +8,7 @@ public enum ESpellType
     EST_Utility,
     EST_Secondary
 }
-
+[RequireComponent(typeof(AudioSource))]
 public class ASpell : MonoBehaviour
 {
     public GameObject SpellPrefab;

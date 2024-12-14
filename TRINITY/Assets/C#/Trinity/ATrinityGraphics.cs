@@ -7,20 +7,20 @@ public class ATrinityGraphics : MonoBehaviour
 {
     [HideInInspector] public Animator AnimatorComponent;
 
-    [SerializeField] private ATrinityBrain Brain; // Reference
+    [SerializeField] private ATrinityBrain Brain;
 
-    [SerializeField] private GameObject ColdParent; // Reference to the parent GameObject containing the mesh
+    [SerializeField] private GameObject ColdParent;
 
-    [SerializeField] private GameObject FireParent; // Reference to the parent GameObject containing the mesh
+    [SerializeField] private GameObject FireParent;
 
-    [SerializeField] private GameObject LightningParent; // Reference to the parent GameObject containing the mesh
+    [SerializeField] private GameObject LightningParent;
 
     [SerializeField] private GameObject BlackParent;
 
-    private List<Material> FireMaterials = new List<Material>(); // List to store materials
-    private List<Material> ColdMaterials = new List<Material>(); // List to store materials
-    private List<Material> LightningMaterials = new List<Material>(); // List to store materials
-    private List<Material> BlackMaterials = new List<Material>(); // List to store materials
+    private List<Material> FireMaterials = new List<Material>();
+    private List<Material> ColdMaterials = new List<Material>();
+    private List<Material> LightningMaterials = new List<Material>();
+    private List<Material> BlackMaterials = new List<Material>();
 
 
     private void Start()
@@ -90,41 +90,36 @@ public class ATrinityGraphics : MonoBehaviour
 
 private IEnumerator CrossfadeMaterials(List<Material> fadeOutMaterials, List<Material> fadeInMaterials)
 {
-    float duration = 1.0f; // Duration of the transition
+    float duration = 1.0f;
     float elapsedTime = 0.0f;
 
-    // List to store black materials (if any)
     List<Material> blackMaterials = new List<Material>();
     
-    // You might want to populate this list similarly to other material lists in Start()
-    // For example: blackMaterials.AddRange(BlackParent.GetComponentsInChildren<Renderer>().SelectMany(r => r.materials));
 
     while (elapsedTime < duration)
     {
         elapsedTime += Time.deltaTime;
         float t = Mathf.Clamp01(elapsedTime / duration);
 
-        // Use a smooth step interpolation for more natural transition
         float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
-        // Directly calculate complementary alphas for main materials
         float fadeOutAlpha = 1f - smoothT;
         float fadeInAlpha = smoothT;
 
-        // Special handling for black materials
+        // special handling for black materials
         float blackAlpha = 0f;
         if (t <= 0.5f)
         {
-            // Fade in to full opacity by midpoint
+            // fade in to full opacity by midpoint
             blackAlpha = Mathf.SmoothStep(0f, 1f, t * 2f);
         }
         else
         {
-            // Fade out from midpoint onwards
+            // fade out from midpoint onwards
             blackAlpha = Mathf.SmoothStep(1f, 0f, (t - 0.5f) * 2f);
         }
 
-        // Apply fade-out materials' alpha
+        // apply fade-out material alpha
         foreach (var material in fadeOutMaterials)
         {
             if (material.HasProperty("_Color"))
@@ -135,7 +130,7 @@ private IEnumerator CrossfadeMaterials(List<Material> fadeOutMaterials, List<Mat
             }
         }
 
-        // Apply fade-in materials' alpha
+        // apply fade-in material alpha
         foreach (var material in fadeInMaterials)
         {
             if (material.HasProperty("_Color"))
@@ -146,7 +141,7 @@ private IEnumerator CrossfadeMaterials(List<Material> fadeOutMaterials, List<Mat
             }
         }
 
-        // Apply black materials' alpha
+        // apply black material alpha
         foreach (var material in blackMaterials)
         {
             if (material.HasProperty("_Color"))
@@ -166,7 +161,7 @@ private IEnumerator CrossfadeMaterials(List<Material> fadeOutMaterials, List<Mat
     SetMaterialAlphas(blackMaterials, 0f);
 }
 
-// Helper method to set material alphas
+// helper method to set material alphas
 private void SetMaterialAlphas(List<Material> materials, float alpha)
 {
     foreach (var material in materials)

@@ -286,12 +286,14 @@ public class ATrinityBrain : MonoBehaviour
             InputReference.OnElementalPrimaryPressed += Primary;
             InputReference.OnElementalSecondaryPressed += Secondary;
             InputReference.OnElementalUtiltiyPressed += Utility;
+            
             InputReference.OnNextElementPressed += NextElement;
             InputReference.OnPreviousElementPressed += PreviousElement;
+            
             InputReference.OnBlinkPressed += Blink;
             InputReference.OnForcefieldPressed += Forcefield;
-
-            InputReference.OnForcefieldReleased += SpellsReference.Forcefield.CastEnd;
+            InputReference.OnForcefieldReleased += SpellsReference.Forcefield.Release;
+            
             InputReference.OnElementalPrimaryReleased += PrimaryRelease;
             InputReference.OnElementalSecondaryReleased += SecondaryRelease;
 
@@ -310,7 +312,7 @@ public class ATrinityBrain : MonoBehaviour
             InputReference.OnBlinkPressed -= Blink;
             InputReference.OnForcefieldPressed -= Forcefield;
 
-            InputReference.OnForcefieldReleased -= SpellsReference.Forcefield.CastEnd;
+            InputReference.OnForcefieldReleased -= SpellsReference.Forcefield.Release;
             InputReference.OnElementalPrimaryReleased -= PrimaryRelease;
             InputReference.OnElementalSecondaryReleased -= SecondaryRelease;
             InputReference.OnMenuPressed -= OnDebugInput;

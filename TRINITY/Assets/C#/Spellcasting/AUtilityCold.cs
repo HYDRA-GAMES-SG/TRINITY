@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class UtilityCold : ASpell
+public class AUtilityCold : ASpell
 {
     public AudioSource ColdUtilitySource;
     public ATrinitySpells TrinitySpells;

@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class ABlink : ASpell
 {
+    public AudioClip SFX;
     public LayerMask CollisionLayer; // Layer to check for collisions (e.g., Default)
     public LayerMask BossLayer; // Layer to check for bosses
     public float BlinkDistance = 10f;
@@ -15,12 +16,12 @@ public class ABlink : ASpell
     public float CheckStepDistance = 0.5f;
     public bool DEBUG_ENABLE;
     private Vector3 BlinkPoint;
-
+    private AudioSource AudioComponent;
     public static System.Action OnBlink;
 
     public override void Initialize()
     {
-        
+        AudioComponent = GetComponent<AudioSource>();
     }
     
     public override void CastStart()
@@ -87,6 +88,12 @@ public class ABlink : ASpell
             OnBlink?.Invoke();
             Controller.transform.position = BlinkPoint;
             if(DEBUG_ENABLE){Debug.Log($"Blink successful to: {BlinkPoint}");}
+
+            if (AudioComponent != null && SFX != null)
+            {
+                AudioComponent.clip = SFX;
+                AudioComponent.Play();
+            }
             
             GameObject SmokeCloudArriving = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
             SmokeCloudArriving.transform.SetParent(this.gameObject.transform);

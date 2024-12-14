@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
-public class UtilityFire : ASpell
+public class AUtilityFire : ASpell
 {
     public AudioSource FireUtilitySource;
     public ATrinityBrain TrinityBrain;

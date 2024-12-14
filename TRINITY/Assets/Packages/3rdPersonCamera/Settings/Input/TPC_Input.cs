@@ -307,7 +307,7 @@ namespace ThirdPersonCamera
                 {
                     ""name"": """",
                     ""id"": ""2d1d89ee-7a00-4697-991a-7902440f012e"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",

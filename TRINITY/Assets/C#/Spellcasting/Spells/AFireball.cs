@@ -42,7 +42,6 @@ public class AFireball : MonoBehaviour
         }
         
         RB.velocity = Direction * Speed;
-
     }
     
     public void SpawnExplosion()

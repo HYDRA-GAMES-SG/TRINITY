@@ -191,7 +191,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""74635ac9-05ea-4a41-a5f7-2e5a1a22fa0f"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
@@ -202,7 +202,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e4ee1b63-4b30-4885-84a3-d0dcd855e4e0"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
@@ -337,7 +337,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""GENERIC"",
                     ""action"": ""ElementalPrimary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -359,7 +359,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""GENERIC"",
                     ""action"": ""ElementalSecondary"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

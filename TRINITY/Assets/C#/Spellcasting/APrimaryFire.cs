@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
 public class APrimaryFire : ASpell
 {
     public AudioSource FireSource;
@@ -15,8 +14,11 @@ public class APrimaryFire : ASpell
     public override void CastStart()
     {
         GameObject go = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, Quaternion.identity);
+        go.transform.parent = this.gameObject.transform;
+        
         AFireball fireball = go.GetComponent<AFireball>();
         fireball.FireSource = FireSource;
+        
         go.GetComponent<AFireball>().Spells = SpellsReference;
         int i = Random.Range(0, FireAttack.Length - 1);
         FireSource.PlayOneShot(FireAttack[i]);

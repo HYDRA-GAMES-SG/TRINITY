@@ -5,25 +5,25 @@ using UnityEngine.SceneManagement;
 
 public class ButtonFunction : MonoBehaviour
 {
-    public string menu = "MenuScene";
-    public string crabBossStage = "CrabBossDungeon";
-    public string flyingBossStage = "FlyingBossStageScene";
-    public string humanoidBossStage = "HumanoidBossStageScene";
+    public string Menu = "MenuScene";
+    public string CrabBossStage = "CrabBossDungeon";
+    public string FlyingBossStage = "FlyingBossStageScene";
+    public string HumanoidBossStage = "HumanoidBossStageScene";
 
     public void OnMenu()
     {
-        SceneManager.LoadScene(menu);
+        SceneManager.LoadScene(Menu);
     }public void OnCrabBoss()
     {
-        SceneManager.LoadScene(crabBossStage);
+        SceneManager.LoadScene(CrabBossStage);
     }
     public void OnFlyingBoss()
     {
-        SceneManager.LoadScene(flyingBossStage);
+        SceneManager.LoadScene(FlyingBossStage);
     }
     public void OnHumanoid()
     {
-        SceneManager.LoadScene(humanoidBossStage);
+        SceneManager.LoadScene(HumanoidBossStage);
     }
     public void OnRestart()
     {
