@@ -14,10 +14,9 @@ public enum ETrinityMovement
 public class NormalMovement : TrinityState
 {
     public bool ENABLE_DEBUG = false;
+    
     private ETrinityMovement MovementState;
-
-    private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
-
+    
     [SerializeField] private float AirStrafeModifier = .5f;
     [SerializeField] private float AirMoveModifier = .5f;
     [SerializeField] private float MoveAirAcceleration = 5f;
@@ -90,11 +89,10 @@ public class NormalMovement : TrinityState
     {
         bFixedUpdate = true;
         
-        HandleGravity();
         HandleFalling();
         HandleUnstableGround();
 
-        if (!IsActionable())
+        if (!TrinityFSM.IsActionable())
         {
             UpdateAnimParams();
             return;
@@ -124,11 +122,6 @@ public class NormalMovement : TrinityState
         
         HandleAirStrafing();
         UpdateAnimParams();
-    }
-    
-    private void HandleGravity()
-    {
-        Controller.RB.AddForce(-Controller.Up * Controller.Gravity);
     }
 
 
@@ -330,7 +323,7 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetFloat(AnimKeyMove, playerSpaceVelocity.z, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeyStrafe, playerSpaceVelocity.x, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeyVertical, Controller.VerticalVelocity);
-        TrinityFSM.Animator.SetBool(AnimKeyStunned, bStunned);
+        TrinityFSM.Animator.SetBool(AnimKeyStunned, Brain.bIsStunned);
     }
     
     public ETrinityMovement GetMovementState()
@@ -344,15 +337,6 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetBool(AnimKeyBlink, true);
     }
 
-
-    private bool IsActionable()
-    {
-
-        return    !(Brain.GetAction() == ETrinityAction.ETA_Casting
-                    || Brain.GetAction() == ETrinityAction.ETA_Channeling
-                    || bStunned
-                    || Controller.HealthComponent.bDead);
-    }
 
     //
 

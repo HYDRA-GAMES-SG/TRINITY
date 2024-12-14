@@ -5,11 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(UManaComponent))]
 public class ATrinitySpells : MonoBehaviour
 {
-    public Vector3 CastDirection => CameraRef.Camera.transform.forward;
-    public ATrinityCamera CameraRef;
-    public ATrinityBrain Brain;
-    public Transform CastPoint;
+    public Vector3 CastDirection => CameraReference.Camera.transform.forward;
+    
+    public ATrinityCamera CameraReference;
+    public ATrinityBrain BrainReference;
     private APlayerInput InputReference;
+    public Transform CastPoint;
 
     [Header("Spells")] 
     [HideInInspector] 
@@ -22,21 +23,19 @@ public class ATrinitySpells : MonoBehaviour
     public APrimaryLightning PrimaryLightning;
     [HideInInspector]
     public UtilityFire UtilityFire;
-    [HideInInspector] public AForcefield Forcefield;
-
+    [HideInInspector] 
+    public AForcefield Forcefield;
     [HideInInspector] 
     public ABlink Blink;
     
     [HideInInspector]
     public UManaComponent ManaComponent;
     
-    
-
     // Start is called before the first frame update
     void Start()
     {
         ManaComponent = GetComponent<UManaComponent>();
-        SecondaryFire = GetComponent<ASecondaryFire>();
+        SecondaryFire = GetComponentInChildren<ASecondaryFire>();
         PrimaryFire = GetComponentInChildren<APrimaryFire>();
         SecondaryFire = GetComponentInChildren<ASecondaryFire>();
         PrimaryCold = GetComponentInChildren<APrimaryCold>();
@@ -44,9 +43,8 @@ public class ATrinitySpells : MonoBehaviour
         UtilityFire = GetComponentInChildren<UtilityFire>();
         Blink = GetComponentInChildren<ABlink>();
         Forcefield = GetComponentInChildren<AForcefield>();
-
         
-        // neeed to get component in children for every spell we add
+        // need to get component in children for every spell we add
         //have a game object for every spell
     }
 

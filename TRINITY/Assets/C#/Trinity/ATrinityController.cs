@@ -57,7 +57,6 @@ public class ATrinityController : MonoBehaviour
 
     private void Awake()
     {
-        
         InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
         SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
         BrainReference = transform.parent.Find("Brain").GetComponent<ATrinityBrain>();
@@ -105,7 +104,14 @@ public class ATrinityController : MonoBehaviour
 
     private void Update()
     {
+        
     }
+
+    private void FixedUpdate()
+    {
+        HandleGravity();
+    }
+    
     private void LateUpdate()
     {
         if (BrainReference.bCanRotatePlayer)
@@ -114,6 +120,11 @@ public class ATrinityController : MonoBehaviour
         }
     }
 
+    
+    private void HandleGravity()
+    {
+        RB.AddForce(-Up * Gravity);
+    }
 
     public RaycastHit CheckGround()
     {

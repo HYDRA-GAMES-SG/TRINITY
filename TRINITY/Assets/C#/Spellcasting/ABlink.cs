@@ -27,9 +27,9 @@ public class ABlink : ASpell
     public override void CastStart()
     {
         float distance = BlinkDistance;
-        BlinkPoint = Brain.Controller.Position;
-        Vector3 startPos = Brain.Controller.Position + Brain.Controller.Height * Vector3.up;
-        Vector3 direction = Spells.CastDirection;
+        BlinkPoint = BrainReference.Controller.Position;
+        Vector3 startPos = BrainReference.Controller.Position + BrainReference.Controller.Height * Vector3.up;
+        Vector3 direction = SpellsReference.CastDirection;
 
         bool bInvalidBlink = true;
 
@@ -81,7 +81,7 @@ public class ABlink : ASpell
         if (!bInvalidBlink)
         {
             OnBlink?.Invoke();
-            Brain.Controller.transform.position = BlinkPoint;
+            BrainReference.Controller.transform.position = BlinkPoint;
             if(DEBUG_ENABLE){Debug.Log($"Blink successful to: {BlinkPoint}");}
         }
         else

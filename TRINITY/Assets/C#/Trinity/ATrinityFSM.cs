@@ -170,5 +170,15 @@ public class ATrinityFSM : MonoBehaviour, IFSM
             }
         }
     }
+
+
+    public bool IsActionable()
+    {
+
+        return    !(Brain.GetAction() == ETrinityAction.ETA_Casting
+                    || Brain.GetAction() == ETrinityAction.ETA_Channeling
+                    || Brain.GetAction() == ETrinityAction.ETA_Stunned
+                    || Controller.HealthComponent.bDead);
+    }
 }
 

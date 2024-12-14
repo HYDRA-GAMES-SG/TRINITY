@@ -20,7 +20,7 @@ public class AForcefield : ASpell
     
     public override void CastStart()
     {
-        if (Spells.ManaComponent.Current <= 0)
+        if (SpellsReference.ManaComponent.Current <= 0)
         {
             return;
         }
@@ -31,7 +31,7 @@ public class AForcefield : ASpell
     
     public override void CastUpdate()
     {
-        if (Spells.ManaComponent.Current <= 0)
+        if (SpellsReference.ManaComponent.Current <= 0)
         {
             CastEnd();
         }

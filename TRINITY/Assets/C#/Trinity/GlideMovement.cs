@@ -42,31 +42,12 @@ public class GlideMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
-
-        // if (Controller.HealthComponent.bDead)
-        // {
-        //     return;
-        // }
-        
-        if (Controller.CheckGround().transform || !TrinityFSM.InputReference.JumpInput)
+        if (!TrinityFSM.IsActionable())
         {
-            TrinityFSM.EnqueueTransition<NormalMovement>();
-            if (ENABLE_DEBUG)
-            {
-                Debug.Log("Returning to NormalMovement");
-            }
             return;
         }
 
-        if (bStunned)
-        {
-            if (ENABLE_DEBUG)
-            {
-                Debug.Log("Stunned!");
-            }
-            return;
-        }
-        
+        CheckGround();
         HandleMovement();
         
         Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
@@ -80,7 +61,6 @@ public class GlideMovement : TrinityState
         }
         
         HandleGlide();
-        HandleGravity();
     }
 
     public override void PostUpdateBehaviour(float dt)
@@ -112,10 +92,6 @@ public class GlideMovement : TrinityState
     {
         Controller.RB.AddForce(Controller.Up * Controller.Gravity * (1 - GravityModifier), ForceMode.Force);
     }
-    private void HandleGravity()
-    {
-        Controller.RB.AddForce(-Controller.Up * Controller.Gravity, ForceMode.Force);
-    }
     
     private void HandleDeath()
     {
@@ -127,6 +103,18 @@ public class GlideMovement : TrinityState
         // {
         //     Controller.EnableRagdoll();
         // }
+    }
+    
+    private void CheckGround()
+    {
+        
+        if (Controller.CheckGround().transform || !TrinityFSM.InputReference.JumpInput)
+        {
+            TrinityFSM.EnqueueTransition<NormalMovement>();
+            if (ENABLE_DEBUG) { Debug.Log("Returning to NormalMovement"); }
+            return;
+        }
+
     }
     
     

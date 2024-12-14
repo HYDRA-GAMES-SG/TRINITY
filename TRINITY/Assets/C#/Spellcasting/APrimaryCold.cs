@@ -16,8 +16,8 @@ public class APrimaryCold : ASpell
     {
         for (int i = 0; i < IceSlicer.Length; i++)
         {
-            IceSlicer[i] = Instantiate(SpellPrefab, Spells.CastPoint.position, Quaternion.identity);
-            IceSlicer[i].transform.parent = Spells.CastPoint.transform;
+            IceSlicer[i] = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
+            IceSlicer[i].transform.parent = SpellsReference.CastPoint.transform;
             if (i == 1) 
             {
                 IceSlicer[i].transform.rotation = new Quaternion(0, -1, 0, 0);

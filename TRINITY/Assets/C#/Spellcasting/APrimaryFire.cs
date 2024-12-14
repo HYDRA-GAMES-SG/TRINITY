@@ -14,10 +14,10 @@ public class APrimaryFire : ASpell
 
     public override void CastStart()
     {
-        GameObject go = Instantiate(SpellPrefab.gameObject, Spells.CastPoint.position, Quaternion.identity);
+        GameObject go = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, Quaternion.identity);
         AFireball fireball = go.GetComponent<AFireball>();
         fireball.FireSource = FireSource;
-        go.GetComponent<AFireball>().Spells = Spells;
+        go.GetComponent<AFireball>().Spells = SpellsReference;
         int i = Random.Range(0, FireAttack.Length - 1);
         FireSource.PlayOneShot(FireAttack[i]);
 

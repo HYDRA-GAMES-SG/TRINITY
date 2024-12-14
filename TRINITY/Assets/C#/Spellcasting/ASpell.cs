@@ -13,8 +13,8 @@ public class ASpell : MonoBehaviour
 {
     public GameObject SpellPrefab;
     protected ATrinityController Controller;
-    protected ATrinityBrain Brain;
-    protected ATrinitySpells Spells;
+    protected ATrinityBrain BrainReference;
+    protected ATrinitySpells SpellsReference;
     public float Cooldown;
     public ETrinityElement SpellElement;
     public ESpellType SpellType;
@@ -29,8 +29,8 @@ public class ASpell : MonoBehaviour
     public void Start()
     {
         Controller = transform.root.Find("Controller").GetComponent<ATrinityController>();
-        Brain = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
-        Spells = transform.parent.GetComponent<ATrinitySpells>();
+        BrainReference = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
+        SpellsReference = transform.parent.GetComponent<ATrinitySpells>();
         Initialize();
     }
 
@@ -43,7 +43,7 @@ public class ASpell : MonoBehaviour
     {
         UpdateCooldown();
 
-        if (Brain.GetCurrentSpell() == this)
+        if (BrainReference.GetCurrentSpell() == this)
         {
             CastUpdate();
         }
@@ -68,7 +68,7 @@ public class ASpell : MonoBehaviour
             return;
         }
 
-        if (SpellAction != ETrinityAction.ETA_None && Brain.GetAction() != ETrinityAction.ETA_None)
+        if (SpellAction != ETrinityAction.ETA_None && BrainReference.GetAction() != ETrinityAction.ETA_None)
         {
             //print("Cannot cast or channel yet.");
             return;
@@ -76,7 +76,7 @@ public class ASpell : MonoBehaviour
 
         if (SpellAction != ETrinityAction.ETA_None)
         {
-            Brain.SetCurrentSpell(this);    
+            BrainReference.SetCurrentSpell(this);    
         }
 
         CastStart();
@@ -100,12 +100,12 @@ public class ASpell : MonoBehaviour
     {
         if (SpellAction != ETrinityAction.ETA_None)
         {
-            Brain.SetCurrentSpell(null);    
+            BrainReference.SetCurrentSpell(null);    
         }
 
-        if (Brain.GetAction() == ETrinityAction.ETA_Channeling || Brain.GetAction() == ETrinityAction.ETA_Casting)
+        if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
-            Brain.ChangeAction(ETrinityAction.ETA_None);
+            BrainReference.ChangeAction(ETrinityAction.ETA_None);
         }
 
         CastEnd();
