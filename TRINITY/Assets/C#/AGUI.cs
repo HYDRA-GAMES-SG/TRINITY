@@ -6,15 +6,13 @@ using UnityEngine.UI;
 
 public class AGUI : MonoBehaviour
 {
-
-    [SerializeField] private Slider HealthSlider, ManaSlider, BossHealthSlider;
+    [SerializeField] private Slider HealthSlider, ManaSlider, BossHealthSlider, DamageSlider, BossDamageSlider;
 
     [SerializeField]
     private TextMeshProUGUI HealthText, ManaText;
     public ATrinityController TrinityController;
     public ATrinityBrain TrinityBrain;
     public ATrinitySpells TrinitySpells;
-    
     
     [Header("UI Objects")]
     public Image FrameBackground;
@@ -24,6 +22,9 @@ public class AGUI : MonoBehaviour
     public string ColdHexademicalCode = "#00CDFF";
     public string LightningHexademicalCode = "#FFC400";
 
+    private float BossHealthTarget;
+    private float PlayerHealthTarget;
+
     void Start()
     {
         if (TrinityController != null)
@@ -31,61 +32,59 @@ public class AGUI : MonoBehaviour
             TrinityController.HealthComponent.OnHealthModified += UpdateHealthBar;
         }
 
-        
         if (TrinitySpells != null)
         {
             TrinitySpells.ManaComponent.OnManaModified += UpdateManaBar;
         }
-        
+
         ATrinityBrain.OnBossSet += SetupBossUI;
-        
+
         CurrentElementImage = ElementImages[(int)TrinityBrain.GetElement()];
-        
+
         if (TrinityBrain != null)
         {
             TrinityBrain.OnElementChanged += UpdateElement;
         }
-
     }
 
     void Update()
     {
+        // Lerp DamageSlider and BossDamageSlider to target values
+        if (DamageSlider != null)
+        {
+            DamageSlider.value = Mathf.Lerp(DamageSlider.value, PlayerHealthTarget, Time.deltaTime);
+        }
 
+        if (BossDamageSlider != null && BossHealthSlider.gameObject.activeSelf)
+        {
+            BossDamageSlider.value = Mathf.Lerp(BossDamageSlider.value, BossHealthTarget, Time.deltaTime);
+        }
     }
-    
+
     public void UpdateElement(ETrinityElement newElement)
     {
-        CurrentElementImage.SetActive(false); //turn off previous image
-        
+        CurrentElementImage.SetActive(false); // Turn off previous image
+
         CurrentElementImage = ElementImages[(int)newElement];
         CurrentElementImage.SetActive(true);
 
-        
         switch ((int)newElement)
         {
-
             case 0:
-            {
                 SetColorByHexademical(FireHexademicalCode);
                 break;
-            }
             case 1:
-            {
                 SetColorByHexademical(ColdHexademicalCode);
                 break;
-            }
             case 2:
-            {
                 SetColorByHexademical(LightningHexademicalCode);
                 break;
-            }
         }
     }
-    
-    public void SetColorByHexademical(string hexCode) 
+
+    public void SetColorByHexademical(string hexCode)
     {
-        Color newColor;
-        if (ColorUtility.TryParseHtmlString(hexCode, out newColor))
+        if (ColorUtility.TryParseHtmlString(hexCode, out Color newColor))
         {
             FrameBackground.color = newColor;
             Color frameBackgroundColor = FrameBackground.color;
@@ -93,8 +92,6 @@ public class AGUI : MonoBehaviour
             FrameBackground.color = frameBackgroundColor;
         }
     }
-    
-    
 
     private void SetupBossUI(GameObject bossGameObject)
     {
@@ -102,42 +99,47 @@ public class AGUI : MonoBehaviour
         bossGameObject.GetComponent<UEnemyStatus>().Health.OnDeath += HandleBossDeath;
         BossHealthSlider.gameObject.SetActive(true);
         BossHealthSlider.value = 100f;
+        BossDamageSlider.value = 100f; // Initialize BossDamageSlider
     }
 
     private void HandleBossDeath()
     {
         BossHealthSlider.value = 0f;
+        BossDamageSlider.value = 0f;
         BossHealthSlider.gameObject.SetActive(false);
-
+        BossDamageSlider.gameObject.SetActive(false);
     }
+
     private void UpdateBossHealthBar(float healthPercent)
     {
+        BossHealthTarget = BossHealthSlider.value; // Record the current value
         BossHealthSlider.value = healthPercent;
     }
 
-
-    public void UpdateHealthBar(float HealthPercent)
+    public void UpdateHealthBar(float healthPercent)
     {
         if (HealthSlider != null)
         {
-            HealthSlider.value = HealthPercent;
+            PlayerHealthTarget = HealthSlider.value; // Record the current value
+            HealthSlider.value = healthPercent;
         }
-        if (HealthText != null) 
+        if (HealthText != null)
         {
             HealthText.text = $"{TrinityController.HealthComponent.Current}/{TrinityController.HealthComponent.MAX}HP";
         }
     }
-    public void UpdateManaBar(float ManaPercent)
+
+    public void UpdateManaBar(float manaPercent)
     {
-        if (ManaSlider != null) 
-        {   
-            ManaSlider.value = ManaPercent;
+        if (ManaSlider != null)
+        {
+            ManaSlider.value = manaPercent;
         }
 
-        if (ManaText != null) 
+        if (ManaText != null)
         {
             ManaText.text = $"{TrinitySpells.ManaComponent.Current}/{TrinitySpells.ManaComponent.MAX}";
-        }      
+        }
     }
 
     void OnDestroy()
