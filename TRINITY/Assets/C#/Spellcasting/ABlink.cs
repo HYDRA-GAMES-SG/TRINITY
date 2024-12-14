@@ -11,7 +11,7 @@ public class ABlink : ASpell
     public float BlinkDistance = 10f;
     public float MinimumDistance = 1f;
     public float CollisionAdjustment = 1f;
-    public float BossShereCheckRadius = 1f;
+    public float BossSphereCheckRadius = 1f;
     public float CheckStepDistance = 0.5f;
     public bool DEBUG_ENABLE;
     private Vector3 BlinkPoint;
@@ -20,9 +20,8 @@ public class ABlink : ASpell
 
     public override void Initialize()
     {
+        
     }
-
-
     
     public override void CastStart()
     {
@@ -62,7 +61,7 @@ public class ABlink : ASpell
             
 
             // Spherecast for boss layer
-            bInvalidBlink = Physics.SphereCast(new Ray(BlinkPoint, direction), BossShereCheckRadius, out RaycastHit bossHit, 0.1f, BossLayer);
+            bInvalidBlink = Physics.SphereCast(new Ray(BlinkPoint, direction), BossSphereCheckRadius, out RaycastHit bossHit, 0.1f, BossLayer);
 
             if (bInvalidBlink)
             {
@@ -80,9 +79,18 @@ public class ABlink : ASpell
         // Set position and log final result
         if (!bInvalidBlink)
         {
+            
+            GameObject SmokeCloudLeaving = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
+            SmokeCloudLeaving.transform.SetParent(this.gameObject.transform);
+            Destroy(SmokeCloudLeaving, 5f);
+            
             OnBlink?.Invoke();
-            BrainReference.Controller.transform.position = BlinkPoint;
+            Controller.transform.position = BlinkPoint;
             if(DEBUG_ENABLE){Debug.Log($"Blink successful to: {BlinkPoint}");}
+            
+            GameObject SmokeCloudArriving = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
+            SmokeCloudArriving.transform.SetParent(this.gameObject.transform);
+            Destroy(SmokeCloudArriving, 5f);
         }
         else
         {
@@ -103,7 +111,7 @@ public class ABlink : ASpell
     {
         if (DEBUG_ENABLE)
         {
-            Gizmos.DrawSphere(BlinkPoint, BossShereCheckRadius);
+            Gizmos.DrawSphere(BlinkPoint, BossSphereCheckRadius);
         }
     }
 }
