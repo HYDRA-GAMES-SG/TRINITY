@@ -10,6 +10,7 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public IAA_TrinityControls InputActions;
 
     // Public accessor variables for input values
+    public bool MenuInput { get; private set; }
     public Vector2 MoveInput { get; private set; }
     public Vector2 CameraInput { get; private set; }
     public bool BlinkInput { get; private set; }
@@ -55,6 +56,9 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public event Action OnCameraPressed;
     public event Action OnCameraReleased;
 
+    public event Action OnMenuPressed;
+    public event Action OnMenuReleased;
+
     public event Action<ETrinityElement> OnElementPressed;
     public event Action<ETrinityElement> OnElementReleased;
 
@@ -63,7 +67,7 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         InputActions = new IAA_TrinityControls();
         InputActions.PLAYER.SetCallbacks(this);
         InputActions.Enable();
-
+        
         // Subscribe inputs
         InputActions.PLAYER.JumpGlide.started += OnJumpGlide;
         InputActions.PLAYER.JumpGlide.canceled += OnJumpGlide;
@@ -104,6 +108,9 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         
         InputActions.PLAYER.LightningElement.started += OnLightningElement;
         InputActions.PLAYER.LightningElement.canceled += OnLightningElement;
+
+        InputActions.PLAYER.Menu.started += OnMenu;
+        InputActions.PLAYER.Menu.canceled += OnMenu;
 
     }
 
@@ -149,6 +156,9 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         
         InputActions.PLAYER.LightningElement.started -= OnLightningElement;
         InputActions.PLAYER.LightningElement.canceled -= OnLightningElement;
+        
+        InputActions.PLAYER.Menu.started += OnMenu;
+        InputActions.PLAYER.Menu.canceled += OnMenu;
     }
     
     public void OnJumpGlide(InputAction.CallbackContext context)
@@ -315,6 +325,21 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         LightningElementInput = context.ReadValue<float>() > 0f;
     }
 
+    public void OnMenu(InputAction.CallbackContext context)
+    {
+        
+        if(context.started)
+        {
+            OnMenuPressed?.Invoke();
+        }
+
+        if (context.canceled)
+        {
+            OnMenuReleased?.Invoke();
+        }
+
+        MenuInput = context.ReadValue<float>() > 0f;
+    }
     public void OnMove(InputAction.CallbackContext context)
     {
         if(context.started)

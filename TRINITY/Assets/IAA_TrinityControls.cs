@@ -143,6 +143,15 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""ab8c39fc-4dd9-44df-8c9b-6aeb5a2256cb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -216,7 +225,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""9dfe29d3-036a-4671-b969-ebae7fafa5fd"",
                     ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": ""Press(behavior=2)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
                     ""action"": ""Move"",
@@ -442,6 +451,28 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                     ""action"": ""Camera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3f8478d-731f-4b8e-b20c-ee3407f5e0d6"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""805ecbb5-fb12-4838-b959-a0950bc64783"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -495,6 +526,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
         m_PLAYER_FireElement = m_PLAYER.FindAction("FireElement", throwIfNotFound: true);
         m_PLAYER_ColdElement = m_PLAYER.FindAction("ColdElement", throwIfNotFound: true);
         m_PLAYER_LightningElement = m_PLAYER.FindAction("LightningElement", throwIfNotFound: true);
+        m_PLAYER_Menu = m_PLAYER.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -569,6 +601,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PLAYER_FireElement;
     private readonly InputAction m_PLAYER_ColdElement;
     private readonly InputAction m_PLAYER_LightningElement;
+    private readonly InputAction m_PLAYER_Menu;
     public struct PLAYERActions
     {
         private @IAA_TrinityControls m_Wrapper;
@@ -586,6 +619,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
         public InputAction @FireElement => m_Wrapper.m_PLAYER_FireElement;
         public InputAction @ColdElement => m_Wrapper.m_PLAYER_ColdElement;
         public InputAction @LightningElement => m_Wrapper.m_PLAYER_LightningElement;
+        public InputAction @Menu => m_Wrapper.m_PLAYER_Menu;
         public InputActionMap Get() { return m_Wrapper.m_PLAYER; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -634,6 +668,9 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
             @LightningElement.started += instance.OnLightningElement;
             @LightningElement.performed += instance.OnLightningElement;
             @LightningElement.canceled += instance.OnLightningElement;
+            @Menu.started += instance.OnMenu;
+            @Menu.performed += instance.OnMenu;
+            @Menu.canceled += instance.OnMenu;
         }
 
         private void UnregisterCallbacks(IPLAYERActions instance)
@@ -677,6 +714,9 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
             @LightningElement.started -= instance.OnLightningElement;
             @LightningElement.performed -= instance.OnLightningElement;
             @LightningElement.canceled -= instance.OnLightningElement;
+            @Menu.started -= instance.OnMenu;
+            @Menu.performed -= instance.OnMenu;
+            @Menu.canceled -= instance.OnMenu;
         }
 
         public void RemoveCallbacks(IPLAYERActions instance)
@@ -718,5 +758,6 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
         void OnFireElement(InputAction.CallbackContext context);
         void OnColdElement(InputAction.CallbackContext context);
         void OnLightningElement(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

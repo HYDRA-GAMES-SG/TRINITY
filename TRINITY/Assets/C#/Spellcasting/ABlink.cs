@@ -13,7 +13,7 @@ public class ABlink : ASpell
     public float CollisionAdjustment = 1f;
     public float BossShereCheckRadius = 1f;
     public float CheckStepDistance = 0.5f;
-    public bool bDebug;
+    public bool DEBUG_ENABLE;
     private Vector3 BlinkPoint;
 
     public static System.Action OnBlink;
@@ -26,11 +26,10 @@ public class ABlink : ASpell
     
     public override void CastStart()
     {
-        
         float distance = BlinkDistance;
         BlinkPoint = Brain.Controller.Position;
-        Vector3 startPos = Brain.Controller.Position;
-        Vector3 direction = Spells.CameraRef.Camera.transform.forward;
+        Vector3 startPos = Brain.Controller.Position + Brain.Controller.Height * Vector3.up;
+        Vector3 direction = Spells.CastDirection;
 
         bool bInvalidBlink = true;
 
@@ -38,29 +37,22 @@ public class ABlink : ASpell
         {
 
             // Debug the initial conditions of each loop iteration
-            if(bDebug){Debug.Log($"Attempting blink with distance: {distance}, starting at: {startPos}");}
+            if(DEBUG_ENABLE){Debug.Log($"Attempting blink with distance: {distance}, starting at: {startPos}");}
 
             if (Physics.Raycast(startPos, direction, out RaycastHit hit, distance, CollisionLayer))
             {
-                // Log raycast hit
-                if (bDebug)
-                {
-                    if (bDebug)
-                    {
-                        if(bDebug){Debug.Log($"Raycast hit: {hit.collider.name}, distance: {hit.distance}");}
-                    }
-                }
+                if(DEBUG_ENABLE){Debug.Log($"Raycast hit: {hit.collider.name}, distance: {hit.distance}");}
 
                 if (hit.distance < MinimumDistance)
                 {
                     BlinkPoint = startPos;
-                    if(bDebug){Debug.Log("Blink point too close. Using start position.");}
+                    if(DEBUG_ENABLE){Debug.Log("Blink point too close. Using start position.");}
                     break;
                 }
                 else
                 {
                     BlinkPoint = hit.point - CollisionAdjustment * direction;
-                    if(bDebug){Debug.Log($"Adjusted blink point: {BlinkPoint}");}
+                    if(DEBUG_ENABLE){Debug.Log($"Adjusted blink point: {BlinkPoint}");}
                 }
             }
             else
@@ -74,15 +66,15 @@ public class ABlink : ASpell
 
             if (bInvalidBlink)
             {
-                if (bDebug)
+                if (DEBUG_ENABLE)
                 {
                     Debug.Log($"Blink point invalidated by boss at: {bossHit.point}");
                 }
+                // Reduce distance and log
+                distance -= CheckStepDistance;
+                if(DEBUG_ENABLE){Debug.Log($"Decreased distance to: {distance}");}
             }
 
-            // Reduce distance and log
-            distance -= CheckStepDistance;
-            if(bDebug){Debug.Log($"Decreased distance to: {distance}");}
         }
 
         // Set position and log final result
@@ -90,11 +82,11 @@ public class ABlink : ASpell
         {
             OnBlink?.Invoke();
             Brain.Controller.transform.position = BlinkPoint;
-            if(bDebug){Debug.Log($"Blink successful to: {BlinkPoint}");}
+            if(DEBUG_ENABLE){Debug.Log($"Blink successful to: {BlinkPoint}");}
         }
         else
         {
-            if(bDebug){Debug.LogWarning("Failed to find a valid blink point.");}
+            if(DEBUG_ENABLE){Debug.LogWarning("Failed to find a valid blink point.");}
         }
     }
 
@@ -109,7 +101,7 @@ public class ABlink : ASpell
 
     public void OnDrawGizmos()
     {
-        if (bDebug)
+        if (DEBUG_ENABLE)
         {
             Gizmos.DrawSphere(BlinkPoint, BossShereCheckRadius);
         }

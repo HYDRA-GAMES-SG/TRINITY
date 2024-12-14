@@ -135,7 +135,7 @@ public class ASecondaryFire : ASpell
             // Ensure the hit point is within range and on valid ground
             if (Vector3.Distance(Spells.CastPoint.position, hit.point) <= Range)
             {
-                return hit.point;
+                return hit.point + Vector3.up * .1f;
             }
         }
         else
@@ -145,7 +145,7 @@ public class ASecondaryFire : ASpell
             
             if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range, GroundLayer))
             {
-                return groundHit.point;
+                return groundHit.point + Vector3.up * .1f;
             }
         }
         

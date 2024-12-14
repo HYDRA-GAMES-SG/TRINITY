@@ -41,6 +41,8 @@ public class ATrinityBrain : MonoBehaviour
     [SerializeField]private ETrinityElement Element;
     [SerializeField]private ETrinityAction Action;
     private APlayerInput InputReference; //reference
+
+    public bool bCanRotatePlayer => GetAction() == ETrinityAction.ETA_None || GetAction() == ETrinityAction.ETA_Casting;
     
     public event Action<ETrinityElement> OnElementChanged;
     public event Action<ETrinityAction> OnActionChanged;
@@ -68,11 +70,16 @@ public class ATrinityBrain : MonoBehaviour
     void Update()
     {
         HandleStun();
-        
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            SceneManager.LoadScene("CrabBossDungeon");
-        }
+
+        // if (Input.GetKeyDown(KeyCode.Return))
+        // {
+        //     SceneManager.LoadScene("CrabBossDungeon");
+        // }
+    }
+
+    private void OnDebugInput()
+    {
+        SetStunnedState(3f);
     }
 
     private void HandleStun()
@@ -90,6 +97,11 @@ public class ATrinityBrain : MonoBehaviour
     {
         ChangeAction(ETrinityAction.ETA_Stunned);
         StunnedCooldown = duration;
+        
+        if (CurrentSpell != null)
+        {
+            CurrentSpell.Release();
+        }
     }
     
     public bool CanAct()
@@ -162,11 +174,6 @@ public class ATrinityBrain : MonoBehaviour
     
     public void SecondaryRelease()
     {
-        if (!CanAct())
-        {
-            return;
-        }
-    
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
@@ -269,6 +276,11 @@ public class ATrinityBrain : MonoBehaviour
     public void SetCurrentSpell(ASpell newSpell)
     {
         CurrentSpell = newSpell;
+
+        if (newSpell != null)
+        {
+            ChangeAction(newSpell.SpellAction);
+        }
     }
     
     void BindToInputEvents(bool bBind)
@@ -288,6 +300,7 @@ public class ATrinityBrain : MonoBehaviour
             InputReference.OnElementalSecondaryReleased += SecondaryRelease;
 
             InputReference.OnElementPressed += ChangeElement;
+            InputReference.OnMenuPressed += OnDebugInput;
             return;
         }
         else
@@ -304,6 +317,8 @@ public class ATrinityBrain : MonoBehaviour
             InputReference.OnForcefieldReleased -= Spells.Forcefield.CastEnd;
             InputReference.OnElementalPrimaryReleased -= PrimaryRelease;
             InputReference.OnElementalSecondaryReleased -= SecondaryRelease;
+            InputReference.OnMenuPressed -= OnDebugInput;
+
         }
     }
     

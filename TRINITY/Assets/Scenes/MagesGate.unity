@@ -166,7 +166,7 @@ MonoBehaviour:
   Target: {fileID: 1174180564}
   DesiredDistance: 3
   CollisionDistance: 0.2
-  OffsetVector: {x: -0.56, y: 2.04, z: -3.34}
+  OffsetVector: {x: 0, y: 0, z: 0}
   CameraOffsetVector: {x: 0, y: 0, z: 0}
   DisableZooming: 1
   ZoomOutStepValue: 1
@@ -7476,7 +7476,7 @@ Rigidbody:
   m_GameObject: {fileID: 567174381}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1.5
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -11457,7 +11457,7 @@ Transform:
   m_GameObject: {fileID: 1174180563}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.12}
+  m_LocalPosition: {x: -0.034, y: 1.645, z: -0.01}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14453,20 +14453,20 @@ MonoBehaviour:
   SpellElement: 0
   SpellType: 2
   SpellAction: 4
-  ENABLE_DEBUG: 1
+  ENABLE_DEBUG: 0
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
   Range: 20
-  MaxChannelTime: 2
-  MaxSize: 8
-  MinSize: 0.1
+  MaxChannelTime: 2.5
+  MaxSize: 5
+  MinSize: 0.2
   GlyphPrefab: {fileID: 4928933366125351325, guid: 8876011cd171c7c409bdceb767d9b2a0,
     type: 3}
   PillarPrefab: {fileID: 2478320963783506280, guid: b0a5aed8781922e4ba48d003b32b1330,
     type: 3}
   Channeling: {fileID: 0}
-  Explosion: {fileID: 0}
+  Explosion: {fileID: 8300000, guid: 051fcc37559376e4a998bc094a2791b5, type: 3}
 --- !u!1 &1451191225
 GameObject:
   m_ObjectHideFlags: 0
@@ -19201,10 +19201,10 @@ MonoBehaviour:
   InputReference: {fileID: 0}
   Brain: {fileID: 0}
   ENABLE_DEBUG: 0
-  AirMoveAcceleration: 40
-  AirStrafeAcceleration: 40
+  AirMoveAcceleration: 45
+  AirStrafeAcceleration: 45
   AirMaxSpeed: 6
-  GravityModifier: 0.5
+  GravityModifier: 0.4
   bMirror: 0
   AnimKeyMirror: bMirror
   AnimKeyDeath: bDeath
@@ -19225,6 +19225,8 @@ MonoBehaviour:
   InputReference: {fileID: 0}
   Brain: {fileID: 0}
   ENABLE_DEBUG: 0
+  AirStrafeModifier: 0.4
+  AirMoveModifier: 0.4
   MoveAirAcceleration: 15
   StrafeAirAcceleration: 15
   MoveAcceleration: 40
@@ -19433,7 +19435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpellPrefab: {fileID: 0}
-  Cooldown: 1
+  Cooldown: 2
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
@@ -19443,12 +19445,12 @@ MonoBehaviour:
   BossLayer:
     serializedVersion: 2
     m_Bits: 8
-  BlinkDistance: 6
+  BlinkDistance: 10
   MinimumDistance: 1
   CollisionAdjustment: 1
   BossShereCheckRadius: 1
   CheckStepDistance: 0.5
-  bDebug: 0
+  DEBUG_ENABLE: 0
 --- !u!1 &2021917438
 GameObject:
   m_ObjectHideFlags: 0
@@ -20382,9 +20384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AimOffsetLength: 0
-  AimDistance: 1
+  AimDistance: 2
   ReleaseDistance: 3
-  BaseOffset: {x: 0.5, y: 0, z: 0}
+  BaseOffset: {x: 0, y: 0, z: -0.3}
   SlideAxis: {x: 1, y: 0, z: 0}
   AdditionalAxisMovement: {x: 0, y: 0, z: 0}
   CustomInput: 0

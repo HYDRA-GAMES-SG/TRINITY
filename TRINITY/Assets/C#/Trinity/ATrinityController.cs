@@ -89,6 +89,7 @@ public class ATrinityController : MonoBehaviour
         else
         {
             RB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+            RB.drag = 1.5f;
         }
     }
 
@@ -107,7 +108,10 @@ public class ATrinityController : MonoBehaviour
     }
     private void LateUpdate()
     {
-        AlignWithCameraYaw();
+        if (BrainReference.bCanRotatePlayer)
+        {
+            AlignWithCameraYaw();
+        }
     }
 
 

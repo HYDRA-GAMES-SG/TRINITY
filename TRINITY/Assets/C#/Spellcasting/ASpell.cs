@@ -103,7 +103,10 @@ public class ASpell : MonoBehaviour
             Brain.SetCurrentSpell(null);    
         }
 
-        Brain.ChangeAction(ETrinityAction.ETA_None);
+        if (Brain.GetAction() == ETrinityAction.ETA_Channeling || Brain.GetAction() == ETrinityAction.ETA_Casting)
+        {
+            Brain.ChangeAction(ETrinityAction.ETA_None);
+        }
 
         CastEnd();
     }

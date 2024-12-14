@@ -18,6 +18,8 @@ public class NormalMovement : TrinityState
 
     private bool bStunned => Brain.GetAction() == ETrinityAction.ETA_Stunned;
 
+    [SerializeField] private float AirStrafeModifier = .5f;
+    [SerializeField] private float AirMoveModifier = .5f;
     [SerializeField] private float MoveAirAcceleration = 5f;
     [SerializeField] private float StrafeAirAcceleration = 5f;
     [SerializeField] private float MoveAcceleration = 10f;
@@ -87,20 +89,32 @@ public class NormalMovement : TrinityState
     public override void UpdateBehaviour(float dt)
     {
         bFixedUpdate = true;
+        
+        HandleGravity();
+        HandleFalling();
+        HandleUnstableGround();
 
-        if (Controller.HealthComponent.bDead)
+        if (!IsActionable())
         {
+            UpdateAnimParams();
             return;
         }
-
+        
         HandleMovement();
         HandleJump();
-        HandleFalling();
         HandleBlink();
         TryEnterGlide();
-        HandleUnstableGround();
         
-        Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+
+        if (MovementState != ETrinityMovement.ETM_Grounded)
+        {
+            Controller.MoveDirection = new Vector3(Controller.MoveDirection.x * AirMoveModifier, Controller.VerticalVelocity, Controller.MoveDirection.z * AirStrafeModifier);
+        }
+        else
+        {
+            Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+
+        }
         
         // if speed in the direction of the movedirection is not faster than max speed
         if (Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude < MaxSpeed) 
@@ -109,11 +123,9 @@ public class NormalMovement : TrinityState
         }
         
         HandleAirStrafing();
-        HandleGravity();
-        
         UpdateAnimParams();
     }
-
+    
     private void HandleGravity()
     {
         Controller.RB.AddForce(-Controller.Up * Controller.Gravity);
@@ -162,11 +174,6 @@ public class NormalMovement : TrinityState
 
     private void HandleMovement()
     {
-        if (bStunned)
-        {
-            return;
-        }
-
         Vector3 moveZ = Vector3.zero;
         Vector3 moveX = Vector3.zero;
         
@@ -187,22 +194,20 @@ public class NormalMovement : TrinityState
     }
     
     private void HandleJump()
-    {
-        if (bStunned)
-        {
-            return;
-        }
-        
+    {  
         if (InputReference.JumpInput)
         {
             if (MovementState == ETrinityMovement.ETM_Grounded)
             {
-                Controller.RB.AddForce(Controller.Up * JumpForce / Controller.RB.mass, ForceMode.Impulse);
                 SetMovementState(ETrinityMovement.ETM_Jumping);
-                TrinityFSM.Animator.SetBool(AnimKeyJump, true);
-                bMirror++; //increment counter
-                TrinityFSM.Animator.SetBool(AnimKeyMirrorJump, bMirror % 2 == 1); //flip flop counter
-
+                
+                if (MovementState == ETrinityMovement.ETM_Jumping)
+                {
+                    Controller.RB.AddForce(Controller.Up * JumpForce / Controller.RB.mass, ForceMode.Impulse);
+                    TrinityFSM.Animator.SetBool(AnimKeyJump, true);
+                    bMirror++; //increment counter
+                    TrinityFSM.Animator.SetBool(AnimKeyMirrorJump, bMirror % 2 == 1); //flip flop counter
+                }
             }
         }
     }
@@ -247,11 +252,6 @@ public class NormalMovement : TrinityState
     
     private void HandleBlink()
     {
-        if (bStunned)
-        {
-            return;
-        }
-        
         if (TrinityFSM.Animator.GetBool(AnimKeyBlink) && Controller.CheckGround().transform)
         {
             // Ground detected, ensure movement state remains grounded
@@ -285,11 +285,6 @@ public class NormalMovement : TrinityState
 
     private void TryEnterGlide()
     {
-        if (bStunned)
-        {
-            return;
-        }
-        
         if (MovementState == ETrinityMovement.ETM_Falling || MovementState == ETrinityMovement.ETM_Jumping)
         {
             if (!InputReference.JumpInput)
@@ -329,7 +324,8 @@ public class NormalMovement : TrinityState
     private void UpdateAnimParams()
     {
         // less damping if we are landing
-        Vector3 playerSpaceVelocity = Controller.transform.InverseTransformVector(Controller.RB.velocity);
+        float maxSpeedThreshold = MaxSpeed * .6f;
+        Vector3 playerSpaceVelocity = Controller.transform.InverseTransformVector(Controller.RB.velocity) / maxSpeedThreshold;
         
         TrinityFSM.Animator.SetFloat(AnimKeyMove, playerSpaceVelocity.z, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeyStrafe, playerSpaceVelocity.x, .05f, Time.deltaTime);
@@ -346,6 +342,16 @@ public class NormalMovement : TrinityState
     private void OnBlink()
     {
         TrinityFSM.Animator.SetBool(AnimKeyBlink, true);
+    }
+
+
+    private bool IsActionable()
+    {
+
+        return    !(Brain.GetAction() == ETrinityAction.ETA_Casting
+                    || Brain.GetAction() == ETrinityAction.ETA_Channeling
+                    || bStunned
+                    || Controller.HealthComponent.bDead);
     }
 
     //
