@@ -14,6 +14,7 @@ public class ASecondaryFire : ASpell
     public float MaxChannelTime = 2f;
     public float MaxSize = 4f;
     public float MinSize = .1f;
+    public float MaxHeight = .5f;
 
     [Header("Resources")]
     private GameObject RunePrefab;
@@ -39,6 +40,7 @@ public class ASecondaryFire : ASpell
         if (Rune == null)
         {
             Rune = Instantiate(RunePrefab, Spells.CastPoint.position, Quaternion.identity);
+            Rune.transform.SetParent(this.gameObject.transform);
             Rune.SetActive(false); // Ensure the rune is initially inactive
         }
         SFX = GetComponent<AudioSource>();
@@ -83,8 +85,8 @@ public class ASecondaryFire : ASpell
 
         float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
         float newSize = Mathf.Lerp(MinSize, MaxSize, t);
-        Rune.transform.localScale = Vector3.one * newSize;
-
+        Rune.transform.localScale = new Vector3(newSize, newSize > MaxHeight ? MaxHeight : newSize, newSize);
+        
         if (ChannelTime >= MaxChannelTime)
         {
             Release(); //trigger end when max channel time is reached
@@ -108,6 +110,7 @@ public class ASecondaryFire : ASpell
         if (GlyphPrefab != null)
         {
             Glyph = Instantiate(GlyphPrefab, Rune.transform.position, Quaternion.identity);
+            Glyph.transform.SetParent(this.gameObject.transform);
             Glyph.transform.localScale = Rune.transform.localScale / 3f;
             Destroy(Glyph, 6f);
         }
@@ -115,7 +118,8 @@ public class ASecondaryFire : ASpell
         if (PillarPrefab != null)
         {
             Pillar = Instantiate(PillarPrefab, Rune.transform.position, Quaternion.identity);
-            Pillar.transform.localScale = Rune.transform.localScale / 5f;
+            Pillar.transform.SetParent(this.gameObject.transform);
+            Pillar.transform.localScale = Rune.transform.localScale / 4f;
             Pillar.GetComponent<ParticleSystem>().Play();
             Destroy(Pillar, 7f);
         }

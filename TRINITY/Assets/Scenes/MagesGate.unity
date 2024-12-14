@@ -172,7 +172,7 @@ MonoBehaviour:
   ZoomOutStepValue: 1
   OccludedZoomInSpeed: 60
   UnoccludedZoomOutSpeed: 7
-  CameraOffsetChangeSpeed: 200
+  CameraOffsetChangeSpeed: 5
   CameraOffsetMinDistance: 0.2
   HideSkinnedMeshRenderers: 1
   CollisionLayer:
@@ -9973,7 +9973,7 @@ MonoBehaviour:
   Cooldown: 0
   SpellElement: 0
   SpellType: 1
-  SpellAction: 3
+  SpellAction: 0
   DamageAbsorbedPerMana: 1
 --- !u!1 &832575517
 GameObject:
@@ -14457,10 +14457,11 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
-  Range: 20
+  Range: 15
   MaxChannelTime: 2.5
   MaxSize: 5
   MinSize: 0.2
+  MaxHeight: 0.8
   GlyphPrefab: {fileID: 4928933366125351325, guid: 8876011cd171c7c409bdceb767d9b2a0,
     type: 3}
   PillarPrefab: {fileID: 2478320963783506280, guid: b0a5aed8781922e4ba48d003b32b1330,
@@ -20384,11 +20385,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AimOffsetLength: 0
-  AimDistance: 2
+  AimDistance: 1.5
   ReleaseDistance: 3
-  BaseOffset: {x: 0, y: 0, z: -0.3}
+  BaseOffset: {x: 0, y: 0.1, z: -1.1}
   SlideAxis: {x: 1, y: 0, z: 0}
-  AdditionalAxisMovement: {x: 0, y: 0, z: 0}
+  AdditionalAxisMovement: {x: 0.7, y: -0.35, z: 0}
   CustomInput: 0
 --- !u!1 &187632215998512553
 GameObject:
