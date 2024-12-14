@@ -6,6 +6,10 @@ public class IdleState : PlantCreatureState
 {
     Vector3 PlayerPos;
     Vector3 PlantPos;
+
+    [SerializeField] float TimeBackToHide;
+
+    float Timer;
     public override bool CheckEnterTransition(IState fromState)
     {
         return true;
@@ -13,7 +17,16 @@ public class IdleState : PlantCreatureState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        PlantCreatureFSM.Animator.SetBool("Idle", true);
+        if (fromState is HideState)
+        {
+            PlantCreatureFSM.Animator.SetBool("Idle", true);
+        }
+        else
+        {
+            PlantCreatureFSM.Animator.SetBool("Attack", false);
+        }
+
+        Timer = TimeBackToHide;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -30,12 +43,20 @@ public class IdleState : PlantCreatureState
 
         float distanceToTarget = Vector3.Distance(playerPos, plantPos);
 
-        Vector3 faceDirection = (PlayerPos - PlantPos).normalized;
-        PlantCreatureFSM.RotateTowardTarget(faceDirection);
+        AnimatorStateInfo stateInfo = PlantCreatureFSM.Animator.GetCurrentAnimatorStateInfo(0);
 
         if (distanceToTarget <= PlantCreatureFSM.PlantCreatureController.AttackRange)
         {
             PlantCreatureFSM.EnqueueTransition<AttackState>();
+        }
+        else
+        {
+            Timer -= Time.deltaTime;
+            if (Timer <= 0)
+            {
+                PlantCreatureFSM.EnqueueTransition<HideState>();
+
+            }
         }
     }
     public override void PostUpdateBehaviour(float dt)
@@ -44,6 +65,10 @@ public class IdleState : PlantCreatureState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        if (toState is AttackState)
+        {
+            Timer = TimeBackToHide;
+        }
     }
 
     public override bool CheckExitTransition(IState toState)

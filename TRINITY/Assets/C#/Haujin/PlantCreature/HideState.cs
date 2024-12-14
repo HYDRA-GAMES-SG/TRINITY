@@ -13,6 +13,11 @@ public class HideState : PlantCreatureState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        if(fromState is IdleState)
+        {
+            PlantCreatureFSM.Animator.SetBool("Idle", false);
+
+        }
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -22,6 +27,9 @@ public class HideState : PlantCreatureState
 
         Vector3 playerPos = new Vector3(PlayerPos.x, 0, PlayerPos.z);
         Vector3 plantPos = new Vector3(PlantPos.x, 0, PlantPos.z);
+
+        Vector3 faceDirection = (PlayerPos - PlantPos).normalized;
+        PlantCreatureFSM.PlantCreatureController.RotateTowardTarget(faceDirection);
 
         float distanceToTarget = Vector3.Distance(playerPos, plantPos);
         if (distanceToTarget <= PlantCreatureFSM.PlantCreatureController.AttackRange)

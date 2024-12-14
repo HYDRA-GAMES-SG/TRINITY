@@ -109,7 +109,7 @@ public class PlantCreatureFSM : MonoBehaviour, IFSM
 
         OnStateChange?.Invoke(PreviousState, nextState);
 
-        //Debug.Log("AI: " + CurrentState + "=>" + nextState);
+        Debug.Log("AI: " + CurrentState + "=>" + nextState);
 
         CurrentState = nextState;
         CurrentState.EnterBehaviour(Time.deltaTime, PreviousState);
@@ -173,10 +173,5 @@ public class PlantCreatureFSM : MonoBehaviour, IFSM
         }
     }
 
-    public void RotateTowardTarget(Vector3 directionToTarget)
-    {
-        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        PlantCreatureController.transform.rotation = Quaternion.Slerp(PlantCreatureController.transform.rotation, targetRotation, 10 * Time.deltaTime);
-    }
+   
 }
