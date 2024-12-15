@@ -96,6 +96,11 @@ public class ASecondaryFire : ASpell
     {
         if (ENABLE_DEBUG) { Debug.Log("Cast End"); }
 
+        if (Channeling != null)
+        {
+            SFX.Stop();
+        }
+        
         if (!Rune.activeSelf)
         {
             return; //do nothing if rune does not exist since no valid placement found
