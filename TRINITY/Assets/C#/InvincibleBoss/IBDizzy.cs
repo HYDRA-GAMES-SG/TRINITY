@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IBIdle : InvincibleBossState
+public class IBDizzy : InvincibleBossState
 {
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -19,10 +19,7 @@ public class IBIdle : InvincibleBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        if (InvincibleBossFSM.PlayerController != null)
-        {
-            InvincibleBossFSM.EnqueueTransition<IBPursue>();
-        }
+
     }
     public override void PostUpdateBehaviour(float dt)
     {
@@ -34,6 +31,6 @@ public class IBIdle : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return true;
+        return false;
     }
 }
