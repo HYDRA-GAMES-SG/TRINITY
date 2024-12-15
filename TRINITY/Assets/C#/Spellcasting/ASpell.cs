@@ -5,13 +5,14 @@ using UnityEngine;
 public enum ESpellType
 {
     EST_Primary,
-    EST_Utility,
-    EST_Secondary
+    EST_Secondary,
+    EST_Utility
 }
 [RequireComponent(typeof(AudioSource))]
 public class ASpell : MonoBehaviour
 {
     public GameObject SpellPrefab;
+    protected ATrinityAnimator AnimationReference;
     protected ATrinityController Controller;
     protected ATrinityBrain BrainReference;
     protected ATrinitySpells SpellsReference;
@@ -31,6 +32,7 @@ public class ASpell : MonoBehaviour
         Controller = transform.root.Find("Controller").GetComponent<ATrinityController>();
         BrainReference = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
         SpellsReference = transform.parent.GetComponent<ATrinitySpells>();
+        AnimationReference = Controller.transform.Find("Graphics").GetComponent<ATrinityAnimator>();
         Initialize();
     }
 
@@ -73,12 +75,17 @@ public class ASpell : MonoBehaviour
             //print("Cannot cast or channel yet.");
             return;
         }
-
-        if (SpellAction != ETrinityAction.ETA_None)
+        
+        BrainReference.SetCurrentSpell(this);
+        if (SpellAction != ETrinityAction.ETA_Channeling)
         {
-            BrainReference.SetCurrentSpell(this);    
+            AnimationReference.PlayCastAnimation($"Casting Layer.{gameObject.name}");
         }
-
+        else
+        {
+            AnimationReference.PlayChannelAnimation($"Casting Layer.{gameObject.name}");
+        }
+        
         CastStart();
         StartCooldown();
     }
@@ -98,13 +105,11 @@ public class ASpell : MonoBehaviour
 
     public virtual void Release()
     {
-        if (SpellAction != ETrinityAction.ETA_None)
-        {
-            BrainReference.SetCurrentSpell(null);    
-        }
+        BrainReference.SetCurrentSpell(null);    
 
         if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
+            AnimationReference.ReleaseChannelAnimation($"Casting Layer.{gameObject.name} Release");
             BrainReference.ChangeAction(ETrinityAction.ETA_None);
         }
 

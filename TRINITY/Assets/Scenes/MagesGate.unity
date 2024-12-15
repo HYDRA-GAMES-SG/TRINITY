@@ -4469,6 +4469,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 390490034}
+  - component: {fileID: 390490037}
   - component: {fileID: 390490035}
   - component: {fileID: 390490036}
   m_Layer: 0
@@ -4541,6 +4542,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &390490037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390490033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01c53f9f39013eb47abe15c415dcba56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &392067622
 GameObject:
   m_ObjectHideFlags: 0
@@ -15128,7 +15141,7 @@ MonoBehaviour:
     type: 3}
   Cooldown: 0
   SpellElement: 0
-  SpellType: 2
+  SpellType: 1
   SpellAction: 4
   ENABLE_DEBUG: 0
   GroundLayer:
@@ -20174,7 +20187,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
   Brain: {fileID: 0}
-  ENABLE_DEBUG: 0
+  ENABLE_DEBUG: 1
   UnstableSlideAcceleration: 40
   AirStrafeModifier: 0.4
   AirMoveModifier: 0.4
@@ -20331,7 +20344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpellPrefab: {fileID: 3852721855287756135, guid: 0dfb340795aab884195ea876a9400c3b,
     type: 3}
-  Cooldown: 1
+  Cooldown: 1.5
   SpellElement: 0
   SpellType: 0
   SpellAction: 0

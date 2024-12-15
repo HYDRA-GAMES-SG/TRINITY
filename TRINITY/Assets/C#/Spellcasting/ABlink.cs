@@ -18,7 +18,7 @@ public class ABlink : ASpell
     private Vector3 BlinkPoint;
     private AudioSource AudioComponent;
     public static System.Action OnBlink;
-
+    
     public override void Initialize()
     {
         AudioComponent = GetComponent<AudioSource>();

@@ -41,10 +41,10 @@ public class NormalMovement : TrinityState
     private bool bCanGlide = false;
     private bool bFixedUpdate = false;
 
-    private string AnimKeyMove = "vForward";
-    private string AnimKeyStrafe = "vStrafe";
+    private string AnimKeyMove = "Forward";
+    private string AnimKeyStrafe = "Strafe";
+    private string AnimKeyVertical = "Vertical";
     private string AnimKeyJump = "bJump";
-    private string AnimKeyVertical = "vVertical";
     private string AnimKeyGlide = "bGlide";
     private string AnimKeyBlink = "bBlink";
     private string AnimKeyMirror = "bMirror";
@@ -65,6 +65,7 @@ public class NormalMovement : TrinityState
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
         Controller.HealthComponent.OnDeath += HandleDeath;
+        
     }
 
     private void HandleDeath()
@@ -98,7 +99,7 @@ public class NormalMovement : TrinityState
             UpdateAnimParams();
             return;
         }
-        
+
         HandleMovement();
         HandleJumping();
         HandleBlink();
@@ -128,7 +129,6 @@ public class NormalMovement : TrinityState
         UpdateAnimParams();
     }
 
-
     public override void PostUpdateBehaviour(float dt)
     {
        
@@ -146,7 +146,6 @@ public class NormalMovement : TrinityState
         
         return false;
     }
-
 
     private void HandleGliding()
     {
@@ -348,8 +347,4 @@ public class NormalMovement : TrinityState
     {
         TrinityFSM.Animator.SetBool(AnimKeyBlink, true);
     }
-
-
-    //
-
 }

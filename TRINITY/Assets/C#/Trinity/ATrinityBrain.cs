@@ -66,6 +66,7 @@ public class ATrinityBrain : MonoBehaviour
     void Update()
     {
         HandleStun();
+        
     }
 
     private void OnDebugInput()
@@ -222,6 +223,8 @@ public class ATrinityBrain : MonoBehaviour
     public void NextElement()
     {
         PrimaryRelease();
+        SecondaryRelease();
+        
         int intElement = (int)CurrentElement;
         intElement++;
         ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
@@ -232,6 +235,8 @@ public class ATrinityBrain : MonoBehaviour
     public void PreviousElement()
     {
         PrimaryRelease();
+        SecondaryRelease();
+        
         int intElement = (int)CurrentElement;
         intElement--;
         
@@ -319,7 +324,6 @@ public class ATrinityBrain : MonoBehaviour
 
         }
     }
-    
     
 
     public static void SetBoss(GameObject bossObject)
