@@ -110,7 +110,8 @@ public class ASecondaryFire : ASpell
         {
             Glyph = Instantiate(GlyphPrefab, Rune.transform.position, Quaternion.identity);
             Glyph.transform.SetParent(this.gameObject.transform);
-            Glyph.transform.localScale = Rune.transform.localScale / 3f;
+            Vector3 newScale = new Vector3(Rune.transform.localScale.x * .5f, 1f, Rune.transform.localScale.x *.5f);
+            Glyph.transform.localScale = newScale;
             Destroy(Glyph, 6f);
         }
 
@@ -118,7 +119,7 @@ public class ASecondaryFire : ASpell
         {
             Pillar = Instantiate(PillarPrefab, Rune.transform.position, Quaternion.identity);
             Pillar.transform.SetParent(this.gameObject.transform);
-            Pillar.transform.localScale = Rune.transform.localScale / 4f;
+            Pillar.transform.localScale = Rune.transform.localScale.x / 4f  * Vector3.one;
             Pillar.GetComponent<ParticleSystem>().Play();
             Destroy(Pillar, 7f);
         }

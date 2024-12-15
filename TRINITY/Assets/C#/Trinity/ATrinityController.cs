@@ -17,6 +17,8 @@ public class ATrinityController : MonoBehaviour
 
     [SerializeField] 
     public float Gravity = 9.81f;
+
+    public const float GRAVITY_CONSTANT = 9.81f;
     
     [SerializeField] 
     public float GroundDistance = .1f;

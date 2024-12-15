@@ -8,7 +8,8 @@ public enum ETrinityMovement
 {
     ETM_Grounded,
     ETM_Jumping,
-    ETM_Falling
+    ETM_Falling,
+    ETM_Gliding
 }
 
 public class NormalMovement : TrinityState
@@ -16,7 +17,9 @@ public class NormalMovement : TrinityState
     public bool ENABLE_DEBUG = false;
     
     private ETrinityMovement MovementState;
-    
+
+    [Header("Normal Movement")] 
+    [SerializeField] private float UnstableSlideAcceleration = 40f;
     [SerializeField] private float AirStrafeModifier = .5f;
     [SerializeField] private float AirMoveModifier = .5f;
     [SerializeField] private float MoveAirAcceleration = 5f;
@@ -27,8 +30,14 @@ public class NormalMovement : TrinityState
     [SerializeField] private float GlobalSpeedLimit = 7f;
     [SerializeField] private float JumpForce = 10f;
     
-    [HideInInspector] private int bMirror = 0;
+    [Header("Glide Movement")]
+    [SerializeField] private float GlideMoveAcceleration = 40f;
+    [SerializeField] private float GlideStrafeAcceleration = 40f;
+    [SerializeField] private float GravityModifier = .4f;
     
+    [HideInInspector] private int bMirror = 0;
+
+    private bool bUnstable = false;
     private bool bCanGlide = false;
     private bool bFixedUpdate = false;
 
@@ -38,8 +47,8 @@ public class NormalMovement : TrinityState
     private string AnimKeyVertical = "vVertical";
     private string AnimKeyGlide = "bGlide";
     private string AnimKeyBlink = "bBlink";
-    private string AnimKeyMirrorJump = "bMirror";
-    private string AnimKeyDeath = "Death";
+    private string AnimKeyMirror = "bMirror";
+    private string AnimKeyDeath = "bDeath";
     private string AnimKeyStunned = "bStunned";
     
     public override bool CheckEnterTransition(IState fromState)
@@ -49,18 +58,9 @@ public class NormalMovement : TrinityState
     
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        if (fromState is GlideMovement)
-        {
-            MovementState = ETrinityMovement.ETM_Falling;
-            TrinityFSM.Animator.SetBool(AnimKeyGlide, true);
-            TrinityFSM.Animator.SetBool(AnimKeyMirrorJump, bMirror % 2 == 1);
-        }
-        else
-        {
-            MovementState = ETrinityMovement.ETM_Grounded;
-            TrinityFSM.Animator.SetBool(AnimKeyJump, false);
-            TrinityFSM.Animator.SetBool(AnimKeyGlide, false);
-        }
+        SetMovementState(ETrinityMovement.ETM_Grounded);
+        TrinityFSM.Animator.SetBool(AnimKeyJump, false);
+        TrinityFSM.Animator.SetBool(AnimKeyGlide, false);
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
@@ -89,29 +89,33 @@ public class NormalMovement : TrinityState
     {
         bFixedUpdate = true;
         
+        HandleGliding();
         HandleFalling();
         HandleUnstableGround();
 
-        if (!TrinityFSM.IsActionable())
+        if (!TrinityFSM.IsActionable() || bUnstable)
         {
             UpdateAnimParams();
             return;
         }
         
         HandleMovement();
-        HandleJump();
+        HandleJumping();
         HandleBlink();
         TryEnterGlide();
-        
 
-        if (MovementState != ETrinityMovement.ETM_Grounded)
-        {
-            Controller.MoveDirection = new Vector3(Controller.MoveDirection.x * AirMoveModifier, Controller.VerticalVelocity, Controller.MoveDirection.z * AirStrafeModifier);
-        }
-        else
-        {
-            Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
 
+        switch (MovementState)
+        {
+            case ETrinityMovement.ETM_Grounded:
+                Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+                break;
+            case ETrinityMovement.ETM_Gliding:
+                Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
+                break;
+            default:
+                Controller.MoveDirection = new Vector3(Controller.MoveDirection.x * AirMoveModifier, Controller.VerticalVelocity, Controller.MoveDirection.z * AirStrafeModifier);
+                break;
         }
         
         // if speed in the direction of the movedirection is not faster than max speed
@@ -139,20 +143,29 @@ public class NormalMovement : TrinityState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (MovementState != ETrinityMovement.ETM_Grounded)
-        {
-            if (toState is GlideMovement)
-            {
-                GlideMovement newGlideState = (GlideMovement)toState;
-                newGlideState.bMirror = bMirror % 2 == 1;
-            }
-            
-            return true;
-        }
         
         return false;
     }
 
+
+    private void HandleGliding()
+    {
+        if (MovementState != ETrinityMovement.ETM_Gliding)
+        {
+            return;
+        }
+        
+        if (!InputReference.JumpInput || Controller.CheckGround().transform) // let HandleFalling() handle groundedness
+        {
+            SetMovementState(ETrinityMovement.ETM_Falling);
+            Controller.Gravity = ATrinityController.GRAVITY_CONSTANT;
+            return;
+        }
+        
+        //Handle Glide
+        Controller.Gravity = ATrinityController.GRAVITY_CONSTANT * GravityModifier;
+    }
+    
     private void HandleAirStrafing()
     {
         Vector3 planarVelocity = Controller.PlanarVelocity;
@@ -161,32 +174,37 @@ public class NormalMovement : TrinityState
             planarVelocity = planarVelocity.normalized * GlobalSpeedLimit;
         }
         
+        
         Controller.RB.velocity = planarVelocity + new Vector3(0f, Controller.VerticalVelocity, 0f);
 
     }
 
     private void HandleMovement()
     {
-        Vector3 moveZ = Vector3.zero;
-        Vector3 moveX = Vector3.zero;
-        
-        if (MovementState == ETrinityMovement.ETM_Grounded)
+        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y;
+        Vector3 moveX = Controller.Right * InputReference.MoveInput.x;
+
+        switch (MovementState)
         {
-            
-            moveZ = Controller.Forward * InputReference.MoveInput.y * MoveAcceleration;
-            moveX = Controller.Right * InputReference.MoveInput.x * StrafeAcceleration;
-        }
-        else
-        {
-            moveZ = Controller.Forward * InputReference.MoveInput.y * MoveAirAcceleration;
-            moveX = Controller.Right * InputReference.MoveInput.x * StrafeAirAcceleration;
+            case ETrinityMovement.ETM_Grounded:
+                moveZ *= MoveAcceleration;
+                moveX *= StrafeAcceleration;
+                break;
+            case ETrinityMovement.ETM_Gliding:
+                moveZ *= GlideMoveAcceleration;
+                moveX *= GlideStrafeAcceleration;
+                break;
+            default: //jumping or falling
+                moveZ *= MoveAirAcceleration;
+                moveX *= StrafeAirAcceleration;
+                break;
         }
         
         Controller.MoveDirection = moveZ;
         Controller.MoveDirection += moveX;
     }
     
-    private void HandleJump()
+    private void HandleJumping()
     {  
         if (InputReference.JumpInput)
         {
@@ -194,12 +212,12 @@ public class NormalMovement : TrinityState
             {
                 SetMovementState(ETrinityMovement.ETM_Jumping);
                 
-                if (MovementState == ETrinityMovement.ETM_Jumping)
+                if (MovementState == ETrinityMovement.ETM_Jumping) //need to check this
                 {
                     Controller.RB.AddForce(Controller.Up * JumpForce / Controller.RB.mass, ForceMode.Impulse);
                     TrinityFSM.Animator.SetBool(AnimKeyJump, true);
                     bMirror++; //increment counter
-                    TrinityFSM.Animator.SetBool(AnimKeyMirrorJump, bMirror % 2 == 1); //flip flop counter
+                    TrinityFSM.Animator.SetBool(AnimKeyMirror, bMirror % 2 == 1); //flip flop counter
                 }
             }
         }
@@ -228,18 +246,6 @@ public class NormalMovement : TrinityState
                 }
             }
         }
-        else
-        {
-            // if (Controller.CheckGround().transform)
-            // {
-            //     return;
-            // }
-            //
-            // if (MovementState != ETrinityMovement.ETM_Jumping)
-            // {
-            //     MovementState = ETrinityMovement.ETM_Falling;
-            // }
-        }
     }
     
     
@@ -257,21 +263,26 @@ public class NormalMovement : TrinityState
     
     private void HandleUnstableGround()
     {
-        Vector3 groundNormal = Controller.FindUnstableGround().normal;
-        
-        Vector3 slideDirection = Vector3.Cross(Vector3.Cross(groundNormal, Vector3.up), groundNormal).normalized;
-
-        Controller.MoveDirection += slideDirection * MaxSpeed * Time.deltaTime;
-
-        //check if the angle is steep enough to transition into falling
-        float groundAngle = Vector3.Angle(Vector3.up, groundNormal);
-        
-        if (groundAngle > Controller.MaxStableAngle)
-        {
-            SetMovementState(ETrinityMovement.ETM_Falling);
-            Controller.MoveDirection = slideDirection * MaxSpeed * Time.deltaTime;
-            bCanGlide = false;
-        }
+        // Vector3 groundNormal = Controller.FindUnstableGround().normal;
+        //
+        // Vector3 slideDirection = Vector3.Cross(Vector3.Cross(groundNormal, Vector3.up), groundNormal).normalized;
+        //
+        // Controller.MoveDirection += slideDirection * UnstableSlideAcceleration * Time.deltaTime;
+        //
+        // //check if the angle is steep enough to transition into falling
+        // float groundAngle = Vector3.Angle(Vector3.up, groundNormal);
+        //
+        // if (groundAngle > Controller.MaxStableAngle)
+        // {
+        //     SetMovementState(ETrinityMovement.ETM_Falling);
+        //     Controller.MoveDirection = slideDirection.normalized * UnstableSlideAcceleration;
+        //     bCanGlide = false;
+        //     bUnstable = true;
+        // }
+        // else
+        // {
+        //     bUnstable = false;
+        // }
     }
     
     
@@ -290,7 +301,8 @@ public class NormalMovement : TrinityState
         {
             if (InputReference.JumpInput && MovementState == ETrinityMovement.ETM_Falling)
             {
-                TrinityFSM.EnqueueTransition<GlideMovement>();
+                SetMovementState(ETrinityMovement.ETM_Gliding);
+                TrinityFSM.Animator.SetBool(AnimKeyGlide, true);
             }
         }
     }

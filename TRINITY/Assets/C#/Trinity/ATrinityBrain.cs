@@ -31,7 +31,7 @@ public class ATrinityBrain : MonoBehaviour
     public ATrinityController Controller; //reference
     public IAA_TrinityControls Controls;
     public bool bIsStunned => GetAction() == ETrinityAction.ETA_Stunned;
-    public bool bCanRotatePlayer => GetAction() == ETrinityAction.ETA_None || GetAction() == ETrinityAction.ETA_Casting;
+    public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned || GetAction() != ETrinityAction.ETA_Channeling;
     
     private ATrinitySpells SpellsReference; //reference
     private ASpell CurrentSpell;
