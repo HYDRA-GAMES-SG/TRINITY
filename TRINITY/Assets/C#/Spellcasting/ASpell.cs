@@ -77,7 +77,7 @@ public class ASpell : MonoBehaviour
         }
         
         BrainReference.SetCurrentSpell(this);
-        if (SpellAction != ETrinityAction.ETA_Channeling)
+        if (SpellAction != ETrinityAction.ETA_Channeling && SpellAction != ETrinityAction.ETA_Casting)
         {
             AnimationReference.PlayCastAnimation($"Casting Layer.{gameObject.name}");
         }
