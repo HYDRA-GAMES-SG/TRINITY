@@ -8,10 +8,13 @@ public class IBLongAttack : InvincibleBossState
     [SerializeField]
     string[] AnimKeyTriggerLongATK = new string[]
     {
-        "SpitterShot1","Taunt","ThrowRock"
+        "SpitterShot2","Taunt","ThrowRock"
     };
 
     string AnimKey;
+
+    [SerializeField] Transform ShockBluePos;
+    [SerializeField] ParticleSystem ShockBlue;
 
     AInvincibleBossController IBController;
     ATrinityController PlayerController;
@@ -47,6 +50,7 @@ public class IBLongAttack : InvincibleBossState
                 return;
             }
         }
+
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -64,6 +68,12 @@ public class IBLongAttack : InvincibleBossState
         if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
         {
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
+        }
+
+        if(AnimKey == "SpitterShot2")
+        {
+            Vector3 iceSprayDirection = (PlayerController.transform.position - ShockBluePos.position).normalized;
+            ShockBluePos.transform.rotation = Quaternion.LookRotation(iceSprayDirection, Vector3.up);
         }
     }
     public override void PostUpdateBehaviour(float dt)
@@ -87,7 +97,7 @@ public class IBLongAttack : InvincibleBossState
     {
         exitActions = new Dictionary<string, System.Action>
         {
-            { "SpitterShot1", () => IBController.bCanShotShock = false },
+            { "SpitterShot2", () => IBController.bCanShotShock = false },
             { "Taunt", () => IBController.bCanTaunt = false },
             { "ThrowRock", () => IBController.bCanThrow = false }
         };

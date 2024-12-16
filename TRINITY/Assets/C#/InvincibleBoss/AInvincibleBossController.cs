@@ -31,14 +31,22 @@ public class AInvincibleBossController : IEnemyController
     [SerializeField] float ThrowDMG;
 
 
+    public UHealthComponent Health;
+
     void Start()
     {
+        Health = GetComponent<UHealthComponent>();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckCooldown();
+
+        if (Health.Current <= 0)
+        {
+            InvincibleBossFSM.EnqueueTransition<IBDizzy>();
+        }
     }
 
     private void OnAnimatorMove()
@@ -108,6 +116,6 @@ public class AInvincibleBossController : IEnemyController
         float distanceToTarget = Vector3.Distance(PlayerPos, IBPos);
         return distanceToTarget;
     }
-
+    
 
 }
