@@ -13,9 +13,11 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _DETAIL_MULX2
+  - _ENVIRONMENTREFLECTIONS_OFF
   - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   - _OCCLUSIONMAP
+  - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -185,7 +187,7 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmissionPulsateSpeed: 0
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _FlowCycleScale: 2
     - _Frost: 0
     - _FrostFromGlobal: 0
@@ -246,8 +248,8 @@ Material:
     - _ShadowCull: 2
     - _ShadowMIPbias: 0
     - _ShadowStrength: 1
-    - _Smoothness: 0.3
-    - _SmoothnessTextureChannel: 0
+    - _Smoothness: 0.1
+    - _SmoothnessTextureChannel: 1
     - _Snow: 0
     - _SnowBumpMacro: 0.1
     - _SnowBumpMicro: 0.08
