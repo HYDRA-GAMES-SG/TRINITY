@@ -20,6 +20,12 @@ public class ASpell : MonoBehaviour
     public ETrinityElement SpellElement;
     public ESpellType SpellType;
     public ETrinityAction SpellAction;
+
+    [Header("Anim Properties")]
+    public bool bMaskChannel = true;
+    public bool bMaskRelease = true;
+
+    
     
     [HideInInspector]
     public bool bSpellReady => CooldownCountdownTimer <= 0f;
@@ -83,7 +89,14 @@ public class ASpell : MonoBehaviour
         }
         else
         {
-            AnimationReference.PlayChannelAnimation($"Casting Layer.{gameObject.name}");
+            if (bMaskChannel)
+            {
+                AnimationReference.PlayChannelAnimation($"Casting Layer.{gameObject.name}", bMaskChannel);
+            }
+            else
+            {
+                AnimationReference.PlayChannelAnimation($"Unmasked Layer.{gameObject.name}", bMaskChannel);
+            }
         }
         
         CastStart();
@@ -109,7 +122,14 @@ public class ASpell : MonoBehaviour
 
         if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
-            AnimationReference.ReleaseChannelAnimation($"Casting Layer.{gameObject.name} Release");
+            if (bMaskRelease)
+            {
+                AnimationReference.ReleaseChannelAnimation($"Casting Layer.{gameObject.name} Release", bMaskRelease);
+            }
+            else
+            {
+                AnimationReference.ReleaseChannelAnimation($"Unmasked Layer.{gameObject.name} Release", bMaskRelease);
+            }
             BrainReference.ChangeAction(ETrinityAction.ETA_None);
         }
 
