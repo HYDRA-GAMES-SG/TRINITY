@@ -56,7 +56,7 @@ public class AFireball : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            ACrabHitBox enemyHitbox = collision.gameObject.GetComponent<ACrabHitBox>();
+            HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
 
             ACrabController enemyController = enemyHitbox.CrabController;
             print(enemyController.name);

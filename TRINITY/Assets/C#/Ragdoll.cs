@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class Ragdoll : MonoBehaviour
 {
     Rigidbody[] rigBody;
     Animator animator;
@@ -28,9 +28,9 @@ public class Boss : MonoBehaviour
     {
         foreach (var r in rigBody)
         {
-            if (r.gameObject.GetComponent<ACrabHitBox>() == null)
+            if (r.gameObject.GetComponent<HitBox>() == null)
             {
-                ACrabHitBox hb = r.gameObject.AddComponent<ACrabHitBox>();
+                HitBox hb = r.gameObject.AddComponent<HitBox>();
                 hb.Health = Health;
                 hb.EnemyStatus = EnemyEntity;
                 hb.CrabController = CrabController;
