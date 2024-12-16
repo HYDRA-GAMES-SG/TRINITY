@@ -48,7 +48,6 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
     
     [HideInInspector]
-    public bool bForcefieldActive;
     
     private APlayerInput InputReference;
     private ATrinitySpells SpellsReference;
@@ -65,9 +64,6 @@ public class ATrinityController : MonoBehaviour
         SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
         BrainReference = transform.parent.Find("Brain").GetComponent<ATrinityBrain>();
         CameraReference = transform.Find("Camera").GetComponent<ATrinityCamera>();
-
-        AForcefield.ForcefieldStateChanged += UpdateForcefieldState;
-
         
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
@@ -98,12 +94,6 @@ public class ATrinityController : MonoBehaviour
 
     private void OnDestroy()
     {
-        AForcefield.ForcefieldStateChanged -= UpdateForcefieldState;
-    }
-
-    private void UpdateForcefieldState(bool obj)
-    {
-        bForcefieldActive = obj;
     }
 
     private void Update()
@@ -194,7 +184,7 @@ public class ATrinityController : MonoBehaviour
         float remainingMana = SpellsReference.ManaComponent.Current;
         float remainingHealth = HealthComponent.Current;
 
-        if (bForcefieldActive)
+        if (BrainReference.bForcefieldActive)
         {
             if (remainingMana >= remainingDamage / SpellsReference.Forcefield.DamageAbsorbedPerMana)
             {

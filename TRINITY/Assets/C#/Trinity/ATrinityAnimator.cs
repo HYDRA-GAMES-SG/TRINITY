@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class ATrinityAnimator : MonoBehaviour
 {
-    private float CastingLayerWeight = .7f;
-    private float UnmaskedLayerWeight = 1f;
-    private int CastingLayerIndex = 1;
-    private int UnmaskedLayerIndex = 2;
-    private bool bChanneling = false;
-    private bool bMasked = true;
+    public bool ENABLE_DEBUG = false;
+    [HideInInspector]
     public Animator AnimComponent;
+    public bool bChanneling = false;
+    public bool bMasked = true;
     
+    private int CastingLayerIndex = 1;
+    private float CastingLayerWeight = .7f;
+    private int UnmaskedLayerIndex = 2;
+    private float UnmaskedLayerWeight = 1f;
     // Start is called before the first frame update
     void Start()
     {
+        
         AnimComponent = GetComponent<Animator>();
+        AnimComponent.SetLayerWeight(CastingLayerIndex, 0f);
+        AnimComponent.SetLayerWeight(UnmaskedLayerIndex, 0f);
+
     }
 
     // Update is called once per frame
@@ -47,12 +53,15 @@ public class ATrinityAnimator : MonoBehaviour
 
     public void PlayCastAnimation(string stateName)
     {
+        bMasked = true;
+        bChanneling = false;
         AnimComponent.Play(stateName, CastingLayerIndex, 0f);
     }
 
     public void PlayChannelAnimation(string stateName, bool bMask = true)
     {
         bMasked = bMask;
+        bChanneling = true;
         if (bMask)
         {
             AnimComponent.Play(stateName, CastingLayerIndex, 0f);
@@ -62,10 +71,15 @@ public class ATrinityAnimator : MonoBehaviour
             AnimComponent.Play(stateName, UnmaskedLayerIndex, 0f);
         }
         
-        bChanneling = true;
     }
 
     public void ReleaseChannelAnimation(string stateName)
+    {
+        AnimComponent.Play(stateName, CastingLayerIndex, 0f);
+        bChanneling = false;
+    }
+
+    public void ReleaseCastAnimation(string stateName)
     {
         AnimComponent.Play(stateName, CastingLayerIndex, 0f);
         bChanneling = false;

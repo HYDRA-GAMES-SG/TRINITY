@@ -22,7 +22,7 @@ public class ASpell : MonoBehaviour
     public ETrinityAction SpellAction;
 
     [Header("Anim Properties")]
-    public bool bMaskChannel = true;
+    public bool bUseCastingLayer = true;
     
     [HideInInspector]
     public bool bSpellReady => CooldownCountdownTimer <= 0f;
@@ -78,15 +78,15 @@ public class ASpell : MonoBehaviour
             //print("Cannot cast or channel yet.");
             return;
         }
-        
-        BrainReference.SetCurrentSpell(this);
-        if (SpellAction != ETrinityAction.ETA_Channeling && SpellAction != ETrinityAction.ETA_Casting)
+
+        if (SpellAction != ETrinityAction.ETA_None)
         {
-            AnimationReference.PlayCastAnimation($"Casting Layer.{gameObject.name}");
+            BrainReference.SetCurrentSpell(this);
         }
-        else
+        
+        if (SpellAction == ETrinityAction.ETA_Channeling)
         {
-            bool bShouldMask = bMaskChannel ||!Controller.CheckGround().transform;
+            bool bShouldMask = bUseCastingLayer ||!Controller.CheckGround().transform;
             
             if (bShouldMask)
             {
@@ -96,6 +96,10 @@ public class ASpell : MonoBehaviour
             {
                 AnimationReference.PlayChannelAnimation($"Unmasked Layer.{gameObject.name}", bShouldMask);
             }
+        }
+        else
+        {
+            AnimationReference.PlayCastAnimation($"Casting Layer.{gameObject.name}");
         }
         
         CastStart();
@@ -122,7 +126,11 @@ public class ASpell : MonoBehaviour
         if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling)
         {
             AnimationReference.ReleaseChannelAnimation($"Casting Layer.{gameObject.name} Release");
-      
+        }
+
+        if (BrainReference.GetAction() == ETrinityAction.ETA_Casting)
+        {
+            AnimationReference.ReleaseCastAnimation($"Casting Layer.{gameObject.name} Release");
         }
         
         BrainReference.ChangeAction(ETrinityAction.ETA_None);

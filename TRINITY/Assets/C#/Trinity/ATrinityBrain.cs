@@ -32,6 +32,7 @@ public class ATrinityBrain : MonoBehaviour
     public IAA_TrinityControls Controls;
     public bool bIsStunned => GetAction() == ETrinityAction.ETA_Stunned;
     public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned || GetAction() != ETrinityAction.ETA_Channeling;
+    public bool bForcefieldActive = false;
     
     private ATrinitySpells SpellsReference; //reference
     private ASpell CurrentSpell;
@@ -39,6 +40,7 @@ public class ATrinityBrain : MonoBehaviour
     private ETrinityElement CurrentElement;
     [SerializeField] private ETrinityAction CurrentAction;
     private float StunnedCooldown = 0f;
+    
     
     public static event Action<GameObject> OnBossSet;
     public event Action<ETrinityElement> OnElementChanged;
@@ -67,6 +69,14 @@ public class ATrinityBrain : MonoBehaviour
     {
         HandleStun();
         
+    }
+
+    private void LateUpdate()
+    {
+        if (CurrentAction != ETrinityAction.ETA_Casting || CurrentAction != ETrinityAction.ETA_Channeling)
+        {
+            SetCurrentSpell(null);
+        }
     }
 
     private void OnDebugInput()
@@ -190,7 +200,7 @@ public class ATrinityBrain : MonoBehaviour
             case ETrinityElement.ETE_Cold:
                 break;
             case ETrinityElement.ETE_Fire:
-                SpellsReference.UtilityFire.CastStart();
+                SpellsReference.UtilityFire.Cast();
                 break;
             case ETrinityElement.ETE_Lightning:
                 break;

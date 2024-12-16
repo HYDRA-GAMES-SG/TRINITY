@@ -4556,7 +4556,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c53f9f39013eb47abe15c415dcba56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ENABLE_DEBUG: 0
   AnimComponent: {fileID: 0}
+  bChanneling: 0
+  bMasked: 1
 --- !u!1 &392067622
 GameObject:
   m_ObjectHideFlags: 0
@@ -20194,7 +20197,7 @@ MonoBehaviour:
   Controller: {fileID: 0}
   InputReference: {fileID: 0}
   Brain: {fileID: 0}
-  ENABLE_DEBUG: 1
+  ENABLE_DEBUG: 0
   UnstableSlideAcceleration: 40
   AirStrafeModifier: 0.4
   AirMoveModifier: 0.4
@@ -20202,12 +20205,12 @@ MonoBehaviour:
   StrafeAirAcceleration: 15
   MoveAcceleration: 40
   StrafeAcceleration: 40
-  MaxSpeed: 5.5
+  MaxSpeed: 6
   GlobalSpeedLimit: 7.5
   JumpForce: 12
-  GlideMoveAcceleration: 50
-  GlideStrafeAcceleration: 50
-  GravityModifier: 0.3
+  GlideMoveAcceleration: 80
+  GlideStrafeAcceleration: 80
+  GravityModifier: 0.25
 --- !u!1 &2014537955
 GameObject:
   m_ObjectHideFlags: 0
@@ -20424,7 +20427,7 @@ MonoBehaviour:
   BossLayer:
     serializedVersion: 2
     m_Bits: 8
-  BlinkDistance: 8
+  BlinkDistance: 12
   MinimumDistance: 1
   CollisionAdjustment: 1
   BossSphereCheckRadius: 1
@@ -21947,7 +21950,7 @@ GameObject:
   - component: {fileID: 5059049462972773958}
   - component: {fileID: 5513560529241666648}
   - component: {fileID: 2695532615591882243}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_ForeamrRight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -22100,7 +22103,7 @@ GameObject:
   - component: {fileID: 337748130744447478}
   - component: {fileID: 4819536525308921211}
   - component: {fileID: 2760406796025795562}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontLeft_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -22166,7 +22169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6691699021822917183}
   - component: {fileID: 8347469347810838714}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SK_Xenokarce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22474,7 +22477,7 @@ GameObject:
   - component: {fileID: 1438027671220658939}
   - component: {fileID: 5093752666496454074}
   - component: {fileID: 5816614870948908145}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontRight_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -22549,7 +22552,7 @@ GameObject:
   - component: {fileID: 4774298200833419696}
   - component: {fileID: 6005675344721809486}
   - component: {fileID: 5312800441430209979}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegMiddleLeft_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -22792,7 +22795,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4771054159744988656}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeLeftA2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -22926,9 +22929,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8806996827278803232}
-  - component: {fileID: 3992867383395378159}
-  - component: {fileID: 5301393958685692843}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22968,7 +22969,7 @@ GameObject:
   - component: {fileID: 1622808661660521016}
   - component: {fileID: 5570879832520996161}
   - component: {fileID: 3746935864617175307}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontRight_3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23000,7 +23001,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6164450495398061934}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeRightA2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23133,7 +23134,7 @@ GameObject:
   - component: {fileID: 7373638482766329388}
   - component: {fileID: 2995086858142608954}
   - component: {fileID: 3353880290693961790}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegMiddleRight_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23164,7 +23165,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2039886095534548898}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerRightB2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23181,7 +23182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3708808563297154473}
   - component: {fileID: 4401354843931116707}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_HandRight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23256,7 +23257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6603436950036262302}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeLeftA1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23441,7 +23442,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6555561737320801033}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerRightA2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23539,7 +23540,7 @@ GameObject:
   - component: {fileID: 7472852807724600796}
   - component: {fileID: 2103986983385795761}
   - component: {fileID: 4936257312316609009}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearLeft_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23633,7 +23634,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6277557695125290661}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerRightA1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23690,7 +23691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9161567646682321106}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerLeftB1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23709,7 +23710,7 @@ GameObject:
   - component: {fileID: 3120522611614955639}
   - component: {fileID: 4707070351079546457}
   - component: {fileID: 6461424975533262858}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearRight_3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -23929,7 +23930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4317560342779393772}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: MouthPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24236,7 +24237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6842333607015807324}
   - component: {fileID: 7877962122855649301}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontLeft_4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24295,7 +24296,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3663095275166859684}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerLeftA2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24330,7 +24331,7 @@ GameObject:
   - component: {fileID: 1885081843807248080}
   - component: {fileID: 5312297442940963713}
   - component: {fileID: 2884325647333645797}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegMiddleRight_3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24396,7 +24397,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1367001257327062231}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeRightB2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24459,7 +24460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5956020389714233588}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_Spine2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24494,7 +24495,7 @@ GameObject:
   - component: {fileID: 8829080306664302360}
   - component: {fileID: 7241268372356765930}
   - component: {fileID: 5919525846753775249}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_UpperArmRight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24676,7 +24677,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2553987777861591216}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_MandibuleLowerRight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24966,7 +24967,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4198619079290688989}
   - component: {fileID: 3834772587486850085}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_HandLeft
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -24999,7 +25000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1156308255306414250}
   - component: {fileID: 4155065151781191143}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearLeft_4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25016,7 +25017,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2204725885088661636}
   - component: {fileID: 2300930123768354960}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontRight_4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25090,25 +25091,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1817620232975671045}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerRightC1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3992867383395378159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750103986954670303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e83c1cd52ccd3304cb04b6df1a53d9d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4086640047515230456
 GameObject:
   m_ObjectHideFlags: 0
@@ -25118,7 +25107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7422474979407573751}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_Neck
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25562,7 +25551,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5478866109637757998}
   - component: {fileID: 8589721854888877874}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearRight_4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25594,7 +25583,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5347318980616195827}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerRightC2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25699,7 +25688,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6858364354529946305}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: root
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25839,7 +25828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3842143484168555093}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerLeftC1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -25918,7 +25907,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6964325091380731906}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_Spine3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -26217,7 +26206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 732571666993123431}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerLeftA1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -26368,7 +26357,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6692080350451418457}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerLeftB2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -26407,86 +26396,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5301393958685692843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1750103986954670303}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d8418b0b9634b1892b0268dd9c2743, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  boneShape: 1
-  drawBones: 1
-  drawTripods: 0
-  boneSize: 1
-  tripodSize: 1
-  boneColor: {r: 0, g: 0, b: 1, a: 0.5}
-  m_Transforms:
-  - {fileID: 6964325091380731906}
-  - {fileID: 7422474979407573751}
-  - {fileID: 2949018967690689237}
-  - {fileID: 6899762797825228866}
-  - {fileID: 4771054159744988656}
-  - {fileID: 8102259014536204065}
-  - {fileID: 2236052841749526014}
-  - {fileID: 2379607200398766256}
-  - {fileID: 6164450495398061934}
-  - {fileID: 5462542995488634662}
-  - {fileID: 1367001257327062231}
-  - {fileID: 732571666993123431}
-  - {fileID: 3663095275166859684}
-  - {fileID: 9161567646682321106}
-  - {fileID: 6692080350451418457}
-  - {fileID: 3842143484168555093}
-  - {fileID: 8444063252155133783}
-  - {fileID: 6277557695125290661}
-  - {fileID: 6555561737320801033}
-  - {fileID: 7253425913027654792}
-  - {fileID: 2039886095534548898}
-  - {fileID: 1817620232975671045}
-  - {fileID: 5347318980616195827}
-  - {fileID: 9126494271809801049}
-  - {fileID: 4876175112098499222}
-  - {fileID: 2420814248634252746}
-  - {fileID: 7378322508957281513}
-  - {fileID: 2553987777861591216}
-  - {fileID: 432587989181019598}
-  - {fileID: 5478866109637757998}
-  - {fileID: 2420781455860448339}
-  - {fileID: 5956020389714233588}
-  - {fileID: 7869528500557582659}
-  - {fileID: 1156308255306414250}
-  - {fileID: 1740127084736909950}
-  - {fileID: 177054063059243027}
-  - {fileID: 5628575155068852987}
-  - {fileID: 4849555587010692204}
-  - {fileID: 97772159836105075}
-  - {fileID: 7156852726929256335}
-  - {fileID: 6842333607015807324}
-  - {fileID: 416869883239618460}
-  - {fileID: 2317587617079892225}
-  - {fileID: 648167277463376230}
-  - {fileID: 5961923164020412806}
-  - {fileID: 8456872534161968133}
-  - {fileID: 5245628263670788663}
-  - {fileID: 713890591822153466}
-  - {fileID: 6603436950036262302}
-  - {fileID: 1469323442709343714}
-  - {fileID: 630004654758485656}
-  - {fileID: 3742847290505295014}
-  - {fileID: 2065362022271610260}
-  - {fileID: 5703259189026350718}
-  - {fileID: 3708808563297154473}
-  - {fileID: 3806280929361666388}
-  - {fileID: 3047235542401698087}
-  - {fileID: 2204725885088661636}
-  - {fileID: 4198619079290688989}
-  - {fileID: 569421209456118207}
-  - {fileID: 2762689095149229940}
 --- !u!4 &5302351517080777233
 Transform:
   m_ObjectHideFlags: 0
@@ -26627,7 +26536,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5462542995488634662}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeRightB1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -26676,7 +26585,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7869528500557582659}
   - component: {fileID: 1802981487337521}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearMiddle_4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27021,7 +26930,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2420814248634252746}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_MandibuleUpperRight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27037,7 +26946,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8444063252155133783}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerLeftC2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27148,7 +27057,7 @@ GameObject:
   - component: {fileID: 8503721078431713029}
   - component: {fileID: 3029117239926640025}
   - component: {fileID: 5802652210529910212}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontLeft_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27282,7 +27191,7 @@ GameObject:
   - component: {fileID: 8084462149469506691}
   - component: {fileID: 849077645924053039}
   - component: {fileID: 4505814192536839402}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_UpperArmLeft
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27333,7 +27242,7 @@ GameObject:
   - component: {fileID: 1779882239169968935}
   - component: {fileID: 7415671892566931620}
   - component: {fileID: 5531295227607182727}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_Spine1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27550,7 +27459,7 @@ GameObject:
   - component: {fileID: 5498366870503228646}
   - component: {fileID: 171875216179893691}
   - component: {fileID: 1937295481377250680}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearRight_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27569,7 +27478,7 @@ GameObject:
   - component: {fileID: 5658284147445847772}
   - component: {fileID: 6213168483624088003}
   - component: {fileID: 4649222834760326524}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontRight_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -27912,7 +27821,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7378322508957281513}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_MandibuleUpperLeft
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28018,7 +27927,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2379607200398766256}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeLRightA1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28085,7 +27994,7 @@ GameObject:
   - component: {fileID: 4477718497835616939}
   - component: {fileID: 5343878418754309965}
   - component: {fileID: 6205254192389273082}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearLeft_3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28294,7 +28203,7 @@ GameObject:
   - component: {fileID: 5267008306253488370}
   - component: {fileID: 2918230495840193700}
   - component: {fileID: 3837609392974150860}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegMiddleLeft_3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28407,7 +28316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7253425913027654792}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_FingerRightB1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28442,7 +28351,7 @@ GameObject:
   - component: {fileID: 4182727957187691140}
   - component: {fileID: 6706758956028086842}
   - component: {fileID: 6547278178547537570}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegFrontLeft_3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28499,7 +28408,7 @@ GameObject:
   - component: {fileID: 9016945833353913378}
   - component: {fileID: 4792693078317743919}
   - component: {fileID: 4190554673670381464}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearRight_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28685,7 +28594,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3742847290505295014}
   - component: {fileID: 5643678126826589227}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegMiddleRight_4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28704,7 +28613,7 @@ GameObject:
   - component: {fileID: 2679260342615180083}
   - component: {fileID: 5654219327453905640}
   - component: {fileID: 2245901300994154903}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_Head
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28720,7 +28629,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1469323442709343714}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_Jaw
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28736,7 +28645,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 432587989181019598}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_MandibuleLowerLeft
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28924,7 +28833,7 @@ GameObject:
   - component: {fileID: 5542298182156813917}
   - component: {fileID: 9047035992149933467}
   - component: {fileID: 4309958326015652485}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegMiddleRight_2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28940,7 +28849,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8102259014536204065}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeLeftB1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -28990,7 +28899,7 @@ GameObject:
   - component: {fileID: 4385583606017592679}
   - component: {fileID: 3124870987608865127}
   - component: {fileID: 2945532067909495566}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegMiddleLeft_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -29064,7 +28973,7 @@ GameObject:
   - component: {fileID: 7408614851778846713}
   - component: {fileID: 4507979700356931456}
   - component: {fileID: 4992848124320979810}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_LegRearLeft_1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -29332,7 +29241,7 @@ GameObject:
   - component: {fileID: 2317587617079892225}
   - component: {fileID: 1417040463115569582}
   - component: {fileID: 7000289456194802192}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_Pelvis
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -29468,7 +29377,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2236052841749526014}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_EyeLeftB2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -29576,7 +29485,7 @@ GameObject:
   - component: {fileID: 6647315604065555686}
   - component: {fileID: 1931301822162490948}
   - component: {fileID: 1510197750681802121}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Xenokarce_ForeamrLeft
   m_TagString: Enemy
   m_Icon: {fileID: 0}

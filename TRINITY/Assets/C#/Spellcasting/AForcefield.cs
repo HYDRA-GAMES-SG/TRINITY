@@ -6,7 +6,6 @@ public class AForcefield : ASpell
 {
     public float DamageAbsorbedPerMana = 1f;
     private GameObject ForcefieldEffect;
-    static public System.Action<bool> ForcefieldStateChanged;
     
     public override void Initialize()
     {
@@ -25,7 +24,7 @@ public class AForcefield : ASpell
             return;
         }
 
-        ForcefieldStateChanged?.Invoke(true);
+        BrainReference.bForcefieldActive = true;
         ForcefieldEffect.SetActive(true);
     }
     
@@ -33,13 +32,13 @@ public class AForcefield : ASpell
     {
         if (SpellsReference.ManaComponent.Current <= 0)
         {
-            CastEnd();
+            Release();
         }
     }
     
     public override void CastEnd()
     {
-        ForcefieldStateChanged?.Invoke(false);
+        BrainReference.bForcefieldActive = false;
         ForcefieldEffect.SetActive(false);
     }
 }

@@ -152,7 +152,7 @@ public class ASecondaryFire : ASpell
             //if we don't get a valid ground hit we just find ground at the max range in the forward vector
             Vector3 searchOrigin = SpellsReference.CastPoint.position + Controller.Forward * Range;
             
-            if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range, GroundLayer))
+            if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range * 2f, GroundLayer))
             {
                 return groundHit.point + Vector3.up * .1f;
             }
