@@ -9,6 +9,8 @@ public class AIceSlicer : MonoBehaviour
     public float Damage;
     public int StacksApplied;
     public EAilmentType AilmentType;
+    private EAilmentType AuraAilment;
+    public bool bAura;
 
     public float XRotMultiplier;
     public float YRotMultiplier;
@@ -18,6 +20,7 @@ public class AIceSlicer : MonoBehaviour
     {
         Rigidbody = GetComponent<Rigidbody>();
         AilmentType = EAilmentType.EAT_Chill;
+        AuraAilment = EAilmentType.EAT_Ignite;
     }
 
     // Update is called once per frame
@@ -38,6 +41,13 @@ public class AIceSlicer : MonoBehaviour
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {AilmentType} + {StacksApplied}");
+            if (bAura) 
+            {
+                FDamageInstance extraAilment = new FDamageInstance(0, AuraAilment, StacksApplied);
+                enemyStatus = enemyHitbox.EnemyStatus;
+                enemyStatus += damageSource;
+                print($"Damage Taken : {Damage}, Ailment type and stacks : {AilmentType} + {StacksApplied}");
+            }
         }
     }
 }

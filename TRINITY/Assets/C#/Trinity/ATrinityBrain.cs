@@ -106,7 +106,10 @@ public class ATrinityBrain : MonoBehaviour
 
         return true;
     }
-    
+    public void ModifyState(ETrinityAction newState) 
+    {
+        CurrentAction = newState;
+    }
     public void Primary()
     {
         if (!CanAct())

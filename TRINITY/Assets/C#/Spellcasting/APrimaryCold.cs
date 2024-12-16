@@ -9,6 +9,7 @@ public class APrimaryCold : ASpell
 
     public AudioSource ColdSource;
     public AudioClip ColdAttack, ColdSustain, ColdRelease;
+    public AUtilityFire UtilityFire;
 
     // Start is called before the first frame update
     public override void Initialize()
@@ -33,6 +34,11 @@ public class APrimaryCold : ASpell
     {
         for (int i = 0; i < IceSlicer.Length; i++)
         {
+            if (UtilityFire.bAura)
+            {
+                AIceSlicer iceSlicer = IceSlicer[i].GetComponent<AIceSlicer>();
+                iceSlicer.bAura = true;
+            }
             IceSlicer[i].SetActive(true);
         }
         ColdSource.PlayOneShot(ColdAttack);
@@ -41,7 +47,14 @@ public class APrimaryCold : ASpell
 
     public override void CastUpdate()
     {
-
+        for (int i = 0; i < IceSlicer.Length; i++)
+        {
+            if (!UtilityFire.bAura)
+            {
+                AIceSlicer iceSlicer = IceSlicer[i].GetComponent<AIceSlicer>();
+                iceSlicer.bAura = false;
+            }
+        }
     }
 
     public override void CastEnd()

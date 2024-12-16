@@ -14,6 +14,7 @@ public class APrimaryLightning : ASpell
     private GameObject Beam;
     public AudioSource LightningSource;
     public AudioClip LightningAttack, LightningSustain, LightningRelease;
+    public AUtilityFire UtilityFire;
 
     // Start is called before the first frame update
     public override void Initialize()
@@ -29,6 +30,12 @@ public class APrimaryLightning : ASpell
 
     public override void CastStart()
     {
+
+        if (UtilityFire.bAura)
+        {
+            ALightningBeam lightningBeam = Beam.GetComponent<ALightningBeam>();
+            lightningBeam.bAura = true;
+        }
         Beam.SetActive(true);
         //LightningSource.PlayOneShot(LightningAttack);
         LightningSource.Play();
@@ -38,6 +45,11 @@ public class APrimaryLightning : ASpell
     {
         Quaternion newRot = SpellsReference.CameraReference.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
         Beam.transform.rotation = newRot;
+        if (!UtilityFire.bAura)
+        {
+            ALightningBeam lightningBeam = Beam.GetComponent<ALightningBeam>();
+            lightningBeam.bAura = false;
+        }
     }
 
     public override void CastEnd()

@@ -9,6 +9,8 @@ public class ALightningBeam : MonoBehaviour
     public float Damage;
     public int StacksApplied;
     public EAilmentType AilmentType;
+    private EAilmentType AuraAilment;
+    public bool bAura;
 
     [Header("VFX Prefabs")]
     public GameObject ImpactVFX;
@@ -19,6 +21,7 @@ public class ALightningBeam : MonoBehaviour
     {
         RigidBody = GetComponent<Rigidbody>();
         AilmentType = EAilmentType.EAT_Shock;
+        AuraAilment = EAilmentType.EAT_Ignite;
     }
 
     // Update is called once per frame
@@ -70,6 +73,13 @@ public class ALightningBeam : MonoBehaviour
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {AilmentType} + {StacksApplied}");
+            if (bAura)
+            {
+                FDamageInstance extraAilment = new FDamageInstance(0, AuraAilment, StacksApplied);
+                enemyStatus = enemyHitbox.EnemyStatus;
+                enemyStatus += damageSource;
+                print($"Damage Taken : {Damage}, Ailment type and stacks : {AuraAilment} + {StacksApplied}");
+            }
         }
     }
 }
