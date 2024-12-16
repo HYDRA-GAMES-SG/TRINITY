@@ -54,6 +54,8 @@ public class ATrinityController : MonoBehaviour
     private ATrinitySpells SpellsReference;
     private ATrinityBrain BrainReference;
     private ATrinityCamera CameraReference;
+
+    public System.Action<FHitInformation> OnHit; 
     
     
 
@@ -179,9 +181,14 @@ public class ATrinityController : MonoBehaviour
         Vector3 cameraYaw = new Vector3(0f, CameraReference.transform.rotation.eulerAngles.y, 0f);
         transform.rotation = Quaternion.Euler(cameraYaw);
     }
+
+    public void ApplyHit(FHitInformation hitInfo)
+    {
+        OnHit?.Invoke(hitInfo);
+        ApplyDamage(hitInfo.Damage);
+    }
     
-    
-    public void ApplyDamage(float damageNumber)
+    private void ApplyDamage(float damageNumber)
     {
         float remainingDamage = damageNumber;
         float remainingMana = SpellsReference.ManaComponent.Current;

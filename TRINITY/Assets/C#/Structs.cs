@@ -4,6 +4,21 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
+public struct FHitInformation
+{
+    public GameObject Attacker;
+    public Collision CollisionData;
+    public float Damage;
+
+    public FHitInformation(GameObject attacker, Collision collision, float damage)
+    {
+        Attacker = attacker;
+        CollisionData = collision;
+        Damage = damage;
+    }
+    
+}
+
 public struct FDamageInstance
 {
     public float Damage;

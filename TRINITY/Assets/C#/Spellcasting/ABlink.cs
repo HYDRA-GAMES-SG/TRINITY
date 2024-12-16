@@ -32,6 +32,11 @@ public class ABlink : ASpell
 
         Vector3 direction = Controller.MoveDirection.normalized;
 
+        if (direction.magnitude < float.Epsilon)
+        {
+            direction = Controller.Forward;
+        }
+
         Vector3 rotateAxis = Vector3.Cross(Vector3.up, Controller.MoveDirection.normalized);
 
         float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
@@ -71,8 +76,10 @@ public class ABlink : ASpell
             
 
             // Spherecast for boss layer
-            bInvalidBlink = Physics.SphereCast(new Ray(BlinkPoint, rotatedDirection), BossSphereCheckRadius, out RaycastHit bossHit, 0.1f, BossLayer);
+            bInvalidBlink = Physics.SphereCast(new Ray(BlinkPoint, rotatedDirection), BossSphereCheckRadius,
+                out RaycastHit bossHit, 0.1f, BossLayer);
 
+            
             if (bInvalidBlink)
             {
                 if (DEBUG_ENABLE)
@@ -95,7 +102,18 @@ public class ABlink : ASpell
             Destroy(SmokeCloudLeaving, 5f);
             
             OnBlink?.Invoke();
-            Controller.transform.position = BlinkPoint;
+
+            bool bBlinkingIntoGround = Physics.Raycast(BlinkPoint, Vector3.down, out RaycastHit ground, BrainReference.Controller.Height, CollisionLayer);
+
+            if (bBlinkingIntoGround)
+            {
+                Controller.transform.position = ground.point;
+            }
+            else
+            {
+                Controller.transform.position = BlinkPoint - BrainReference.Controller.Height * Vector3.up;
+            }
+            
             if(DEBUG_ENABLE){Debug.Log($"Blink successful to: {BlinkPoint}");}
 
             if (AudioComponent != null && SFX != null)

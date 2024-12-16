@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ATrinityAnimator : MonoBehaviour
 {
-    public AvatarMask UpperMask;
     private float CastingLayerWeight = .7f;
     private float UnmaskedLayerWeight = 1f;
     private int CastingLayerIndex = 1;
