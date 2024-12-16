@@ -11,7 +11,7 @@ public class ATrinityAnimator : MonoBehaviour
     private int UnmaskedLayerIndex = 2;
     private bool bChanneling = false;
     private bool bMasked = true;
-    private Animator AnimComponent;
+    public Animator AnimComponent;
     
     // Start is called before the first frame update
     void Start()
@@ -66,18 +66,9 @@ public class ATrinityAnimator : MonoBehaviour
         bChanneling = true;
     }
 
-    public void ReleaseChannelAnimation(string stateName, bool bMask = true)
+    public void ReleaseChannelAnimation(string stateName)
     {
-        bMasked = bMask;
-        if (bMask)
-        {
-            AnimComponent.Play(stateName, CastingLayerIndex, 0f);
-        }
-        else
-        {
-            AnimComponent.Play(stateName, UnmaskedLayerIndex, 0f);
-        }
-
+        AnimComponent.Play(stateName, CastingLayerIndex, 0f);
         bChanneling = false;
     }
 }

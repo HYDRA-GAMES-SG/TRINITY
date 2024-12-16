@@ -29,8 +29,17 @@ public class ABlink : ASpell
         float distance = BlinkDistance;
         BlinkPoint = BrainReference.Controller.Position;
         Vector3 startPos = BrainReference.Controller.Position + BrainReference.Controller.Height * Vector3.up;
-        Vector3 direction = SpellsReference.CastDirection;
 
+        Vector3 direction = Controller.MoveDirection.normalized;
+
+        Vector3 rotateAxis = Vector3.Cross(Vector3.up, Controller.MoveDirection.normalized);
+
+        float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
+        
+        Quaternion rotateQuat = Quaternion.AngleAxis(rotatePitch, rotateAxis);
+
+        Vector3 rotatedDirection = rotateQuat * direction; 
+        
         bool bInvalidBlink = true;
 
         while (distance > MinimumDistance && bInvalidBlink)
@@ -39,7 +48,7 @@ public class ABlink : ASpell
             // Debug the initial conditions of each loop iteration
             if(DEBUG_ENABLE){Debug.Log($"Attempting blink with distance: {distance}, starting at: {startPos}");}
 
-            if (Physics.Raycast(startPos, direction, out RaycastHit hit, distance, CollisionLayer))
+            if (Physics.Raycast(startPos, rotatedDirection, out RaycastHit hit, distance, CollisionLayer))
             {
                 if(DEBUG_ENABLE){Debug.Log($"Raycast hit: {hit.collider.name}, distance: {hit.distance}");}
 
@@ -51,18 +60,18 @@ public class ABlink : ASpell
                 }
                 else
                 {
-                    BlinkPoint = hit.point - CollisionAdjustment * direction;
+                    BlinkPoint = hit.point - CollisionAdjustment * rotatedDirection;
                     if(DEBUG_ENABLE){Debug.Log($"Adjusted blink point: {BlinkPoint}");}
                 }
             }
             else
             {
-                BlinkPoint = startPos + distance * direction;
+                BlinkPoint = startPos + distance * rotatedDirection;
             }
             
 
             // Spherecast for boss layer
-            bInvalidBlink = Physics.SphereCast(new Ray(BlinkPoint, direction), BossSphereCheckRadius, out RaycastHit bossHit, 0.1f, BossLayer);
+            bInvalidBlink = Physics.SphereCast(new Ray(BlinkPoint, rotatedDirection), BossSphereCheckRadius, out RaycastHit bossHit, 0.1f, BossLayer);
 
             if (bInvalidBlink)
             {

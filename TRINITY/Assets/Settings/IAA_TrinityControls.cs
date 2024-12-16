@@ -179,17 +179,6 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""00714b0f-03f1-4ef9-9f04-1b2bb8ec0a65"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""GENERIC"",
-                    ""action"": ""Blink"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""74635ac9-05ea-4a41-a5f7-2e5a1a22fa0f"",
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
@@ -213,7 +202,7 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""05179017-2180-44ad-b9e8-91f37fe10ee0"",
-                    ""path"": ""<Keyboard>/leftShift"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""GENERIC"",
@@ -471,6 +460,17 @@ public partial class @IAA_TrinityControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0de1bd0-9dc5-41d1-bbf9-5f34c7c68bbd"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""GENERIC"",
+                    ""action"": ""Blink"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }

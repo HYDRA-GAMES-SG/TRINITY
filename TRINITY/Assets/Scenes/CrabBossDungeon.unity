@@ -3133,7 +3133,6 @@ MonoBehaviour:
   SpellType: 1
   SpellAction: 4
   bMaskChannel: 0
-  bMaskRelease: 0
   ENABLE_DEBUG: 0
   GroundLayer:
     serializedVersion: 2
@@ -4156,9 +4155,9 @@ MonoBehaviour:
   BossHealthSlider: {fileID: 830234731}
   DamageSlider: {fileID: 0}
   BossDamageSlider: {fileID: 0}
-  TrinityController: {fileID: 982710449}
-  TrinityBrain: {fileID: 1583857962}
-  TrinitySpells: {fileID: 1650994655}
+  TrinityController: {fileID: 381429111}
+  TrinityBrain: {fileID: 649640564}
+  TrinitySpells: {fileID: 1283788267}
   FrameBackground: {fileID: 394972844}
   CurrentElementImage: {fileID: 751577556}
   ElementImages:
@@ -11514,10 +11513,10 @@ MonoBehaviour:
   StrafeAcceleration: 40
   MaxSpeed: 5.5
   GlobalSpeedLimit: 7.5
-  JumpForce: 11
-  GlideMoveAcceleration: 40
-  GlideStrafeAcceleration: 40
-  GravityModifier: 0.4
+  JumpForce: 12
+  GlideMoveAcceleration: 70
+  GlideStrafeAcceleration: 70
+  GravityModifier: 0.3
 --- !u!114 &426779196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12191,7 +12190,6 @@ MonoBehaviour:
   SpellType: 1
   SpellAction: 0
   bMaskChannel: 1
-  bMaskRelease: 1
   DamageAbsorbedPerMana: 1
 --- !u!1001 &454515071
 PrefabInstance:
@@ -12430,7 +12428,7 @@ PrefabInstance:
     - target: {fileID: 2284984948269296454, guid: e3784b80389aec3409ecc8f462973893,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2521724703613241179, guid: e3784b80389aec3409ecc8f462973893,
         type: 3}
@@ -18857,7 +18855,6 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 3
   bMaskChannel: 0
-  bMaskRelease: 0
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -19690,7 +19687,6 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 3
   bMaskChannel: 1
-  bMaskRelease: 1
   ColdSource: {fileID: 0}
   ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
   ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
@@ -21599,6 +21595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   UpperMask: {fileID: 0}
+  AnimComponent: {fileID: 0}
 --- !u!4 &795336628
 Transform:
   m_ObjectHideFlags: 0
@@ -32135,7 +32132,6 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 3
   bMaskChannel: 1
-  bMaskRelease: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -33604,7 +33600,6 @@ GameObject:
   - component: {fileID: 1400750225}
   - component: {fileID: 1400750228}
   - component: {fileID: 1400750227}
-  - component: {fileID: 1400750226}
   m_Layer: 0
   m_Name: State
   m_TagString: Untagged
@@ -33627,18 +33622,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 345468749}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1400750226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1400750224}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68752d1f16b5f244a82a195f8e4668e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1400750227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34556,7 +34539,6 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 4
   bMaskChannel: 0
-  bMaskRelease: 0
   ColdSource: {fileID: 0}
   ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
   ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
@@ -37063,7 +37045,6 @@ MonoBehaviour:
   SpellType: 1
   SpellAction: 0
   bMaskChannel: 1
-  bMaskRelease: 1
   SFX: {fileID: 0}
   CollisionLayer:
     serializedVersion: 2
@@ -40370,7 +40351,6 @@ MonoBehaviour:
   SpellType: 1
   SpellAction: 0
   bMaskChannel: 1
-  bMaskRelease: 1
   SFX: {fileID: 8300000, guid: 4d5c8011a64f0b1489e1a5963b613d90, type: 3}
   CollisionLayer:
     serializedVersion: 2
@@ -40378,7 +40358,7 @@ MonoBehaviour:
   BossLayer:
     serializedVersion: 2
     m_Bits: 8
-  BlinkDistance: 8
+  BlinkDistance: 10
   MinimumDistance: 1
   CollisionAdjustment: 1
   BossSphereCheckRadius: 1
@@ -42132,7 +42112,6 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 0
   bMaskChannel: 1
-  bMaskRelease: 1
   FireSource: {fileID: 0}
   FireAttack:
   - {fileID: 8300000, guid: d8a20358c3d9e4b4e9bb4f0f4f8d8587, type: 3}
@@ -42649,7 +42628,6 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 0
   bMaskChannel: 1
-  bMaskRelease: 1
   FireSource: {fileID: 0}
   FireAttack:
   - {fileID: 8300000, guid: d8a20358c3d9e4b4e9bb4f0f4f8d8587, type: 3}
@@ -43381,7 +43359,6 @@ MonoBehaviour:
   SpellType: 1
   SpellAction: 3
   bMaskChannel: 1
-  bMaskRelease: 1
   DamageAbsorbedPerMana: 1
 --- !u!82 &2036179656
 AudioSource:
