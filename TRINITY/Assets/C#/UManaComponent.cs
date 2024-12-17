@@ -12,11 +12,14 @@ public class UManaComponent : MonoBehaviour
 
     public float Percent => Current / MAX;
 
+    private ATrinityBrain BrainReference;
+    
     public System.Action<float> OnManaModified;
     public System.Action OnOutOfMana;
 
     public void Awake()
     {
+        BrainReference = GetComponent<ATrinitySpells>().BrainReference;
     }
     
     void Start()
@@ -26,7 +29,10 @@ public class UManaComponent : MonoBehaviour
 
     void LateUpdate()
     {
-        ApplyRegen();
+        if (BrainReference.GetAction() != ETrinityAction.ETA_Channeling && BrainReference.GetAction() != ETrinityAction.ETA_Casting)
+        {
+            ApplyRegen();
+        }
     }
 
     public void ApplyRegen() 

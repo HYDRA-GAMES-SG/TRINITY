@@ -50,10 +50,14 @@ public class ASpell : MonoBehaviour
     {
         UpdateCooldown();
         
-        SpellsReference.ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
-
-        if (BrainReference.GetCurrentSpell() == this)
+        if (SpellsReference.ManaComponent.Current < ManaUpkeepCost * Time.deltaTime)
         {
+            Release();
+        }
+        
+        if (BrainReference.GetCurrentSpell() == this || (this is AForcefield && BrainReference.bForcefieldActive))
+        {
+            SpellsReference.ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
             CastUpdate();
         }
     }
@@ -71,7 +75,7 @@ public class ASpell : MonoBehaviour
 
     public void Cast()
     {
-        if (!bSpellReady)
+        if (!bSpellReady || SpellsReference.ManaComponent.Current < ManaCost)
         {
             //print("Spell not ready.");
             return;
