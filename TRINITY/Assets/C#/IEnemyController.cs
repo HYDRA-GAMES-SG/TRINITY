@@ -20,8 +20,13 @@ public class IEnemyController : MonoBehaviour
     
     [HideInInspector]
     public NavMeshAgent AI;
+    
+    public float NormalAttack;
+    
 
     public float AttackForce = 150f;
+
+    public bool bDead => EnemyStatus.Health.bDead;
 
     private void Awake()
     {
@@ -33,5 +38,15 @@ public class IEnemyController : MonoBehaviour
     public virtual void TriggerGetHit()
     {
         
+    }
+
+    public virtual float GetCurrentAttackDamage()
+    {
+        return NormalAttack;
+    }
+
+    public virtual float GetParticleAttack()
+    {
+        return 0f;
     }
 }

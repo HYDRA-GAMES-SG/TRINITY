@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ACrabAttackCollider : MonoBehaviour
+public class AAttackCollider : MonoBehaviour
 {
-    private ACrabController CrabController;
+    private IEnemyController Controller;
 
     [Tooltip("If true, particles will deal damage only once during the lifetime of the particle system.")]
     public bool DealDamageOnlyOnce = true;
@@ -13,12 +13,12 @@ public class ACrabAttackCollider : MonoBehaviour
 
     private void Start()
     {
-        CrabController = transform.root.Find("Controller").GetComponent<ACrabController>();
+        Controller = transform.root.Find("Controller").GetComponent<IEnemyController>();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Player") && CrabController.bDead)
+        if (!collision.gameObject.CompareTag("Player") && Controller.bDead)
         {
             Debug.Log("Crab Collision: Crab is dead or did not collide with player.");
             return;
@@ -42,13 +42,13 @@ public class ACrabAttackCollider : MonoBehaviour
 
         // Apply knockback force
         
-        Vector3 knockbackForce = new Vector3(direction.x, direction.y, direction.z) * CrabController.AttackForce;
+        Vector3 knockbackForce = new Vector3(direction.x, direction.y, direction.z) * Controller.AttackForce;
         
         
         
         rb.AddForce(knockbackForce, ForceMode.Impulse);
         
-        FHitInfo hitInfo = new FHitInfo(CrabController.gameObject, collision, CrabController.GetCurrentAttackDamage());
+        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, collision, Controller.GetCurrentAttackDamage());
         player.ApplyHit(hitInfo);
             
         
@@ -68,13 +68,13 @@ public class ACrabAttackCollider : MonoBehaviour
             return;
         }
         
-        FHitInfo hitInfo = new FHitInfo(CrabController.gameObject, null, CrabController.GetParticleAttack());
+        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, null, Controller.GetParticleAttack());
         hasDealtDamage = true;
         //Debug.Log("Particles Hit player");
     }
 
     public void GetCrabController(ACrabController controller)
     {
-        CrabController = controller;
+        Controller = controller;
     }
 }

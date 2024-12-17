@@ -19,7 +19,6 @@ public class ACrabController : IEnemyController
     private float GetHitTimer = 0f;
 
     [Header("Attack Deal")]
-    [SerializeField] float NormalAttack;
     [SerializeField] float ComboAttack;
     [SerializeField] float JumpSmashAttack;
     [SerializeField] float ChargeFastAttack;
@@ -38,7 +37,6 @@ public class ACrabController : IEnemyController
 
 
     [HideInInspector] public bool bElementPhase = false;
-    [HideInInspector] public bool bDead => EnemyStatus.Health.bDead;
 
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
@@ -118,7 +116,7 @@ public class ACrabController : IEnemyController
             }
         }
     }
-    public float GetCurrentAttackDamage()
+    public override float GetCurrentAttackDamage()
     {
         if (CrabFSM.CurrentState is JumpSmash)
         {
@@ -138,7 +136,7 @@ public class ACrabController : IEnemyController
         }
     }
 
-    public float GetParticleAttack()
+    public override float GetParticleAttack()
     {
         if (CrabFSM.CurrentState is JumpSmash)
         {
