@@ -38,7 +38,7 @@ public class ACrabController : IEnemyController
 
 
     [HideInInspector] public bool bElementPhase = false;
-    [HideInInspector] public bool bCrabDie = false;
+    [HideInInspector] public bool bDead => EnemyStatus.Health.bDead;
 
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
@@ -63,6 +63,7 @@ public class ACrabController : IEnemyController
         {
             CrabFSM.EnqueueTransition<Death>();
         }
+        
         if (ATrinityBrain.Boss == null)
         {
             ATrinityBrain.SetBoss(this.gameObject);

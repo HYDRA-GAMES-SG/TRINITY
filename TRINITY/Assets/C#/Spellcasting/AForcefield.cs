@@ -15,6 +15,7 @@ public class AForcefield : ASpell
             ForcefieldEffect.transform.parent = Controller.transform;
             ForcefieldEffect.SetActive(false);
         }
+        SpellsReference.ManaComponent.OnOutOfMana += Release;
     }
     
     public override void CastStart()
@@ -30,10 +31,7 @@ public class AForcefield : ASpell
     
     public override void CastUpdate()
     {
-        if (SpellsReference.ManaComponent.Current <= 0)
-        {
-            Release();
-        }
+        
     }
     
     public override void CastEnd()

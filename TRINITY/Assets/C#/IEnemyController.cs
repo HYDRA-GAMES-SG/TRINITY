@@ -21,6 +21,8 @@ public class IEnemyController : MonoBehaviour
     [HideInInspector]
     public NavMeshAgent AI;
 
+    public float AttackForce = 150f;
+
     private void Awake()
     {
         AI = GetComponent<NavMeshAgent>();

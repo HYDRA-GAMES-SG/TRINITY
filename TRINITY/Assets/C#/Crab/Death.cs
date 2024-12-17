@@ -12,7 +12,6 @@ public class Death : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        CrabFSM.CrabController.bCrabDie = true;
     }
 
     public override void PreUpdateBehaviour(float dt)

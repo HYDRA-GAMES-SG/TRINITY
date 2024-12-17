@@ -54,7 +54,7 @@ public class ATrinityController : MonoBehaviour
     private ATrinityBrain BrainReference;
     private ATrinityCamera CameraReference;
 
-    public System.Action<FHitInformation> OnHit; 
+    public System.Action<FHitInfo> OnHit; 
     
     
 
@@ -172,7 +172,7 @@ public class ATrinityController : MonoBehaviour
         transform.rotation = Quaternion.Euler(cameraYaw);
     }
 
-    public void ApplyHit(FHitInformation hitInfo)
+    public void ApplyHit(FHitInfo hitInfo)
     {
         float remainingDamage = hitInfo.Damage;
         float remainingMana = SpellsReference.ManaComponent.Current;
@@ -192,8 +192,6 @@ public class ATrinityController : MonoBehaviour
                 SpellsReference.ManaComponent.Modify(-remainingMana / SpellsReference.Forcefield.DamageAbsorbedPerMana);
                 remainingDamage -= remainingMana;
             }
-            
-            BrainReference.SpellsReference.Forcefield.Release();
         }
 
         if (remainingDamage > 0)

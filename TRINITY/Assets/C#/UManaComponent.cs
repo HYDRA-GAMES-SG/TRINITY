@@ -13,6 +13,7 @@ public class UManaComponent : MonoBehaviour
     public float Percent => Current / MAX;
 
     public System.Action<float> OnManaModified;
+    public System.Action OnOutOfMana;
 
     public void Awake()
     {
@@ -40,7 +41,10 @@ public class UManaComponent : MonoBehaviour
         Current = Mathf.Clamp(Current, 0, MAX);
 
         if (Current <= 0)
+        {
+            OnOutOfMana?.Invoke();
             Current = 0;
+        }
 
         OnManaModified?.Invoke(Percent);
         return Current;
