@@ -72,8 +72,11 @@ public class IBLongAttack : InvincibleBossState
 
         if(AnimKey == "SpitterShot2")
         {
-            Vector3 iceSprayDirection = (PlayerController.transform.position - ShockBluePos.position).normalized;
-            ShockBluePos.transform.rotation = Quaternion.LookRotation(iceSprayDirection, Vector3.up);
+            Vector3 playerBasePos = PlayerController.transform.position;
+            float playerMidHeight = 1.7f / 2f;
+            Vector3 playerMidPos = new Vector3(playerBasePos.x, playerBasePos.y + playerMidHeight, playerBasePos.z);
+            Vector3 ShockBlueDirection = (playerMidPos - ShockBluePos.position).normalized;
+            ShockBluePos.transform.rotation = Quaternion.LookRotation(ShockBlueDirection, Vector3.up);
         }
     }
     public override void PostUpdateBehaviour(float dt)

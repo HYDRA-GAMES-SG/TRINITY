@@ -8,14 +8,14 @@ public class Ragdoll : MonoBehaviour
     Animator animator;
     UHealthComponent Health;
     UEnemyStatus EnemyEntity;
-    ACrabController CrabController;
+    IEnemyController Controller;
     void Start()
     {
         rigBody = GetComponentsInChildren<Rigidbody>();
         Health = GetComponentInParent<UHealthComponent>();
         animator = GetComponentInParent<Animator>();
         EnemyEntity = GetComponentInParent<UEnemyStatus>();
-        CrabController = GetComponentInParent<ACrabController>();
+        Controller = GetComponentInParent<IEnemyController>();
 
 
         AddHitBoxScriptToAllParts();
@@ -33,7 +33,7 @@ public class Ragdoll : MonoBehaviour
                 HitBox hb = r.gameObject.AddComponent<HitBox>();
                 hb.Health = Health;
                 hb.EnemyStatus = EnemyEntity;
-                hb.EnemyController = CrabController;
+                hb.EnemyController = Controller;
             }
         }
     }
