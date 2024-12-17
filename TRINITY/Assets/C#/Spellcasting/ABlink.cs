@@ -50,7 +50,6 @@ public class ABlink : ASpell
         while (distance > MinimumDistance && bInvalidBlink)
         {
 
-            // Debug the initial conditions of each loop iteration
             if(DEBUG_ENABLE){Debug.Log($"Attempting blink with distance: {distance}, starting at: {startPos}");}
 
             if (Physics.Raycast(startPos, rotatedDirection, out RaycastHit hit, distance, CollisionLayer))
@@ -105,6 +104,7 @@ public class ABlink : ASpell
 
             bool bBlinkingIntoGround = Physics.Raycast(BlinkPoint, Vector3.down, out RaycastHit ground, BrainReference.Controller.Height, CollisionLayer);
 
+            //prevent blinking through the ground when we readjust the blink point to the controller position at the feet
             if (bBlinkingIntoGround)
             {
                 Controller.transform.position = ground.point;
