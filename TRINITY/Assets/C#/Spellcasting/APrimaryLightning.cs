@@ -31,7 +31,7 @@ public class APrimaryLightning : ASpell
     public override void CastStart()
     {
 
-        if (UtilityFire.bAura)
+        if (UtilityFire.bAura && UtilityFire != null)
         {
             ALightningBeam lightningBeam = Beam.GetComponent<ALightningBeam>();
             lightningBeam.bAura = true;

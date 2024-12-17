@@ -58,9 +58,9 @@ public class AFireball : MonoBehaviour
         {
             HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
 
-            ACrabController enemyController = enemyHitbox.CrabController;
-            print(enemyController.name);
-            enemyController.TriggerGetHit();
+            enemyHitbox.EnemyController.TriggerGetHit();
+            print(enemyHitbox.EnemyController.name);
+            
 
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus; 
             FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);

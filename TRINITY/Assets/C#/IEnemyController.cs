@@ -28,4 +28,8 @@ public class IEnemyController : MonoBehaviour
         Animator = GetComponent<Animator>();
         EnemyStatus = GetComponent<UEnemyStatus>();
     }
+    public virtual void TriggerGetHit()
+    {
+        
+    }
 }

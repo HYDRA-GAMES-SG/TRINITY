@@ -192,7 +192,7 @@ public class ACrabController : IEnemyController
         }
     }
 
-    public void TriggerGetHit()
+    public override void TriggerGetHit()
     {
         CrabFSM.EnqueueTransition<GetHit>();
     }

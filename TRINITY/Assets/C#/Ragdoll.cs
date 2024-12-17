@@ -33,7 +33,7 @@ public class Ragdoll : MonoBehaviour
                 HitBox hb = r.gameObject.AddComponent<HitBox>();
                 hb.Health = Health;
                 hb.EnemyStatus = EnemyEntity;
-                hb.CrabController = CrabController;
+                hb.EnemyController = CrabController;
             }
         }
     }

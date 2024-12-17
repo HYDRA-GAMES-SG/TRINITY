@@ -49,7 +49,7 @@ public class APrimaryCold : ASpell
     {
         for (int i = 0; i < IceSlicer.Length; i++)
         {
-            if (!UtilityFire.bAura)
+            if (!UtilityFire.bAura & UtilityFire != null)
             {
                 AIceSlicer iceSlicer = IceSlicer[i].GetComponent<AIceSlicer>();
                 iceSlicer.bAura = false;

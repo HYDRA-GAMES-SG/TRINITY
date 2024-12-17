@@ -6,5 +6,5 @@ public class HitBox : MonoBehaviour
 {
     public UHealthComponent Health;
     public UEnemyStatus EnemyStatus;
-    public ACrabController CrabController;
+    public IEnemyController EnemyController;
 }

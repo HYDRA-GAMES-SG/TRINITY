@@ -66,7 +66,7 @@ public class ALightningBeam : MonoBehaviour
         {
             HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
 
-            ACrabController enemyController = enemyHitbox.CrabController;
+            ACrabController enemyController = enemyHitbox.EnemyController.GetComponent<ACrabController>();
             enemyController.TriggerGetHit();
 
             FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);
