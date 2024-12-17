@@ -5417,9 +5417,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 1234315416888464984, guid: 6d4cff6572d27df4b8b7148bbd3ec076,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 1
   SpellType: 0
   SpellAction: 4
+  bUseMaskedLayer: 1
   ColdSource: {fileID: 0}
   ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
   ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
@@ -5724,6 +5727,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c53f9f39013eb47abe15c415dcba56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ENABLE_DEBUG: 0
+  AnimComponent: {fileID: 0}
+  MaskedLayerWeight: 0.7
+  UnmaskedLayerWeight: 1
 --- !u!4 &345566038
 Transform:
   m_ObjectHideFlags: 0
@@ -6659,16 +6666,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpellPrefab: {fileID: 0}
   Cooldown: 0
+  ManaCost: 20
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 2
   SpellAction: 0
+  bUseMaskedLayer: 1
   FireUtilitySource: {fileID: 464930958}
   FireballSpell: {fileID: 1953142209}
   TrinityController: {fileID: 1953173487}
   TrinityBrain: {fileID: 596331584}
   TrinitySpells: {fileID: 1169080178}
   SpawnPos: {fileID: 1953173491}
-  ManaCost: 20
   HealAmount: 10
   LoweredCooldown: 0.75
   AuraTimer: 0
@@ -7858,7 +7867,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
-  CurrentAction: 0
+  bForcefieldActive: 0
+  SpellsReference: {fileID: 0}
 --- !u!1 &617187593
 GameObject:
   m_ObjectHideFlags: 0
@@ -8376,6 +8386,156 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.11760806, y: -0.056813724, z: -0.0000017285347}
     m_Extent: {x: 0.023979537, y: 0.033141248, z: 0.14461765}
   m_DirtyAABB: 0
+--- !u!1001 &700465134
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6.819743
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.4164095
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989782051339412885, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4329468938340597551, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: m_Name
+      value: MonsterGuard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1953173486}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: AITimer
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: HitRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: GuardTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: ChaseRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: Waypoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: Waypoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 1662629433}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: Waypoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 1267650537}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: Waypoints.Array.data[2]
+      value: 
+      objectReference: {fileID: 1055205319}
+    - target: {fileID: 7606704645029120967, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      propertyPath: Waypoints.Array.data[3]
+      value: 
+      objectReference: {fileID: 2021622263}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4329468938340597551, guid: 786335e7dde623743a407e5888afeb82,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 700465136}
+  m_SourcePrefab: {fileID: 100100000, guid: 786335e7dde623743a407e5888afeb82, type: 3}
+--- !u!1 &700465135 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4329468938340597551, guid: 786335e7dde623743a407e5888afeb82,
+    type: 3}
+  m_PrefabInstance: {fileID: 700465134}
+  m_PrefabAsset: {fileID: 0}
+--- !u!195 &700465136
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 700465135}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &735939420
 GameObject:
   m_ObjectHideFlags: 0
@@ -9745,9 +9905,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3830785774540179595, guid: 985e55eaf9048c246938ef2616bc5e0d,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 2
   SpellType: 0
   SpellAction: 3
+  bUseMaskedLayer: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -10663,6 +10826,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0000018179417, y: 0.0005995706, z: 0.84853864}
     m_Extent: {x: 0.20169252, y: 0.10580176, z: 0.06902638}
   m_DirtyAABB: 0
+--- !u!1 &1055205318
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055205319}
+  m_Layer: 0
+  m_Name: GuardPos (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1055205319
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055205318}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.52, y: 0.2571845, z: -6.24}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1067931290
 GameObject:
   m_ObjectHideFlags: 0
@@ -11277,6 +11471,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CRAB
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284984948269296454, guid: e3784b80389aec3409ecc8f462973893,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4560418529784933360, guid: e3784b80389aec3409ecc8f462973893,
         type: 3}
@@ -12410,6 +12609,37 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00000008940697, y: -0.02181013, z: 1.2058276}
     m_Extent: {x: 0.56772983, y: 0.15320097, z: 0.44351062}
   m_DirtyAABB: 0
+--- !u!1 &1267650536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1267650537}
+  m_Layer: 0
+  m_Name: GuardPos (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1267650537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267650536}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.8197427, y: 0.2571845, z: -6.24}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1268308094
 GameObject:
   m_ObjectHideFlags: 0
@@ -12982,9 +13212,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 904328815561062564, guid: 9269c405172bbe845971ab6f79b927e5,
     type: 3}
   Cooldown: 2
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
+  bUseMaskedLayer: 1
   SFX: {fileID: 8300000, guid: 4d5c8011a64f0b1489e1a5963b613d90, type: 3}
   CollisionLayer:
     serializedVersion: 2
@@ -16597,6 +16830,37 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.22581851, y: 0.039666656, z: -0.0000016987324}
     m_Extent: {x: 0.14011204, y: 0.13959444, z: 0.19843423}
   m_DirtyAABB: 0
+--- !u!1 &1662629432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1662629433}
+  m_Layer: 0
+  m_Name: GuardPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1662629433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662629432}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.8197427, y: 0.2571845, z: 0.5459318}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1663095961
 GameObject:
   m_ObjectHideFlags: 0
@@ -19817,9 +20081,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 5284930186813762420, guid: 93b610399a6bfa240b1c352d4a0c171a,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 4
+  bUseMaskedLayer: 1
   ENABLE_DEBUG: 0
   GroundLayer:
     serializedVersion: 2
@@ -20012,9 +20279,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3852721855287756135, guid: 0dfb340795aab884195ea876a9400c3b,
     type: 3}
   Cooldown: 1.5
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 0
   SpellAction: 0
+  bUseMaskedLayer: 1
   FireSource: {fileID: 0}
   FireAttack:
   - {fileID: 8300000, guid: d8a20358c3d9e4b4e9bb4f0f4f8d8587, type: 3}
@@ -20067,7 +20337,6 @@ MonoBehaviour:
   RB: {fileID: 0}
   MaxStableAngle: 45
   MoveDirection: {x: 0, y: 0, z: 0}
-  bForcefieldActive: 0
 --- !u!114 &1953173488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20213,6 +20482,37 @@ Transform:
   m_Children:
   - {fileID: 1437860491}
   m_Father: {fileID: 353186697}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2021622262
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2021622263}
+  m_Layer: 0
+  m_Name: GuardPos (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2021622263
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021622262}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.52, y: 0.2571845, z: 0.5459318}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2024395918
 GameObject:
@@ -20977,9 +21277,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3430567750250834287, guid: b809323b907533e469ac0ac9e4d2fb38,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
+  bUseMaskedLayer: 1
   DamageAbsorbedPerMana: 1
 --- !u!1 &2089534054
 GameObject:
@@ -21414,5 +21717,10 @@ SceneRoots:
   - {fileID: 12039800}
   - {fileID: 1152063264}
   - {fileID: 1268308095}
+  - {fileID: 700465134}
   - {fileID: 1843797607}
   - {fileID: 649920702}
+  - {fileID: 1662629433}
+  - {fileID: 1267650537}
+  - {fileID: 1055205319}
+  - {fileID: 2021622263}
