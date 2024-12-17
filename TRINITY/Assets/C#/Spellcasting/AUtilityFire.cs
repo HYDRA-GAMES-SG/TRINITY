@@ -14,7 +14,6 @@ public class AUtilityFire : ASpell
     public Transform SpawnPos;
     private ETrinityAction Cleanse;
 
-    public float ManaCost;
     public float HealAmount;
     private float OriginalCooldown;
     public float LoweredCooldown;
@@ -39,22 +38,17 @@ public class AUtilityFire : ASpell
 
     public override void CastUpdate()
     {
-
+        AuraTimer -= Time.deltaTime;
+        if (AuraTimer < 0)
+        {
+            FireballSpell.Cooldown = OriginalCooldown;
+            bAura = false;
+        }
     }
 
     public override void CastEnd()
     {
 
-    }
-
-    public void Update()
-    {
-       AuraTimer -= Time.deltaTime;
-        if (AuraTimer < 0) 
-        {
-            FireballSpell.Cooldown = OriginalCooldown;
-            bAura = false;
-        }
     }
     public void FlameAura() 
     {
