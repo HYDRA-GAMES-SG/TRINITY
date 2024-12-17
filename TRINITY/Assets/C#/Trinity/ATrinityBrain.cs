@@ -35,7 +35,7 @@ public class ATrinityBrain : MonoBehaviour
     [HideInInspector]
     public bool bForcefieldActive = false;
     
-    private ATrinitySpells SpellsReference; //reference
+    public ATrinitySpells SpellsReference; //reference
     private ASpell CurrentSpell;
     private APlayerInput InputReference; //reference
     private ETrinityElement CurrentElement;

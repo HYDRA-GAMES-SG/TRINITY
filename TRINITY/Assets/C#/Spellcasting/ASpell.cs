@@ -17,6 +17,8 @@ public class ASpell : MonoBehaviour
     protected ATrinityBrain BrainReference;
     protected ATrinitySpells SpellsReference;
     public float Cooldown;
+    public float ManaCost = 0f;
+    public float ManaUpkeepCost = 0f;
     public ETrinityElement SpellElement;
     public ESpellType SpellType;
     public ETrinityAction SpellAction;
@@ -47,6 +49,8 @@ public class ASpell : MonoBehaviour
     public void Update()
     {
         UpdateCooldown();
+        
+        SpellsReference.ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
 
         if (BrainReference.GetCurrentSpell() == this)
         {
@@ -101,7 +105,8 @@ public class ASpell : MonoBehaviour
         {
             AnimationReference.PlayCastAnimation($"Masked Layer.{gameObject.name}");
         }
-        
+
+        SpellsReference.ManaComponent.Modify(-ManaCost);
         CastStart();
         StartCooldown();
     }

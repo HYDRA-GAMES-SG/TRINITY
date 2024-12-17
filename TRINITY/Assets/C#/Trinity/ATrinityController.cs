@@ -174,13 +174,7 @@ public class ATrinityController : MonoBehaviour
 
     public void ApplyHit(FHitInformation hitInfo)
     {
-        OnHit?.Invoke(hitInfo);
-        ApplyDamage(hitInfo.Damage);
-    }
-    
-    private void ApplyDamage(float damageNumber)
-    {
-        float remainingDamage = damageNumber;
+        float remainingDamage = hitInfo.Damage;
         float remainingMana = SpellsReference.ManaComponent.Current;
         float remainingHealth = HealthComponent.Current;
 
@@ -198,12 +192,15 @@ public class ATrinityController : MonoBehaviour
                 SpellsReference.ManaComponent.Modify(-remainingMana / SpellsReference.Forcefield.DamageAbsorbedPerMana);
                 remainingDamage -= remainingMana;
             }
+            
+            BrainReference.SpellsReference.Forcefield.Release();
         }
 
         if (remainingDamage > 0)
         {
             // Apply any remaining damage to health
             HealthComponent.Modify(-remainingDamage);
+            OnHit?.Invoke(hitInfo);
         }
     }
     
