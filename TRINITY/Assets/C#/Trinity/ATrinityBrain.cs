@@ -24,8 +24,7 @@ public enum ETrinityElement
 
 public class ATrinityBrain : MonoBehaviour
 {
-    static public GameObject Boss;
-    
+    static public GameObject CURRENT_BOSS;
     
     [HideInInspector]
     public ATrinityController Controller; //reference
@@ -34,8 +33,9 @@ public class ATrinityBrain : MonoBehaviour
     public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned || GetAction() != ETrinityAction.ETA_Channeling;
     [HideInInspector]
     public bool bForcefieldActive = false;
-    
+    [HideInInspector]
     public ATrinitySpells SpellsReference; //reference
+    
     private ASpell CurrentSpell;
     private APlayerInput InputReference; //reference
     private ETrinityElement CurrentElement;
@@ -79,35 +79,42 @@ public class ATrinityBrain : MonoBehaviour
 
     private void OnDebugInput()
     {
-        SetStunnedState(3f);
+        //SetStunnedState(3f);
         //SceneManager.LoadScene("CrabBossDungeon");
     }
     
     private void HandleStun()
     {
+        
         StunnedCooldown -= Time.deltaTime;
         
-        if (StunnedCooldown < 0 && CurrentAction == ETrinityAction.ETA_Stunned) //Remove stun after stun duration
+        if (StunnedCooldown <= 0f && GetAction() == ETrinityAction.ETA_Stunned) //Remove stun after stun duration
         {
             ChangeAction(ETrinityAction.ETA_None);
         }
 
     }
 
-    public void SetStunnedState(float duration) 
+    public void SetStunnedState(float duration, bool bForcedStun = false) 
     {
-        ChangeAction(ETrinityAction.ETA_Stunned);
-        StunnedCooldown = duration;
+        if (bForcefieldActive && !bForcedStun)
+        {
+            return;
+        }
         
         if (GetCurrentSpell() != null)
         {
             GetCurrentSpell().Release();
         }
+        
+        StunnedCooldown = duration;
+        ChangeAction(ETrinityAction.ETA_Stunned);
+
     }
     
     public bool CanAct()
     {
-        if (CurrentAction != ETrinityAction.ETA_None)
+        if (CurrentAction == ETrinityAction.ETA_Stunned)
         {
             return false;
         }
@@ -293,6 +300,10 @@ public class ATrinityBrain : MonoBehaviour
         {
             ChangeAction(newSpell.SpellAction);
         }
+        else
+        {
+            ChangeAction(ETrinityAction.ETA_None);
+        }
     }
     
     void BindToInputEvents(bool bBind)
@@ -339,9 +350,9 @@ public class ATrinityBrain : MonoBehaviour
 
     public static void SetBoss(GameObject bossObject)
     {
-        if (Boss != bossObject && bossObject != null)
+        if (CURRENT_BOSS != bossObject && bossObject != null)
         {
-            Boss = bossObject;
+            CURRENT_BOSS = bossObject;
             OnBossSet?.Invoke(bossObject);
         }
     }

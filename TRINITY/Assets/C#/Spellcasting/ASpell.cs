@@ -87,6 +87,11 @@ public class ASpell : MonoBehaviour
             return;
         }
 
+        if (BrainReference.GetCurrentSpell() != null)
+        {
+            BrainReference.GetCurrentSpell().Release();
+        }
+        
         if (SpellAction != ETrinityAction.ETA_None)
         {
             BrainReference.SetCurrentSpell(this);
@@ -130,20 +135,14 @@ public class ASpell : MonoBehaviour
 
     public virtual void Release()
     {
-        BrainReference.SetCurrentSpell(null);    
-
-        if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling)
-        {
-            AnimationReference.ReleaseAnimation();
-        }
-
-        if (BrainReference.GetAction() == ETrinityAction.ETA_Casting)
+        
+        if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
             AnimationReference.ReleaseAnimation();
         }
         
-        BrainReference.ChangeAction(ETrinityAction.ETA_None);
-
+        BrainReference.SetCurrentSpell(null);    
+        
         CastEnd();
     }
 }

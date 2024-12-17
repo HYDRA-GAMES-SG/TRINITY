@@ -48,7 +48,7 @@ public class AAttackCollider : MonoBehaviour
         
         rb.AddForce(knockbackForce, ForceMode.Impulse);
         
-        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, collision, Controller.GetCurrentAttackDamage());
+        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, collision, Controller.GetCurrentAttackDamage());
         player.ApplyHit(hitInfo);
             
         
@@ -68,7 +68,7 @@ public class AAttackCollider : MonoBehaviour
             return;
         }
         
-        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, null, Controller.GetParticleAttack());
+        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, null, Controller.GetParticleAttack());
         hasDealtDamage = true;
         //Debug.Log("Particles Hit player");
     }

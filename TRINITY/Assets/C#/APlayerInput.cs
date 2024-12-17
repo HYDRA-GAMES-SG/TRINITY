@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 {
-    public Camera CameraReference;
     public IAA_TrinityControls InputActions;
 
     // Public accessor variables for input values

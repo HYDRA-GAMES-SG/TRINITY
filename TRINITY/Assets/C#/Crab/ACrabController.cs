@@ -62,7 +62,7 @@ public class ACrabController : IEnemyController
             CrabFSM.EnqueueTransition<Death>();
         }
         
-        if (ATrinityBrain.Boss == null)
+        if (ATrinityBrain.CURRENT_BOSS == null)
         {
             ATrinityBrain.SetBoss(this.gameObject);
         }

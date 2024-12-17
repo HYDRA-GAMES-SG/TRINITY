@@ -7,12 +7,14 @@ using UnityEngine;
 public struct FHitInfo
 {
     public GameObject Attacker;
+    public GameObject CollidingObject;
     public Collision CollisionData;
     public float Damage;
 
-    public FHitInfo(GameObject attacker, Collision collision, float damage)
+    public FHitInfo(GameObject attacker, GameObject collidingObject, Collision collision, float damage)
     {
         Attacker = attacker;
+        CollidingObject = collidingObject;
         CollisionData = collision;
         Damage = damage;
     }

@@ -14,7 +14,6 @@ public class AUtilityFire : ASpell
     public Transform SpawnPos;
     private ETrinityAction Cleanse;
 
-    public float ManaCost;
     public float HealAmount;
     private float OriginalCooldown;
     public float LoweredCooldown;

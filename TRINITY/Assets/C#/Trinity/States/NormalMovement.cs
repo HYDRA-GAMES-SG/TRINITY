@@ -35,21 +35,20 @@ public class NormalMovement : TrinityState
     [SerializeField] private float GlideStrafeAcceleration = 40f;
     [SerializeField] private float GravityModifier = .4f;
     
-    [HideInInspector] private int bMirror = 0;
+    [HideInInspector] private int MirrorCounter = 0;
 
     private bool bUnstable = false;
     private bool bCanGlide = false;
     private bool bFixedUpdate = false;
 
-    private string AnimKeyMove = "Forward";
-    private string AnimKeyStrafe = "Strafe";
-    private string AnimKeyVertical = "Vertical";
-    private string AnimKeyJump = "bJump";
-    private string AnimKeyGlide = "bGlide";
-    private string AnimKeyBlink = "bBlink";
-    private string AnimKeyMirror = "bMirror";
-    private string AnimKeyDeath = "bDeath";
-    private string AnimKeyStunned = "bStunned";
+
+    private Dictionary<string, string> AnimKeys = new Dictionary<string, string>
+    {
+        { "Move", "Forward" }, { "Strafe", "Strafe" },{ "Vertical", "Vertical" }, { "Jump", "bJump" },
+        { "Glide", "bGlide" }, { "Blink", "bBlink" }, { "Mirror", "bMirror" }, { "Death", "bDeath" }, 
+        { "Stunned", "bStunned" }, { "HitTrigger", "HitTrigger" }, { "HitX", "HitX" }, {"HitY", "HitY" },
+        { "Grounded", "bGrounded" }
+    };
     
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -59,20 +58,21 @@ public class NormalMovement : TrinityState
     public override void EnterBehaviour(float dt, IState fromState)
     {
         SetMovementState(ETrinityMovement.ETM_Grounded);
-        TrinityFSM.Animator.SetBool(AnimKeyJump, false);
-        TrinityFSM.Animator.SetBool(AnimKeyGlide, false);
+        TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
+        TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
         Controller.HealthComponent.OnDeath += HandleDeath;
-        
+        Controller.OnHit += HandleHit;
+
     }
 
     private void HandleDeath()
     {
         // if (Controller.CheckGround().transform)
         // {
-        TrinityFSM.Animator.SetTrigger(AnimKeyDeath);
+        TrinityFSM.Animator.SetTrigger(AnimKeys["Death"]);
         // }
         // else
         // {
@@ -214,9 +214,9 @@ public class NormalMovement : TrinityState
                 if (MovementState == ETrinityMovement.ETM_Jumping) //need to check this
                 {
                     Controller.RB.AddForce(Controller.Up * JumpForce / Controller.RB.mass, ForceMode.Impulse);
-                    TrinityFSM.Animator.SetBool(AnimKeyJump, true);
-                    bMirror++; //increment counter
-                    TrinityFSM.Animator.SetBool(AnimKeyMirror, bMirror % 2 == 1); //flip flop counter
+                    TrinityFSM.Animator.SetBool(AnimKeys["Jump"], true);
+                    MirrorCounter++; //increment counter
+                    TrinityFSM.Animator.SetBool(AnimKeys["Mirror"], MirrorCounter % 2 == 1); //flip flop counter
                 }
             }
         }
@@ -239,9 +239,9 @@ public class NormalMovement : TrinityState
                     // Ground detected, ensure movement state remains grounded
                     SetMovementState(ETrinityMovement.ETM_Grounded);
                     bCanGlide = false;
-                    TrinityFSM.Animator.SetBool(AnimKeyJump, false);
-                    TrinityFSM.Animator.SetBool(AnimKeyBlink, false);
-                    TrinityFSM.Animator.SetBool(AnimKeyGlide, false);
+                    TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
+                    TrinityFSM.Animator.SetBool(AnimKeys["Blink"], false);
+                    TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
                 }
             }
         }
@@ -250,13 +250,13 @@ public class NormalMovement : TrinityState
     
     private void HandleBlink()
     {
-        if (TrinityFSM.Animator.GetBool(AnimKeyBlink) && Controller.CheckGround().transform)
+        if (TrinityFSM.Animator.GetBool(AnimKeys["Blink"]) && Controller.CheckGround().transform)
         {
             // Ground detected, ensure movement state remains grounded
             SetMovementState(ETrinityMovement.ETM_Grounded);
             bCanGlide = false;
-            TrinityFSM.Animator.SetBool(AnimKeyJump, false);
-            TrinityFSM.Animator.SetBool(AnimKeyBlink, false);
+            TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
+            TrinityFSM.Animator.SetBool(AnimKeys["Blink"], false);
         }
     }
     
@@ -301,7 +301,7 @@ public class NormalMovement : TrinityState
             if (InputReference.JumpInput && MovementState == ETrinityMovement.ETM_Falling)
             {
                 SetMovementState(ETrinityMovement.ETM_Gliding);
-                TrinityFSM.Animator.SetBool(AnimKeyGlide, true);
+                TrinityFSM.Animator.SetBool(AnimKeys["Glide"], true);
             }
         }
     }
@@ -331,10 +331,11 @@ public class NormalMovement : TrinityState
         float maxSpeedThreshold = MaxSpeed * .6f;
         Vector3 playerSpaceVelocity = Controller.transform.InverseTransformVector(Controller.RB.velocity) / maxSpeedThreshold;
         
-        TrinityFSM.Animator.SetFloat(AnimKeyMove, playerSpaceVelocity.z, .05f, Time.deltaTime);
-        TrinityFSM.Animator.SetFloat(AnimKeyStrafe, playerSpaceVelocity.x, .05f, Time.deltaTime);
-        TrinityFSM.Animator.SetFloat(AnimKeyVertical, Controller.VerticalVelocity);
-        TrinityFSM.Animator.SetBool(AnimKeyStunned, Brain.bIsStunned);
+        TrinityFSM.Animator.SetFloat(AnimKeys["Move"], playerSpaceVelocity.z, .05f, Time.deltaTime);
+        TrinityFSM.Animator.SetFloat(AnimKeys["Strafe"], playerSpaceVelocity.x, .05f, Time.deltaTime);
+        TrinityFSM.Animator.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
+        TrinityFSM.Animator.SetBool(AnimKeys["Stunned"], Brain.bIsStunned);
+        TrinityFSM.Animator.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
     }
     
     public ETrinityMovement GetMovementState()
@@ -345,6 +346,29 @@ public class NormalMovement : TrinityState
     
     private void OnBlink()
     {
-        TrinityFSM.Animator.SetBool(AnimKeyBlink, true);
+        TrinityFSM.Animator.SetBool(AnimKeys["Blink"], true);
+    }
+
+    private void HandleHit(FHitInfo hitInfo)
+    {
+        bCanGlide = false;
+        Brain.SetStunnedState(1f * (hitInfo.Damage / Controller.HealthComponent.MAX));
+        
+        
+        
+        Vector3 playerSpaceEnemyCollider = Controller.transform.InverseTransformPoint(hitInfo.CollidingObject.transform.position);
+        Vector2 playerSpacePlanarEnemyColliderNormalized = new Vector2(playerSpaceEnemyCollider.x, playerSpaceEnemyCollider.z).normalized;
+        
+        TrinityFSM.Animator.SetFloat(AnimKeys["HitX"], playerSpacePlanarEnemyColliderNormalized.x);
+        TrinityFSM.Animator.SetFloat(AnimKeys["HitY"], playerSpacePlanarEnemyColliderNormalized.y);
+        
+        if (MovementState != ETrinityMovement.ETM_Grounded)
+        {
+            TrinityFSM.Animator.Play("Aerial Hit Blend", 0, 0f);
+        }
+        else
+        {
+            TrinityFSM.Animator.Play("Hit Blend", 0, 0f);
+        }
     }
 }
