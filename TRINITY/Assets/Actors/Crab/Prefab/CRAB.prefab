@@ -1105,7 +1105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrabController: {fileID: 590067304611633414}
   DealDamageOnlyOnce: 1
 --- !u!114 &9194641987537895801
 MonoBehaviour:
@@ -1604,7 +1603,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3765410599053852209}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: root
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -3498,9 +3497,9 @@ GameObject:
   - component: {fileID: 8427644227223135767}
   - component: {fileID: 1643759408695698379}
   - component: {fileID: 9161646929861514682}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Controller
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3537,6 +3536,7 @@ MonoBehaviour:
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
   AI: {fileID: 8615689596737175229}
+  AttackForce: 50
   CrabFSM: {fileID: 4812435512381346427}
   JumpSmashCooldown: 20
   ChargeMoveFastCooldown: 15
@@ -3557,7 +3557,6 @@ MonoBehaviour:
   CanCharageMoveFast: 0
   CanGetHit: 0
   bElementPhase: 0
-  bCrabDie: 0
   RootMotionNotEnterDistance: 8
 --- !u!114 &1727026065975959313
 MonoBehaviour:
@@ -3615,7 +3614,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrabController: {fileID: 0}
   DealDamageOnlyOnce: 1
 --- !u!114 &1422212878879520057
 MonoBehaviour:
@@ -3676,7 +3674,7 @@ Animator:
   m_GameObject: {fileID: 6244054646282926487}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 97c2a89a65454fc46b95d91f9e08163a, type: 3}
-  m_Controller: {fileID: 9100000, guid: 3e518b287e876f2408cf6a0ff228028c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6ff95fa370d0eca44b1d2d288cf71bbf, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3963,7 +3961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4013008775068282575}
   - component: {fileID: 1780199293464288330}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: SK_Xenokarce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4375,7 +4373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrabController: {fileID: 590067304611633414}
   DealDamageOnlyOnce: 1
 --- !u!114 &5621853906519227123
 MonoBehaviour:
@@ -4466,7 +4463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d178f8e46bdab4cb51625747fbab85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StateAnimController: {fileID: 9100000, guid: 3e518b287e876f2408cf6a0ff228028c, type: 2}
+  StateAnimController: {fileID: 9100000, guid: 6ff95fa370d0eca44b1d2d288cf71bbf, type: 2}
   MoveSpeed: 7
   StopDistance: 9
   RotateSpeed: 2
@@ -4922,7 +4919,7 @@ GameObject:
   - component: {fileID: 1248656005762323920}
   - component: {fileID: 6630742639147448095}
   - component: {fileID: 2521724703613241179}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
