@@ -37,7 +37,7 @@ public class ABlink : ASpell
             direction = Controller.Forward;
         }
 
-        Vector3 rotateAxis = Vector3.Cross(Vector3.up, Controller.MoveDirection.normalized);
+        Vector3 rotateAxis = Vector3.Cross(Vector3.up, direction);
 
         float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
         

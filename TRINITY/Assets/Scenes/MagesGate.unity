@@ -4321,7 +4321,7 @@ MonoBehaviour:
   SpellElement: 2
   SpellType: 0
   SpellAction: 3
-  bMaskChannel: 1
+  bUseMaskedLayer: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -4558,8 +4558,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ENABLE_DEBUG: 0
   AnimComponent: {fileID: 0}
-  bChanneling: 0
-  bMasked: 1
+  MaskedLayerWeight: 0.7
+  UnmaskedLayerWeight: 1
 --- !u!1 &392067622
 GameObject:
   m_ObjectHideFlags: 0
@@ -7408,7 +7408,6 @@ MonoBehaviour:
   RB: {fileID: 0}
   MaxStableAngle: 45
   MoveDirection: {x: 0, y: 0, z: 0}
-  bForcefieldActive: 0
 --- !u!136 &567174384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10153,7 +10152,7 @@ MonoBehaviour:
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
-  bMaskChannel: 1
+  bUseMaskedLayer: 1
   DamageAbsorbedPerMana: 1
 --- !u!82 &821025938
 AudioSource:
@@ -11320,7 +11319,7 @@ MonoBehaviour:
   SpellElement: 1
   SpellType: 0
   SpellAction: 4
-  bMaskChannel: 1
+  bUseMaskedLayer: 1
   ColdSource: {fileID: 0}
   ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
   ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
@@ -15152,7 +15151,7 @@ MonoBehaviour:
   SpellElement: 0
   SpellType: 1
   SpellAction: 4
-  bMaskChannel: 0
+  bUseMaskedLayer: 0
   ENABLE_DEBUG: 0
   GroundLayer:
     serializedVersion: 2
@@ -15367,7 +15366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
-  CurrentAction: 0
+  bForcefieldActive: 0
 --- !u!114 &1485682131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20358,7 +20357,7 @@ MonoBehaviour:
   SpellElement: 0
   SpellType: 0
   SpellAction: 0
-  bMaskChannel: 1
+  bUseMaskedLayer: 1
   FireSource: {fileID: 0}
   FireAttack:
   - {fileID: 8300000, guid: d8a20358c3d9e4b4e9bb4f0f4f8d8587, type: 3}
@@ -20419,7 +20418,7 @@ MonoBehaviour:
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
-  bMaskChannel: 1
+  bUseMaskedLayer: 1
   SFX: {fileID: 8300000, guid: 4d5c8011a64f0b1489e1a5963b613d90, type: 3}
   CollisionLayer:
     serializedVersion: 2

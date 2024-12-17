@@ -32,13 +32,14 @@ public class ATrinityBrain : MonoBehaviour
     public IAA_TrinityControls Controls;
     public bool bIsStunned => GetAction() == ETrinityAction.ETA_Stunned;
     public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned || GetAction() != ETrinityAction.ETA_Channeling;
+    [HideInInspector]
     public bool bForcefieldActive = false;
     
     private ATrinitySpells SpellsReference; //reference
     private ASpell CurrentSpell;
     private APlayerInput InputReference; //reference
     private ETrinityElement CurrentElement;
-    [SerializeField] private ETrinityAction CurrentAction;
+    private ETrinityAction CurrentAction;
     private float StunnedCooldown = 0f;
     
     
@@ -73,10 +74,7 @@ public class ATrinityBrain : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (CurrentAction != ETrinityAction.ETA_Casting || CurrentAction != ETrinityAction.ETA_Channeling)
-        {
-            SetCurrentSpell(null);
-        }
+        
     }
 
     private void OnDebugInput()
@@ -101,9 +99,9 @@ public class ATrinityBrain : MonoBehaviour
         ChangeAction(ETrinityAction.ETA_Stunned);
         StunnedCooldown = duration;
         
-        if (CurrentSpell != null)
+        if (GetCurrentSpell() != null)
         {
-            CurrentSpell.Release();
+            GetCurrentSpell().Release();
         }
     }
     

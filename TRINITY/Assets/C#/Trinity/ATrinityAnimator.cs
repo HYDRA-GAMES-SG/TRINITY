@@ -7,20 +7,30 @@ public class ATrinityAnimator : MonoBehaviour
     public bool ENABLE_DEBUG = false;
     [HideInInspector]
     public Animator AnimComponent;
-    public bool bChanneling = false;
-    public bool bMasked = true;
+    private bool bChanneling = false;
+    private bool bMasked = true;
     
-    private int CastingLayerIndex = 1;
-    private float CastingLayerWeight = .7f;
+    private int MaskedLayerIndex = 1;
+    public float MaskedLayerWeight = .7f;
     private int UnmaskedLayerIndex = 2;
-    private float UnmaskedLayerWeight = 1f;
+    public float UnmaskedLayerWeight = 1f;
+
+    private bool bUnmaskedLayerIdle =>
+        AnimComponent.GetCurrentAnimatorStateInfo(UnmaskedLayerIndex).normalizedTime >= 1f ||
+        AnimComponent.GetCurrentAnimatorStateInfo(UnmaskedLayerIndex).IsName("Null");
+    
+    private bool bMaskedLayerIdle =>
+        AnimComponent.GetCurrentAnimatorStateInfo(MaskedLayerIndex).normalizedTime >= 1f ||
+        AnimComponent.GetCurrentAnimatorStateInfo(MaskedLayerIndex).IsName("Null");
     // Start is called before the first frame update
     void Start()
     {
         
         AnimComponent = GetComponent<Animator>();
-        AnimComponent.SetLayerWeight(CastingLayerIndex, 0f);
+        AnimComponent.SetLayerWeight(MaskedLayerIndex, 0f);
         AnimComponent.SetLayerWeight(UnmaskedLayerIndex, 0f);
+        bChanneling = false;
+        bMasked = false;
 
     }
 
@@ -29,18 +39,18 @@ public class ATrinityAnimator : MonoBehaviour
     {
         if (bMasked)
         {
-            if (AnimComponent.GetCurrentAnimatorStateInfo(CastingLayerIndex).normalizedTime >= 1f && !bChanneling)
+            if (bMaskedLayerIdle && !bChanneling)
             {
-                AnimComponent.SetLayerWeight(CastingLayerIndex, 0f);
+                AnimComponent.SetLayerWeight(MaskedLayerIndex, 0f);
             }
             else
             {
-                AnimComponent.SetLayerWeight(CastingLayerIndex, CastingLayerWeight);
+                AnimComponent.SetLayerWeight(MaskedLayerIndex, MaskedLayerWeight);
             }
         }
         else
         {
-            if (AnimComponent.GetCurrentAnimatorStateInfo(UnmaskedLayerIndex).normalizedTime >= 1f && !bChanneling)
+            if (bUnmaskedLayerIdle && !bChanneling)
             {
                 AnimComponent.SetLayerWeight(UnmaskedLayerIndex, 0f);
             }
@@ -55,7 +65,7 @@ public class ATrinityAnimator : MonoBehaviour
     {
         bMasked = true;
         bChanneling = false;
-        AnimComponent.Play(stateName, CastingLayerIndex, 0f);
+        AnimComponent.Play(stateName, MaskedLayerIndex, 0f);
     }
 
     public void PlayChannelAnimation(string stateName, bool bMask = true)
@@ -64,7 +74,7 @@ public class ATrinityAnimator : MonoBehaviour
         bChanneling = true;
         if (bMask)
         {
-            AnimComponent.Play(stateName, CastingLayerIndex, 0f);
+            AnimComponent.Play(stateName, MaskedLayerIndex, 0f);
         }
         else
         {
@@ -73,15 +83,8 @@ public class ATrinityAnimator : MonoBehaviour
         
     }
 
-    public void ReleaseChannelAnimation(string stateName)
+    public void ReleaseAnimation()
     {
-        AnimComponent.Play(stateName, CastingLayerIndex, 0f);
-        bChanneling = false;
-    }
-
-    public void ReleaseCastAnimation(string stateName)
-    {
-        AnimComponent.Play(stateName, CastingLayerIndex, 0f);
         bChanneling = false;
     }
 }
