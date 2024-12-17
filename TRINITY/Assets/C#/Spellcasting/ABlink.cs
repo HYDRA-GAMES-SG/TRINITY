@@ -18,6 +18,7 @@ public class ABlink : ASpell
     private Vector3 BlinkPoint;
     private AudioSource AudioComponent;
     public static System.Action OnBlink;
+    public static System.Action BlinkCamera;
     
     public override void Initialize()
     {
@@ -32,18 +33,28 @@ public class ABlink : ASpell
 
         Vector3 direction = Controller.MoveDirection.normalized;
 
+        Vector3 rotatedDirection = new Vector3();
+        
         if (direction.magnitude < float.Epsilon)
         {
-            direction = Controller.Forward;
+            rotatedDirection = Controller.Forward;
+            BlinkCamera?.Invoke();
         }
+        else if(Mathf.Abs(direction.x) < float.Epsilon || direction.x < 0f)
+        {
+            rotatedDirection = direction;
+            BlinkCamera?.Invoke();
+        }
+        else
+        {
+            Vector3 rotateAxis = Vector3.Cross(Vector3.up, direction);
 
-        Vector3 rotateAxis = Vector3.Cross(Vector3.up, direction);
-
-        float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
+            float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
         
-        Quaternion rotateQuat = Quaternion.AngleAxis(rotatePitch, rotateAxis);
+            Quaternion rotateQuat = Quaternion.AngleAxis(rotatePitch, rotateAxis);
 
-        Vector3 rotatedDirection = rotateQuat * direction; 
+            rotatedDirection = rotateQuat * direction; 
+        }
         
         bool bInvalidBlink = true;
 

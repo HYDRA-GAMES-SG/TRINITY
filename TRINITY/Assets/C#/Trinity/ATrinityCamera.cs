@@ -29,7 +29,7 @@ public class ATrinityCamera : MonoBehaviour
             OriginalCameraDistance = OverTheShoulderCameraComponent.ReleaseDistance;
         }
 
-        ABlink.OnBlink += HandleBlink;
+        ABlink.BlinkCamera += HandleBlink;
     }
 
     private void HandleBlink()
