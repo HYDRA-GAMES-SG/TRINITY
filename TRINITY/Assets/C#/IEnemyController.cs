@@ -27,7 +27,7 @@ public class IEnemyController : MonoBehaviour
     public float AttackForce = 150f;
 
     public bool bDead => EnemyStatus.Health.bDead;
-
+    
     private void Awake()
     {
         AI = GetComponent<NavMeshAgent>();
@@ -35,6 +35,7 @@ public class IEnemyController : MonoBehaviour
         Animator = GetComponent<Animator>();
         EnemyStatus = GetComponent<UEnemyStatus>();
     }
+    
     public virtual void TriggerGetHit()
     {
         

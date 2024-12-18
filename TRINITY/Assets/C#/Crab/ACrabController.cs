@@ -11,7 +11,8 @@ public class ACrabController : IEnemyController
     [SerializeField] float RoarIceSprayCooldown = 10f;
     [SerializeField] float ComboCooldown = 5f;
     [SerializeField] float GetHitCooldown = 1f;
-
+    [SerializeField] private float NavSpeed = 7f;
+    
     private float JumpSmashTimer = 0f;
     private float ChargeMoveFastTimer = 0f;
     private float RoarIceSprayTimer = 0f;
@@ -34,23 +35,23 @@ public class ACrabController : IEnemyController
     [HideInInspector] public bool CanComboAttack = false;
     [HideInInspector] public bool CanCharageMoveFast = false;
     [HideInInspector] public bool CanGetHit = false;
-
+    
 
     [HideInInspector] public bool bElementPhase = false;
 
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
 
-
     private void Start()
     {
-        
+        AI.speed = NavSpeed;
     }
 
     void Update()
     {
         CheckCooldown();
 
+        HandleChill();
 
         if (EnemyStatus.Health.Percent < 0.5f && !bElementPhase) //next element phrese
         {
@@ -61,11 +62,12 @@ public class ACrabController : IEnemyController
         {
             CrabFSM.EnqueueTransition<Death>();
         }
-        
-        if (ATrinityBrain.CURRENT_BOSS == null)
-        {
-            ATrinityBrain.SetBoss(this.gameObject);
-        }
+    }
+
+    private void HandleChill()
+    {
+        AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
+        CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
     }
 
     private void CheckCooldown()
@@ -164,35 +166,43 @@ public class ACrabController : IEnemyController
         }
     }
 
-    public bool IsActiveState(CrabState state)
-    {
-        return state is NormalAttack || state is ComboAttack;
-    }
-
-
     void OnAnimatorMove()
     {
-        if (IsActiveState(CrabFSM.CurrentState))
+        if (CrabFSM.CurrentState is NormalAttack || CrabFSM.CurrentState is ComboAttack)
         {
-            float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, CrabFSM.CrabController.transform.position);
+            float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, transform.position);
             if (distanceToTarget > RootMotionNotEnterDistance)
             {
-                CrabFSM.CrabController.transform.position += Animator.deltaPosition;
+                transform.position += Animator.deltaPosition;
             }
             else
             {
-                CrabFSM.CrabController.transform.position -= Animator.deltaPosition * 0.1f;
+                transform.position -= Animator.deltaPosition * .1f;
             }
-            CrabFSM.CrabController.transform.rotation *= Animator.deltaRotation;
+            transform.rotation *= Animator.deltaRotation;
         }
         else if (CrabFSM.CurrentState is JumpSmash || CrabFSM.CurrentState is ChargeFastAttack)
         {
-            CrabFSM.CrabController.transform.position += Animator.deltaPosition;
+            transform.position += Animator.deltaPosition;
         }
     }
 
     public override void TriggerGetHit()
     {
         CrabFSM.EnqueueTransition<GetHit>();
+    }
+    
+    public void RotateTowardTarget(Vector3 directionToTarget, float rotateSpeed)
+    {
+        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
+    }
+    public float CalculateGroundDistance()
+    {
+        Vector3 PlayerPos = new Vector3(CrabFSM.PlayerController.transform.position.x, 0, CrabFSM.PlayerController.transform.position.z);
+        Vector3 IBPos = new Vector3(transform.position.x, 0, transform.position.z);
+        float distanceToTarget = Vector3.Distance(PlayerPos, IBPos);
+        return distanceToTarget;
     }
 }

@@ -35,7 +35,6 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, RightClaw.position, RightClaw.rotation);
             AAttackCollider projectileController = iceClawSwingAttack.GetComponentInChildren<AAttackCollider>();
-            projectileController.GetCrabController(Controller);
         }
     }
     public void LPhaseTwoComboClawAttack()
@@ -44,7 +43,6 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, LeftClaw.position, LeftClaw.rotation);
             AAttackCollider projectileController = iceClawSwingAttack.GetComponentInChildren<AAttackCollider>();
-            projectileController.GetCrabController(Controller);
         }
     }
 
@@ -55,7 +53,6 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
             AAttackCollider projectileController = smashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
-            projectileController.GetCrabController(Controller);
         }
     }
     public void LPhaseTwoComboSmashAttack()
@@ -64,7 +61,6 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, LeftClaw.position, LeftClaw.rotation);
             AAttackCollider projectileController = smashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
-            projectileController.GetCrabController(Controller);
 
         }
     }
@@ -76,8 +72,6 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem jumpSmashFrozenGroundAttack = Instantiate(JumpSmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
             AAttackCollider projectileController = jumpSmashFrozenGroundAttack.GetComponent<AAttackCollider>();
-            projectileController.GetCrabController(Controller);
-
         }
     }
 

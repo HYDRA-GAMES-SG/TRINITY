@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class APrimaryFire : ASpell
 {
+    
+    public int StacksApplied;
+    public EAilmentType AilmentType;
     public AudioSource FireSource;
     public AudioClip[] FireAttack;
     public override void Initialize()

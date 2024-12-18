@@ -4,9 +4,6 @@ using UnityEngine.AI;
 
 public class ComboAttack : CrabState
 {
-    [SerializeField] float RotateSpeed;
-
-
     private string AnimKeyClawAttackCombo = "2HitComboClawsAttack_RM";
     private string AnimKeySmashAttackCombo = "2HitComboSmashAttack_RM";
 

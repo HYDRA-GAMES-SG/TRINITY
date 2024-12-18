@@ -29,7 +29,7 @@ public class AAttackCollider : MonoBehaviour
 
         if (player == null)
         {
-            Debug.Log("Crab Collision: Player controller is null on player tagged object.");
+            Debug.Log("Crab Collision: Not a Player.");
             return;
         }
         
@@ -71,10 +71,5 @@ public class AAttackCollider : MonoBehaviour
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, null, Controller.GetParticleAttack());
         hasDealtDamage = true;
         //Debug.Log("Particles Hit player");
-    }
-
-    public void GetCrabController(ACrabController controller)
-    {
-        Controller = controller;
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -24,7 +25,6 @@ public enum ETrinityElement
 
 public class ATrinityBrain : MonoBehaviour
 {
-    static public GameObject CURRENT_BOSS;
     
     [HideInInspector]
     public ATrinityController Controller; //reference
@@ -36,14 +36,14 @@ public class ATrinityBrain : MonoBehaviour
     [HideInInspector]
     public ATrinitySpells SpellsReference; //reference
     
+    private IEnemyController EnemyController;
     private ASpell CurrentSpell;
     private APlayerInput InputReference; //reference
     private ETrinityElement CurrentElement;
     private ETrinityAction CurrentAction;
     private float StunnedCooldown = 0f;
     
-    
-    public static event Action<GameObject> OnBossSet;
+    public static event Action<IEnemyController> OnNewBoss;
     public event Action<ETrinityElement> OnElementChanged;
     public event Action<ETrinityAction> OnActionChanged;
 
@@ -56,9 +56,14 @@ public class ATrinityBrain : MonoBehaviour
         InputReference = GetComponent<APlayerInput>();
         CurrentElement = ETrinityElement.ETE_Fire;
         CurrentAction = ETrinityAction.ETA_None;
+        
+        EditorApplication.playModeStateChanged += OnPlay;
+        SceneManager.sceneLoaded += NewScene;
+        SceneManager.sceneUnloaded += CloseScene;
 
         BindToInputEvents(true);
     }
+
 
     void Destroy()
     {
@@ -69,7 +74,6 @@ public class ATrinityBrain : MonoBehaviour
     void Update()
     {
         HandleStun();
-        
     }
 
     private void LateUpdate()
@@ -79,6 +83,9 @@ public class ATrinityBrain : MonoBehaviour
 
     private void OnDebugInput()
     {
+        EnemyController.EnemyStatus.Ailments.ModifyStack(EAilmentType.EAT_Chill, 50);
+        print(
+            $"{EnemyController.EnemyStatus.Ailments.AilmentKeys[EAilmentType.EAT_Chill].Stacks} stacks and {EnemyController.EnemyStatus.Ailments.AilmentKeys[EAilmentType.EAT_Chill].Duration} seconds remaining");
         //SetStunnedState(3f);
         //SceneManager.LoadScene("CrabBossDungeon");
     }
@@ -343,17 +350,59 @@ public class ATrinityBrain : MonoBehaviour
             InputReference.OnElementalPrimaryReleased -= PrimaryRelease;
             InputReference.OnElementalSecondaryReleased -= SecondaryRelease;
             InputReference.OnMenuPressed -= OnDebugInput;
-
         }
     }
     
 
-    public static void SetBoss(GameObject bossObject)
+    public void NewScene(Scene newScene, LoadSceneMode mode)
     {
-        if (CURRENT_BOSS != bossObject && bossObject != null)
+        print("New Scene: " + newScene.name);
+        EnemyController = FindObjectOfType<IEnemyController>();
+        
+        if (EnemyController != null)
         {
-            CURRENT_BOSS = bossObject;
-            OnBossSet?.Invoke(bossObject);
+            OnNewBoss?.Invoke(EnemyController);
         }
+    }
+
+    public void CloseScene(Scene closedScene)
+    {
+        EnemyController = null;
+    }
+    
+    
+    private void OnPlay(PlayModeStateChange playState)
+    {
+        if (playState == PlayModeStateChange.EnteredPlayMode)
+        {
+            print("Entering play.");
+            EnemyController = FindObjectOfType<IEnemyController>();
+        
+            if (EnemyController != null)
+            {
+                OnNewBoss?.Invoke(EnemyController);
+            }
+        }
+        else if (playState == PlayModeStateChange.ExitingPlayMode)
+        {
+            
+        }
+    }
+
+    
+    /// <summary>
+    /// Must be null checked.
+    /// </summary>
+    public IEnemyController GetEnemyController()
+    {
+        return EnemyController;
+    }
+    
+    /// <summary>
+    /// Must be null checked.
+    /// </summary>
+    public UAilmentComponent GetEnemyAilments()
+    {
+            return GetEnemyController().EnemyStatus.Ailments;
     }
 }

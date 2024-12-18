@@ -9,17 +9,17 @@ public class UEnemyStatus : MonoBehaviour
     [HideInInspector]
     public UHealthComponent Health;
     [HideInInspector]
-    public UAilmentComponent Ailment;
+    public UAilmentComponent Ailments;
     // Start is called before the first frame update
     void Start()
     {
         Health = GetComponent<UHealthComponent>();
-        Ailment = GetComponent<UAilmentComponent>();
+        Ailments = GetComponent<UAilmentComponent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        Health.Modify(-Ailments.IgniteDamage * Time.deltaTime);
     }
 }

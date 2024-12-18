@@ -8,6 +8,8 @@ public abstract class CrabState : MonoBehaviour, IState
 
     protected ACrabFSM CrabFSM;
 
+    public float RotateSpeed = 3f;
+
     public void Awake()
     {
     }

@@ -20,7 +20,7 @@ public class ALightningBeam : MonoBehaviour
     void Start()
     {
         RigidBody = GetComponent<Rigidbody>();
-        AilmentType = EAilmentType.EAT_Shock;
+        AilmentType = EAilmentType.EAT_Charge;
         AuraAilment = EAilmentType.EAT_Ignite;
     }
 

@@ -5,9 +5,7 @@ using UnityEngine.AI;
 public class Pursue : CrabState
 {
     [Header("AI Setting")]
-    [SerializeField] float MoveSpeed = 7;
     [SerializeField] float StopDistance = 9;
-    [SerializeField] float RotateSpeed = 2;
     [SerializeField] float ThresholdAngle = 5;
 
     [Header("Check Range")]
@@ -35,7 +33,6 @@ public class Pursue : CrabState
     {
         CrabAI = CrabFSM.CrabController.AI;
 
-        CrabAI.speed = MoveSpeed;
         CrabAI.stoppingDistance = StopDistance;
         CrabAI.updateRotation = false;
     }

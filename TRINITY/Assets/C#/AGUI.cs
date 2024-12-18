@@ -36,7 +36,7 @@ public class AGUI : MonoBehaviour
             TrinitySpells.ManaComponent.OnManaModified += UpdateManaBar;
         }
 
-        ATrinityBrain.OnBossSet += SetupBossUI;
+        ATrinityBrain.OnNewBoss += SetupBossUI;
 
         CurrentElementImage = ElementImages[(int)TrinityBrain.GetElement()];
 
@@ -92,10 +92,10 @@ public class AGUI : MonoBehaviour
         }
     }
 
-    private void SetupBossUI(GameObject bossGameObject)
+    private void SetupBossUI(IEnemyController bossController)
     {
-        bossGameObject.GetComponent<UEnemyStatus>().Health.OnHealthModified += UpdateBossHealthBar;
-        bossGameObject.GetComponent<UEnemyStatus>().Health.OnDeath += HandleBossDeath;
+        bossController.EnemyStatus.Health.OnHealthModified += UpdateBossHealthBar;
+        bossController.EnemyStatus.Health.OnDeath += HandleBossDeath;
         BossHealthSlider.gameObject.SetActive(true);
         BossHealthSlider.value = 100f;
         BossDamageSlider.value = 100f; // Initialize BossDamageSlider
@@ -140,6 +140,6 @@ public class AGUI : MonoBehaviour
         if (TrinitySpells != null)
             TrinitySpells.ManaComponent.OnManaModified -= UpdateManaBar;
 
-        ATrinityBrain.OnBossSet -= SetupBossUI;
+        ATrinityBrain.OnNewBoss -= SetupBossUI;
     }
 }

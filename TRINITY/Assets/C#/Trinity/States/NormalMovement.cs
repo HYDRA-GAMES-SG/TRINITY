@@ -33,9 +33,11 @@ public class NormalMovement : TrinityState
     [Header("Glide Movement")]
     [SerializeField] private float GlideMoveAcceleration = 40f;
     [SerializeField] private float GlideStrafeAcceleration = 40f;
-    [SerializeField] private float GravityModifier = .4f;
+    [SerializeField] private float GlideGravityModifier = .4f;
     
     [HideInInspector] private int MirrorCounter = 0;
+
+    private UAilmentComponent BossAilments => Brain.GetEnemyController().EnemyStatus.Ailments;
 
     private bool bUnstable = false;
     private bool bCanGlide = false;
@@ -65,8 +67,8 @@ public class NormalMovement : TrinityState
         ABlink.OnBlink += OnBlink;
         Controller.HealthComponent.OnDeath += HandleDeath;
         Controller.OnHit += HandleHit;
-
     }
+
 
     private void HandleDeath()
     {
@@ -83,8 +85,8 @@ public class NormalMovement : TrinityState
 
     public override void PreUpdateBehaviour(float dt)
     {
+        
     }
-    
     
     public override void UpdateBehaviour(float dt)
     {
@@ -105,19 +107,7 @@ public class NormalMovement : TrinityState
         HandleBlink();
         TryEnterGlide();
 
-
-        switch (MovementState)
-        {
-            case ETrinityMovement.ETM_Grounded:
-                Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
-                break;
-            case ETrinityMovement.ETM_Gliding:
-                Controller.MoveDirection = new Vector3(Controller.MoveDirection.x, Controller.VerticalVelocity, Controller.MoveDirection.z);
-                break;
-            default:
-                Controller.MoveDirection = new Vector3(Controller.MoveDirection.x * AirMoveModifier, Controller.VerticalVelocity, Controller.MoveDirection.z * AirStrafeModifier);
-                break;
-        }
+        Controller.MoveDirection = GetChargedMovement();
         
         // if speed in the direction of the movedirection is not faster than max speed
         if (Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude < MaxSpeed) 
@@ -160,9 +150,10 @@ public class NormalMovement : TrinityState
             Controller.Gravity = ATrinityController.GRAVITY_CONSTANT;
             return;
         }
-        
+
+        float chargeGravityModifier = BossAilments != null ? BossAilments.ChargeGlideGravityModifier : 1f;
         //Handle Glide
-        Controller.Gravity = ATrinityController.GRAVITY_CONSTANT * GravityModifier;
+        Controller.Gravity = ATrinityController.GRAVITY_CONSTANT * GlideGravityModifier * chargeGravityModifier;
     }
     
     private void HandleAirStrafing()
@@ -213,7 +204,7 @@ public class NormalMovement : TrinityState
                 
                 if (MovementState == ETrinityMovement.ETM_Jumping) //need to check this
                 {
-                    Controller.RB.AddForce(Controller.Up * JumpForce / Controller.RB.mass, ForceMode.Impulse);
+                    Controller.RB.AddForce(Controller.Up * GetChargedJumpForce() / Controller.RB.mass, ForceMode.Impulse);
                     TrinityFSM.Animator.SetBool(AnimKeys["Jump"], true);
                     MirrorCounter++; //increment counter
                     TrinityFSM.Animator.SetBool(AnimKeys["Mirror"], MirrorCounter % 2 == 1); //flip flop counter
@@ -369,6 +360,35 @@ public class NormalMovement : TrinityState
         else
         {
             TrinityFSM.Animator.Play("Hit Blend", 0, 0f);
+        }
+    }
+
+    public float GetChargedJumpForce()
+    {
+        float additionalJumpForce = BossAilments != null ? BossAilments.ChargeAdditionalJumpForce : 0f;
+        return JumpForce + additionalJumpForce;
+    }
+
+    public Vector3 GetChargedMovement()
+    {
+
+        float chargeMoveModifier = 1f;
+        if (Brain.GetEnemyController() != null)
+        {
+            chargeMoveModifier = BossAilments.ChargeMoveModifier;
+        }
+
+        float chargedX = Controller.MoveDirection.x * chargeMoveModifier;
+        float chargedZ = Controller.MoveDirection.z * chargeMoveModifier;
+        
+        switch (MovementState)
+        {
+            case ETrinityMovement.ETM_Grounded:
+                return new Vector3(chargedX, Controller.VerticalVelocity, chargedZ);
+            case ETrinityMovement.ETM_Gliding:
+                return new Vector3(chargedX, Controller.VerticalVelocity, chargedZ);
+            default:
+                return new Vector3(chargedX * AirMoveModifier, Controller.VerticalVelocity, chargedZ * AirStrafeModifier);
         }
     }
 }

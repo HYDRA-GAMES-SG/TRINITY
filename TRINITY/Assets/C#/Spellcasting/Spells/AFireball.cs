@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AFireball : MonoBehaviour
 {
+    public static APrimaryFire PrimaryFire;
     [HideInInspector]
     public ATrinitySpells Spells;
     [HideInInspector]
@@ -11,8 +12,6 @@ public class AFireball : MonoBehaviour
     public float Damage;
     public float Duration;
     public float Speed;
-    public int StacksApplied;
-    public EAilmentType AilmentType;
     [HideInInspector]
     public Rigidbody RB;
 
@@ -26,9 +25,9 @@ public class AFireball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        PrimaryFire = Spells.PrimaryFire;
         RB = GetComponent<Rigidbody>();
         Direction = Spells.CastDirection;
-        AilmentType = EAilmentType.EAT_Ignite;  
     }
 
     // Update is called once per frame
@@ -58,14 +57,19 @@ public class AFireball : MonoBehaviour
         {
             HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
 
+            if (!enemyHitbox)
+            {
+                return;
+            }
+            
             enemyHitbox.EnemyController.TriggerGetHit();
-            print(enemyHitbox.EnemyController.name);
+            //print(enemyHitbox.EnemyController.name);
             
 
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus; 
-            FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);
+            FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryFire.AilmentType, PrimaryFire.StacksApplied);
             enemyStatus += damageSource;
-            print($"Damage Taken : {Damage}, Ailment type and stacks : {AilmentType} + {StacksApplied}");
+            print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryFire.AilmentType} + {PrimaryFire.StacksApplied}");
             SpawnExplosion();
 
             //if (collision.gameObject.transform.childCount == 0)

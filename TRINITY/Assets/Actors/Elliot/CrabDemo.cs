@@ -8,7 +8,6 @@ public class CrabDemo : CrabState
     [Header("AI Setting")]
     [SerializeField] float MoveSpeed = 7;
     [SerializeField] float StopDistance = 9;
-    [SerializeField] float RotateSpeed = 2;
     [SerializeField] float ThresholdAngle = 5;
 
     [Header("Tiredness Settings")]
