@@ -69,7 +69,35 @@ public class ACrabController : IEnemyController
         AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
         CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
     }
-
+    
+    public override float GetParticleAttack()
+    {
+        if (CrabFSM.CurrentState is JumpSmash)
+        {
+            return JumpSmashFrozenGroundAttack;
+        }
+        else if (CrabFSM.CurrentState is ComboAttack comboAttack)
+        {
+            if (comboAttack.AnimKey == "2HitComboClawsAttack_RM")
+            {
+                return IceSlashAttack;
+            }
+            else if (comboAttack.AnimKey == "2HitComboSmashAttack_RM")
+            {
+                return SmashFrozenGroundAttack;
+            }
+            return 0;
+        }
+        else if (CrabFSM.CurrentState is RoarIceSpray)
+        {
+            return IceSprayAttack;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    
     private void CheckCooldown()
     {
         if (!CanJumpSmash)
@@ -118,6 +146,7 @@ public class ACrabController : IEnemyController
             }
         }
     }
+
     public override float GetCurrentAttackDamage()
     {
         if (CrabFSM.CurrentState is JumpSmash)
@@ -135,34 +164,6 @@ public class ACrabController : IEnemyController
         else
         {
             return NormalAttack;
-        }
-    }
-
-    public override float GetParticleAttack()
-    {
-        if (CrabFSM.CurrentState is JumpSmash)
-        {
-            return JumpSmashFrozenGroundAttack;
-        }
-        else if (CrabFSM.CurrentState is ComboAttack comboAttack)
-        {
-            if (comboAttack.AnimKey == "2HitComboClawsAttack_RM")
-            {
-                return IceSlashAttack;
-            }
-            else if (comboAttack.AnimKey == "2HitComboSmashAttack_RM")
-            {
-                return SmashFrozenGroundAttack;
-            }
-            return 0;
-        }
-        else if (CrabFSM.CurrentState is RoarIceSpray)
-        {
-            return IceSprayAttack;
-        }
-        else
-        {
-            return 0;
         }
     }
 
@@ -202,6 +203,7 @@ public class ACrabController : IEnemyController
     {
         Vector3 PlayerPos = new Vector3(CrabFSM.PlayerController.transform.position.x, 0, CrabFSM.PlayerController.transform.position.z);
         Vector3 IBPos = new Vector3(transform.position.x, 0, transform.position.z);
+
         float distanceToTarget = Vector3.Distance(PlayerPos, IBPos);
         return distanceToTarget;
     }
