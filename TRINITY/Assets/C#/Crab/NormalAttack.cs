@@ -7,7 +7,6 @@ using static UnityEngine.GraphicsBuffer;
 public class NormalAttack : CrabState
 {
     [SerializeField] string[] AnimKeyAttack;
-    [SerializeField] float RotateSpeed;
     private string anim;
 
     public override bool CheckEnterTransition(IState fromState)

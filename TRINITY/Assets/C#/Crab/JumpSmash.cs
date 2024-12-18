@@ -4,7 +4,6 @@ using UnityEngine;
 public class JumpSmash : CrabState
 {
     [SerializeField, Range(0.10f, 1.00f)] float AnimationCheckExitTime;
-    [SerializeField] float RotateSpeed;
 
     public override bool CheckEnterTransition(IState fromState)
     {

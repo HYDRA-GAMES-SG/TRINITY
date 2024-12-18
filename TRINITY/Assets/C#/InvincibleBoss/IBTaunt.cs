@@ -8,8 +8,6 @@ public class IBTaunt : InvincibleBossState
     [SerializeField]
     string AnimKey = "Taunt";
 
-    [SerializeField] float RotateSpeed;
-
     [SerializeField] ParticleSystem TauntParticle;
     [SerializeField] Collider TauntCollider;
 

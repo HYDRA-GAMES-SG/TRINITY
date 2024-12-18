@@ -17,6 +17,8 @@ public class MonsterGuard : MonoBehaviour
     public float GuardTimer;
     public float ChaseRange;
     public float HitRange;
+    public float AFKOutOfRange;
+    public float Damage;
     private int WaypointIndex;
 
     const string WALKFORWARD = "WalkForward";
@@ -39,24 +41,28 @@ public class MonsterGuard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(MonsterAgent.destination);
         float distanceFromPlayer = (transform.position - Player.transform.position).magnitude;
         AITimer -= Time.deltaTime;
-        if (AITimer < 0)
+        if (AITimer <= 0)
         {
-            if (distanceFromPlayer <= ChaseRange)
+            if (distanceFromPlayer <= ChaseRange && distanceFromPlayer > HitRange)
             {
+                GuardTimer = AFKOutOfRange;
                 MonsterAgent.destination = Player.transform.position;
                 ChangeAnimationState(WALKFORWARD);
             }
-            else if (distanceFromPlayer < HitRange) 
+            else if (distanceFromPlayer <= HitRange)
             {
+                GuardTimer = AFKOutOfRange;
                 ChangeAnimationState(BITEFORWARD);
             }
             else if (HasFinishMoving())
             {
                 GuardTimer -= Time.deltaTime;
                 ChangeAnimationState(IDLE);
-                if (GuardTimer > 0) 
+
+                if (GuardTimer > 0)
                 {
                     return;
                 }
@@ -68,9 +74,9 @@ public class MonsterGuard : MonoBehaviour
                     WaypointIndex = 0;
                 }
                 ChangeAnimationState(WALKFORWARD);
+
                 GuardTimer = GuardTime;
             }
-           
             AITimer = AIWaitTime;
         }
     }
@@ -79,6 +85,15 @@ public class MonsterGuard : MonoBehaviour
         //navMeshAgent_.pathPending is to check if the pathfinder is calculating the path
         return !MonsterAgent.pathPending && !MonsterAgent.hasPath;
     }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Player") 
+    //    {
+    //        ATrinityController player = collision.gameObject.GetComponent<ATrinityController>();
+    //        player.HealthComponent.Modify(Damage);
+    //        print(Damage);
+    //    }
+    //}
     private void OnDrawGizmos()
     {
         if (Waypoints.Count > 2)

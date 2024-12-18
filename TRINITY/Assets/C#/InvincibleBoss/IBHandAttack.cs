@@ -11,8 +11,6 @@ public class IBHandAttack : InvincibleBossState
         "2HitComboAttackForward_RM", "2HandsSmashAttack_RM"
     };
 
-    [SerializeField] float RotateSpeed;
-
     string AnimKey;
 
 

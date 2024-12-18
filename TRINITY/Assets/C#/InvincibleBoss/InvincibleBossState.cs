@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class InvincibleBossState : MonoBehaviour, IState
 {
     protected AInvincibleBossFSM InvincibleBossFSM;
-
+    public float RotateSpeed;
     public void Awake()
     {
     }

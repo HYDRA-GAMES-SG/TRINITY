@@ -11,7 +11,6 @@ public class IBLongAttack_ShotShock : InvincibleBossState
     [SerializeField] Transform ShockBluePos;
     [SerializeField] ParticleSystem ShockBlue;
 
-    [SerializeField] float rotateSpeed;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -32,7 +31,7 @@ public class IBLongAttack_ShotShock : InvincibleBossState
     public override void UpdateBehaviour(float dt)
     {
         Vector3 faceDirection = (InvincibleBossFSM.PlayerController.transform.position - InvincibleBossFSM.InvincibleBossController.transform.position).normalized;
-        InvincibleBossFSM.InvincibleBossController.RotateTowardTarget(faceDirection, rotateSpeed);
+        InvincibleBossFSM.InvincibleBossController.RotateTowardTarget(faceDirection, RotateSpeed);
 
         string layerName = GetType().Name;
         int layerIndex = InvincibleBossFSM.InvincibleBossController.Animator.GetLayerIndex(layerName);
