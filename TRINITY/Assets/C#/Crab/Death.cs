@@ -12,6 +12,7 @@ public class Death : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        CrabFSM.CrabController.AI.ResetPath();
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -20,10 +21,10 @@ public class Death : CrabState
 
     public override void UpdateBehaviour(float dt)
     {
-        if (CrabFSM.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
-        {
-            Graphics.ActivateRagdoll();
-        }
+        //if (CrabFSM.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1f)
+        //{
+        //    Graphics.ActivateRagdoll();
+        //}
     }
     public override void PostUpdateBehaviour(float dt)
     {

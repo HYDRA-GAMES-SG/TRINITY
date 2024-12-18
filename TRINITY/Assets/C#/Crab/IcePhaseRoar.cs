@@ -16,6 +16,7 @@ public class IcePhaseRoar : CrabState
     public override void EnterBehaviour(float dt, IState fromState)
     {
         CrabFSM.CrabController.bElementPhase = true;
+        CrabFSM.CrabController.AI.ResetPath();
     }
 
     public override void PreUpdateBehaviour(float dt)

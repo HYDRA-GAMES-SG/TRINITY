@@ -12,9 +12,6 @@ public class ChargeFastAttack : CrabState
     [SerializeField] float PedictionMultiplier;
     [SerializeField] float DashDuration;
 
-    [SerializeField] float RotateSpeed;
-
-
     [Header("Components")]
     [SerializeField] Collider CapCollider;
 

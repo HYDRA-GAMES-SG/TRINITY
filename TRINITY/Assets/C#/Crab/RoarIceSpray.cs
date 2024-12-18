@@ -5,7 +5,6 @@ public class RoarIceSpray : CrabState
 {
     [SerializeField] ParticleSystem IceSpray;
     [SerializeField] Transform CrabMounth;
-    [SerializeField] float RotateSpeed;
     ParticleSystem iceSpray;
     public override bool CheckEnterTransition(IState fromState)
     {
