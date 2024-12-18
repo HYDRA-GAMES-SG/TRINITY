@@ -7757,10 +7757,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3852721855287756135, guid: 0dfb340795aab884195ea876a9400c3b,
     type: 3}
   Cooldown: 1.5
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 0
   SpellAction: 0
-  bUseCastingLayer: 1
+  bUseMaskedLayer: 1
   FireSource: {fileID: 0}
   FireAttack:
   - {fileID: 8300000, guid: d8a20358c3d9e4b4e9bb4f0f4f8d8587, type: 3}
@@ -8205,10 +8207,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3430567750250834287, guid: b809323b907533e469ac0ac9e4d2fb38,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
-  bUseCastingLayer: 1
+  bUseMaskedLayer: 1
   DamageAbsorbedPerMana: 1
 --- !u!1 &826994873
 GameObject:
@@ -9486,10 +9490,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 5284930186813762420, guid: 93b610399a6bfa240b1c352d4a0c171a,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 4
-  bUseCastingLayer: 1
+  bUseMaskedLayer: 1
   ENABLE_DEBUG: 0
   GroundLayer:
     serializedVersion: 2
@@ -11081,10 +11087,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 904328815561062564, guid: 9269c405172bbe845971ab6f79b927e5,
     type: 3}
   Cooldown: 2
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
-  bUseCastingLayer: 1
+  bUseMaskedLayer: 1
   SFX: {fileID: 8300000, guid: 4d5c8011a64f0b1489e1a5963b613d90, type: 3}
   CollisionLayer:
     serializedVersion: 2
@@ -11487,12 +11495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b1257ebe67b6943a3648e57941133d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimKeyTriggerLongATK:
-  - SpitterShot1
-  - Taunt
-  - ThrowRock
-  ShockBluePos: {fileID: 0}
-  ShockBlue: {fileID: 0}
 --- !u!114 &1214807525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11505,11 +11507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30c263b3bf431e4f883a21fd9c326ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimKeyTriggerATK:
-  - LeftFootStompAttack
-  - RightFootStompAttack
-  - 2HitComboAttackForward_RM
-  - 2HandsSmashAttack_RM
 --- !u!114 &1214807526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11964,8 +11961,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ENABLE_DEBUG: 0
   AnimComponent: {fileID: 0}
-  bChanneling: 0
-  bMasked: 1
+  MaskedLayerWeight: 0.7
+  UnmaskedLayerWeight: 1
 --- !u!4 &1298971467
 Transform:
   m_ObjectHideFlags: 0
@@ -12146,6 +12143,8 @@ MonoBehaviour:
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
   AI: {fileID: 0}
+  NormalAttack: 0
+  AttackForce: 150
   FlyingBossFSM: {fileID: 1011506906}
   rb: {fileID: 1334747051}
   InvincibleBoss: {fileID: 1705963345}
@@ -13773,10 +13772,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 1234315416888464984, guid: 6d4cff6572d27df4b8b7148bbd3ec076,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 1
   SpellType: 0
   SpellAction: 4
-  bUseCastingLayer: 1
+  bUseMaskedLayer: 1
   ColdSource: {fileID: 0}
   ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
   ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
@@ -13870,8 +13871,10 @@ MonoBehaviour:
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
   AI: {fileID: 0}
+  NormalAttack: 0
+  AttackForce: 150
   fsm: {fileID: 1109670462}
-  ExplosionEffect: {fileID: 8122398794927976412, guid: 34012807c5690b84e9dab7e4c0c6413f,
+  ExplosionEffect: {fileID: 8122398794927976412, guid: ce8637ac1073c9a4395a7e4df217f8f8,
     type: 3}
   ExplosionMonster: {fileID: 6478810474490848752}
   PursueRange: 20
@@ -15369,7 +15372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120e58441bc39754182d76cb1839fafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraReference: {fileID: 0}
 --- !u!114 &1656321478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15384,7 +15386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
   bForcefieldActive: 0
-  CurrentAction: 0
+  SpellsReference: {fileID: 0}
 --- !u!1 &1662321437
 GameObject:
   m_ObjectHideFlags: 0
@@ -15683,6 +15685,8 @@ MonoBehaviour:
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
   AI: {fileID: 0}
+  NormalAttack: 0
+  AttackForce: 150
   InvincibleBossFSM: {fileID: 1214807521}
   CloseAttack: 13
   LongAttack: 30
@@ -23414,10 +23418,12 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3830785774540179595, guid: 985e55eaf9048c246938ef2616bc5e0d,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 2
   SpellType: 0
   SpellAction: 3
-  bUseCastingLayer: 1
+  bUseMaskedLayer: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
