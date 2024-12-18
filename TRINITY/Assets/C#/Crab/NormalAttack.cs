@@ -7,7 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class NormalAttack : CrabState
 {
     [SerializeField] string[] AnimKeyAttack;
-
+    [SerializeField] float RotateSpeed;
     private string anim;
 
     public override bool CheckEnterTransition(IState fromState)
@@ -35,7 +35,7 @@ public class NormalAttack : CrabState
     public override void UpdateBehaviour(float dt)
     {
         Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-        RotateTowardTarget(faceDirection);
+        CrabFSM.CrabController.RotateTowardTarget(faceDirection, RotateSpeed);
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName(anim) && stateInfo.normalizedTime > 0.95f)
@@ -66,12 +66,5 @@ public class NormalAttack : CrabState
     {
         int index = Random.Range(0, anim.Length);
         return anim[index];
-    }
-
-    private void RotateTowardTarget(Vector3 directionToTarget)
-    {
-        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 10 * Time.deltaTime);
     }
 }

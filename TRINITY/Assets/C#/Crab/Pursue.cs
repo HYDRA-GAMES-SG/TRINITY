@@ -47,14 +47,12 @@ public class Pursue : CrabState
 
     public override void UpdateBehaviour(float dt)
     {
-        if (CrabFSM.PlayerController == null) return;
+        if (CrabFSM.PlayerController == null)
+        {
+            return;
+        }
 
-        Vector3 PlayerPos = new Vector3(CrabFSM.PlayerController.transform.position.x, 0, CrabFSM.PlayerController.transform.position.z);
-        Vector3 CrabPos = new Vector3(CrabFSM.CrabController.transform.position.x, 0, CrabFSM.CrabController.transform.position.z);
-
-        float distanceToTarget = Vector3.Distance(PlayerPos, CrabPos);
-
-        if (distanceToTarget >= RangeAttack && distanceToTarget <= RangeAttack + 2) //between 28 - 30
+        if (CrabFSM.CrabController.CalculateGroundDistance() >= RangeAttack && CrabFSM.CrabController.CalculateGroundDistance() <= RangeAttack + 2) //between 28 - 30
         {
             float random = Random.value;
             if (random <= 0.5f)
@@ -66,17 +64,17 @@ public class Pursue : CrabState
                 CrabFSM.EnqueueTransition<RoarIceSpray>();
             }
         }
-        else if (distanceToTarget >= ChargeFastMoveRange && distanceToTarget <= ChargeFastMoveRange + 5) //between 15 - 20
+        else if (CrabFSM.CrabController.CalculateGroundDistance() >= ChargeFastMoveRange && CrabFSM.CrabController.CalculateGroundDistance() <= ChargeFastMoveRange + 5) //between 15 - 20
         {
             CrabFSM.EnqueueTransition<ChargeFastAttack>();
 
         }
-        else if (distanceToTarget >= CloseAttackRange && distanceToTarget <= StopDistance) //between 7.5 -9
+        else if (CrabFSM.CrabController.CalculateGroundDistance() >= CloseAttackRange && CrabFSM.CrabController.CalculateGroundDistance() <= StopDistance) //between 7.5 -9
         {
             CrabFSM.EnqueueTransition<ComboAttack>();
             CrabFSM.EnqueueTransition<NormalAttack>();
         }
-        else if (distanceToTarget <= JumpAwayRange) //less then 6
+        else if (CrabFSM.CrabController.CalculateGroundDistance() <= JumpAwayRange) //less then 6
         {
             CrabFSM.EnqueueTransition<JumpAway>();
         }

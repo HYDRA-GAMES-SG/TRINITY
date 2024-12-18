@@ -49,7 +49,7 @@ public class ComboAttack : CrabState
     public override void UpdateBehaviour(float dt)
     {
         Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-        RotateTowardTarget(faceDirection);
+        CrabFSM.CrabController.RotateTowardTarget(faceDirection, RotateSpeed);
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         bool isInTransition = CrabFSM.Animator.IsInTransition(0);
@@ -78,12 +78,5 @@ public class ComboAttack : CrabState
             return true;
         }
         return false;
-    }
-
-    private void RotateTowardTarget(Vector3 directionToTarget)
-    {
-        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 10 * Time.deltaTime);
     }
 }

@@ -12,6 +12,9 @@ public class ChargeFastAttack : CrabState
     [SerializeField] float PedictionMultiplier;
     [SerializeField] float DashDuration;
 
+    [SerializeField] float RotateSpeed;
+
+
     [Header("Components")]
     [SerializeField] Collider CapCollider;
 
@@ -48,7 +51,8 @@ public class ChargeFastAttack : CrabState
         if (bIsCharging)
         {
             PredictTargetPosition();
-            RotateTowardTarget(PredictedPosition - CrabFSM.CrabController.transform.position);
+            Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
+            CrabFSM.CrabController.RotateTowardTarget(faceDirection, RotateSpeed);
 
             StateTimer += Time.deltaTime;
             if (StateTimer >= ChargeTime)
@@ -103,14 +107,6 @@ public class ChargeFastAttack : CrabState
         }
         return false;
     }
-
-    private void RotateTowardTarget(Vector3 directionToTarget)
-    {
-        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 5 * Time.deltaTime);
-    }
-
     private void PredictTargetPosition()
     {
         Rigidbody targetRb = CrabFSM.PlayerController.GetComponent<Rigidbody>();

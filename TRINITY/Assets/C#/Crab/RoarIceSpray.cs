@@ -5,7 +5,7 @@ public class RoarIceSpray : CrabState
 {
     [SerializeField] ParticleSystem IceSpray;
     [SerializeField] Transform CrabMounth;
-
+    [SerializeField] float RotateSpeed;
     ParticleSystem iceSpray;
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -44,7 +44,7 @@ public class RoarIceSpray : CrabState
     public override void UpdateBehaviour(float dt)
     {
         Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
-        RotateTowardTarget(faceDirection);
+        CrabFSM.CrabController.RotateTowardTarget(faceDirection, RotateSpeed);
 
         Vector3 iceSprayDirection = (CrabFSM.PlayerController.transform.position - CrabMounth.position).normalized;
         iceSpray.transform.rotation = Quaternion.LookRotation(iceSprayDirection, Vector3.up);
@@ -72,11 +72,5 @@ public class RoarIceSpray : CrabState
             return true;
         }
         return false;
-    }
-    private void RotateTowardTarget(Vector3 directionToTarget)
-    {
-        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        CrabFSM.CrabController.transform.rotation = Quaternion.Slerp(CrabFSM.CrabController.transform.rotation, targetRotation, 10 * Time.deltaTime);
     }
 }
