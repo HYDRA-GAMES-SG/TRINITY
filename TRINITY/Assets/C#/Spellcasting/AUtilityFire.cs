@@ -8,9 +8,6 @@ public class AUtilityFire : ASpell
     public AudioSource FireUtilitySource;
 
     public APrimaryFire FireballSpell;
-    public ATrinityController TrinityController;
-    public ATrinityBrain TrinityBrain;
-    public ATrinitySpells TrinitySpells;
     public Transform SpawnPos;
     private ETrinityAction Cleanse;
 
@@ -52,27 +49,18 @@ public class AUtilityFire : ASpell
     }
     public void FlameAura() 
     {
-        UManaComponent playerMana = TrinitySpells.GetComponent<UManaComponent>();
-        if (playerMana.Current < ManaCost || bAura) 
-        {
-            return;
-        }
-        //Deduct Mana
-        playerMana.Modify(-ManaCost);
-        print(playerMana.Current);
-
         //Spawn VFX
         GameObject explosionVFX = Instantiate(ExplosionVFX, SpawnPos.position, Quaternion.identity);
         GameObject auraVFX = Instantiate (AuraVFX, SpawnPos.position,Quaternion.identity);
-        auraVFX.transform.parent = TrinityController.transform;
+        auraVFX.transform.parent = Controller.transform;
         Destroy(auraVFX, AuraTime);
 
         //Get Trinity Brain on player and change action to cleanse
-        TrinityBrain.ModifyState(Cleanse);
+        BrainReference.ModifyState(Cleanse);
         bAura = true;
 
         //Apply heal, set aura timer where Primary attacks are faster, if aura is on and used with other primary, apply ignite as well
-        UHealthComponent playerHealth = TrinityController.gameObject.GetComponent<UHealthComponent>();
+        UHealthComponent playerHealth = Controller.gameObject.GetComponent<UHealthComponent>();
         playerHealth.Modify(HealAmount);
         FireballSpell.Cooldown = LoweredCooldown;
         AuraTimer = AuraTime;
