@@ -169,10 +169,10 @@ public class ASecondaryFire : ASpell
 
     private void OnDrawGizmos()
     {
-        if (!Rune.activeSelf)
-        {
-            Gizmos.DrawSphere(Rune.transform.position, CurrentRadius);
-        }
+        // if (!Rune.activeSelf)
+        // {
+        //     Gizmos.DrawSphere(Rune.transform.position, CurrentRadius);
+        // }
     }
 
     private Vector3 GetGroundPosition()
