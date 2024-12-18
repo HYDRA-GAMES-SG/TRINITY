@@ -1,27 +1,35 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ASecondaryFire : ASpell
 {
+    [Header("Debug")]
     public bool ENABLE_DEBUG = false;
 
+    [Header("Damage and Ailments")] 
+    public EAilmentType AilmentType;
+    public int StacksPerRadius;
+    public float DamagePerStack = 50f;
+    
     // Flameblast Properties
     [Header("Properties")] 
     public LayerMask GroundLayer;
     public float Range = 10f;
     public float MaxChannelTime = 2f;
-    public float MaxSize = 4f;
-    public float MinSize = .1f;
-    public float MaxHeight = .5f;
+    public float MaxRadius = 4f;
+    public float MinRadius = .1f;
 
     [Header("Resources")]
     private GameObject RunePrefab;
+    public float MaxRuneParticleHeight = .5f;
     public GameObject GlyphPrefab;
     public GameObject PillarPrefab;
     public AudioClip Channeling;
     public AudioClip Explosion;
-
+    
+    
     // Private Variables
     private GameObject Rune;
     private GameObject Glyph;
@@ -30,6 +38,7 @@ public class ASecondaryFire : ASpell
 
     // Cached Components
     private AudioSource SFX;
+    private float CurrentRadius = 1f;
 
     public override void Initialize()
     {
@@ -48,16 +57,15 @@ public class ASecondaryFire : ASpell
 
     public override void CastStart()
     {
-        if (ENABLE_DEBUG) { Debug.Log("Cast Start"); }
-
         if (Rune == null) return;
 
         Vector3 invokePosition = GetGroundPosition();
+        CurrentRadius = MinRadius;
         
         if (invokePosition != Vector3.zero)
         {
             Rune.transform.position = invokePosition;
-            Rune.transform.localScale = Vector3.one * MinSize; 
+            Rune.transform.localScale = Vector3.one * MinRadius; 
             Rune.SetActive(true);
             ChannelTime = 0f;
 
@@ -75,16 +83,17 @@ public class ASecondaryFire : ASpell
 
     public override void CastUpdate()
     {
-        if (ENABLE_DEBUG) { Debug.Log("Cast Update"); }
-
-        if (Rune == null || !Rune.activeSelf) return;
+        if (Rune == null || !Rune.activeSelf)
+        {
+            return;
+        }
 
         // Update the channeling time
         ChannelTime += Time.deltaTime;
 
         float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
-        float newSize = Mathf.Lerp(MinSize, MaxSize, t);
-        Rune.transform.localScale = new Vector3(newSize, newSize > MaxHeight ? MaxHeight : newSize, newSize);
+        CurrentRadius = Mathf.Lerp(MinRadius, MaxRadius, t);
+        Rune.transform.localScale = new Vector3(CurrentRadius, CurrentRadius > MaxRuneParticleHeight ? MaxRuneParticleHeight : CurrentRadius, CurrentRadius);
         
         if (ChannelTime >= MaxChannelTime)
         {
@@ -94,13 +103,12 @@ public class ASecondaryFire : ASpell
 
     public override void CastEnd()
     {
-        if (ENABLE_DEBUG) { Debug.Log("Cast End"); }
 
         if (Channeling != null)
         {
             SFX.Stop();
         }
-        
+
         if (!Rune.activeSelf)
         {
             return; //do nothing if rune does not exist since no valid placement found
@@ -110,7 +118,31 @@ public class ASecondaryFire : ASpell
 
         Rune.SetActive(false); // Disable the rune
 
-        // Spawn the glyph and pillar at the rune's location
+
+        Ray ray = new Ray(Rune.transform.position, Vector3.up);
+        Physics.SphereCast(ray, CurrentRadius, out RaycastHit hitInfo, 5f);
+
+        HitBox hitBox;
+        if (hitInfo.collider != null)
+        {
+            //print("Spherecast collider not null)");
+            hitInfo.collider.TryGetComponent<HitBox>(out hitBox);
+
+            if (hitBox != null)
+            {
+                //print("Hitbox exists");
+
+                hitBox.EnemyStatus.Ailments.ModifyStack(AilmentType, Mathf.RoundToInt(StacksPerRadius * CurrentRadius));
+                hitBox.EnemyStatus.Health.Modify(-DamagePerStack * CurrentRadius);
+                
+                if (ENABLE_DEBUG)
+                {
+                    Debug.Log($"Applying : {Mathf.RoundToInt(StacksPerRadius * CurrentRadius)} of {AilmentType}");
+                }
+            }
+        }
+        
+        // spawn the glyph and pillar at the rune's location
         if (GlyphPrefab != null)
         {
             Glyph = Instantiate(GlyphPrefab, Rune.transform.position, Quaternion.identity);
@@ -135,13 +167,21 @@ public class ASecondaryFire : ASpell
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        if (!Rune.activeSelf)
+        {
+            Gizmos.DrawSphere(Rune.transform.position, CurrentRadius);
+        }
+    }
+
     private Vector3 GetGroundPosition()
     {
         Ray ray = SpellsReference.CameraReference.Camera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
             
         if (Physics.Raycast(ray, out RaycastHit hit, Range, GroundLayer))
         {
-            // Ensure the hit point is within range and on valid ground
+            // make sure the hit point is within range and on valid ground
             if (Vector3.Distance(SpellsReference.CastPoint.position, hit.point) <= Range)
             {
                 return hit.point + Vector3.up * .1f;
