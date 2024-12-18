@@ -15,7 +15,7 @@ public class AFlyingBossFSM : MonoBehaviour
     public FlyingBossState PreviousState { get; private set; }
 
     public event Action<FlyingBossState, FlyingBossState> OnStateChange;
-    public AFlyingBossController AFlyingBossController;
+    public AFlyingBossController FlyingBossController;
     public ATrinityController PlayerController;
     public Animator Animator;
     private bool FSM_RUNNING = false;
@@ -50,7 +50,6 @@ public class AFlyingBossFSM : MonoBehaviour
                 enabled = false;
                 return;
             }
-
             StartStateMachine();
         }
 

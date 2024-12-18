@@ -106,7 +106,7 @@ public class AInvincibleBossController : IEnemyController
         return 0;
     }
 
-    public void RotateTowardTarget(Vector3 directionToTarget, float rotateSpeed)
+    public void RotateTowardTarget(Vector3 directionToTarget , float rotateSpeed)
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
