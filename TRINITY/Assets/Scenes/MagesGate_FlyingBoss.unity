@@ -12104,6 +12104,7 @@ GameObject:
   - component: {fileID: 1334747051}
   - component: {fileID: 1334747049}
   - component: {fileID: 1334747050}
+  - component: {fileID: 1334747055}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -12150,18 +12151,27 @@ MonoBehaviour:
   InvincibleBoss: {fileID: 1705963345}
   ElectricShot: {fileID: 2900534572940629485, guid: 1d8d1503ac7ed224ab0e2cdd6b8a4ae5,
     type: 3}
+  GOElectricShot: {fileID: 2900534572940629487, guid: 1d8d1503ac7ed224ab0e2cdd6b8a4ae5,
+    type: 3}
   ElectricCharge: {fileID: 5773043792457465953, guid: 1179c16628afee74d98445f01d98f755,
+    type: 3}
+  GOElectricCharge: {fileID: 5773043792457465958, guid: 1179c16628afee74d98445f01d98f755,
     type: 3}
   CloseAttackRange: 13
   LongAttackRange: 30
   HoverRange: 50
-  HoverXAxis: 5
+  InvincibleBossRange: 2
+  HoverXAxis: 10
   HoverYAxis: 10
-  HoverZAxis: 5
-  ElectricChargeAttack: 10
-  SpikeAttack: 10
-  bCanSpikeAttacked: 0
-  bCanElectricChareAttacked: 0
+  HoverZAxis: 3
+  ElectricChargeAttackCD: 10
+  SpikeAttackCD: 10
+  RandomFlyCD: 2
+  bCanSpikeAttack: 1
+  bCanElectricChargeAttack: 1
+  bCanRandomFly: 0
+  bGOElectricShotSpawned: 0
+  bGOElectricChargeSpawned: 0
   SpikeAttackDMG: 10
   ElectricChareDMG: 20
   Health: {fileID: 1334747054}
@@ -12278,6 +12288,29 @@ MonoBehaviour:
   Regen: 5
   Current: 0
   bDead: 0
+--- !u!136 &1334747055
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334747046}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Height: 3.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!1 &1338709386
 GameObject:
   m_ObjectHideFlags: 0

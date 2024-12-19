@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -22,25 +23,6 @@ public class FBAttack : FlyingBossState
         PlayerController = FlyingBossFSM.PlayerController;
 
         AI = FBController.AI;
-
-        if (FBController.bCanElectricChareAttacked)
-        {
-            FBController.Animator.SetTrigger(ElectricAttack);
-            FBController.ElectricCharge.Play();
-            FBController.bCanSpikeAttacked = false;
-            FlyingBossFSM.EnqueueTransition<FBHover>();
-        }
-        else if (FBController.bCanSpikeAttacked)
-        {
-            FBController.Animator.SetTrigger(SpikeAttack);
-            FBController.ElectricShot.Play();
-            FBController.bCanSpikeAttacked = false;
-            FlyingBossFSM.EnqueueTransition<FBHover>();
-        }
-        else if (FBController.CalculateDistance() >= FBController.LongAttackRange && FBController.CalculateDistance() <= FBController.HoverRange)
-        {
-            FlyingBossFSM.EnqueueTransition<FBHover>();
-        }
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -49,8 +31,57 @@ public class FBAttack : FlyingBossState
 
     public override void UpdateBehaviour(float dt)
     {
-
+        FBController.RotateTowardTarget(FlyingBossFSM.PlayerController.transform.position);
+        if (FBController.bCanElectricChargeAttack)
+        {
+            Quaternion effectRotation = Quaternion.LookRotation(FBController.transform.forward) * Quaternion.Euler(0,90,0);
+            Vector3 effectPosition = FBController.transform.position + FBController.transform.forward;
+            FBController.Animator.SetTrigger(ElectricAttack);
+            if (!FBController.bGOElectricChargeSpawned)
+            {
+                Instantiate(FBController.GOElectricCharge, effectPosition, effectRotation);
+                FBController.bGOElectricChargeSpawned = true;
+                ElectricChargeAttack();
+            }
+            else
+            {
+                ElectricChargeAttack();
+            }
+        }
+        else if (FBController.bCanSpikeAttack)
+        {
+            Quaternion effectRotation = Quaternion.LookRotation(FBController.transform.forward) * Quaternion.Euler(0, 90, 0);
+            Vector3 effectPosition = FBController.transform.position + FBController.transform.forward;
+            FBController.Animator.SetTrigger(SpikeAttack);
+            if (!FBController.bGOElectricShotSpawned)
+            {
+                Instantiate(FBController.ElectricShot, effectPosition, effectRotation);
+                FBController.bGOElectricShotSpawned = true;
+                ElectricShotSpikeAttack();
+            }
+            else
+            {
+                ElectricShotSpikeAttack();
+            }
+        }
+        else if (FBController.CalculateDistance() >= FBController.LongAttackRange || FBController.CalculateDistance() <= FBController.HoverRange)
+        {
+            FlyingBossFSM.EnqueueTransition<FBHover>();
+        }
     }
+    private void ElectricShotSpikeAttack()
+    {
+        FBController.ElectricShot.Play();
+        FBController.bCanSpikeAttack = false;
+        FlyingBossFSM.EnqueueTransition<FBHover>();
+    }
+    private void ElectricChargeAttack()
+    {
+        FBController.ElectricCharge.Play();
+        FBController.bCanElectricChargeAttack = false;
+        FlyingBossFSM.EnqueueTransition<FBHover>();
+    }
+
     public override void PostUpdateBehaviour(float dt)
     {
     }
@@ -63,6 +94,6 @@ public class FBAttack : FlyingBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return false;
+        return true;
     }
 }

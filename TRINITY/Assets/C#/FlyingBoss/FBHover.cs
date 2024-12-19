@@ -38,20 +38,38 @@ public class FBHover : FlyingBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        TargetHoverPosition = GetRandomHoverPosition();
-        AI.SetDestination(TargetHoverPosition);
+        if (AI.remainingDistance <= AI.stoppingDistance)
+        {
+            if (FBController.bCanRandomFly)
+            {
+                FBController.bCanRandomFly = false;
+                TargetHoverPosition = GetRandomHoverPosition();
+                AI.SetDestination(TargetHoverPosition);
+            }
+            else
+            {
+                TargetHoverPosition = GetPositionBehindInvincibleBoss();
+                AI.SetDestination(TargetHoverPosition);
+            }
+        }
+
+        if (Vector3.Distance(FBController.transform.position, FBController.InvincibleBoss.position) > FBController.InvincibleBossRange)
+        {
+            TargetHoverPosition = GetPositionBehindInvincibleBoss();
+            AI.SetDestination(TargetHoverPosition);
+        }
 
         UpdateBlendTreeParameter();
 
-        if (!FBController.bCanElectricChareAttacked && FBController.CalculateDistance() <= FBController.LongAttackRange)
+        if (FBController.bCanElectricChargeAttack && FBController.CalculateDistance() <= FBController.LongAttackRange)
         {
             FlyingBossFSM.EnqueueTransition<FBAttack>();
-            FBController.bCanElectricChareAttacked = true;
+            FBController.bCanElectricChargeAttack = false;
         }
-        else if ((!FBController.bCanSpikeAttacked && FBController.CalculateDistance() <= FBController.CloseAttackRange))
+        else if ((FBController.bCanSpikeAttack && FBController.CalculateDistance() <= FBController.CloseAttackRange))
         {
             FlyingBossFSM.EnqueueTransition<FBAttack>();
-            FBController.bCanSpikeAttacked = true;
+            FBController.bCanSpikeAttack = false;
         }
     }
     public override void PostUpdateBehaviour(float dt)
@@ -66,13 +84,12 @@ public class FBHover : FlyingBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return false;
+        return true;
     }
     Vector3 GetRandomHoverPosition()
     {
         Vector3 invincibleBossPosition = FBController.InvincibleBoss.position;
-
-        float randomX = Random.Range(-FBController.HoverXAxis, FBController.HoverXAxis);
+        /*float randomX = Random.Range(-FBController.HoverXAxis, FBController.HoverXAxis);
         float randomY = Random.Range(-FBController.HoverYAxis, FBController.HoverYAxis);
         float randomZ = Random.Range(-FBController.HoverZAxis, FBController.HoverZAxis);
 
@@ -86,7 +103,42 @@ public class FBHover : FlyingBossState
         else
         {
             return GetRandomHoverPosition();
+        }*/
+        for (int attempt = 0; attempt < 5; attempt++)
+        {
+            float randomX = Random.Range(-FBController.HoverXAxis, FBController.HoverXAxis);
+            float randomY = Random.Range(-FBController.HoverYAxis, FBController.HoverYAxis);
+            float randomZ = Random.Range(-FBController.HoverZAxis, FBController.HoverZAxis);
+
+            Vector3 randomPosition = invincibleBossPosition + new Vector3(randomX, randomY, randomZ);
+
+            if (NavMesh.SamplePosition(randomPosition, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+            {
+                return hit.position;
+            }
         }
+        return invincibleBossPosition;
+    }
+    Vector3 GetPositionBehindInvincibleBoss()
+    {
+        Vector3 invincibleBossPosition = FBController.InvincibleBoss.position;
+        Vector3 directionToInvincibleBoss = (FBController.transform.position - invincibleBossPosition).normalized;
+        Vector3 behindPosition = invincibleBossPosition - directionToInvincibleBoss * FBController.InvincibleBossRange;
+
+        int maxAttempts = 5;
+        float sampleRadius = 10f;
+
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            if (NavMesh.SamplePosition(behindPosition, out NavMeshHit hit, sampleRadius, NavMesh.AllAreas))
+            {
+                return hit.position;
+            }
+            behindPosition += Random.insideUnitSphere * 2f;
+        }
+
+        Debug.LogWarning("Failed to find a valid position behind the invincible boss. Returning fallback position.");
+        return invincibleBossPosition;
     }
     void UpdateBlendTreeParameter()
     {
@@ -101,5 +153,8 @@ public class FBHover : FlyingBossState
 
         animator.SetFloat(verticalParameter, vertical);
         animator.SetFloat(horizontalParameter, horizontal);
+
+        float blendValue = Mathf.Sqrt(vertical * vertical + horizontal * horizontal);
+        animator.SetFloat(blendTreeParameter, blendValue);
     }
 }

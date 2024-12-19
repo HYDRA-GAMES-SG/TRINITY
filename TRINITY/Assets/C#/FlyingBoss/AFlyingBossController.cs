@@ -8,12 +8,15 @@ public class AFlyingBossController : IEnemyController
     public Rigidbody rb;
     public Transform InvincibleBoss;
     public ParticleSystem ElectricShot;
+    public GameObject GOElectricShot;
     public ParticleSystem ElectricCharge;
+    public GameObject GOElectricCharge;
 
     [Header("Distance Check")]
     public float CloseAttackRange = 13f;
     public float LongAttackRange = 30f;
     public float HoverRange = 50f;
+    public float InvincibleBossRange = 2f;
 
     [Header("Custom Hide Range")]
     public float HoverXAxis = 10f;
@@ -21,15 +24,20 @@ public class AFlyingBossController : IEnemyController
     public float HoverZAxis = 3f;
 
     [Header("Cooldown Time")]
-    [SerializeField] float ElectricChargeAttack = 10f;
-    [SerializeField] float SpikeAttack = 10f;
+    [SerializeField] float ElectricChargeAttackCD = 10f;
+    [SerializeField] float SpikeAttackCD = 10f;
+    [SerializeField] float RandomFlyCD = 2f;
 
 
     float TimerSpikeAttack = 0f;
     float TimerElectricChargeAttack = 0f;
+    float TimerRandomFly = 0f;
 
-    public bool bCanSpikeAttacked = false;
-    public bool bCanElectricChareAttacked = false;
+    public bool bCanSpikeAttack = true;
+    public bool bCanElectricChargeAttack = true;
+    public bool bCanRandomFly = true;
+    public bool bGOElectricShotSpawned = false;
+    public bool bGOElectricChargeSpawned = false;
 
     [Header("Attack Damage")]
     [SerializeField] float SpikeAttackDMG;
@@ -54,26 +62,35 @@ public class AFlyingBossController : IEnemyController
     }
     private void CheckCoolDown()
     {
-        if (bCanSpikeAttacked)
+        if (bCanRandomFly)
+        {
+            TimerRandomFly += Time.deltaTime;
+            if (TimerRandomFly >= RandomFlyCD)
+            {
+                bCanRandomFly = true;
+                TimerRandomFly = 0f;
+            }
+        }
+        if (bCanSpikeAttack)
         {
             TimerSpikeAttack += Time.deltaTime;
-            if (TimerSpikeAttack >= SpikeAttack)
+            if (TimerSpikeAttack >= SpikeAttackCD)
             {
-                bCanSpikeAttacked = true;
+                bCanSpikeAttack = true;
                 TimerSpikeAttack = 0f;
             }
         }
-        if (bCanElectricChareAttacked)
+        if (bCanElectricChargeAttack)
         {
             TimerElectricChargeAttack += Time.deltaTime;
-            if (TimerElectricChargeAttack >= ElectricChargeAttack)
+            if (TimerElectricChargeAttack >= ElectricChargeAttackCD)
             {
-                bCanElectricChareAttacked = true;
+                bCanElectricChargeAttack = true;
                 TimerElectricChargeAttack = 0f;
             }
         }
     }
-    public float GetCurrentAttackDamage()
+    public override float GetCurrentAttackDamage()
     {
         if (FlyingBossFSM.CurrentState is FBAttack)
         {
