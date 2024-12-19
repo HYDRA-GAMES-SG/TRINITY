@@ -64,10 +64,15 @@ public class ALightningBeam : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
+
             HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
 
-            ACrabController enemyController = enemyHitbox.EnemyController.GetComponent<ACrabController>();
-            enemyController.TriggerGetHit();
+            if (!enemyHitbox)
+            {
+                return;
+            }
+
+            enemyHitbox.EnemyController.TriggerGetHit();
 
             FDamageInstance damageSource = new FDamageInstance(Damage, AilmentType, StacksApplied);
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;

@@ -61,12 +61,12 @@ public class AFireball : MonoBehaviour
             {
                 return;
             }
-            
+
             enemyHitbox.EnemyController.TriggerGetHit();
             //print(enemyHitbox.EnemyController.name);
-            
 
-            UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus; 
+
+            UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryFire.AilmentType, PrimaryFire.StacksApplied);
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryFire.AilmentType} + {PrimaryFire.StacksApplied}");
@@ -85,6 +85,10 @@ public class AFireball : MonoBehaviour
             //    enemyVFX.Play();
             //}
 
+        }
+        else 
+        {
+            SpawnExplosion();
         }
     }
 }

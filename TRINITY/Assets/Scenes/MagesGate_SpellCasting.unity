@@ -5285,7 +5285,7 @@ GameObject:
   - component: {fileID: 282844543}
   - component: {fileID: 282844542}
   m_Layer: 0
-  m_Name: IceSlicer
+  m_Name: IceWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5414,20 +5414,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 096ffb3eefa003940879fc7909538c81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 1234315416888464984, guid: 6d4cff6572d27df4b8b7148bbd3ec076,
+  SpellPrefab: {fileID: 7306717205594611073, guid: df15f2020d48a314bbde681294cc05ab,
     type: 3}
-  Cooldown: 0
+  Cooldown: 0.5
   ManaCost: 0
   ManaUpkeepCost: 0
   SpellElement: 1
   SpellType: 0
-  SpellAction: 4
+  SpellAction: 0
   bUseMaskedLayer: 1
+  StacksApplied: 0
+  AilmentType: 0
+  UtilityFire: {fileID: 464930957}
   ColdSource: {fileID: 0}
   ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
   ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
   ColdRelease: {fileID: 0}
-  UtilityFire: {fileID: 464930957}
+  CastVFX: {fileID: 6631954114883094723, guid: 16292c23524a51c4cbf691a48b9d4ef9, type: 3}
 --- !u!1 &288070131
 GameObject:
   m_ObjectHideFlags: 0
@@ -20575,14 +20578,17 @@ MonoBehaviour:
   SpellAction: 4
   bUseMaskedLayer: 1
   ENABLE_DEBUG: 0
+  AilmentType: 0
+  StacksPerRadius: 0
+  DamagePerStack: 50
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
   Range: 10
   MaxChannelTime: 2
-  MaxSize: 4
-  MinSize: 0.2
-  MaxHeight: 0.6
+  MaxRadius: 4
+  MinRadius: 0.1
+  MaxRuneParticleHeight: 0.5
   GlyphPrefab: {fileID: 4928933366125351325, guid: 8876011cd171c7c409bdceb767d9b2a0,
     type: 3}
   PillarPrefab: {fileID: 2478320963783506280, guid: b0a5aed8781922e4ba48d003b32b1330,
