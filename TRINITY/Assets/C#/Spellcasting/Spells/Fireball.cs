@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AFireball : MonoBehaviour
+public class Fireball : MonoBehaviour
 {
     public static APrimaryFire PrimaryFire;
     [HideInInspector]

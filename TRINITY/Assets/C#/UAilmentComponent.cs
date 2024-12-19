@@ -7,7 +7,8 @@ public enum EAilmentType
 {
     EAT_Ignite,
     EAT_Charge,
-    EAT_Chill
+    EAT_Chill,
+    EAT_None
 }
 
 public class UAilmentComponent : MonoBehaviour
@@ -58,6 +59,11 @@ public class UAilmentComponent : MonoBehaviour
     {
         foreach (EAilmentType ailment in Enum.GetValues(typeof(EAilmentType)))
         {
+            if (ailment == EAilmentType.EAT_None)
+            {
+                continue;
+            }
+            
             AilmentKeys[ailment] = new Ailment
             {
                 Stacks = 0,

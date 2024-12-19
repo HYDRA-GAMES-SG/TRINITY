@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class APrimaryLightning : ASpell
 {
+    public float DamagePerSecond = 10f;
+    public float AilmentStacksPerSecond = 1f;
     Rigidbody Rigidbody;
 
     [Header("VFX Prefabs")]
     public GameObject ImpactVFX;
     public GameObject ShockVFX;
-
+    
     private GameObject Beam;
     public AudioSource LightningSource;
     public AudioClip LightningAttack, LightningSustain, LightningRelease;
@@ -23,6 +25,7 @@ public class APrimaryLightning : ASpell
         {
             Beam = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
             Beam.transform.parent = SpellsReference.CastPoint.transform;
+            Beam.GetComponent<LightningBeam>().SpellsReference = SpellsReference;
         }
         LightningSource = GetComponent<AudioSource>();
         LightningSource.clip = LightningSustain;
@@ -30,12 +33,6 @@ public class APrimaryLightning : ASpell
 
     public override void CastStart()
     {
-
-        if (UtilityFire.bAura && UtilityFire != null)
-        {
-            ALightningBeam lightningBeam = Beam.GetComponent<ALightningBeam>();
-            lightningBeam.bAura = true;
-        }
         Beam.SetActive(true);
         //LightningSource.PlayOneShot(LightningAttack);
         LightningSource.Play();
@@ -45,11 +42,6 @@ public class APrimaryLightning : ASpell
     {
         Quaternion newRot = SpellsReference.CameraReference.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
         Beam.transform.rotation = newRot;
-        if (!UtilityFire.bAura)
-        {
-            ALightningBeam lightningBeam = Beam.GetComponent<ALightningBeam>();
-            lightningBeam.bAura = false;
-        }
     }
 
     public override void CastEnd()

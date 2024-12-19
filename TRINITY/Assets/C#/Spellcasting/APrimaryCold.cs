@@ -4,47 +4,48 @@ using UnityEngine;
 
 public class APrimaryCold : ASpell
 {
-    Rigidbody Rigidbody;
-    public Quaternion SpellRot = new Quaternion();
-    private int CastNumber;
+    [Header("Spell Properties")]
+    public int StacksOfChillApplied;
+    //public float ConvergenceRange = 5;
     
-    public int StacksApplied;
-    public EAilmentType AilmentType;
-    public AUtilityFire UtilityFire;
-    public AudioSource ColdSource;
-    public AudioClip ColdAttack, ColdSustain, ColdRelease;
+    [HideInInspector]
+    public Quaternion SpellRot = new Quaternion();
+    
+    [HideInInspector]
+    public int CastNumber;
+
+    [Header("Audio")] 
+    public AudioClip CastingSFX;
+    
     [Header("VFX Prefabs")]
-    public GameObject CastVFX;
+    public GameObject CastingVFX;
     // Start is called before the first frame update
     public override void Initialize()
     {
-        ColdSource = GetComponent<AudioSource>();
         SpellRot = Quaternion.Euler(0,180,45);
     }
     public override void CastStart()
     {
-        Instantiate(CastVFX, SpellsReference.CastPoint.position, CastVFX.transform.rotation);
-        GameObject go = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, SpellRot);
+
+        GameObject castFX = Instantiate(CastingVFX, SpellsReference.CastPoint.transform.position, Quaternion.identity);
+        castFX.GetComponent<FollowCastPoint>().CastPoint = SpellsReference.CastPoint;
+        
+        Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;
+        GameObject go = Instantiate(SpellPrefab, castPoint, SpellRot);
         CastNumber++;
-        if (CastNumber % 2 != 0)
-        {
-            SpellRot = Quaternion.Euler(0, 180, -45);
-        }
-        else
-        {
-            SpellRot = Quaternion.Euler(0, 180, 45);
-        }
         go.transform.parent = this.gameObject.transform; 
         
-        AIceWave iceWave = go.GetComponent<AIceWave>();
-        iceWave.ColdSource = ColdSource;
+        IceWave iceWave = go.GetComponent<IceWave>();
 
-        go.GetComponent<AIceWave>().Spells = SpellsReference;
+        iceWave.Spells = SpellsReference;
+        iceWave.Controller = Controller;
+        
+        Release();
     }
 
     public override void CastUpdate()
     {
-       
+
     }
 
     public override void CastEnd()

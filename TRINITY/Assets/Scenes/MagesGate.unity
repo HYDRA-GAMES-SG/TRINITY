@@ -4318,10 +4318,14 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3830785774540179595, guid: 985e55eaf9048c246938ef2616bc5e0d,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 2
   SpellType: 0
   SpellAction: 3
   bUseMaskedLayer: 1
+  DamagePerSecond: 10
+  AilmentStacksPerSecond: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -10149,6 +10153,8 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3430567750250834287, guid: b809323b907533e469ac0ac9e4d2fb38,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
@@ -11316,15 +11322,17 @@ MonoBehaviour:
   SpellPrefab: {fileID: 1234315416888464984, guid: 6d4cff6572d27df4b8b7148bbd3ec076,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 1
   SpellType: 0
   SpellAction: 4
   bUseMaskedLayer: 1
-  ColdSource: {fileID: 0}
-  ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
-  ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
-  ColdRelease: {fileID: 0}
-  UtilityFire: {fileID: 0}
+  StacksOfChillApplied: 0
+  SpellRot: {x: 0, y: 0, z: 0, w: 0}
+  CastNumber: 0
+  CastingSFX: {fileID: 0}
+  CastingVFX: {fileID: 0}
 --- !u!1 &999560991
 GameObject:
   m_ObjectHideFlags: 0
@@ -15148,19 +15156,24 @@ MonoBehaviour:
   SpellPrefab: {fileID: 5284930186813762420, guid: 93b610399a6bfa240b1c352d4a0c171a,
     type: 3}
   Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 4
   bUseMaskedLayer: 0
   ENABLE_DEBUG: 0
+  AilmentType: 0
+  StacksPerRadius: 0
+  DamagePerStack: 50
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
   Range: 10
   MaxChannelTime: 2
-  MaxSize: 4
-  MinSize: 0.2
-  MaxHeight: 0.6
+  MaxRadius: 4
+  MinRadius: 0.1
+  MaxRuneParticleHeight: 0.5
   GlyphPrefab: {fileID: 4928933366125351325, guid: 8876011cd171c7c409bdceb767d9b2a0,
     type: 3}
   PillarPrefab: {fileID: 2478320963783506280, guid: b0a5aed8781922e4ba48d003b32b1330,
@@ -15367,6 +15380,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
   bForcefieldActive: 0
+  SpellsReference: {fileID: 0}
 --- !u!114 &1485682131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15462,7 +15476,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120e58441bc39754182d76cb1839fafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraReference: {fileID: 0}
 --- !u!1 &1516860196
 GameObject:
   m_ObjectHideFlags: 0
@@ -20209,7 +20222,7 @@ MonoBehaviour:
   JumpForce: 12
   GlideMoveAcceleration: 80
   GlideStrafeAcceleration: 80
-  GravityModifier: 0.25
+  GlideGravityModifier: 0.4
 --- !u!1 &2014537955
 GameObject:
   m_ObjectHideFlags: 0
@@ -20354,10 +20367,14 @@ MonoBehaviour:
   SpellPrefab: {fileID: 3852721855287756135, guid: 0dfb340795aab884195ea876a9400c3b,
     type: 3}
   Cooldown: 1.5
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 0
   SpellAction: 0
   bUseMaskedLayer: 1
+  StacksApplied: 0
+  AilmentType: 0
   FireSource: {fileID: 0}
   FireAttack:
   - {fileID: 8300000, guid: d8a20358c3d9e4b4e9bb4f0f4f8d8587, type: 3}
@@ -20415,6 +20432,8 @@ MonoBehaviour:
   SpellPrefab: {fileID: 904328815561062564, guid: 9269c405172bbe845971ab6f79b927e5,
     type: 3}
   Cooldown: 2
+  ManaCost: 0
+  ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
@@ -23039,10 +23058,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9033413940220303069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bcf2c158d6cbd2479f25ec34643a6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrabController: {fileID: 0}
   DealDamageOnlyOnce: 1
 --- !u!144 &1937295481377250680
 CharacterJoint:
@@ -26654,10 +26672,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 227150038934621576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9763835999ac1c84cb740cc8f728ed72, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bcf2c158d6cbd2479f25ec34643a6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CrabController: {fileID: 0}
   DealDamageOnlyOnce: 1
 --- !u!4 &5525167508307540491
 Transform:

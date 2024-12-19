@@ -53815,12 +53815,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3830785774540179596}
+  - component: {fileID: 3857227854276601864}
   - component: {fileID: 3830785774540179593}
   - component: {fileID: 3830785774540179597}
   - component: {fileID: 3830785774540179594}
   - component: {fileID: 5319973692643668521}
   - component: {fileID: 147758921737837382}
-  - component: {fileID: 3857227854276601864}
   m_Layer: 7
   m_Name: LightningBeam
   m_TagString: Untagged
@@ -53851,6 +53851,24 @@ Transform:
   - {fileID: 497163073378928432}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &3857227854276601864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3830785774540179595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32b6fc9c56dd1ed48a97d4f28ea7298c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpellsReference: {fileID: 0}
+  Damage: 0.15
+  StacksApplied: 0
+  bAura: 0
+  ImpactVFX: {fileID: 0}
+  ShockVFX: {fileID: 0}
 --- !u!114 &3830785774540179593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58771,23 +58789,6 @@ CapsuleCollider:
   m_Height: 5.5
   m_Direction: 0
   m_Center: {x: -2.47, y: 0, z: 0}
---- !u!114 &3857227854276601864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3830785774540179595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32b6fc9c56dd1ed48a97d4f28ea7298c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Damage: 0.15
-  StacksApplied: 0
-  AilmentType: 0
-  ImpactVFX: {fileID: 0}
-  ShockVFX: {fileID: 0}
 --- !u!1 &3972007916930092231
 GameObject:
   m_ObjectHideFlags: 0

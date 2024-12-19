@@ -24725,11 +24725,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7306717205594611074}
+  - component: {fileID: 6815711799184673889}
   - component: {fileID: 7306717205594611075}
   - component: {fileID: 7306717205594611072}
-  - component: {fileID: 6815711799184673889}
   - component: {fileID: 8656919885241057684}
   - component: {fileID: 1963804921093879172}
+  - component: {fileID: -5127244388402853761}
   m_Layer: 7
   m_Name: IceWave
   m_TagString: Untagged
@@ -24747,7 +24748,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.41}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7400496061213224578}
@@ -24765,6 +24766,26 @@ Transform:
   - {fileID: 4445569947480902467}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6815711799184673889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306717205594611073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f29fb5c9a1aa1874a8dc055340f43db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 50
+  Duration: 7
+  Speed: 45
+  Controller: {fileID: 0}
+  Spells: {fileID: 0}
+  ColdSource: {fileID: 0}
+  ExplosionVFX: {fileID: 6648929964555825526, guid: a404f3c8feac32144addccc0fbd5087f,
+    type: 3}
 --- !u!198 &7306717205594611075
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -29560,29 +29581,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &6815711799184673889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7306717205594611073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f29fb5c9a1aa1874a8dc055340f43db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Spells: {fileID: 0}
-  Damage: 20
-  Duration: 2
-  Speed: 30
-  bAura: 0
-  ColdSource: {fileID: 0}
-  ColdAttack: {fileID: 0}
-  ColdSustain: {fileID: 0}
-  ColdRelease: {fileID: 0}
-  ExplosionVFX: {fileID: 6648929964555825526, guid: a404f3c8feac32144addccc0fbd5087f,
-    type: 3}
 --- !u!54 &8656919885241057684
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -29605,12 +29603,33 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &1963804921093879172
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306717205594611073}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.94, y: 0.53, z: 0.9}
+  m_Center: {x: -0.01, y: 0, z: 0.33}
+--- !u!65 &-5127244388402853761
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -29629,8 +29648,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 4.2486153, y: 1, z: 2.5856156}
-  m_Center: {x: -0.20569229, y: 0, z: 0.6631099}
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Center: {x: 0, y: 0, z: 0.03}
 --- !u!1 &7400496060451139461
 GameObject:
   m_ObjectHideFlags: 0

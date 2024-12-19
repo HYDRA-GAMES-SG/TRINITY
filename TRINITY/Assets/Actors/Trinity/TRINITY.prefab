@@ -4709,6 +4709,162 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0107945055, y: -0.04413934, z: 0.025976788}
     m_Extent: {x: 0.27011836, y: 0.19250403, z: 0.124930516}
   m_DirtyAABB: 0
+--- !u!1 &3254939156396573144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6246585241689206426}
+  - component: {fileID: 406002639676187026}
+  - component: {fileID: 4539639285837369700}
+  m_Layer: 0
+  m_Name: IceWave
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6246585241689206426
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254939156396573144}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6082099646200123171}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &406002639676187026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254939156396573144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 096ffb3eefa003940879fc7909538c81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpellPrefab: {fileID: 7306717205594611073, guid: df15f2020d48a314bbde681294cc05ab,
+    type: 3}
+  Cooldown: 0.5
+  ManaCost: 4
+  ManaUpkeepCost: 0
+  SpellElement: 1
+  SpellType: 0
+  SpellAction: 0
+  bUseMaskedLayer: 1
+  StacksOfChillApplied: 5
+  SpellRot: {x: 0, y: 0, z: 0, w: 0}
+  CastNumber: 0
+  CastingSFX: {fileID: 0}
+  CastingVFX: {fileID: 6631954114883094723, guid: 16292c23524a51c4cbf691a48b9d4ef9,
+    type: 3}
+--- !u!82 &4539639285837369700
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254939156396573144}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &3315196092930294997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4763,6 +4919,8 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 3
   bUseMaskedLayer: 1
+  DamagePerSecond: 10
+  AilmentStacksPerSecond: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -5514,6 +5672,7 @@ Transform:
   - {fileID: 6995803390098422280}
   - {fileID: 331085962161707221}
   - {fileID: 6159921082643614308}
+  - {fileID: 6246585241689206426}
   m_Father: {fileID: 7234860868322912901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8706561108077516613
@@ -12977,7 +13136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120e58441bc39754182d76cb1839fafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraReference: {fileID: 0}
 --- !u!114 &7379859201774273544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16031,9 +16189,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6739910156671201808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b5681ccb7d2d284cb737aef7ea061a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 74f1222b200ce88478b9f5a3fe70750d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AudioPoolSize: 3
+  MixerGroup: {fileID: 0}
 --- !u!1 &6777509058372293030
 GameObject:
   m_ObjectHideFlags: 0
@@ -16089,14 +16249,17 @@ MonoBehaviour:
   SpellAction: 4
   bUseMaskedLayer: 0
   ENABLE_DEBUG: 0
+  AilmentType: 0
+  StacksPerRadius: 0
+  DamagePerStack: 50
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
   Range: 10
   MaxChannelTime: 2
-  MaxSize: 4
-  MinSize: 0.2
-  MaxHeight: 0.6
+  MaxRadius: 4
+  MinRadius: 0.1
+  MaxRuneParticleHeight: 0.5
   GlyphPrefab: {fileID: 4928933366125351325, guid: 8876011cd171c7c409bdceb767d9b2a0,
     type: 3}
   PillarPrefab: {fileID: 2478320963783506280, guid: b0a5aed8781922e4ba48d003b32b1330,
@@ -17218,6 +17381,8 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 0
   bUseMaskedLayer: 1
+  StacksApplied: 0
+  AilmentType: 0
   FireSource: {fileID: 0}
   FireAttack:
   - {fileID: 8300000, guid: d8a20358c3d9e4b4e9bb4f0f4f8d8587, type: 3}
@@ -17613,11 +17778,11 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 4
   bUseMaskedLayer: 1
-  ColdSource: {fileID: 0}
-  ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
-  ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
-  ColdRelease: {fileID: 0}
-  UtilityFire: {fileID: 0}
+  StacksOfChillApplied: 0
+  SpellRot: {x: 0, y: 0, z: 0, w: 0}
+  CastNumber: 0
+  CastingSFX: {fileID: 0}
+  CastingVFX: {fileID: 0}
 --- !u!82 &6362594279218516197
 AudioSource:
   m_ObjectHideFlags: 0
@@ -18153,7 +18318,7 @@ MonoBehaviour:
   JumpForce: 12
   GlideMoveAcceleration: 80
   GlideStrafeAcceleration: 80
-  GravityModifier: 0.25
+  GlideGravityModifier: 0.4
 --- !u!1 &8365621007903940343
 GameObject:
   m_ObjectHideFlags: 0

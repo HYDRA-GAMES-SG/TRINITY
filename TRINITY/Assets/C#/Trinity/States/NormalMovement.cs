@@ -151,7 +151,12 @@ public class NormalMovement : TrinityState
             return;
         }
 
-        float chargeGravityModifier = BossAilments != null ? BossAilments.ChargeGlideGravityModifier : 1f;
+        float chargeGravityModifier = 1f;
+
+        if (Brain.GetEnemyController() != null)
+        {
+            chargeGravityModifier = BossAilments.ChargeGlideGravityModifier;
+        }
         //Handle Glide
         Controller.Gravity = ATrinityController.GRAVITY_CONSTANT * GlideGravityModifier * chargeGravityModifier;
     }
@@ -365,7 +370,12 @@ public class NormalMovement : TrinityState
 
     public float GetChargedJumpForce()
     {
-        float additionalJumpForce = BossAilments != null ? BossAilments.ChargeAdditionalJumpForce : 0f;
+        float additionalJumpForce = 0f;
+        if (Brain.GetEnemyController() != null)
+        {
+            additionalJumpForce = BossAilments.ChargeAdditionalJumpForce;
+        }
+        
         return JumpForce + additionalJumpForce;
     }
 
@@ -373,6 +383,7 @@ public class NormalMovement : TrinityState
     {
 
         float chargeMoveModifier = 1f;
+        
         if (Brain.GetEnemyController() != null)
         {
             chargeMoveModifier = BossAilments.ChargeMoveModifier;

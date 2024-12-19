@@ -19,10 +19,10 @@ public class APrimaryFire : ASpell
         GameObject go = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, Quaternion.identity);
         go.transform.parent = this.gameObject.transform;
         
-        AFireball fireball = go.GetComponent<AFireball>();
+        Fireball fireball = go.GetComponent<Fireball>();
         fireball.FireSource = FireSource;
         
-        go.GetComponent<AFireball>().Spells = SpellsReference;
+        go.GetComponent<Fireball>().Spells = SpellsReference;
         int i = Random.Range(0, FireAttack.Length - 1);
         FireSource.PlayOneShot(FireAttack[i]);
 

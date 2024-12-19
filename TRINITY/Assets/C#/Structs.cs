@@ -26,10 +26,11 @@ public struct FDamageInstance
     public float Damage;
     public int StatusStacks;
     public EAilmentType AilmentType;
-    public FDamageInstance(float targetHealth, EAilmentType ailmentType , int targetAilmentStacks)
+    
+    public FDamageInstance(float damage, EAilmentType ailmentType , int targetAilmentStacks)
     {
         //Things included inside damage
-        Damage = targetHealth;
+        Damage = damage;
         StatusStacks = targetAilmentStacks;
         AilmentType = ailmentType;
     }
@@ -38,6 +39,7 @@ public struct FDamageInstance
     {
         enemy.Health.Modify(damageSource);
         enemy.Ailments.ModifyStack(damageSource.AilmentType,damageSource.StatusStacks);
+        
         Debug.Log($"Damage Taken : {damageSource.Damage}, Ailment type & stacks applied : {damageSource.AilmentType},{damageSource.StatusStacks}");
         return enemy;
     }
