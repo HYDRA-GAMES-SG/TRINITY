@@ -5,74 +5,50 @@ using UnityEngine;
 public class APrimaryCold : ASpell
 {
     Rigidbody Rigidbody;
-    private GameObject[] IceSlicer = new GameObject[2];
-
+    public Quaternion SpellRot = new Quaternion();
+    private int CastNumber;
+    
+    public int StacksApplied;
+    public EAilmentType AilmentType;
+    public AUtilityFire UtilityFire;
     public AudioSource ColdSource;
     public AudioClip ColdAttack, ColdSustain, ColdRelease;
-    public AUtilityFire UtilityFire;
-
+    [Header("VFX Prefabs")]
+    public GameObject CastVFX;
     // Start is called before the first frame update
     public override void Initialize()
     {
-        for (int i = 0; i < IceSlicer.Length; i++)
-        {
-            IceSlicer[i] = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
-            IceSlicer[i].transform.parent = SpellsReference.CastPoint.transform;
-            if (i == 1) 
-            {
-                IceSlicer[i].transform.rotation = new Quaternion(0, -1, 0, 0);
-            }
-        }
         ColdSource = GetComponent<AudioSource>();
-        ColdSource.clip = ColdSustain;
-    }
-    public void Chill() 
-    {
-
+        SpellRot = Quaternion.Euler(0,180,45);
     }
     public override void CastStart()
     {
-        for (int i = 0; i < IceSlicer.Length; i++)
+        Instantiate(CastVFX, SpellsReference.CastPoint.position, CastVFX.transform.rotation);
+        GameObject go = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, SpellRot);
+        CastNumber++;
+        if (CastNumber % 2 != 0)
         {
-            if (UtilityFire.bAura)
-            {
-                AIceSlicer iceSlicer = IceSlicer[i].GetComponent<AIceSlicer>();
-                iceSlicer.bAura = true;
-            }
-            IceSlicer[i].SetActive(true);
+            SpellRot = Quaternion.Euler(0, 180, -45);
         }
-        ColdSource.PlayOneShot(ColdAttack);
-        ColdSource.Play();
+        else
+        {
+            SpellRot = Quaternion.Euler(0, 180, 45);
+        }
+        go.transform.parent = this.gameObject.transform; 
+        
+        AIceWave iceWave = go.GetComponent<AIceWave>();
+        iceWave.ColdSource = ColdSource;
+
+        go.GetComponent<AIceWave>().Spells = SpellsReference;
     }
 
     public override void CastUpdate()
     {
-        for (int i = 0; i < IceSlicer.Length; i++)
-        {
-            if (!UtilityFire.bAura & UtilityFire != null)
-            {
-                AIceSlicer iceSlicer = IceSlicer[i].GetComponent<AIceSlicer>();
-                iceSlicer.bAura = false;
-            }
-        }
+       
     }
 
     public override void CastEnd()
     {
-        for (int i = 0; i < IceSlicer.Length; i++)
-        {
-            IceSlicer[i].SetActive(false);
-        }
-        //ColdSource.PlayOneShot(ColdRelease);
-        ColdSource.Stop();
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Enemy")
-        {
-
-
-        }
+      
     }
 }

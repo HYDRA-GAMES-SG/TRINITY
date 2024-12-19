@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 410087040}
-  m_IndirectSpecularColor: {r: 0.005645117, g: 0.013736597, b: 0.019914193, a: 1}
+  m_IndirectSpecularColor: {r: 0.005634145, g: 0.013711654, b: 0.019882003, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -911,6 +911,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &269715836 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7626815042097430355, guid: 60b124caf32955048a64c10532b1f32f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4075609089960059738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &269715838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269715836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3be821675e35d46887d9b4427cb812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeshType: 1
+  Size: 0.15
+  StrengthMultiplier: 0.5
+  AdditionalConstantStrength: 0
+  Offset: {x: -0.2, y: 0, z: -0.03}
+  MeshIntersectionThreshold: 0.25
 --- !u!1 &270724853
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1447,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.94070077, g: 0.8192488, b: 0.63262755, a: 1}
-  m_Intensity: 3
+  m_Intensity: 1.63
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1466,7 +1490,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 10
-  m_ColorTemperature: 4767
+  m_ColorTemperature: 6945
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 2.484599e+27, y: 7.034135e+28, z: 1.7077771e+19, w: 4.2329707e+21}
   m_UseBoundingSphereOverride: 0
@@ -3270,6 +3294,30 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 750377112}
   m_CullTransparentMesh: 1
+--- !u!1 &750382532 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1124729451011858146, guid: 60b124caf32955048a64c10532b1f32f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4075609089960059738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &750382534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750382532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3be821675e35d46887d9b4427cb812, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeshType: 1
+  Size: 0.15
+  StrengthMultiplier: 0.5
+  AdditionalConstantStrength: 0
+  Offset: {x: 0.18, y: 0, z: 0}
+  MeshIntersectionThreshold: 0.25
 --- !u!1 &751577556
 GameObject:
   m_ObjectHideFlags: 0
@@ -5004,7 +5052,7 @@ Canvas:
   m_GameObject: {fileID: 1037709489}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 703542712}
   m_PlaneDistance: 0.9
   m_PixelPerfect: 0
@@ -6471,7 +6519,7 @@ GameObject:
   - component: {fileID: 1256327300}
   m_Layer: 0
   m_Name: Bedrock
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8494,7 +8542,7 @@ GameObject:
   - component: {fileID: 1886642121}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -9793,7 +9841,15 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 6739910156671201808, guid: 60b124caf32955048a64c10532b1f32f, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1124729451011858146, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 750382534}
+    - targetCorrespondingSourceObject: {fileID: 7626815042097430355, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 269715838}
   m_SourcePrefab: {fileID: 100100000, guid: 60b124caf32955048a64c10532b1f32f, type: 3}
 --- !u!64 &8137078217973040800
 MeshCollider:
