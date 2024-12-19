@@ -281,10 +281,10 @@ public class NormalMovement : TrinityState
     {
         if (MovementState == ETrinityMovement.ETM_Falling || MovementState == ETrinityMovement.ETM_Jumping)
         {
-            if (!InputReference.JumpInput)
-            {
+            // if (!InputReference.JumpInput)
+            // {
                 bCanGlide = true;
-            }
+            //}
         }
 
         if (bCanGlide)
