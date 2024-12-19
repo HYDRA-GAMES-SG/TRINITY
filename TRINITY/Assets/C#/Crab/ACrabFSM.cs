@@ -19,8 +19,6 @@ public class ACrabFSM : MonoBehaviour, IFSM
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
-    public bool ShowDebugLog = false;
-
     private void Awake()
     {
         InitializeStates();
@@ -28,13 +26,6 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void FixedUpdate()
     {
-        if (ShowDebugLog)
-        {
-            //Debug.Log(TransitionQueue.Count);
-            Debug.Log(Vector3.Distance(PlayerController.transform.position, CrabController.transform.position));
-
-        }
-
         TryInitialize();
 
         // Check for transitions and update the current state

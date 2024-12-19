@@ -7,14 +7,7 @@ public class JumpSmash : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue)
-        {
-            if (CrabFSM.CrabController.CanJumpSmash)
-            {
-                return true;
-            }
-        }
-        return false;
+        return fromState is Pursue && CrabFSM.CrabController.CanJumpSmash;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -36,7 +29,7 @@ public class JumpSmash : CrabState
         }
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("3JumpSmashAttack_RM") && stateInfo.normalizedTime >= 0.9f)
+        if (stateInfo.IsName("3JumpSmashAttack_RM") && stateInfo.normalizedTime >= 0.95f)
         {
             CrabFSM.EnqueueTransition<Pursue>();
         }
@@ -57,10 +50,6 @@ public class JumpSmash : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Pursue || toState is Death)
-        {
-            return true;
-        }
-        return false;
+        return toState is Pursue || toState is Death;
     }
 }

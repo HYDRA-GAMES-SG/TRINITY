@@ -8,14 +8,7 @@ public class RoarIceSpray : CrabState
     ParticleSystem iceSpray;
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue)
-        {
-            if (CrabFSM.CrabController.CanRoarStun)
-            {
-                return true;
-            }
-        }
-        return false;
+        return fromState is Pursue && CrabFSM.CrabController.CanRoarStun;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -26,7 +19,7 @@ public class RoarIceSpray : CrabState
         if (iceSpray == null)
         {
             iceSpray = Instantiate(IceSpray, CrabMounth);
-            AAttackCollider projectileController = iceSpray.GetComponentInChildren<AAttackCollider>(); 
+            AAttackCollider projectileController = iceSpray.GetComponentInChildren<AAttackCollider>();
         }
         else
         {
@@ -48,7 +41,7 @@ public class RoarIceSpray : CrabState
         iceSpray.transform.rotation = Quaternion.LookRotation(iceSprayDirection, Vector3.up);
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName("Roar3") && stateInfo.normalizedTime >= 0.9f)
+        if (stateInfo.IsName("Roar3") && stateInfo.normalizedTime >= 0.95f)
         {
             CrabFSM.EnqueueTransition<Pursue>();
         }
@@ -65,10 +58,6 @@ public class RoarIceSpray : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Pursue || toState is Death)
-        {
-            return true;
-        }
-        return false;
+        return toState is Pursue || toState is Death;
     }
 }

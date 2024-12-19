@@ -22,14 +22,7 @@ public class ChargeFastAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue)
-        {
-            if (CrabFSM.CrabController.CanCharageMoveFast)
-            {
-                return true;
-            }
-        }
-        return false;
+        return fromState is Pursue && CrabFSM.CrabController.CanCharageMoveFast;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -65,9 +58,11 @@ public class ChargeFastAttack : CrabState
         }
         else if (bIsDashing)
         {
-            Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * 3.5f;
-            if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, 6, LayerMask.GetMask("Obstacle")))
+            Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * CrabFSM.CrabController.AI.height;
+            Debug.DrawRay(start, CrabFSM.CrabController.transform.forward * 10, Color.red);
+            if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, 10, LayerMask.GetMask("Obstacle")))
             {
+
                 bIsDashing = false;
                 CapCollider.enabled = false;
                 CrabFSM.Animator.SetBool("Release", false);
@@ -98,11 +93,7 @@ public class ChargeFastAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Pursue || toState is Death)
-        {
-            return true;
-        }
-        return false;
+        return toState is Pursue || toState is Death;
     }
     private void PredictTargetPosition()
     {

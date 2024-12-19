@@ -1016,10 +1016,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7638557
-  m_Height: 3.8192785
+  m_Radius: 1
+  m_Height: 4.5
   m_Direction: 0
-  m_Center: {x: -1.9096392, y: 0, z: 0}
+  m_Center: {x: -2.3, y: 0, z: 0}
 --- !u!54 &5335791830396261773
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1059,7 +1059,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -2.488464, y: 0.000002145768, z: 0.0000014305119}
+  m_ConnectedAnchor: {x: -2.4884639, y: 0.00000178814, z: 0.0000028610239}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: 1}
   m_TwistLimitSpring:
@@ -3489,14 +3489,14 @@ GameObject:
   - component: {fileID: 9144458036026273463}
   - component: {fileID: 590067304611633414}
   - component: {fileID: 1727026065975959313}
-  - component: {fileID: 7996638140476010524}
-  - component: {fileID: 492054999584268895}
   - component: {fileID: 1422212878879520057}
   - component: {fileID: 5370612012707908729}
-  - component: {fileID: 8615689596737175229}
   - component: {fileID: 8427644227223135767}
+  - component: {fileID: 8615689596737175229}
   - component: {fileID: 1643759408695698379}
   - component: {fileID: 9161646929861514682}
+  - component: {fileID: 7996638140476010524}
+  - component: {fileID: 492054999584268895}
   m_Layer: 3
   m_Name: Controller
   m_TagString: Enemy
@@ -3544,6 +3544,7 @@ MonoBehaviour:
   RoarIceSprayCooldown: 10
   ComboCooldown: 5
   GetHitCooldown: 0.5
+  NavSpeed: 7
   ComboAttack: 15
   JumpSmashAttack: 30
   ChargeFastAttack: 25
@@ -3574,47 +3575,6 @@ MonoBehaviour:
   Regen: 5
   Current: 0
   bDead: 0
---- !u!114 &7996638140476010524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6244054646282926487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffa113644caf6b045b9ae6f19c072cdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IceClawSwingAttack: {fileID: 1234315416888464986, guid: 58dc6c814a72c79429f87ff70469b4ed,
-    type: 3}
-  SmashFrozenGroundAttack: {fileID: 983076553695502369, guid: 3a12e6fbfd0e1c24483e0e9fbf16ec49,
-    type: 3}
-  JumpSmashFrozenGroundAttack: {fileID: 983076553695502369, guid: 91f159d02249b5a44afafb5bc8580002,
-    type: 3}
-  LeftClaw: {fileID: 5848169551067447597}
-  RightClaw: {fileID: 6346969674465272153}
-  AttackMixer: {fileID: 392872586645900479, guid: 8601dfef411a3754b9ecd1dfed4508bb,
-    type: 2}
-  CrabAttackSource: {fileID: 4718642061185292164, guid: 5417a9607d92300469601a69a9652f0f,
-    type: 3}
-  ClawSound: {fileID: 8300000, guid: df0015fa6208aee42a617075fc1698a7, type: 3}
-  SmashSound: {fileID: 8300000, guid: b274379bd365dc94f9d0bb519130ac13, type: 3}
-  IceClawSound: {fileID: 0}
-  IceSmashSound: {fileID: 0}
---- !u!114 &492054999584268895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6244054646282926487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bcf2c158d6cbd2479f25ec34643a6df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DealDamageOnlyOnce: 1
 --- !u!114 &1422212878879520057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3628,7 +3588,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: {fileID: 1727026065975959313}
-  Ailment: {fileID: 5370612012707908729}
+  Ailments: {fileID: 0}
 --- !u!114 &5370612012707908729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3641,29 +3601,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MAX_STACKS: 100
+  IgniteDamagePerStack: 1
+  ChillSlowPercentPerStack: 0.004
+  ChargeMoveModifierPerStack: 0.2
+  ChargeJumpForcePerStack: 0.02
+  ChargeGlideGravityModifierPerStack: 0.001
   AilmentDuration: 5
---- !u!195 &8615689596737175229
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6244054646282926487}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 6
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 10
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!95 &8427644227223135767
 Animator:
   serializedVersion: 5
@@ -3685,6 +3629,28 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!195 &8615689596737175229
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244054646282926487}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 4
+  m_Speed: 7
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 8
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 6.8
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!136 &1643759408695698379
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -3735,6 +3701,47 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &7996638140476010524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244054646282926487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffa113644caf6b045b9ae6f19c072cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IceClawSwingAttack: {fileID: 1234315416888464986, guid: 58dc6c814a72c79429f87ff70469b4ed,
+    type: 3}
+  SmashFrozenGroundAttack: {fileID: 983076553695502369, guid: 3a12e6fbfd0e1c24483e0e9fbf16ec49,
+    type: 3}
+  JumpSmashFrozenGroundAttack: {fileID: 983076553695502369, guid: 91f159d02249b5a44afafb5bc8580002,
+    type: 3}
+  LeftClaw: {fileID: 5848169551067447597}
+  RightClaw: {fileID: 6346969674465272153}
+  AttackMixer: {fileID: 392872586645900479, guid: 8601dfef411a3754b9ecd1dfed4508bb,
+    type: 2}
+  CrabAttackSource: {fileID: 4718642061185292164, guid: 5417a9607d92300469601a69a9652f0f,
+    type: 3}
+  ClawSound: {fileID: 8300000, guid: df0015fa6208aee42a617075fc1698a7, type: 3}
+  SmashSound: {fileID: 8300000, guid: b274379bd365dc94f9d0bb519130ac13, type: 3}
+  IceClawSound: {fileID: 0}
+  IceSmashSound: {fileID: 0}
+--- !u!114 &492054999584268895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244054646282926487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bcf2c158d6cbd2479f25ec34643a6df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DealDamageOnlyOnce: 1
 --- !u!1 &6536274583074091750
 GameObject:
   m_ObjectHideFlags: 0
@@ -4284,10 +4291,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7638561
-  m_Height: 3.8192806
+  m_Radius: 1
+  m_Height: 4.5
   m_Direction: 0
-  m_Center: {x: -1.9096403, y: 0, z: 0}
+  m_Center: {x: -2.3, y: 0, z: 0}
 --- !u!54 &6757165730859182695
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4464,8 +4471,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 3e518b287e876f2408cf6a0ff228028c, type: 2}
-  MoveSpeed: 7
-  StopDistance: 9
   RotateSpeed: 2
   ThresholdAngle: 5
   RangeAttack: 28
@@ -4485,12 +4490,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 27472dcae503f1f4aa5e96f1114b777b, type: 2}
+  RotateSpeed: 2
   AnimKeyAttack:
   - ClawsAttackLeftForward_RM
   - ClawsAttackRightForward_RM
   - SmashAttackLeftForward_RM
   - SmashAttackRightForward_RM
-  RotateSpeed: 2
 --- !u!114 &9097950124894726070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4519,8 +4524,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 75cdeddd34e4c2c4e8112c45f0003373, type: 2}
-  AnimationCheckExitTime: 0.2
   RotateSpeed: 2
+  AnimationCheckExitTime: 0.2
 --- !u!114 &5283212179681414263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4534,10 +4539,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: d192e5ec67e7a224d9d77ebab0d9ae46, type: 2}
+  RotateSpeed: 2
   IceSpray: {fileID: 7091628070363132875, guid: 0053290a138b48840b0942832dcc74ce,
     type: 3}
   CrabMounth: {fileID: 5802796550799286812}
-  RotateSpeed: 2
 --- !u!114 &1886716467741609441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4551,11 +4556,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 1de2b3a3b97c1044f9bd0446092713bf, type: 2}
+  RotateSpeed: 2
   ChargeTime: 3
   DashSpeed: 10
   PedictionMultiplier: 0.3
   DashDuration: 1
-  RotateSpeed: 2
   CapCollider: {fileID: 1643759408695698379}
 --- !u!114 &6332264156654733324
 MonoBehaviour:
@@ -4570,6 +4575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 43e07b0f2603b1947b75aebd11127ef2, type: 2}
+  RotateSpeed: 3
   JumpForce: 15
   JumpUpForce: 10
   RigBody: {fileID: 9161646929861514682}
@@ -4592,6 +4598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 2693bd458ac3e144bbb4bd019183f1fa, type: 2}
+  RotateSpeed: 3
 --- !u!114 &4560418529784933360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4605,6 +4612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 85d51d2e9fca705448a4deea2cfc1b64, type: 2}
+  RotateSpeed: 3
   Graphics: {fileID: 6630742639147448095}
 --- !u!114 &7001616341793611783
 MonoBehaviour:
@@ -4619,6 +4627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 86adf29bb173ffd4ea066b597ef138b1, type: 2}
+  RotateSpeed: 3
 --- !u!1 &8076962933247045074
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ public class ACrabController : IEnemyController
     [SerializeField] float ComboCooldown = 5f;
     [SerializeField] float GetHitCooldown = 1f;
     [SerializeField] private float NavSpeed = 7f;
-    
+
     private float JumpSmashTimer = 0f;
     private float ChargeMoveFastTimer = 0f;
     private float RoarIceSprayTimer = 0f;
@@ -35,7 +35,7 @@ public class ACrabController : IEnemyController
     [HideInInspector] public bool CanComboAttack = false;
     [HideInInspector] public bool CanCharageMoveFast = false;
     [HideInInspector] public bool CanGetHit = false;
-    
+
 
     [HideInInspector] public bool bElementPhase = false;
 
@@ -53,7 +53,7 @@ public class ACrabController : IEnemyController
 
         HandleChill();
 
-        if (EnemyStatus.Health.Percent < 0.5f && !bElementPhase) //next element phrese
+        if (EnemyStatus.Health.Current < EnemyStatus.Health.MAX / 2 && !bElementPhase) //next element phrese
         {
             CrabFSM.EnqueueTransition<IcePhaseRoar>();
             ComboAttack = 0;
@@ -69,7 +69,7 @@ public class ACrabController : IEnemyController
         AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
         CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
     }
-    
+
     public override float GetParticleAttack()
     {
         if (CrabFSM.CurrentState is JumpSmash)
@@ -94,10 +94,11 @@ public class ACrabController : IEnemyController
         }
         else
         {
+
             return 0;
         }
     }
-    
+
     private void CheckCooldown()
     {
         if (!CanJumpSmash)
@@ -172,13 +173,13 @@ public class ACrabController : IEnemyController
         if (CrabFSM.CurrentState is NormalAttack || CrabFSM.CurrentState is ComboAttack)
         {
             float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, transform.position);
-            if (distanceToTarget > RootMotionNotEnterDistance)
+            if (distanceToTarget > AI.stoppingDistance)
             {
                 transform.position += Animator.deltaPosition;
             }
             else
             {
-                transform.position -= Animator.deltaPosition * .1f;
+                transform.position -= Animator.deltaPosition * 0.3f;
             }
             transform.rotation *= Animator.deltaRotation;
         }
@@ -192,7 +193,7 @@ public class ACrabController : IEnemyController
     {
         CrabFSM.EnqueueTransition<GetHit>();
     }
-    
+
     public void RotateTowardTarget(Vector3 directionToTarget, float rotateSpeed)
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;

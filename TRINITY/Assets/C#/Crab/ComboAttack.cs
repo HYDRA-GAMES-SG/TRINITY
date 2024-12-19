@@ -11,14 +11,7 @@ public class ComboAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue)
-        {
-            if (CrabFSM.CrabController.CanComboAttack)
-            {
-                return true;
-            }
-        }
-        return false;
+        return fromState is Pursue && CrabFSM.CrabController.CanComboAttack;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -50,7 +43,7 @@ public class ComboAttack : CrabState
 
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         bool isInTransition = CrabFSM.Animator.IsInTransition(0);
-        if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.9f)
+        if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
         {
             CrabFSM.EnqueueTransition<Pursue>();
         }
@@ -70,10 +63,6 @@ public class ComboAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Pursue || toState is Death)
-        {
-            return true;
-        }
-        return false;
+        return toState is Pursue || toState is Death;
     }
 }

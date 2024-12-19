@@ -28,13 +28,14 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
     {
         Controller = GetComponent<ACrabController>();
     }
-    
+
     public void RPhaseTwoComboClawAttack()
     {
         if (Controller.bElementPhase)
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, RightClaw.position, RightClaw.rotation);
             AAttackCollider projectileController = iceClawSwingAttack.GetComponentInChildren<AAttackCollider>();
+            projectileController.SetController(Controller);
         }
     }
     public void LPhaseTwoComboClawAttack()
@@ -43,6 +44,8 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, LeftClaw.position, LeftClaw.rotation);
             AAttackCollider projectileController = iceClawSwingAttack.GetComponentInChildren<AAttackCollider>();
+            projectileController.SetController(Controller);
+
         }
     }
 
@@ -53,6 +56,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
             AAttackCollider projectileController = smashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
+            projectileController.SetController(Controller);
         }
     }
     public void LPhaseTwoComboSmashAttack()
@@ -61,7 +65,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, LeftClaw.position, LeftClaw.rotation);
             AAttackCollider projectileController = smashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
-
+            projectileController.SetController(Controller);
         }
     }
 
@@ -71,7 +75,8 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem jumpSmashFrozenGroundAttack = Instantiate(JumpSmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
-            AAttackCollider projectileController = jumpSmashFrozenGroundAttack.GetComponent<AAttackCollider>();
+            AAttackCollider projectileController = jumpSmashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
+            projectileController.SetController(Controller);
         }
     }
 

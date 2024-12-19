@@ -13,7 +13,28 @@ public class AAttackCollider : MonoBehaviour
 
     private void Start()
     {
-        Controller = transform.root.Find("Controller").GetComponent<IEnemyController>();
+        // Get the root object of the current GameObject
+        var rootTransform = transform.root;
+
+        // Check if the root itself has IEnemyController
+        if (rootTransform.TryGetComponent<IEnemyController>(out var enemyController))
+        {
+            Controller = enemyController;
+            Debug.Log("IEnemyController found on the root object.");
+            return;
+        }
+
+        // Check if the root has a child named "Controller" with IEnemyController
+        var controllerTransform = rootTransform.Find("Controller");
+        if (controllerTransform != null && controllerTransform.TryGetComponent<IEnemyController>(out enemyController))
+        {
+            Controller = enemyController;
+            Debug.Log("IEnemyController found on the 'Controller' child object.");
+        }
+        else
+        {
+            Debug.LogWarning("IEnemyController not found on the root or the 'Controller' object.");
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -23,7 +44,7 @@ public class AAttackCollider : MonoBehaviour
             Debug.Log("Crab Collision: Crab is dead or did not collide with player.");
             return;
         }
-        
+
         //Debug.Log("Hit player");
         ATrinityController player = collision.gameObject.GetComponent<ATrinityController>();
 
@@ -32,7 +53,7 @@ public class AAttackCollider : MonoBehaviour
             Debug.Log("Crab Collision: Not a Player.");
             return;
         }
-        
+
         Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
         Vector3 direction = collision.impulse.normalized;
 
@@ -41,17 +62,17 @@ public class AAttackCollider : MonoBehaviour
         //Debug.Log(direction);
 
         // Apply knockback force
-        
+
         Vector3 knockbackForce = new Vector3(direction.x, direction.y, direction.z) * Controller.AttackForce;
-        
-        
-        
+
+
+
         rb.AddForce(knockbackForce, ForceMode.Impulse);
-        
+
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, collision, Controller.GetCurrentAttackDamage());
         player.ApplyHit(hitInfo);
-            
-        
+
+
     }
 
     private void OnParticleCollision(GameObject other)
@@ -67,9 +88,15 @@ public class AAttackCollider : MonoBehaviour
         {
             return;
         }
-        
+
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, null, Controller.GetParticleAttack());
+        player.ApplyHit(hitInfo);
         hasDealtDamage = true;
-        //Debug.Log("Particles Hit player");
+        Debug.Log($"Particles Hit player " + Controller.GetParticleAttack());
+    }
+
+    public void SetController(IEnemyController enemyController)
+    {
+        Controller = enemyController;
     }
 }

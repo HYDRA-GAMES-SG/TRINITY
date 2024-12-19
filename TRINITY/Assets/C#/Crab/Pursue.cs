@@ -5,7 +5,6 @@ using UnityEngine.AI;
 public class Pursue : CrabState
 {
     [Header("AI Setting")]
-    [SerializeField] float StopDistance = 9;
     [SerializeField] float ThresholdAngle = 5;
 
     [Header("Check Range")]
@@ -22,18 +21,13 @@ public class Pursue : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is NormalAttack || fromState is ComboAttack || fromState is JumpSmash || fromState is RoarIceSpray || fromState is ChargeFastAttack || fromState is JumpAway || fromState is IcePhaseRoar || fromState is GetHit)
-        {
-            return true;
-        }
-        return false;
+        return !(fromState is Death);
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
         CrabAI = CrabFSM.CrabController.AI;
 
-        CrabAI.stoppingDistance = StopDistance;
         CrabAI.updateRotation = false;
     }
 
@@ -61,12 +55,12 @@ public class Pursue : CrabState
                 CrabFSM.EnqueueTransition<RoarIceSpray>();
             }
         }
-        else if (CrabFSM.CrabController.CalculateGroundDistance() >= ChargeFastMoveRange && CrabFSM.CrabController.CalculateGroundDistance() <= ChargeFastMoveRange + 5) //between 15 - 20
+        else if (CrabFSM.CrabController.CalculateGroundDistance() >= ChargeFastMoveRange && CrabFSM.CrabController.CalculateGroundDistance() <= ChargeFastMoveRange + 2) //between 15 - 17
         {
             CrabFSM.EnqueueTransition<ChargeFastAttack>();
 
         }
-        else if (CrabFSM.CrabController.CalculateGroundDistance() >= CloseAttackRange && CrabFSM.CrabController.CalculateGroundDistance() <= StopDistance) //between 7.5 -9
+        else if (CrabFSM.CrabController.CalculateGroundDistance() >= CloseAttackRange && CrabFSM.CrabController.CalculateGroundDistance() <= CrabAI.stoppingDistance) //between 6 - 8
         {
             CrabFSM.EnqueueTransition<ComboAttack>();
             CrabFSM.EnqueueTransition<NormalAttack>();
@@ -91,12 +85,7 @@ public class Pursue : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is NormalAttack || toState is ComboAttack || toState is JumpSmash || toState is RoarIceSpray || toState is ChargeFastAttack || toState is JumpAway || toState is IcePhaseRoar || toState is GetHit || toState is Death)
-        {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
 
@@ -111,7 +100,7 @@ public class Pursue : CrabState
 
         if (angleToTarget > ThresholdAngle)
         {
-            if (distanceToTarget > StopDistance && angleToTarget <= ThresholdAngle + 30)
+            if (distanceToTarget > CrabAI.stoppingDistance && angleToTarget <= ThresholdAngle + 30)
             {
                 MoveTowardTarget(playerTransform.position);
             }

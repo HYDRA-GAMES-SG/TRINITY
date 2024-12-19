@@ -25,11 +25,7 @@ public class JumpAway : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        if (fromState is Pursue)
-        {
-            return true;
-        }
-        return false;
+        return fromState is Pursue;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -69,11 +65,7 @@ public class JumpAway : CrabState
     }
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is Pursue || toState is Death)
-        {
-            return true;
-        }
-        return false;
+        return toState is Pursue || toState is Death;
     }
     private IEnumerator HandleJump()
     {
