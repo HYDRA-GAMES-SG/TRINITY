@@ -2,27 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlantCreatureController : IEnemyController
-{
-    public PlantCreatureFSM PlantFSM;
-
-    public float AttackRange;
-
-    void Start()
+namespace Huajin
+{public class PlantCreatureController : IEnemyController
     {
-        AI.updateRotation = false;
-    }
+        public PlantCreatureFSM PlantFSM;
 
-    // Update is called once per frame
-    void Update()
-    {
+        public float AttackRange;
 
-    }
+        void Start()
+        {
+            AI.updateRotation = false;
+        }
 
-    public void RotateTowardTarget(Vector3 directionToTarget)
-    {
-        Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10 * Time.deltaTime);
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        public void RotateTowardTarget(Vector3 directionToTarget)
+        {
+            Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10 * Time.deltaTime);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ThirdPersonCamera;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,17 +10,20 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     [SerializeField] string AnimKeyThrowRock = "ThrowRock";
 
     [SerializeField] Transform LeftHand, RightHand;
+    [SerializeField] float HoldOrbOffsetY;
     Vector3 bothHandCnetrelPos;
 
     [SerializeField] ParticleSystem Orb;
     ParticleSystem orb;
 
-    bool hasSpwan = false;
+    bool hasSpawned = false;
+    bool isCharging = true;
+    bool isFollow = false;
 
     [SerializeField] float TimeCharge;
     float timer;
 
-    [SerializeField] float timeToTarget = 1.0f;
+    [SerializeField] float OrbTimeToTarget = 0.5f;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -37,28 +41,43 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        Vector3 faceDirection = (InvincibleBossFSM.PlayerController.transform.position - InvincibleBossFSM.InvincibleBossController.transform.position).normalized;
-        InvincibleBossFSM.InvincibleBossController.RotateTowardTarget(faceDirection, RotateSpeed);
-
-        bothHandCnetrelPos = (LeftHand.position + RightHand.position) / 2;
-        if (!hasSpwan)
+        if (isCharging)
         {
-            orb = Instantiate(Orb, bothHandCnetrelPos, Quaternion.identity);
-            hasSpwan = true;
+            Vector3 faceDirection = (InvincibleBossFSM.PlayerController.transform.position - InvincibleBossFSM.InvincibleBossController.transform.position).normalized;
+            InvincibleBossFSM.InvincibleBossController.RotateTowardTarget(faceDirection, RotateSpeed);
+
+
+            if (!hasSpawned)
+            {
+                orb = Instantiate(Orb, bothHandCnetrelPos, Quaternion.identity);
+                hasSpawned = true;
+            }
+
+            timer += Time.fixedDeltaTime;
+
+            if (timer >= TimeCharge)
+            {
+                isCharging = false;
+                InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKeyThrowRock);
+            }
         }
-        orb.transform.position = bothHandCnetrelPos;
-
-        timer += Time.fixedDeltaTime;
-
-        if (timer >= TimeCharge)
+        if (!isFollow)
         {
-            InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKeyThrowRock);
+            Vector3 offset = new Vector3(0, HoldOrbOffsetY, 0);
+            bothHandCnetrelPos = (LeftHand.position + RightHand.position) / 2 + offset;
+            orb.transform.position = bothHandCnetrelPos;
         }
 
         string layerName = GetType().Name;
         int layerIndex = InvincibleBossFSM.InvincibleBossController.Animator.GetLayerIndex(layerName);
         AnimatorStateInfo stateInfo = InvincibleBossFSM.InvincibleBossController.Animator.GetCurrentAnimatorStateInfo(layerIndex);
-        if (stateInfo.IsName(AnimKeyThrowRock) && stateInfo.normalizedTime >= 0.95f)
+
+        if (stateInfo.IsName(AnimKeyThrowRock) && (stateInfo.normalizedTime >= 0.2f && stateInfo.normalizedTime <= 0.3f)) // Between 20% and 50% of animation
+        {
+            isFollow = true;
+            Throw();
+        }
+        else if (stateInfo.IsName(AnimKeyThrowRock) && stateInfo.normalizedTime >= 0.95f) // Animation nearly complete
         {
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
         }
@@ -71,17 +90,20 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     {
         InvincibleBossFSM.InvincibleBossController.bCanThrow = false;
         orb = null;
-        hasSpwan = false;
+        hasSpawned = false;
+        timer = 0;
+        isCharging = true;
+        isFollow = false;
     }
 
     public override bool CheckExitTransition(IState toState)
     {
         return true;
     }
-    private Vector3 CalculateThrowVelocity(Vector3 start, Vector3 target, float time)
+    private Vector3 CalculateThrowVelocity(Vector3 start, Vector3 target, float time)// when 0.6 work
     {
         // Gravity
-        float g = Physics.gravity.y;
+        float g = Mathf.Abs(Physics.gravity.y);
 
         // Calculate horizontal and vertical distances
         Vector3 distance = target - start;
@@ -90,8 +112,8 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
         // Horizontal velocity
         Vector3 velocityXZ = horizontalDistance / time;
 
-        // Vertical velocity
-        float velocityY = (distance.y - 0.5f * g * time * time) / time;
+        // Adjusted vertical velocity
+        float velocityY = (distance.y + 0.5f * g * time * time) / time;
 
         // Combine horizontal and vertical velocities
         return new Vector3(velocityXZ.x, velocityY, velocityXZ.z);
@@ -101,16 +123,36 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
         // Get start and target positions
         Vector3 start = bothHandCnetrelPos;
         Vector3 targetPos = InvincibleBossFSM.PlayerController.transform.position;
-
         // Calculate the velocity
-        Vector3 throwVelocity = CalculateThrowVelocity(start, targetPos, timeToTarget);
+        Vector3 throwVelocity = CalculateThrowVelocity(start, targetPos, OrbTimeToTarget);
 
         // Apply the velocity to the object
         Rigidbody rb = orb.GetComponent<Rigidbody>();
+        rb.useGravity = true;
+        Collider collider = orb.GetComponent<Collider>();
+        collider.enabled = true;
         if (rb != null)
         {
-            rb.useGravity =true;
             rb.velocity = throwVelocity;
         }
+        DrawTrajectory(start, throwVelocity);
+    }
+    private void DrawTrajectory(Vector3 start, Vector3 velocity)
+    {
+        Vector3 previousPoint = start;
+        float timestep = 0.1f; // Smaller values for smoother lines
+        float totalTime = OrbTimeToTarget;
+
+        for (float t = 0; t <= totalTime; t += timestep)
+        {
+            Vector3 currentPoint = start + velocity * t + 0.5f * Physics.gravity * t * t;
+            Debug.DrawLine(previousPoint, currentPoint, Color.red, 2.0f); // Draw trajectory
+            previousPoint = currentPoint;
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(bothHandCnetrelPos, 2);
     }
 }

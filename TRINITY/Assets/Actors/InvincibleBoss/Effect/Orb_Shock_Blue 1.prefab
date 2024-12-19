@@ -14618,7 +14618,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 2.1299999
   m_Height: 4.2599998
@@ -14663,6 +14663,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ba0948ffdce80459502028740a3826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetSize: 1
+  duration: 5
+  AOE: {fileID: 3767897547946517134, guid: 4538b145a3bd11d42b9e95d3b8f21199, type: 3}
+  CollideMask:
+    serializedVersion: 2
+    m_Bits: 1015
 --- !u!1 &5293380989184313918
 GameObject:
   m_ObjectHideFlags: 0
