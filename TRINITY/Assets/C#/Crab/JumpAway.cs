@@ -78,8 +78,8 @@ public class JumpAway : CrabState
 
         bool canJumpBack = IsValidJumpPosition(LandingPosBack);
         bool canJumpFront = IsValidJumpPosition(LandingPosFront);
-        Debug.Log(canJumpBack);
-        Debug.Log(canJumpFront);
+        //Debug.Log(canJumpBack);
+        //Debug.Log(canJumpFront);
         if (!canJumpBack && !canJumpFront)
         {
             CrabFSM.EnqueueTransition<Pursue>();
