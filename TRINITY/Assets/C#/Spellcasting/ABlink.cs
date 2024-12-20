@@ -31,22 +31,70 @@ public class ABlink : ASpell
         BlinkPoint = BrainReference.Controller.Position;
         Vector3 startPos = BrainReference.Controller.Position + BrainReference.Controller.Height * Vector3.up;
 
-        Vector3 direction = Controller.MoveDirection.normalized;
+        float inputY = InputReference.MoveInput.y;
+        float inputX = InputReference.MoveInput.x;
+        
+        Vector2 input = new Vector2(inputX, inputY);
+
+        Vector3 direction = new Vector3(Controller.MoveDirection.x, 0f, Controller.MoveDirection.z).normalized;
 
         Vector3 rotatedDirection = new Vector3();
+
+
+        NormalMovement playerMovement = null;
         
-        if (direction.magnitude < float.Epsilon)
+        if (SpellsReference.StateReference.CurrentState is NormalMovement)
         {
-            rotatedDirection = Controller.Forward;
+            playerMovement = (NormalMovement)SpellsReference.StateReference.CurrentState;
+            
+        }
+
+        //if the direction is zeroish
+        if (Mathf.Abs(input.y) < float.Epsilon && Mathf.Abs(input.x) < float.Epsilon)
+        {
+            if (playerMovement != null)
+            {
+                if (playerMovement.GetMovementState() != ETrinityMovement.ETM_Grounded)
+                {
+                    if(DEBUG_ENABLE){print("vertical blink");}
+                    rotatedDirection = Controller.Up;
+                }
+            }
+            else
+            {
+                if(DEBUG_ENABLE){print("no input blink");}
+                rotatedDirection = Controller.Forward; //blink forward
+                BlinkCamera?.Invoke();
+            }
+        }
+        else if(Mathf.Abs(input.x) < float.Epsilon || input.y < 0f)
+        {
+            if(DEBUG_ENABLE){print("forward or backwards blink");}
+            rotatedDirection = direction; //if the lateral input is zero or we are moving backwards, blink in teh direction of the movement vector
             BlinkCamera?.Invoke();
         }
-        else if(Mathf.Abs(direction.x) < float.Epsilon || direction.x < 0f)
+        else if (Mathf.Abs(input.x) > float.Epsilon && playerMovement != null)
         {
-            rotatedDirection = direction;
-            BlinkCamera?.Invoke();
+                if(playerMovement.GetMovementState() != ETrinityMovement.ETM_Grounded)
+                {
+                    if(DEBUG_ENABLE){print("blink in direction of movement");}
+                    rotatedDirection = direction;
+                }
+                else
+                {
+                    if(DEBUG_ENABLE){print("rotated blink");}
+                    Vector3 rotateAxis = Vector3.Cross(Vector3.up, direction);
+
+                    float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
+    
+                    Quaternion rotateQuat = Quaternion.AngleAxis(rotatePitch, rotateAxis);
+
+                    rotatedDirection = rotateQuat * direction; 
+                }
         }
         else
         {
+            if(DEBUG_ENABLE){print("rotated blink");}
             Vector3 rotateAxis = Vector3.Cross(Vector3.up, direction);
 
             float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
@@ -55,7 +103,7 @@ public class ABlink : ASpell
 
             rotatedDirection = rotateQuat * direction; 
         }
-        
+
         bool bInvalidBlink = true;
 
         while (distance > MinimumDistance && bInvalidBlink)

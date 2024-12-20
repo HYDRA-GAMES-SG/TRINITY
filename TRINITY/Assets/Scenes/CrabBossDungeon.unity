@@ -748,6 +748,18 @@ Transform:
   - {fileID: 1037709490}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &206892128 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5515548874709972204, guid: 60b124caf32955048a64c10532b1f32f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4075609089960059738}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd446d7a72831794c938040c4c94d93d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &219494222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4000010923031266, guid: 64a927b10a108c144b1acf385c0f5f7b,
@@ -5052,7 +5064,7 @@ Canvas:
   m_GameObject: {fileID: 1037709489}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 703542712}
   m_PlaneDistance: 0.9
   m_PixelPerfect: 0
@@ -6687,6 +6699,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CRAB
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284984948269296454, guid: e3784b80389aec3409ecc8f462973893,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5370612012707908729, guid: e3784b80389aec3409ecc8f462973893,
         type: 3}
@@ -9759,7 +9776,12 @@ PrefabInstance:
     - target: {fileID: 619606433743829704, guid: 60b124caf32955048a64c10532b1f32f,
         type: 3}
       propertyPath: JumpForce
-      value: 14
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 619606433743829704, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: GlideGravityModifier
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 3254374312750211283, guid: 60b124caf32955048a64c10532b1f32f,
         type: 3}
@@ -9836,6 +9858,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8706561108077516613, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: StateReference
+      value: 
+      objectReference: {fileID: 206892128}
     m_RemovedComponents:
     - {fileID: 7380307679691427796, guid: 60b124caf32955048a64c10532b1f32f, type: 3}
     m_RemovedGameObjects:

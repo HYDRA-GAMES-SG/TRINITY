@@ -6,7 +6,8 @@ using UnityEngine;
 public class ATrinitySpells : MonoBehaviour
 {
     public Vector3 CastDirection => CameraReference.Camera.transform.forward;
-    
+
+    public ATrinityFSM StateReference;
     public ATrinityCamera CameraReference;
     public ATrinityBrain BrainReference;
     private APlayerInput InputReference;

@@ -11,6 +11,7 @@ public enum ESpellType
 [RequireComponent(typeof(AudioSource))]
 public class ASpell : MonoBehaviour
 {
+    public APlayerInput InputReference;
     public GameObject SpellPrefab;
     protected ATrinityAnimator AnimationReference;
     protected ATrinityController Controller;
@@ -34,6 +35,7 @@ public class ASpell : MonoBehaviour
 
     public void Start()
     {
+        InputReference = transform.root.Find("Brain").GetComponent<APlayerInput>();
         Controller = transform.root.Find("Controller").GetComponent<ATrinityController>();
         BrainReference = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
         SpellsReference = transform.parent.GetComponent<ATrinitySpells>();

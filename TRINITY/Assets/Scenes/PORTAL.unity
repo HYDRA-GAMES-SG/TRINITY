@@ -4193,7 +4193,6 @@ Transform:
   - {fileID: 584512678}
   - {fileID: 1064439468}
   - {fileID: 1381896401}
-  - {fileID: 1614738440}
   - {fileID: 685283192}
   - {fileID: 56977990}
   - {fileID: 951608310}
@@ -5012,89 +5011,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1125463900}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &375974530
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 274207677}
-    m_Modifications:
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.033333335
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.4728272
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.97166675
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6343575490674008120, guid: 08d64b2fcfbae764690b33f0606b52b8,
-        type: 3}
-      propertyPath: m_Name
-      value: Log_6_LODs
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 08d64b2fcfbae764690b33f0606b52b8, type: 3}
 --- !u!1001 &379227852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25004,12 +24920,6 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0011212379, y: -0.10416006, z: 0.66521865}
     m_Extent: {x: 0.07248832, y: 0.026202701, z: 0.34038764}
   m_DirtyAABB: 0
---- !u!4 &1614738440 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3623786191815433015, guid: 08d64b2fcfbae764690b33f0606b52b8,
-    type: 3}
-  m_PrefabInstance: {fileID: 375974530}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1617100782 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1664531167063307335, guid: a1c21fef617b0e142bc748e1bdf5b26c,
@@ -27308,6 +27218,8 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 3
   bUseMaskedLayer: 1
+  DamagePerSecond: 10
+  AilmentStacksPerSecond: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -27839,15 +27751,11 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 4
   bUseMaskedLayer: 1
+  StacksOfChillApplied: 0
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
-  StacksApplied: 0
-  AilmentType: 0
-  UtilityFire: {fileID: 0}
-  ColdSource: {fileID: 0}
-  ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
-  ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
-  ColdRelease: {fileID: 0}
-  CastVFX: {fileID: 0}
+  CastNumber: 0
+  CastingSFX: {fileID: 0}
+  CastingVFX: {fileID: 0}
 --- !u!4 &1889088608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5403532100806187317, guid: 8b81ba4a68257aa4eaf4ce74e36e380a,
