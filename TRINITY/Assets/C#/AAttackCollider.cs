@@ -31,10 +31,6 @@ public class AAttackCollider : MonoBehaviour
             Controller = enemyController;
             Debug.Log("IEnemyController found on the 'Controller' child object.");
         }
-        else
-        {
-            Debug.LogWarning("IEnemyController not found on the root or the 'Controller' object.");
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -77,6 +73,7 @@ public class AAttackCollider : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        Debug.Log($"Particles Hit player ");
         if (DealDamageOnlyOnce && hasDealtDamage)
         {
             return;

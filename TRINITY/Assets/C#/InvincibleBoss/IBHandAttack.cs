@@ -5,13 +5,12 @@ using UnityEngine.AI;
 
 public class IBHandAttack : InvincibleBossState
 {
-    [SerializeField]
-    string[] AnimKeyTriggerATK = new string[]
+    public string[] AnimKeyTriggerATK = new string[]
     {
         "2HitComboAttackForward_RM", "2HandsSmashAttack_RM"
     };
-
-    string AnimKey;
+    [HideInInspector]
+    public string AnimKey;
 
 
     public override bool CheckEnterTransition(IState fromState)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class Orb : MonoBehaviour
 {
@@ -8,6 +9,10 @@ public class Orb : MonoBehaviour
     [SerializeField] float duration = 5f;
     [SerializeField] ParticleSystem AOE;
     [SerializeField] LayerMask CollideMask;
+
+    AInvincibleBossController IBController;
+    float Damage;
+
     private void Start()
     {
         StartCoroutine(ScaleOverTime(targetSize, duration));
@@ -33,9 +38,33 @@ public class Orb : MonoBehaviour
     {
         if ((CollideMask.value & (1 << collision.gameObject.layer)) != 0)
         {
-            ParticleSystem spawnedAOE = Instantiate(AOE, transform.position, Quaternion.identity);
-            spawnedAOE.Play();
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                ATrinityController player = collision.gameObject.GetComponent<ATrinityController>();
+                if (player != null)
+                {
+                    FHitInfo hitInfo = new FHitInfo(IBController.gameObject, this.gameObject, collision, IBController.GetCurrentAttackDamage());
+                    player.ApplyHit(hitInfo);
+                    Debug.Log($"Particles Hit player " + IBController.GetCurrentAttackDamage());
+
+                }
+            }
+
+            if (AOE != null)
+            {
+                ParticleSystem spawnedAOE = Instantiate(AOE, transform.position, Quaternion.identity);
+                OrbExplosion projectileController = spawnedAOE.GetComponentInChildren<OrbExplosion>();
+                projectileController.SetController(IBController);
+                //spawnedAOE.Play();
+            }
+
             Destroy(gameObject);
         }
+    }
+
+    public void GetController(AInvincibleBossController controller)
+    {
+        IBController = controller;
+        Damage = controller.GetCurrentAttackDamage();
     }
 }

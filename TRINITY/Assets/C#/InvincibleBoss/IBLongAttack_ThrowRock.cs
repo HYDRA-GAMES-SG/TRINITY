@@ -13,8 +13,8 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     [SerializeField] float HoldOrbOffsetY;
     Vector3 bothHandCnetrelPos;
 
-    [SerializeField] ParticleSystem Orb;
-    ParticleSystem orb;
+    [SerializeField] ParticleSystem OrbParticle;
+    ParticleSystem orbObj;
 
     bool hasSpawned = false;
     bool isCharging = true;
@@ -49,7 +49,9 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
             if (!hasSpawned)
             {
-                orb = Instantiate(Orb, bothHandCnetrelPos, Quaternion.identity);
+                orbObj = Instantiate(OrbParticle, bothHandCnetrelPos, Quaternion.identity);
+                Orb orb = orbObj.GetComponent<Orb>();
+                orb.GetController(InvincibleBossFSM.InvincibleBossController);
                 hasSpawned = true;
             }
 
@@ -65,7 +67,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
         {
             Vector3 offset = new Vector3(0, HoldOrbOffsetY, 0);
             bothHandCnetrelPos = (LeftHand.position + RightHand.position) / 2 + offset;
-            orb.transform.position = bothHandCnetrelPos;
+            orbObj.transform.position = bothHandCnetrelPos;
         }
 
         string layerName = GetType().Name;
@@ -89,7 +91,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     public override void ExitBehaviour(float dt, IState toState)
     {
         InvincibleBossFSM.InvincibleBossController.bCanThrow = false;
-        orb = null;
+        orbObj = null;
         hasSpawned = false;
         timer = 0;
         isCharging = true;
@@ -120,16 +122,13 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     }
     public void Throw()
     {
-        // Get start and target positions
         Vector3 start = bothHandCnetrelPos;
         Vector3 targetPos = InvincibleBossFSM.PlayerController.transform.position;
-        // Calculate the velocity
         Vector3 throwVelocity = CalculateThrowVelocity(start, targetPos, OrbTimeToTarget);
 
-        // Apply the velocity to the object
-        Rigidbody rb = orb.GetComponent<Rigidbody>();
+        Rigidbody rb = orbObj.GetComponent<Rigidbody>();
         rb.useGravity = true;
-        Collider collider = orb.GetComponent<Collider>();
+        Collider collider = orbObj.GetComponent<Collider>();
         collider.enabled = true;
         if (rb != null)
         {
@@ -150,9 +149,9 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
             previousPoint = currentPoint;
         }
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(bothHandCnetrelPos, 2);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawSphere(bothHandCnetrelPos, 2);
+    //}
 }

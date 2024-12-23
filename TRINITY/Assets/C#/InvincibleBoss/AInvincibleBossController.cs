@@ -27,10 +27,14 @@ public class AInvincibleBossController : IEnemyController
     //----------------------------------------------------------------------------------
 
     [Header("Attack Damage")]
+    [SerializeField] float SwingHandDMG;
+    [SerializeField] float SmashDMG;
+    [SerializeField] float StompDMG;
     [SerializeField] float ShotShockDMG;
-    [SerializeField] float ThrowDMG;
+    [SerializeField] float ThrowOrbDMG;
+    public float OrbExplosionDMG;
 
-
+    [HideInInspector]
     public UHealthComponent Health;
 
     void Start()
@@ -99,14 +103,33 @@ public class AInvincibleBossController : IEnemyController
 
     public override float GetCurrentAttackDamage()
     {
-        if (InvincibleBossFSM.CurrentState is IBHandAttack)
+        if (InvincibleBossFSM.CurrentState is IBHandAttack handAtk)
+        {
+            if (handAtk.AnimKey == handAtk.AnimKeyTriggerATK[0])
+            {
+                return SwingHandDMG;
+            }
+            else if (handAtk.AnimKey == handAtk.AnimKeyTriggerATK[1])
+            {
+                return SmashDMG;
+            }
+        }
+        else if (InvincibleBossFSM.CurrentState is IBFootAttack)
+        {
+            return StompDMG;
+        }
+        else if (InvincibleBossFSM.CurrentState is IBLongAttack_ShotShock)
         {
             return ShotShockDMG;
         }
-        return 0;
+        else if (InvincibleBossFSM.CurrentState is IBLongAttack_ThrowRock)
+        {
+            return ThrowOrbDMG;
+        }
+        return NormalAttack;
     }
 
-    public void RotateTowardTarget(Vector3 directionToTarget , float rotateSpeed)
+    public void RotateTowardTarget(Vector3 directionToTarget, float rotateSpeed)
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
@@ -121,4 +144,3 @@ public class AInvincibleBossController : IEnemyController
         return distanceToTarget;
     }
 }
-    

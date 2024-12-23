@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class IBAnimEvent : MonoBehaviour
 {
@@ -12,14 +13,23 @@ public class IBAnimEvent : MonoBehaviour
     public Transform Bottom;
     public Transform MouthPos;
 
+    AInvincibleBossController Controller;
+    private void Start()
+    {
+        Controller = GetComponent<AInvincibleBossController>();
+    }
     public void SpawnLeftFootStompVFX()
     {
-        Instantiate(FootStompEffect, transform.position, transform.rotation);
+        ParticleSystem stomp = Instantiate(FootStompEffect, transform.position, transform.rotation);
+        AAttackCollider projectileController = stomp.GetComponentInChildren<AAttackCollider>();
+        projectileController.SetController(Controller);
     }
 
     public void SpawnRightFootStompVFX()
     {
-        Instantiate(FootStompEffect, transform.position, transform.rotation);
+        ParticleSystem stomp = Instantiate(FootStompEffect, transform.position, transform.rotation);
+        AAttackCollider projectileController = stomp.GetComponentInChildren<AAttackCollider>();
+        projectileController.SetController(Controller);
     }
 
     public void SpawnTauntVFX()
