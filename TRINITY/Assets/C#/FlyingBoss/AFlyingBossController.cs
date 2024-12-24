@@ -58,11 +58,10 @@ public class AFlyingBossController : IEnemyController
         {
             FlyingBossFSM.EnqueueTransition<FBDie>();
         }
-        print(FlyingBossFSM.CurrentState);
     }
     private void CheckCoolDown()
     {
-        if (bCanRandomFly)
+        if (!bCanRandomFly)
         {
             TimerRandomFly += Time.deltaTime;
             if (TimerRandomFly >= RandomFlyCD)
