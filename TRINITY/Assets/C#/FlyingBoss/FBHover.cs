@@ -1,22 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class FBHover : FlyingBossState
 {
-    private ATrinityController playerController;
-    private Rigidbody rb;
-    private Animator animator;
-
     private Vector3 targetHoverPosition;
+
     private const string VerticalParameter = "Vertical";
     private const string HorizontalParameter = "Horizontal";
 
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float hoverSmoothness = 2f;
-    [SerializeField] private float hoverRadius = 10f;
     [SerializeField] private float positionTolerance = 3f;
+    [SerializeField] private Vector3 behindBossOffset;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -25,10 +21,6 @@ public class FBHover : FlyingBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        playerController = FlyingBossFSM.PlayerController;
-        rb = FlyingBossFSM.FlyingBossController.GetComponent<Rigidbody>();
-        animator = FlyingBossFSM.FlyingBossController.GetComponent<Animator>();
-
         targetHoverPosition = GetRandomHoverPosition();
     }
 
@@ -56,7 +48,17 @@ public class FBHover : FlyingBossState
         MoveTowardsTarget(dt);
         UpdateBlendTreeParameters();
 
-        CheckForAttackTransitions();
+
+        if (FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack /*&& FlyingBossFSM.FlyingBossController.CalculateDistance() <= FlyingBossFSM.FlyingBossController.LongAttackRange*/)
+        {
+            FlyingBossFSM.EnqueueTransition<FBAttack>();
+        }
+        //else if (FlyingBossFSM.FlyingBossController.bCanSpikeAttack /*&& FlyingBossFSM.FlyingBossController.CalculateDistance() <= FlyingBossFSM.FlyingBossController.CloseAttackRange*/)
+        //{
+        //    FlyingBossFSM.EnqueueTransition<FBAttack>();
+        //    FlyingBossFSM.FlyingBossController.bCanSpikeAttack = false;
+        //}
+
     }
 
     public override void PostUpdateBehaviour(float dt)
@@ -65,8 +67,8 @@ public class FBHover : FlyingBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        animator.SetFloat(VerticalParameter, 0f);
-        animator.SetFloat(HorizontalParameter, 0f);
+        FlyingBossFSM.Animator.SetFloat(VerticalParameter, 0f);
+        FlyingBossFSM.Animator.SetFloat(HorizontalParameter, 0f);
     }
 
     public override bool CheckExitTransition(IState toState)
@@ -77,20 +79,19 @@ public class FBHover : FlyingBossState
     private void MoveTowardsTarget(float dt)
     {
         Vector3 direction = (targetHoverPosition - FlyingBossFSM.FlyingBossController.transform.position).normalized;
-        Vector3 smoothVelocity = Vector3.Lerp(rb.velocity, direction * moveSpeed, hoverSmoothness * dt);
-        rb.velocity = smoothVelocity;
+        Vector3 smoothVelocity = Vector3.Lerp(FlyingBossFSM.FlyingBossController.RB.velocity, direction * moveSpeed, hoverSmoothness * dt);
+        FlyingBossFSM.FlyingBossController.RB.velocity = smoothVelocity;
 
-        FlyingBossFSM.FlyingBossController.transform.forward = Vector3.Lerp(FlyingBossFSM.FlyingBossController.transform.forward, direction, hoverSmoothness * dt);
+        Vector3 faceDirection = (FlyingBossFSM.PlayerController.transform.position - FlyingBossFSM.FlyingBossController.transform.position).normalized;
+
+        FlyingBossFSM.FlyingBossController.RotateTowardTarget(faceDirection, hoverSmoothness);
+        //Vector3 currentRotation = FlyingBossFSM.FlyingBossController.transform.eulerAngles;
+
+        //FlyingBossFSM.FlyingBossController.transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
     }
 
     Vector3 GetRandomHoverPosition()
     {
-        Debug.Log("B");
-        Vector3 invincibleBossPosition = FlyingBossFSM.FlyingBossController.InvincibleBoss.position;
-        Vector3 bossForward = FlyingBossFSM.FlyingBossController.InvincibleBoss.forward;
-
-        Vector3 basePositionBehindBoss = invincibleBossPosition - bossForward * FlyingBossFSM.FlyingBossController.InvincibleBossRange;
-
         for (int attempt = 0; attempt < 5; attempt++)
         {
             // Generate random offsets around the base position
@@ -98,66 +99,40 @@ public class FBHover : FlyingBossState
             float randomY = Random.Range(5, FlyingBossFSM.FlyingBossController.HoverYAxis);
             float randomZ = Random.Range(0, FlyingBossFSM.FlyingBossController.HoverZAxis);
 
-            Vector3 randomPosition = basePositionBehindBoss + new Vector3(randomX, randomY, randomZ);
+            Vector3 randomPosition = GetPositionBehindInvincibleBoss() + new Vector3(randomX, randomY, randomZ);
 
             if (IsPositionValid(randomPosition))
             {
                 return randomPosition;
             }
         }
-        return basePositionBehindBoss;
+        return GetPositionBehindInvincibleBoss();
     }
 
     private Vector3 GetPositionBehindInvincibleBoss()
     {
-        Debug.Log("A");
-        Vector3 bossPosition = FlyingBossFSM.FlyingBossController.InvincibleBoss.position;
-        Vector3 directionToBoss = (FlyingBossFSM.FlyingBossController.transform.position - bossPosition).normalized;
-        Vector3 offsetPosition = bossPosition - directionToBoss * FlyingBossFSM.FlyingBossController.InvincibleBossRange;
+        Vector3 invincibleBossPosition = FlyingBossFSM.FlyingBossController.InvincibleBoss.position + behindBossOffset;
+        Vector3 bossForward = FlyingBossFSM.FlyingBossController.InvincibleBoss.forward;
 
-        for (int i = 0; i < 5; i++)
-        {
-            Vector3 randomOffset = Random.insideUnitSphere * 2f;
-            Vector3 candidatePosition = offsetPosition + randomOffset;
-            if (IsPositionValid(candidatePosition))
-            {
-                return candidatePosition;
-            }
-        }
-
-        Debug.LogWarning("Failed to find a valid position behind the boss. Returning fallback position.");
-        return bossPosition;
+        Vector3 basePositionBehindBoss = invincibleBossPosition - bossForward;
+        return basePositionBehindBoss;
     }
 
     private bool IsPositionValid(Vector3 position)
     {
-        return position.y > 0; ;
+        return position.y > 0;
     }
 
     private void UpdateBlendTreeParameters()
     {
-        Vector3 velocity = rb.velocity;
+        Vector3 velocity = FlyingBossFSM.FlyingBossController.RB.velocity;
         Vector3 localVelocity = FlyingBossFSM.FlyingBossController.transform.InverseTransformDirection(velocity);
 
-        animator.SetFloat(VerticalParameter, Mathf.Clamp(localVelocity.z, -1f, 1f));
-        animator.SetFloat(HorizontalParameter, Mathf.Clamp(localVelocity.x, -1f, 1f));
+        FlyingBossFSM.Animator.SetFloat(VerticalParameter, Mathf.Clamp(localVelocity.z, -1f, 1f));
+        FlyingBossFSM.Animator.SetFloat(HorizontalParameter, Mathf.Clamp(localVelocity.x, -1f, 1f));
     }
 
-    private void CheckForAttackTransitions()
-    {
-        var controller = FlyingBossFSM.FlyingBossController;
 
-        if (controller.bCanElectricChargeAttack && controller.CalculateDistance() <= controller.LongAttackRange)
-        {
-            FlyingBossFSM.EnqueueTransition<FBAttack>();
-            controller.bCanElectricChargeAttack = false;
-        }
-        else if (controller.bCanSpikeAttack && controller.CalculateDistance() <= controller.CloseAttackRange)
-        {
-            FlyingBossFSM.EnqueueTransition<FBAttack>();
-            controller.bCanSpikeAttack = false;
-        }
-    }
 
     private void OnDrawGizmos()
     {

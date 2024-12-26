@@ -5,8 +5,8 @@ using UnityEngine;
 public class AFlyingBossController : IEnemyController
 {
     public AFlyingBossFSM FlyingBossFSM;
-    public Rigidbody rb;
     public Transform InvincibleBoss;
+
     public ParticleSystem ElectricShot;
     public GameObject GOElectricShot;
     public ParticleSystem ElectricCharge;
@@ -33,9 +33,10 @@ public class AFlyingBossController : IEnemyController
     float TimerElectricChargeAttack = 0f;
     float TimerRandomFly = 0f;
 
-    public bool bCanSpikeAttack = true;
-    public bool bCanElectricChargeAttack = true;
     public bool bCanRandomFly = true;
+    public bool bCanSpikeAttack = false;
+    public bool bCanElectricChargeAttack = false;
+
     public bool bGOElectricShotSpawned = false;
     public bool bGOElectricChargeSpawned = false;
 
@@ -48,7 +49,6 @@ public class AFlyingBossController : IEnemyController
     void Start()
     {
         Health = GetComponent<UHealthComponent>();
-        rb = GetComponent<Rigidbody>();
     }
     void Update()
     {
@@ -70,16 +70,16 @@ public class AFlyingBossController : IEnemyController
                 TimerRandomFly = 0f;
             }
         }
-        if (bCanSpikeAttack)
-        {
-            TimerSpikeAttack += Time.deltaTime;
-            if (TimerSpikeAttack >= SpikeAttackCD)
-            {
-                bCanSpikeAttack = true;
-                TimerSpikeAttack = 0f;
-            }
-        }
-        if (bCanElectricChargeAttack)
+        //if (!bCanSpikeAttack)
+        //{
+        //    TimerSpikeAttack += Time.deltaTime;
+        //    if (TimerSpikeAttack >= SpikeAttackCD)
+        //    {
+        //        bCanSpikeAttack = true;
+        //        TimerSpikeAttack = 0f;
+        //    }
+        //}
+        if (!bCanElectricChargeAttack)
         {
             TimerElectricChargeAttack += Time.deltaTime;
             if (TimerElectricChargeAttack >= ElectricChargeAttackCD)
@@ -95,20 +95,20 @@ public class AFlyingBossController : IEnemyController
         {
             return SpikeAttackDMG;
         }
-        return 0;
+        return NormalAttack;
     }
-    public void RotateTowardTarget(Vector3 directionToTarget)
+    public void RotateTowardTarget(Vector3 directionToTarget, float rotateSpeed)
     {
         Vector3 directionToTargetXZ = new Vector3(directionToTarget.x, 0, directionToTarget.z).normalized;
         Quaternion targetRotation = Quaternion.LookRotation(directionToTargetXZ);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10 * Time.deltaTime);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
     }
     public float CalculateDistance()
     {
         Vector3 PlayerPos = new Vector3(FlyingBossFSM.PlayerController.transform.position.x, 0, FlyingBossFSM.PlayerController.transform.position.z);
-        Vector3 IBPos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 FlyBossPos = new Vector3(transform.position.x, 0, transform.position.z);
 
-        float distanceToTarget = Vector3.Distance(PlayerPos, IBPos);
+        float distanceToTarget = Vector3.Distance(PlayerPos, FlyBossPos);
         return distanceToTarget;
     }
 }

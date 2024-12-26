@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class FlyingBossState : MonoBehaviour, IState
 {
     protected AFlyingBossFSM FlyingBossFSM;
-
+    public float RotateSpeed;
     public void Awake()
     {
     }

@@ -1,24 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class FBDie : FlyingBossState
 {
-    AFlyingBossController FBController;
-    ATrinityController PlayerController;
-    NavMeshAgent AI;
     public override bool CheckEnterTransition(IState fromState)
     {
         return true;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
-    {
-        FBController = FlyingBossFSM.FlyingBossController;
-        PlayerController = FlyingBossFSM.PlayerController;
-
-        AI = FBController.AI;
+    { 
     }
 
     public override void PreUpdateBehaviour(float dt)

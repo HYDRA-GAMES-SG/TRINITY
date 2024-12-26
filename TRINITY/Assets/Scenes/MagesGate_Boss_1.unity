@@ -8978,7 +8978,6 @@ MonoBehaviour:
   NormalAttack: 0
   AttackForce: 150
   FlyingBossFSM: {fileID: 1720804530}
-  rb: {fileID: 548645806}
   InvincibleBoss: {fileID: 1705963345}
   ElectricShot: {fileID: 2900534572940629485, guid: 1d8d1503ac7ed224ab0e2cdd6b8a4ae5,
     type: 3}
@@ -8998,9 +8997,9 @@ MonoBehaviour:
   ElectricChargeAttackCD: 10
   SpikeAttackCD: 10
   RandomFlyCD: 2
+  bCanRandomFly: 0
   bCanSpikeAttack: 1
   bCanElectricChargeAttack: 1
-  bCanRandomFly: 0
   bGOElectricShotSpawned: 0
   bGOElectricChargeSpawned: 0
   SpikeAttackDMG: 10
@@ -13097,10 +13096,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Menu: MenuScene
-  CrabBossStage: CrabBossDungeon
-  FlyingBossStage: FlyingBossStageScene
-  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &885919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20245,10 +20240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Menu: MenuScene
-  CrabBossStage: CrabBossDungeon
-  FlyingBossStage: FlyingBossStageScene
-  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &1405912127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23337,6 +23328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c02aae5e857ffca438f78448a33fb434, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotateSpeed: 0
 --- !u!114 &1720804527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23349,6 +23341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dd900d6f6debf4bbb0b815f7c1a5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotateSpeed: 0
   SpikeAttack: FlyClawsAttack_RM
   ElectricAttack: FlyElectroShot
 --- !u!114 &1720804528
@@ -23363,10 +23356,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80598320b660e14d891aee8d1c090c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotateSpeed: 0
   moveSpeed: 5
   hoverSmoothness: 2
-  hoverRadius: 10
   positionTolerance: 3
+  behindBossOffset: {x: 0, y: 5, z: 3}
 --- !u!114 &1720804529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23379,6 +23373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33fb4bfe7cde6c64da5df20aff2ef1e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotateSpeed: 0
 --- !u!114 &1720804530
 MonoBehaviour:
   m_ObjectHideFlags: 0
