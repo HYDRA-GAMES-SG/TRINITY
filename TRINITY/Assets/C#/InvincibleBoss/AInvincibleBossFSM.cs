@@ -20,8 +20,6 @@ public class AInvincibleBossFSM : MonoBehaviour, IFSM
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
-    private Coroutine layerWeightCoroutine;
-
     private void Awake()
     {
         InitializeStates();

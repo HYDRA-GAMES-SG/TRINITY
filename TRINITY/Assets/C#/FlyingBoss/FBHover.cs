@@ -67,6 +67,8 @@ public class FBHover : FlyingBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        FlyingBossFSM.FlyingBossController.RB.velocity = Vector3.zero;
+
         FlyingBossFSM.Animator.SetFloat(VerticalParameter, 0f);
         FlyingBossFSM.Animator.SetFloat(HorizontalParameter, 0f);
     }

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class FBAttack : FlyingBossState
 {
-    public string SpikeAttack = "FlyClawsAttack_RM";
-    public string ElectricAttack = "FlyElectroShot";
+    [SerializeField] string AnimKey = "FlyElectroShot";
+
+    [SerializeField] float moveSpeed;
+    [SerializeField] float hoverSmoothness;
+
+    Vector3 AttackPos;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -14,7 +18,8 @@ public class FBAttack : FlyingBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-       
+        Vector3[] attackPositions = AttackPositionBehind();
+        AttackPos = attackPositions[Random.Range(0, attackPositions.Length)];
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -23,55 +28,19 @@ public class FBAttack : FlyingBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        FlyingBossFSM.FlyingBossController.RotateTowardTarget(FlyingBossFSM.PlayerController.transform.position, RotateSpeed);
+        MoveTowardsTarget(dt);
+        if (IsAtAttackPosition())
+        {
+            FlyingBossFSM.Animator.SetTrigger(AnimKey);
+        }
 
-       
-            Quaternion effectRotation = Quaternion.LookRotation(FlyingBossFSM.FlyingBossController.transform.forward) * Quaternion.Euler(0, 90, 0);
-            Vector3 effectPosition = FlyingBossFSM.FlyingBossController.transform.position + FlyingBossFSM.FlyingBossController.transform.forward;
-            FlyingBossFSM.FlyingBossController.Animator.SetTrigger(ElectricAttack);
-            if (!FlyingBossFSM.FlyingBossController.bGOElectricChargeSpawned)
-            {
-                Instantiate(FlyingBossFSM.FlyingBossController.GOElectricCharge, effectPosition, effectRotation);
-                FlyingBossFSM.FlyingBossController.bGOElectricChargeSpawned = true;
-                ElectricChargeAttack();
-            }
-            else
-            {
-                ElectricChargeAttack();
-            }
-        
-        //else if (FlyingBossFSM.FlyingBossController.bCanSpikeAttack)
-        //{
-        //    Quaternion effectRotation = Quaternion.LookRotation(FlyingBossFSM.FlyingBossController.transform.forward) * Quaternion.Euler(0, 90, 0);
-        //    Vector3 effectPosition = FlyingBossFSM.FlyingBossController.transform.position + FlyingBossFSM.FlyingBossController.transform.forward;
-        //    FlyingBossFSM.FlyingBossController.Animator.SetTrigger(SpikeAttack);
-        //    if (!FlyingBossFSM.FlyingBossController.bGOElectricShotSpawned)
-        //    {
-        //        Instantiate(FlyingBossFSM.FlyingBossController.ElectricShot, effectPosition, effectRotation);
-        //        FlyingBossFSM.FlyingBossController.bGOElectricShotSpawned = true;
-        //        ElectricShotSpikeAttack();
-        //    }
-        //    else
-        //    {
-        //        ElectricShotSpikeAttack();
-        //    }
-        //}
-        //else if (FlyingBossFSM.FlyingBossController.CalculateDistance() >= FlyingBossFSM.FlyingBossController.LongAttackRange || FlyingBossFSM.FlyingBossController.CalculateDistance() <= FlyingBossFSM.FlyingBossController.HoverRange)
-        //{
-        //    FlyingBossFSM.EnqueueTransition<FBHover>();
-        //}
-    }
-    private void ElectricShotSpikeAttack()
-    {
-        FlyingBossFSM.FlyingBossController.ElectricShot.Play();
-        FlyingBossFSM.FlyingBossController.bCanSpikeAttack = false;
-        FlyingBossFSM.EnqueueTransition<FBHover>();
-    }
-    private void ElectricChargeAttack()
-    {
-        FlyingBossFSM.FlyingBossController.ElectricCharge.Play();
-        FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack = false;
-        FlyingBossFSM.EnqueueTransition<FBHover>();
+        string layerName = GetType().Name;
+        int layerIndex = FlyingBossFSM.Animator.GetLayerIndex(layerName);
+        AnimatorStateInfo stateInfo = FlyingBossFSM.Animator.GetCurrentAnimatorStateInfo(layerIndex);
+        if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
+        {
+            FlyingBossFSM.EnqueueTransition<FBHover>();
+        }
     }
 
     public override void PostUpdateBehaviour(float dt)
@@ -83,11 +52,52 @@ public class FBAttack : FlyingBossState
         FlyingBossFSM.FlyingBossController.ElectricCharge.Stop();
         FlyingBossFSM.FlyingBossController.ElectricShot.Stop();
 
-        //FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack = false;
+        FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack = false;
     }
 
     public override bool CheckExitTransition(IState toState)
     {
         return true;
     }
+
+    Vector3[] AttackPositionBehind()
+    {
+        Vector3 IBPos = FlyingBossFSM.FlyingBossController.InvincibleBoss.transform.position;
+        Transform bossTransform = FlyingBossFSM.FlyingBossController.InvincibleBoss.transform;
+
+        float shoulderOffset = 5f;
+        float shoulderHighOffset = 11f;
+        float headOffset = 13f;
+
+        Vector3 leftShoulder = IBPos - bossTransform.right * shoulderOffset + bossTransform.up * shoulderHighOffset;
+        Vector3 rightShoulder = IBPos + bossTransform.right * shoulderOffset + bossTransform.up * shoulderHighOffset;
+        Vector3 aboveHead = IBPos + bossTransform.up * headOffset;
+
+        return new Vector3[] { leftShoulder, rightShoulder, aboveHead };
+    }
+
+    private void MoveTowardsTarget(float dt)
+    {
+        Vector3 direction = (AttackPos - FlyingBossFSM.FlyingBossController.transform.position).normalized;
+        Vector3 smoothVelocity = Vector3.Lerp(FlyingBossFSM.FlyingBossController.RB.velocity, direction * moveSpeed, hoverSmoothness * dt);
+        FlyingBossFSM.FlyingBossController.RB.velocity = smoothVelocity;
+
+        Vector3 faceDirection = (FlyingBossFSM.PlayerController.transform.position - FlyingBossFSM.FlyingBossController.transform.position).normalized;
+
+        FlyingBossFSM.FlyingBossController.RotateTowardTarget(faceDirection, hoverSmoothness);
+    }
+
+    private bool IsAtAttackPosition()
+    {
+        float positionTolerance = 0.5f;
+        return Vector3.Distance(FlyingBossFSM.FlyingBossController.transform.position, AttackPos) <= positionTolerance;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(AttackPos, 2f);
+    }
 }
+
+

@@ -69,6 +69,7 @@ public class AFlyingBossFSM : MonoBehaviour
     {
         FSM_RUNNING = true;
         CurrentState = InitialState;
+        UpdateAnimatorLayer(CurrentState.GetType().Name);
         CurrentState.EnterBehaviour(0f, null);
     }
 
@@ -102,6 +103,7 @@ public class AFlyingBossFSM : MonoBehaviour
         Debug.Log("AI: " + CurrentState + "=>" + nextState);
 
         CurrentState = nextState;
+        UpdateAnimatorLayer(CurrentState.GetType().Name);
         CurrentState.EnterBehaviour(Time.deltaTime, PreviousState);
     }
 
@@ -161,5 +163,51 @@ public class AFlyingBossFSM : MonoBehaviour
                 Debug.LogWarning($"FSM: Duplicate state '{stateName}' found in {state.gameObject.name}. Skipping...");
             }
         }
+    }
+
+    private void UpdateAnimatorLayer(string stateName, float transitionDuration = 0.5f)
+    {
+        if (Animator == null)
+        {
+            Debug.LogWarning("Animator is not assigned.");
+            return;
+        }
+
+        int targetLayerIndex = Animator.GetLayerIndex(stateName);
+
+        if (targetLayerIndex < 0)
+        {
+            Debug.LogWarning($"Animator layer for state '{stateName}' not found.");
+            return;
+        }
+
+        // Smoothly reset all layers to 0 except the target layer
+        for (int i = 0; i < Animator.layerCount; i++)
+        {
+            float targetWeight = i == targetLayerIndex ? 1f : 0f;
+            StartCoroutine(SmoothSetLayerWeight(i, targetWeight, transitionDuration));
+        }
+    }
+
+    private IEnumerator SmoothSetLayerWeight(int layerIndex, float targetWeight, float duration)
+    {
+        if (layerIndex < 0 || layerIndex >= Animator.layerCount)
+        {
+            Debug.LogWarning($"Invalid layer index: {layerIndex}");
+            yield break;
+        }
+
+        float initialWeight = Animator.GetLayerWeight(layerIndex);
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float newWeight = Mathf.Lerp(initialWeight, targetWeight, elapsedTime / duration);
+            Animator.SetLayerWeight(layerIndex, newWeight);
+            yield return null;
+        }
+
+        Animator.SetLayerWeight(layerIndex, targetWeight); // Ensure exact target weight is set
     }
 }

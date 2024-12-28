@@ -8908,7 +8908,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 48
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &548645807
 MonoBehaviour:
@@ -8994,11 +8994,11 @@ MonoBehaviour:
   HoverXAxis: 10
   HoverYAxis: 10
   HoverZAxis: -3
-  ElectricChargeAttackCD: 3
+  ElectricChargeAttackCD: 5
   SpikeAttackCD: 10
   RandomFlyCD: 2
   bCanRandomFly: 0
-  bCanSpikeAttack: 1
+  bCanSpikeAttack: 0
   bCanElectricChargeAttack: 0
   bGOElectricShotSpawned: 0
   bGOElectricChargeSpawned: 0
@@ -13096,6 +13096,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Menu: MenuScene
+  CrabBossStage: CrabBossDungeon
+  FlyingBossStage: FlyingBossStageScene
+  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &885919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20240,6 +20244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Menu: MenuScene
+  CrabBossStage: CrabBossDungeon
+  FlyingBossStage: FlyingBossStageScene
+  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &1405912127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23342,8 +23350,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
-  SpikeAttack: FlyClawsAttack_RM
-  ElectricAttack: FlyElectroShot
+  AnimKey: FlyElectroShot
+  moveSpeed: 10
+  hoverSmoothness: 3
 --- !u!114 &1720804528
 MonoBehaviour:
   m_ObjectHideFlags: 0
