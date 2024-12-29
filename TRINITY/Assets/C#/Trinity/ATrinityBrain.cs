@@ -83,11 +83,7 @@ public class ATrinityBrain : MonoBehaviour
 
     private void OnDebugInput()
     {
-        EnemyController.EnemyStatus.Ailments.ModifyStack(EAilmentType.EAT_Chill, 50);
-        print(
-            $"{EnemyController.EnemyStatus.Ailments.AilmentKeys[EAilmentType.EAT_Chill].Stacks} stacks and {EnemyController.EnemyStatus.Ailments.AilmentKeys[EAilmentType.EAT_Chill].Duration} seconds remaining");
-        //SetStunnedState(3f);
-        //SceneManager.LoadScene("CrabBossDungeon");
+        
     }
     
     private void HandleStun()
@@ -241,27 +237,23 @@ public class ATrinityBrain : MonoBehaviour
     
     public void ChangeElement(ETrinityElement newElement)
     {
+        PrimaryRelease();
+        SecondaryRelease();
+        
         CurrentElement = newElement;
         OnElementChanged?.Invoke(CurrentElement);
     }
     
     public void NextElement()
     {
-        PrimaryRelease();
-        SecondaryRelease();
-        
         int intElement = (int)CurrentElement;
         intElement++;
         ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
-        OnElementChanged?.Invoke(newElement);
-        CurrentElement = newElement;
+        ChangeElement(newElement);
     }
 
     public void PreviousElement()
     {
-        PrimaryRelease();
-        SecondaryRelease();
-        
         int intElement = (int)CurrentElement;
         intElement--;
         
@@ -271,8 +263,7 @@ public class ATrinityBrain : MonoBehaviour
             intElement = Enum.GetValues(typeof(ETrinityElement)).Length - 1;
         }
         ETrinityElement newElement = (ETrinityElement)intElement;
-        OnElementChanged?.Invoke(newElement);
-        CurrentElement = newElement;
+        ChangeElement(newElement);
     }
     
     public void ChangeAction(ETrinityAction newAction)

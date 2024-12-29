@@ -19,11 +19,13 @@ public class APrimaryCold : ASpell
     
     [Header("VFX Prefabs")]
     public GameObject CastingVFX;
+    
     // Start is called before the first frame update
     public override void Initialize()
     {
         SpellRot = Quaternion.Euler(0,180,45);
     }
+    
     public override void CastStart()
     {
 

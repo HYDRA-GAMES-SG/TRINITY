@@ -49,6 +49,12 @@ public class ATrinityAnimator : MonoBehaviour
             return;
         }
         
+        UpdateLayerWeights();
+        
+    }
+
+    private void UpdateLayerWeights()
+    {
         if (bMasked)
         {
             if (bMaskedLayerIdle && !bChanneling)

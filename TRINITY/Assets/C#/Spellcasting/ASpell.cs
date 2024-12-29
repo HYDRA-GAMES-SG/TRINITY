@@ -11,7 +11,7 @@ public enum ESpellType
 [RequireComponent(typeof(AudioSource))]
 public class ASpell : MonoBehaviour
 {
-    public APlayerInput InputReference;
+    protected APlayerInput InputReference;
     public GameObject SpellPrefab;
     protected ATrinityAnimator AnimationReference;
     protected ATrinityController Controller;
@@ -101,7 +101,7 @@ public class ASpell : MonoBehaviour
         
         if (SpellAction == ETrinityAction.ETA_Channeling)
         {
-            bool bShouldMask = bUseMaskedLayer ||!Controller.CheckGround().transform;
+            bool bShouldMask = bUseMaskedLayer || !Controller.CheckGround().transform;
             
             if (bShouldMask)
             {
@@ -114,6 +114,7 @@ public class ASpell : MonoBehaviour
         }
         else
         {
+            print("non channeled and masked");
             AnimationReference.PlayCastAnimation($"Masked Layer.{gameObject.name}");
         }
 
