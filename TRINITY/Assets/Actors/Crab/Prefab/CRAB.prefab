@@ -4457,7 +4457,6 @@ MonoBehaviour:
   CrabController: {fileID: 590067304611633414}
   PlayerController: {fileID: 0}
   Animator: {fileID: 8427644227223135767}
-  ShowDebugLog: 0
 --- !u!114 &5324638850348715388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4492,10 +4491,10 @@ MonoBehaviour:
   StateAnimController: {fileID: 9100000, guid: 27472dcae503f1f4aa5e96f1114b777b, type: 2}
   RotateSpeed: 2
   AnimKeyAttack:
-  - ClawsAttackLeftForward_RM
-  - ClawsAttackRightForward_RM
-  - SmashAttackLeftForward_RM
-  - SmashAttackRightForward_RM
+  - ClawsAttackLeftForward_RM_End
+  - ClawsAttackRightForward_RM_End
+  - SmashAttackLeftForward_RM_End
+  - SmashAttackRightForward_RM_End
 --- !u!114 &9097950124894726070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4510,6 +4509,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 6cdd1bb0dc50aca479d921072a9c5e83, type: 2}
   RotateSpeed: 2
+  AnimKeyClawAttackCombo: 2HitComboClawsAttack_RM_End
+  AnimKeySmashAttackCombo: 2HitComboSmashAttack_RM_End
   AnimKey: 
 --- !u!114 &4706325902575116676
 MonoBehaviour:
