@@ -5516,15 +5516,12 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 0
   bUseMaskedLayer: 1
+  StacksOfChillApplied: 0
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
-  StacksApplied: 0
-  AilmentType: 0
-  UtilityFire: {fileID: 464930957}
-  ColdSource: {fileID: 0}
-  ColdAttack: {fileID: 8300000, guid: a522b87f13da92f4daca04ddf397f6ef, type: 3}
-  ColdSustain: {fileID: 8300000, guid: cd1b20b3ab896f447b1fac8091e9530f, type: 3}
-  ColdRelease: {fileID: 0}
-  CastVFX: {fileID: 6631954114883094723, guid: 16292c23524a51c4cbf691a48b9d4ef9, type: 3}
+  CastNumber: 0
+  CastingSFX: {fileID: 0}
+  CastingVFX: {fileID: 6631954114883094723, guid: 16292c23524a51c4cbf691a48b9d4ef9,
+    type: 3}
 --- !u!1 &288070131
 GameObject:
   m_ObjectHideFlags: 0
@@ -11313,6 +11310,8 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 3
   bUseMaskedLayer: 1
+  DamagePerSecond: 10
+  AilmentStacksPerSecond: 1
   ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
     type: 3}
   ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
@@ -13105,6 +13104,7 @@ Transform:
   - {fileID: 282844541}
   - {fileID: 1929592722}
   - {fileID: 464930956}
+  - {fileID: 1549755255}
   m_Father: {fileID: 1268308095}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1169080177
@@ -13134,6 +13134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68303a33611d645449cedb5d85ec6e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StateReference: {fileID: 0}
   CameraReference: {fileID: 533620755}
   BrainReference: {fileID: 596331584}
   CastPoint: {fileID: 1094519403}
@@ -13142,6 +13143,7 @@ MonoBehaviour:
   PrimaryCold: {fileID: 0}
   PrimaryLightning: {fileID: 0}
   UtilityFire: {fileID: 0}
+  UtilityCold: {fileID: 0}
   Forcefield: {fileID: 0}
   Blink: {fileID: 0}
   ManaComponent: {fileID: 0}
@@ -17792,6 +17794,165 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0011212379, y: -0.10416006, z: 0.66521865}
     m_Extent: {x: 0.07248832, y: 0.026202701, z: 0.34038764}
   m_DirtyAABB: 0
+--- !u!1 &1549755254
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1549755255}
+  - component: {fileID: 1549755257}
+  - component: {fileID: 1549755256}
+  m_Layer: 0
+  m_Name: IceHill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1549755255
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549755254}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1169080176}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1549755256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549755254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b2e79c9cba467468627d066a47a3b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpellPrefab: {fileID: 0}
+  Cooldown: 0
+  ManaCost: 0
+  ManaUpkeepCost: 0
+  SpellElement: 1
+  SpellType: 2
+  SpellAction: 0
+  bUseMaskedLayer: 1
+  ColdUtilitySource: {fileID: 0}
+  TrinitySpells: {fileID: 0}
+  SpawnPos: {fileID: 1953173491}
+  LiftForce: 20
+  StacksApplied: 1
+  AilmentType: 2
+  SurroundingIce: {fileID: 7421522436511824269, guid: c12830469a7fce14482f4f46ad1a6aae,
+    type: 3}
+  IceSpike: {fileID: 6436957164297628535, guid: be068d0f54e9cc442b5ba6f6561e3952,
+    type: 3}
+--- !u!82 &1549755257
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549755254}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!4 &1551716029 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6535758543591935231, guid: 786335e7dde623743a407e5888afeb82,

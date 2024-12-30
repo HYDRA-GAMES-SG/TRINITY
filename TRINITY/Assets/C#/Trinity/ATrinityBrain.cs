@@ -138,7 +138,10 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
-                SpellsReference.PrimaryCold.Cast();
+                //if (SpellsReference.StateReference.CurrentState. == ETrinityMovement.ETM_Grounded) 
+                //{
+                    SpellsReference.PrimaryCold.Cast();
+                //}
                 break;
             case ETrinityElement.ETE_Fire:
                     SpellsReference.PrimaryFire.Cast();
@@ -206,6 +209,7 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
+                SpellsReference.UtilityCold.Cast();
                 break;
             case ETrinityElement.ETE_Fire:
                 SpellsReference.UtilityFire.Cast();
