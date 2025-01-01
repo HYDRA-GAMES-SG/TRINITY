@@ -181,6 +181,7 @@ public class ATrinityBrain : MonoBehaviour
                 SpellsReference.SecondaryFire.Cast();
                 break;
             case ETrinityElement.ETE_Lightning:
+                SpellsReference.SecondaryLightning.Cast();
                 break;
         }
     }
@@ -195,6 +196,7 @@ public class ATrinityBrain : MonoBehaviour
                 SpellsReference.SecondaryFire.Release();
                 break;
             case ETrinityElement.ETE_Lightning:
+                SpellsReference.SecondaryLightning.Release();
                 break;
         }
     }
