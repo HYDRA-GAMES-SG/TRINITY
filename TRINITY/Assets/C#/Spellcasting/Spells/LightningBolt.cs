@@ -23,8 +23,8 @@ public class LightningBolt : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SecondaryLightning = Spells.SecondaryLightning;
         RB = GetComponent<Rigidbody>();
+        SecondaryLightning = Spells.SecondaryLightning;
         Direction = Spells.CastDirection;
     }
 
@@ -59,10 +59,10 @@ public class LightningBolt : MonoBehaviour
             print($"Damage Taken : {Damage}, Ailment type and stacks : {SecondaryLightning.AilmentType} + {SecondaryLightning.StacksApplied}");           
            
         }
-        else
-        {
-            SpawnExplosion();
-        }
+        //else
+        //{
+        //    SpawnExplosion();
+        //}
     }
 
 }

@@ -14,12 +14,16 @@ public class ASecondaryLightning : ASpell
     public float MaxChannelTime;
     public float ChannelTime;
 
+    [HideInInspector]
+    public Quaternion SpellRot = new Quaternion();
+
     [Header("VFX Prefabs")]
     public GameObject ChargeVFX;
     public GameObject FullyChargedVFX;
     public override void Initialize()
     {
         LightningSource = GetComponent<AudioSource>();
+        SpellRot = Quaternion.Euler(-90, 0, 0);
     }
 
     public override void CastStart()
@@ -55,15 +59,17 @@ public class ASecondaryLightning : ASpell
 
     public override void CastEnd()
     {
-        //GameObject go = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, Quaternion.identity);
-        //go.transform.parent = this.gameObject.transform;
-
-        //LightningBolt lightningBolt = go.GetComponent<LightningBolt>();
-        //lightningBolt.LightningSource = LightningSource;
-
-        //go.GetComponent<LightningBolt>().Spells = SpellsReference;
         if (ChargeVFXObj != null) 
         {
+            Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;
+            GameObject go = Instantiate(SpellPrefab.gameObject, castPoint, SpellRot);
+
+            LightningBolt lightningBolt = go.GetComponent<LightningBolt>();
+            lightningBolt.LightningSource = LightningSource;
+            lightningBolt.Spells = SpellsReference;
+
+            go.GetComponent<LightningBolt>().Spells = SpellsReference;
+
             Destroy(ChargeVFXObj);
             ChargeVFXObj = null;
             transform.localScale = Vector3.zero;
