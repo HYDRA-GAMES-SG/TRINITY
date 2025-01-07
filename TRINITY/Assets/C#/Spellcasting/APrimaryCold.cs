@@ -39,7 +39,6 @@ public class APrimaryCold : ASpell
         
         IceWave iceWave = go.GetComponent<IceWave>();
 
-        iceWave.Spells = SpellsReference;
         iceWave.Controller = Controller;
         
         Release();

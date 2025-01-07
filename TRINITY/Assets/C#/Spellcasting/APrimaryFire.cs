@@ -22,7 +22,6 @@ public class APrimaryFire : ASpell
         Fireball fireball = go.GetComponent<Fireball>();
         fireball.FireSource = FireSource;
         
-        go.GetComponent<Fireball>().Spells = SpellsReference;
         int i = Random.Range(0, FireAttack.Length - 1);
         FireSource.PlayOneShot(FireAttack[i]);
 

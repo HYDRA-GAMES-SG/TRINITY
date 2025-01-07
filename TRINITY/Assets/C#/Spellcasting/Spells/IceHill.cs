@@ -5,14 +5,13 @@ using UnityEngine;
 public class IceHill : MonoBehaviour
 {
     [HideInInspector]
-    public ATrinitySpells Spells;
     public static AUtilityCold UtilityCold;
     public float Damage;
     Rigidbody Rigidbody;
     // Start is called before the first frame update
     void Start()
     {
-        UtilityCold = Spells.UtilityCold;
+        UtilityCold = ATrinityManager.GetSpells().UtilityCold;
         Rigidbody = GetComponent<Rigidbody>();
     }
 

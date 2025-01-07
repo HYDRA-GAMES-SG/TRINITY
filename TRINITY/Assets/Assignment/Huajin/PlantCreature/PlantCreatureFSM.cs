@@ -67,7 +67,7 @@ namespace Huajin
 
             if (!PlayerController)
             {
-                PlayerController = FindObjectOfType<ATrinityController>();
+                PlayerController = ATrinityManager.GetPlayer();
 
                 if (!PlayerController)
                 {

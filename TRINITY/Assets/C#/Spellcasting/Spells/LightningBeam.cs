@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class LightningBeam : MonoBehaviour
 {
-    [HideInInspector]
-    public ATrinitySpells SpellsReference;
 
     [Header("VFX Prefabs")]
     public GameObject ImpactVFX;
@@ -71,34 +69,36 @@ public class LightningBeam : MonoBehaviour
                 return;
             }
 
+            ATrinitySpells spellsRef = ATrinityManager.GetSpells();
+            
             enemyHitbox.EnemyController.TriggerGetHit();
 
-            ChargeStacks += SpellsReference.PrimaryLightning.AilmentStacksPerSecond * Time.deltaTime;
+            ChargeStacks += spellsRef.PrimaryLightning.AilmentStacksPerSecond * Time.deltaTime;
 
-            if (SpellsReference.UtilityFire.bAura)
+            if (spellsRef.UtilityFire.bAura)
             {
-                IgniteStacks += SpellsReference.PrimaryLightning.AilmentStacksPerSecond * Time.deltaTime;
+                IgniteStacks += ATrinityManager.GetSpells().PrimaryLightning.AilmentStacksPerSecond * Time.deltaTime;
             }
 
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             
             if (ChargeStacks < 1 && IgniteStacks < 1)
             {
-                enemyStatus += new FDamageInstance(SpellsReference.PrimaryLightning.DamagePerSecond * Time.deltaTime, EAilmentType.EAT_None, 0);
+                enemyStatus += new FDamageInstance(spellsRef.PrimaryLightning.DamagePerSecond * Time.deltaTime, EAilmentType.EAT_None, 0);
                 return;
             }
             else
             {
                 if (ChargeStacks > 1)
                 {
-                    enemyStatus += new FDamageInstance(SpellsReference.PrimaryLightning.DamagePerSecond * Time.deltaTime, EAilmentType.EAT_Charge, Mathf.FloorToInt(ChargeStacks));
+                    enemyStatus += new FDamageInstance(spellsRef.PrimaryLightning.DamagePerSecond * Time.deltaTime, EAilmentType.EAT_Charge, Mathf.FloorToInt(ChargeStacks));
                     ChargeStacks -= Mathf.FloorToInt(ChargeStacks);
                     //print($"Damage Taken : {Damage}, Ailment type and stacks : {SpellsReference.PrimaryLightning.AilmentType} + {StacksApplied}");
                 }
 
                 if (IgniteStacks > 1)
                 {
-                    if (SpellsReference.UtilityFire.bAura && IgniteStacks >= 1f)
+                    if (spellsRef.UtilityFire.bAura && IgniteStacks >= 1f)
                     {
                         enemyStatus += new FDamageInstance(0, EAilmentType.EAT_Ignite, Mathf.FloorToInt(IgniteStacks));
                         IgniteStacks -= Mathf.FloorToInt(IgniteStacks);

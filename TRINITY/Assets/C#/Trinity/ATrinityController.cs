@@ -60,6 +60,7 @@ public class ATrinityController : MonoBehaviour
 
     private void Awake()
     {
+        ATrinityManager.SetPlayer(this);
         InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
         SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
         BrainReference = transform.parent.Find("Brain").GetComponent<ATrinityBrain>();

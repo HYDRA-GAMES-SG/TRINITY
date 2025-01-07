@@ -69,7 +69,6 @@ public class ASecondaryLightning : ASpell
             //Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;   
             
             LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, SpellRot).GetComponent<LightningBolt>();
-            lightningBolt.Spells = SpellsReference;
             //lightningBolt.gameObject.transform.parent = this.transform;
             lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
 

@@ -25,7 +25,6 @@ public class APrimaryLightning : ASpell
         {
             Beam = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
             Beam.transform.parent = SpellsReference.CastPoint.transform;
-            Beam.GetComponent<LightningBeam>().SpellsReference = SpellsReference;
         }
         LightningSource = GetComponent<AudioSource>();
         LightningSource.clip = LightningSustain;

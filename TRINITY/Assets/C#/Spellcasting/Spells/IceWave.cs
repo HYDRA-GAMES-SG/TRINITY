@@ -17,8 +17,6 @@ public class IceWave : MonoBehaviour
     [HideInInspector]
     private APrimaryCold PrimaryCold;
     [HideInInspector]
-    public ATrinitySpells Spells;
-    [HideInInspector]
     
     public AudioSource ColdSource;
     [Header("VFX Prefabs")]
@@ -34,8 +32,8 @@ public class IceWave : MonoBehaviour
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
-        PrimaryCold = Spells.PrimaryCold;
-        Direction = Spells.CastDirection;
+        PrimaryCold = ATrinityManager.GetSpells().PrimaryCold;
+        Direction = ATrinityManager.GetSpells().CastDirection;
         DesiredVelocity = Direction * Speed;
     
         int shouldRotate = PrimaryCold.CastNumber % 2 == 0 ? 1 : -1;
@@ -117,7 +115,7 @@ public class IceWave : MonoBehaviour
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             enemyStatus +=  new FDamageInstance(Damage, EAilmentType.EAT_Chill, PrimaryCold.StacksOfChillApplied);
 
-            if (Spells.UtilityFire.bAura)
+            if (ATrinityManager.GetSpells().UtilityFire.bAura)
             {
                 enemyStatus += new FDamageInstance(0f, EAilmentType.EAT_Ignite, PrimaryCold.StacksOfChillApplied);
             }

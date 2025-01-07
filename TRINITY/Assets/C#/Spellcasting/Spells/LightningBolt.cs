@@ -6,8 +6,6 @@ public class LightningBolt : MonoBehaviour
 {    
     public static ASecondaryLightning SecondaryLightning;
     [HideInInspector]
-    public ATrinitySpells Spells;
-    [HideInInspector]
     private Vector3 Direction;
     public float Damage;
     public float Duration;
@@ -25,9 +23,9 @@ public class LightningBolt : MonoBehaviour
     {
         RB = GetComponent<Rigidbody>();
         LightningSource = GetComponent<AudioSource>();
-        SecondaryLightning = Spells.SecondaryLightning;
+        SecondaryLightning = ATrinityManager.GetSpells().SecondaryLightning;
         this.transform.SetParent(SecondaryLightning.transform);
-        Direction = Spells.CastDirection;
+        Direction = ATrinityManager.GetSpells().CastDirection;
     }
 
     // Update is called once per frame

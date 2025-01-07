@@ -41,8 +41,6 @@ public class AUtilityCold : ASpell
     {
         GameObject vfxSpike = Instantiate(IceSpike, SpawnPos.position, Quaternion.identity);
         GameObject vfxSurroundingIce = Instantiate(SurroundingIce, SpawnPos.position, Quaternion.identity);
-        vfxSpike.GetComponent<IceHill>().Spells = SpellsReference;
-        vfxSurroundingIce.GetComponent<IceHill>().Spells = SpellsReference;
 
         TrinityRB.AddForce(Vector3.up * LiftForce, ForceMode.Impulse);
     }

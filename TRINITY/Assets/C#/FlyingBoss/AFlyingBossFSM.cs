@@ -55,7 +55,7 @@ public class AFlyingBossFSM : MonoBehaviour
 
         if (!PlayerController)
         {
-            PlayerController = FindObjectOfType<ATrinityController>();
+            PlayerController = ATrinityManager.GetPlayer();
 
             if (!PlayerController)
             {

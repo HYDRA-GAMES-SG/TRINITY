@@ -55,7 +55,7 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
         if (!PlayerController)
         {
-            PlayerController = FindObjectOfType<ATrinityController>();
+            PlayerController = ATrinityManager.GetPlayer();
 
             if (!PlayerController)
             {
