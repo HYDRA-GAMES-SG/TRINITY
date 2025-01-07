@@ -7257,9 +7257,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6639925515291015479}
+  - component: {fileID: 6712239585165252696}
   - component: {fileID: 6639925515291015478}
   - component: {fileID: 6639925515291015477}
-  - component: {fileID: 6712239585165252696}
   - component: {fileID: 276422972833615442}
   - component: {fileID: 8702824847389385152}
   - component: {fileID: 7017642682999567353}
@@ -7280,7 +7280,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3941590169577164754}
@@ -7289,6 +7289,26 @@ Transform:
   - {fileID: 6639925516002077119}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!114 &6712239585165252696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6639925515291015476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e463b304486a1048850149a835cc2aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Spells: {fileID: 0}
+  Damage: 0
+  Duration: 5
+  Speed: 100
+  RB: {fileID: 0}
+  LightningSource: {fileID: 0}
+  ExplosionVFX: {fileID: 5773043792457465958, guid: 7f39c2eba4198f745ab523ecf399b9b5,
+    type: 3}
 --- !u!198 &6639925515291015478
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9748,26 +9768,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &6712239585165252696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6639925515291015476}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e463b304486a1048850149a835cc2aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Spells: {fileID: 0}
-  Damage: 0
-  Duration: 5
-  Speed: 100
-  RB: {fileID: 0}
-  LightningSource: {fileID: 0}
-  ExplosionVFX: {fileID: 5773043792457465958, guid: 7f39c2eba4198f745ab523ecf399b9b5,
-    type: 3}
 --- !u!82 &276422972833615442
 AudioSource:
   m_ObjectHideFlags: 0

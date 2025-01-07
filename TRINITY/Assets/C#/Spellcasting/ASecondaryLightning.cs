@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Unity.VisualScripting.Metadata;
 
 public class ASecondaryLightning : ASpell
 {
@@ -10,6 +11,7 @@ public class ASecondaryLightning : ASpell
     public GameObject ChargeVFXObj;
     public GameObject FullyChargedVFXObj;
 
+    public float MinScale;
     public float MaxScale;
     public float MaxChannelTime;
     public float ChannelTime;
@@ -42,13 +44,14 @@ public class ASecondaryLightning : ASpell
         print("Channeling lightning bolt");
         ChannelTime += Time.deltaTime;
 
+        float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
+
         foreach (Transform children in ChargeVFXObj.GetComponentInChildren<Transform>()) 
         {
-            children.localScale = transform.localScale;
+            children.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
         }
 
-        float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
-        transform.localScale = Vector3.one * Mathf.Lerp(0, MaxScale, t);
+
         if (ChannelTime >= MaxChannelTime && FullyChargedVFXObj == null) 
         {
             GameObject chargeVFX = Instantiate(FullyChargedVFX, SpellsReference.CastPoint.position, Quaternion.identity);
@@ -61,18 +64,19 @@ public class ASecondaryLightning : ASpell
     {
         if (ChargeVFXObj != null) 
         {
-            Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;
-            GameObject go = Instantiate(SpellPrefab.gameObject, castPoint, SpellRot);
+            float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
 
-            LightningBolt lightningBolt = go.GetComponent<LightningBolt>();
-            lightningBolt.LightningSource = LightningSource;
+            //Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;   
+            
+            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, SpellRot).GetComponent<LightningBolt>();
             lightningBolt.Spells = SpellsReference;
+            //lightningBolt.gameObject.transform.parent = this.transform;
+            lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
 
-            go.GetComponent<LightningBolt>().Spells = SpellsReference;
+            Destroy(lightningBolt.gameObject, 0.5f);
 
             Destroy(ChargeVFXObj);
-            ChargeVFXObj = null;
-            transform.localScale = Vector3.zero;
+            ChargeVFXObj = null;         
         }
         if (FullyChargedVFXObj != null) 
         {
