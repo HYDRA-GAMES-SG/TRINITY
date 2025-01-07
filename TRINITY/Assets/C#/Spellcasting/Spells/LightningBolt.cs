@@ -24,7 +24,9 @@ public class LightningBolt : MonoBehaviour
     void Start()
     {
         RB = GetComponent<Rigidbody>();
+        LightningSource = GetComponent<AudioSource>();
         SecondaryLightning = Spells.SecondaryLightning;
+        this.transform.SetParent(SecondaryLightning.transform);
         Direction = Spells.CastDirection;
     }
 
