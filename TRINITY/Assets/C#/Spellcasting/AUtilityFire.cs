@@ -40,12 +40,13 @@ public class AUtilityFire : ASpell
         {
             FireballSpell.Cooldown = OriginalCooldown;
             bAura = false;
+            print("CleanseFlame cast ended");
         }
     }
 
     public override void CastEnd()
     {
-
+        print("Spell ended");
     }
     public void FlameAura() 
     {

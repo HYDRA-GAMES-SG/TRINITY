@@ -153,6 +153,10 @@ public class ATrinityBrain : MonoBehaviour
     }
     public void PrimaryRelease()
     {
+        if (!CanAct())
+        {
+            return;
+        }
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
@@ -188,6 +192,10 @@ public class ATrinityBrain : MonoBehaviour
     
     public void SecondaryRelease()
     {
+        if (!CanAct())
+        {
+            return;
+        }
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
@@ -230,6 +238,13 @@ public class ATrinityBrain : MonoBehaviour
         
         SpellsReference.Blink.Cast();
     }
+    public void BlinkRelease() 
+    {
+        if (!CanAct())
+        {
+            return;
+        }
+    }
     
     public void Forcefield()
     {
@@ -243,6 +258,10 @@ public class ATrinityBrain : MonoBehaviour
     
     public void ChangeElement(ETrinityElement newElement)
     {
+        if (!CanAct())
+        {
+            return;
+        }
         PrimaryRelease();
         SecondaryRelease();
         
@@ -252,6 +271,11 @@ public class ATrinityBrain : MonoBehaviour
     
     public void NextElement()
     {
+        if (!CanAct())
+        {
+            return;
+        }
+
         int intElement = (int)CurrentElement;
         intElement++;
         ETrinityElement newElement = (ETrinityElement)(intElement % Enum.GetValues(typeof(ETrinityElement)).Length);
@@ -260,6 +284,11 @@ public class ATrinityBrain : MonoBehaviour
 
     public void PreviousElement()
     {
+        if (!CanAct())
+        {
+            return;
+        }
+
         int intElement = (int)CurrentElement;
         intElement--;
         
@@ -298,6 +327,10 @@ public class ATrinityBrain : MonoBehaviour
 
     public void SetCurrentSpell(ASpell newSpell)
     {
+        if (!CanAct())
+        {
+            return;
+        }
         CurrentSpell = newSpell;
 
         if (newSpell != null)
