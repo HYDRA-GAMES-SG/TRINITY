@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ABulletSphereSpawner : ABulletSpawner
+public class ABulletSphereSpawner : IBulletSpawner
 {
         [Header("Sphere Spawner Settings")] [Tooltip("Radius of the sphere.")]
         public float SphereRadius = 5f;

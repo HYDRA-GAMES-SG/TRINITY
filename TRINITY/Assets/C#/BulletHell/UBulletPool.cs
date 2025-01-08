@@ -6,23 +6,23 @@ using UnityEngine;
 public class UBulletPool : MonoBehaviour
 {
     [SerializeField]
-    public GameObject bulletPrefab;
+    public GameObject BulletPrefab;
     public bool bDisableBulletsOnSpawnerDeath;
-    public int poolSize = 20;
-    private Queue<GameObject> poolQueue = new Queue<GameObject>();
-    public IEnemyController EnemyController;
+    public int PoolSize = 20;
+    private Queue<GameObject> PoolQueue = new Queue<GameObject>();
     private float BulletLifetime = 0f; 
 
     private Coroutine DisableCoro = null;
+    private IEnemyController EnemyController;
 
     private void Awake()
     {
-        for (int i = 0; i < poolSize; i++)
+        for (int i = 0; i < PoolSize; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab);
+            GameObject bullet = Instantiate(BulletPrefab);
             bullet.SetActive(false);
             bullet.GetComponentInChildren<ABullet>().Pool = this;
-            poolQueue.Enqueue(bullet);
+            PoolQueue.Enqueue(bullet);
         }
     }
 
@@ -30,10 +30,10 @@ public class UBulletPool : MonoBehaviour
     {
         if (EnemyController == null)
         {
-            EnemyController = GetComponent<IEnemyController>();
+            EnemyController = GetComponent<IBulletSpawner>().EnemyController;
         }
 
-        BulletLifetime = bulletPrefab.GetComponent<ABullet>().Lifetime;
+        BulletLifetime = BulletPrefab.GetComponent<ABullet>().Lifetime;
     }
 
     private void OnEnable()
@@ -62,7 +62,7 @@ public class UBulletPool : MonoBehaviour
     {
             // Copy the active bullets to a list
             List<GameObject> activeBullets = new List<GameObject>();
-            foreach (var bullet in poolQueue)
+            foreach (var bullet in PoolQueue)
             {
                 if (bullet.activeSelf)
                 {
@@ -95,15 +95,15 @@ public class UBulletPool : MonoBehaviour
 
     public GameObject GetBullet()
     {
-        if (poolQueue.Count > 0)
+        if (PoolQueue.Count > 0)
         {
-            GameObject bullet = poolQueue.Dequeue();
+            GameObject bullet = PoolQueue.Dequeue();
             bullet.SetActive(true);
             return bullet;
         }
         else
         {
-            GameObject bullet = Instantiate(bulletPrefab);
+            GameObject bullet = Instantiate(BulletPrefab);
             return bullet;
         }
     }
@@ -112,7 +112,7 @@ public class UBulletPool : MonoBehaviour
     {
         bullet.GetComponent<ABullet>().Reset();
         bullet.SetActive(false);
-        poolQueue.Enqueue(bullet);
+        PoolQueue.Enqueue(bullet);
     }
     
     private void EnableColliders<T>() where T : Collider

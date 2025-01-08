@@ -111,6 +111,8 @@ public class IceWave : MonoBehaviour
                 return;
             }
 
+            Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
+            
             enemyHitbox.EnemyController.TriggerGetHit();
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             enemyStatus +=  new FDamageInstance(Damage, EAilmentType.EAT_Chill, PrimaryCold.StacksOfChillApplied);
@@ -124,11 +126,34 @@ public class IceWave : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Default") || collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
-            Vector3 wallNormal = collision.GetContact(0).normal;
-            DesiredVelocity -= Vector3.Project(DesiredVelocity, wallNormal) * 2f;
+            Vector3 contactPoint = collision.GetContact(0).point;
+            
+            // we cast a variety of rays and take the average normal for purposes of projectile reflection
+            Vector3 averageNormal = Vector3.zero;
+            int hitCount = 0;
+            float radius = 0.3f;
+        
+            for (int i = 0; i < 8; i++) // Cast 8 rays in a circle
+            {
+                float angle = i * Mathf.PI * 2f / 8;
+                Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+                Ray ray = new Ray(contactPoint + offset + Vector3.up, Vector3.down);
+            
+                if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+                {
+                    averageNormal += hit.normal;
+                    hitCount++;
+                }
+            }
+        
+            if (hitCount > 0)
+            {
+                averageNormal /= hitCount;
+                averageNormal.Normalize();
+                DesiredVelocity -= Vector3.Project(DesiredVelocity, averageNormal) * 2f;
+            }
             return;
         }
     }

@@ -25,9 +25,6 @@ public enum EBulletMotion
 [RequireComponent(typeof(Rigidbody))]
 public class ABullet : MonoBehaviour
 {
-    [Header("Bullet Settings")] 
-    [Tooltip("Amount of score penalty for collision.")]
-    public int ScorePenalty = 1;
     
     [Tooltip("Move when spawner is finished.")]
     public bool bWaitForSpawner;
@@ -52,6 +49,7 @@ public class ABullet : MonoBehaviour
     private GameObject Spawner = null;
     private Rigidbody RB = null;
 
+    [HideInInspector]
     public UBulletPool Pool;
 
     private Animator AnimationController;
