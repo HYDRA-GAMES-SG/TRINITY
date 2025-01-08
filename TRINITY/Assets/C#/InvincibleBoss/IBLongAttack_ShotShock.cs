@@ -10,8 +10,11 @@ public class IBLongAttack_ShotShock : InvincibleBossState
 
     [SerializeField] Transform ShockBluePos;
     [SerializeField] ParticleSystem ShockBlue;
-
-
+    [SerializeField] Shock ShockTrail;
+    [SerializeField] float ShockDelay;
+    [SerializeField] float ShockSpeed;
+    float timer = 0;
+    bool hasShot = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return InvincibleBossFSM.InvincibleBossController.bCanShotShock && fromState is IBPursue;
@@ -40,13 +43,23 @@ public class IBLongAttack_ShotShock : InvincibleBossState
         {
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
         }
-        //have to adjust the particle or have some delay 
+
+
         Vector3 playerBasePos = InvincibleBossFSM.PlayerController.transform.position;
         float playerMidHeight = InvincibleBossFSM.PlayerController.GetComponent<CapsuleCollider>().height / 2f;
         Vector3 playerMidPos = new Vector3(playerBasePos.x, playerBasePos.y + playerMidHeight, playerBasePos.z);
         Vector3 ShockBlueDirection = (playerMidPos - ShockBluePos.position).normalized;
         ShockBluePos.transform.rotation = Quaternion.LookRotation(ShockBlueDirection, Vector3.up);
 
+        timer += Time.fixedDeltaTime;
+        if (timer >= ShockDelay && !hasShot)
+        {
+            hasShot = true;
+            Shock shock = Instantiate(ShockTrail, ShockBluePos.transform.position, ShockBluePos.transform.rotation);
+            shock.GetController(InvincibleBossFSM.InvincibleBossController);
+            Rigidbody rb = shock.GetComponent<Rigidbody>();
+            rb.velocity = shock.transform.forward * ShockSpeed;
+        }
     }
     public override void PostUpdateBehaviour(float dt)
     {
@@ -54,6 +67,8 @@ public class IBLongAttack_ShotShock : InvincibleBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        timer = 0;
+        hasShot = false;
         ShockBlue.Stop();
         InvincibleBossFSM.InvincibleBossController.bCanShotShock = false;
     }
