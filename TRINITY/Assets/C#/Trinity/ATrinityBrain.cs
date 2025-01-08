@@ -225,6 +225,7 @@ public class ATrinityBrain : MonoBehaviour
                 SpellsReference.UtilityFire.Cast();
                 break;
             case ETrinityElement.ETE_Lightning:
+                SpellsReference.UtilityLightning.Cast();
                 break;
         }
     }

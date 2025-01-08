@@ -29,6 +29,8 @@ public class ATrinitySpells : MonoBehaviour
     [HideInInspector] 
     public AUtilityCold UtilityCold;
     [HideInInspector]
+    public AUtilityLightning UtilityLightning;
+    [HideInInspector]
     public AForcefield Forcefield;
     [HideInInspector] 
     public ABlink Blink;
@@ -53,6 +55,7 @@ public class ATrinitySpells : MonoBehaviour
         PrimaryLightning = GetComponentInChildren<APrimaryLightning>();
         UtilityFire = GetComponentInChildren<AUtilityFire>();
         UtilityCold = GetComponentInChildren<AUtilityCold>();
+        UtilityLightning = GetComponentInChildren<AUtilityLightning>();   
         Blink = GetComponentInChildren<ABlink>();
         Forcefield = GetComponentInChildren<AForcefield>();
         
