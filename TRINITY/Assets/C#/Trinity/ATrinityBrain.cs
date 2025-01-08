@@ -238,14 +238,7 @@ public class ATrinityBrain : MonoBehaviour
         
         SpellsReference.Blink.Cast();
     }
-    public void BlinkRelease() 
-    {
-        if (!CanAct())
-        {
-            return;
-        }
-    }
-    
+  
     public void Forcefield()
     {
         if (!CanAct())
