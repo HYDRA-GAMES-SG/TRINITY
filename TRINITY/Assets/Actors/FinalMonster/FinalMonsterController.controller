@@ -86,7 +86,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 3765a640aea67904fbc0d27a8ce4ef04,
+  m_Motion: {fileID: -203655887218126122, guid: b8ca702becfbbe8448e52ff1e7628350,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -100,7 +100,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Walk
+  m_Name: FMBWalk
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 6411937017243045038}
@@ -135,7 +135,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: f4adcdadcdfe37a4fa866706280f3228,
+  m_Motion: {fileID: -203655887218126122, guid: 9adf5946cc1678c4590c93a1877082fe,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -162,7 +162,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: edd010c1d5aefdd45bd57ae209715538,
+  m_Motion: {fileID: -203655887218126122, guid: 84d6da500b63ef947a0a851ad8126e51,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -189,7 +189,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: cb6b6aec3b6346343b3d861da494cdad,
+  m_Motion: {fileID: -203655887218126122, guid: e493214ba87f0254996b0c8019a7052f,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -238,7 +238,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 5e41d328a9f2fc54baf133deff25cbb2,
+  m_Motion: {fileID: -203655887218126122, guid: 083b08c7727d2b548960986429d7bc4c,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -265,7 +265,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 32db2c13c33352949926ec73a1f9fdcb,
+  m_Motion: {fileID: -203655887218126122, guid: a3975bb09f6007c439ae7885196818da,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -311,10 +311,52 @@ AnimatorController:
   m_PrefabAsset: {fileID: 0}
   m_Name: FinalMonsterController
   serializedVersion: 5
-  m_AnimatorParameters: []
+  m_AnimatorParameters:
+  - m_Name: InvokeSnowFall
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: InvokeSpike
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: FrostRay
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: FrostWave
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: HeavyAttack
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: Dash
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: HitTheground
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
-    m_Name: Idle
+    m_Name: FMBIdle
     m_StateMachine: {fileID: 4700156662795119190}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -326,7 +368,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Walk
+    m_Name: FMBWalk
     m_StateMachine: {fileID: -6517920148295139760}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -338,7 +380,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: CloseRangeAttack
+    m_Name: FMBCloseAttack
     m_StateMachine: {fileID: 8068825113030772891}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -350,7 +392,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: LongRangeAttack
+    m_Name: FMBLongRangeAttack
     m_StateMachine: {fileID: 2904914540715587571}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -362,7 +404,7 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Die
+    m_Name: FMBDie
     m_StateMachine: {fileID: 3520228350887506727}
     m_Mask: {fileID: 0}
     m_Motions: []
@@ -402,7 +444,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: LongRangeAttack
+  m_Name: FMBLongRangeAttack
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -1041735747220497499}
@@ -449,7 +491,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: f237f154c53222349a92a7e82e5ca149,
+  m_Motion: {fileID: -203655887218126122, guid: c5aa194192184e041b2d8258df8a2823,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -463,7 +505,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Die
+  m_Name: FMBDie
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -1142087515319389452}
@@ -498,7 +540,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 3765a640aea67904fbc0d27a8ce4ef04,
+  m_Motion: {fileID: -203655887218126122, guid: b8ca702becfbbe8448e52ff1e7628350,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -512,7 +554,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Idle
+  m_Name: FMBIdle
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 3359556662550324947}
@@ -547,7 +589,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 21ce279d5141a6042a18e1bc3b028845,
+  m_Motion: {fileID: -203655887218126122, guid: 4964a6e443e4ef84aa7de174fc1ab2e4,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -574,7 +616,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 22d54218388745142aaca5dd5b688d5b,
+  m_Motion: {fileID: -203655887218126122, guid: 24f29cdd3fc0f0d449df6377f5c2d3e0,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -640,7 +682,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CloseRangeAttack
+  m_Name: FMBCloseAttack
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 3933860499592597741}

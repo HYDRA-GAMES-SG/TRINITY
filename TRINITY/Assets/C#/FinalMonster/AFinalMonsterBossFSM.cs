@@ -58,7 +58,7 @@ public class AFinalMonsterBossFSM : MonoBehaviour
 
             if (!PlayerController)
             {
-                Debug.LogError("AFlyingBossFSM: No Player Controller Reference found.");
+                Debug.LogError("AFinalMonsterBossFSM: No Player Controller Reference found.");
                 return;
             }
         }
