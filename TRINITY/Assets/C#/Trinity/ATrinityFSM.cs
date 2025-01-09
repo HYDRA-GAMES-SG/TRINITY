@@ -20,7 +20,6 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
     private void Awake()
     {
-        ATrinityGameManager.SetPlayerFSM(this);
         InitializeStates();
     }
 
@@ -61,6 +60,8 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         CurrentState = InitialState;
         CurrentState.EnterBehaviour(Time.deltaTime, null);
         Debug.Log("PLAYER: " + CurrentState);
+        ATrinityGameManager.SetPlayerFSM(this);
+
     }
 
     private void ProcessTransitions()

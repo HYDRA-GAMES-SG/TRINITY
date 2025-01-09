@@ -42,7 +42,7 @@ public class ABlink : ASpell
 
 
         NormalMovement playerMovement = null;
-        
+
         if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement)
         {
             playerMovement = (NormalMovement)ATrinityGameManager.GetPlayerFSM().CurrentState;

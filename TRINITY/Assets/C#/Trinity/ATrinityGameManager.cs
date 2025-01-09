@@ -87,7 +87,7 @@ public class ATrinityGameManager : MonoBehaviour
 
     public static void SetPlayerFSM(ATrinityFSM playerFSM)
     {
-        if (playerFSM != null)
+        if (PlayerFSM != null)
         {
             Debug.Log("Static player FSM Not Null");
             return;
