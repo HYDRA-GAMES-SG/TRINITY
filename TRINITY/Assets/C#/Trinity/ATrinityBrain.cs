@@ -147,7 +147,7 @@ public class ATrinityBrain : MonoBehaviour
     }
     public void PrimaryRelease()
     {
-        if (!CanAct())
+        if (!CanAct() || GetCurrentSpell() == null)
         {
             return;
         }
@@ -187,7 +187,7 @@ public class ATrinityBrain : MonoBehaviour
     
     public void SecondaryRelease()
     {
-        if (!CanAct())
+        if (!CanAct() || GetCurrentSpell() == null)
         {
             return;
         }
@@ -252,9 +252,20 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
-        PrimaryRelease();
-        SecondaryRelease();
-        
+
+        if (GetAction() == ETrinityAction.ETA_Casting || GetAction() == ETrinityAction.ETA_Channeling)
+        {
+            if (GetCurrentSpell().SpellType == ESpellType.EST_Primary)
+            {
+                PrimaryRelease();
+            }
+
+            if(GetCurrentSpell().SpellType == ESpellType.EST_Secondary)
+            {
+                SecondaryRelease();
+            }
+        }
+
         CurrentElement = newElement;
         OnElementChanged?.Invoke(CurrentElement);
     }
@@ -321,6 +332,7 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
+        
         CurrentSpell = newSpell;
 
         if (newSpell != null)

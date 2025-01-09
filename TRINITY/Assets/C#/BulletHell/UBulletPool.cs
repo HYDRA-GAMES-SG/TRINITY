@@ -88,9 +88,6 @@ public class UBulletPool : MonoBehaviour
         {
             return false;
         }
-
-        return false;
-
     }
 
     public GameObject GetBullet()

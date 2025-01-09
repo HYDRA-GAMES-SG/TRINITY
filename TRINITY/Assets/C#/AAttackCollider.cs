@@ -37,7 +37,7 @@ public class AAttackCollider : MonoBehaviour
     {
         if (!collision.gameObject.CompareTag("Player") && Controller.bDead)
         {
-            Debug.Log("Crab Collision: Crab is dead or did not collide with player.");
+            Debug.Log("Attack Collider : Enemy dead or did not collide with player.");
             return;
         }
 
@@ -46,7 +46,7 @@ public class AAttackCollider : MonoBehaviour
 
         if (player == null)
         {
-            Debug.Log("Crab Collision: Not a Player.");
+            Debug.Log("Attack Collider: Not a Player.");
             return;
         }
 
