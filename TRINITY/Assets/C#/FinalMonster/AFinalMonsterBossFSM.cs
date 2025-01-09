@@ -54,7 +54,7 @@ public class AFinalMonsterBossFSM : MonoBehaviour
 
         if (!PlayerController)
         {
-            PlayerController = ATrinityManager.GetPlayer();
+            PlayerController = ATrinityGameManager.GetPlayerController();
 
             if (!PlayerController)
             {

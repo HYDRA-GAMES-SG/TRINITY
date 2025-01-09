@@ -32,8 +32,8 @@ public class IceWave : MonoBehaviour
     void Start()
     {
         Rigidbody = GetComponent<Rigidbody>();
-        PrimaryCold = ATrinityManager.GetSpells().PrimaryCold;
-        Direction = ATrinityManager.GetSpells().CastDirection;
+        PrimaryCold = ATrinityGameManager.GetSpells().PrimaryCold;
+        Direction = ATrinityGameManager.GetSpells().CastDirection;
         DesiredVelocity = Direction * Speed;
     
         int shouldRotate = PrimaryCold.CastNumber % 2 == 0 ? 1 : -1;
@@ -117,7 +117,7 @@ public class IceWave : MonoBehaviour
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
             enemyStatus +=  new FDamageInstance(Damage, EAilmentType.EAT_Chill, PrimaryCold.StacksOfChillApplied);
 
-            if (ATrinityManager.GetSpells().UtilityFire.bAura)
+            if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
             {
                 enemyStatus += new FDamageInstance(0f, EAilmentType.EAT_Ignite, PrimaryCold.StacksOfChillApplied);
             }

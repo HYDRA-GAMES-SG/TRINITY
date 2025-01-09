@@ -23,9 +23,9 @@ public class LightningBolt : MonoBehaviour
     {
         RB = GetComponent<Rigidbody>();
         LightningSource = GetComponent<AudioSource>();
-        SecondaryLightning = ATrinityManager.GetSpells().SecondaryLightning;
+        SecondaryLightning = ATrinityGameManager.GetSpells().SecondaryLightning;
         this.transform.SetParent(SecondaryLightning.transform);
-        Direction = ATrinityManager.GetSpells().CastDirection;
+        Direction = ATrinityGameManager.GetSpells().CastDirection;
     }
 
     // Update is called once per frame

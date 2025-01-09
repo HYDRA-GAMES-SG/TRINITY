@@ -5,12 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(UManaComponent))]
 public class ATrinitySpells : MonoBehaviour
 {
-    public Vector3 CastDirection => CameraReference.Camera.transform.forward;
+    public Vector3 CastDirection => ATrinityGameManager.GetCamera().Camera.transform.forward;
 
-    public ATrinityFSM StateReference;
-    public ATrinityCamera CameraReference;
-    public ATrinityBrain BrainReference;
-    private APlayerInput InputReference;
     public Transform CastPoint;
 
     [Header("Spells")] 
@@ -40,7 +36,7 @@ public class ATrinitySpells : MonoBehaviour
 
     void Awake()
     {
-        ATrinityManager.SetSpells(this);
+        ATrinityGameManager.SetSpells(this);
 
     }
     // Start is called before the first frame update

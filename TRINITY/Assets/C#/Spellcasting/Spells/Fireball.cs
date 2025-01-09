@@ -25,7 +25,7 @@ public class Fireball : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Spells = ATrinityManager.GetSpells();
+        Spells = ATrinityGameManager.GetSpells();
         PrimaryFire = Spells.PrimaryFire;
         RB = GetComponent<Rigidbody>();
         Direction = Spells.CastDirection;

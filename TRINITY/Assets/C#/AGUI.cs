@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class AGUI : MonoBehaviour
 {
-    [SerializeField] private Slider HealthSlider, ManaSlider, BossHealthSlider, DamageSlider, BossDamageSlider;
+    public GameObject EnemyHealthBarsParent;
+    
+    [SerializeField] private Slider HealthSlider, ManaSlider, DamageSlider;
 
-    [SerializeField]
-    public ATrinityController TrinityController;
-    public ATrinityBrain TrinityBrain;
-    public ATrinitySpells TrinitySpells;
+    [SerializeField] private GameObject EnemyHealthBarPrefab;
+
     
     [Header("UI Objects")]
     public Image FrameBackground;
@@ -20,29 +20,27 @@ public class AGUI : MonoBehaviour
     public string FireHexademicalCode = "#FF0000";
     public string ColdHexademicalCode = "#00CDFF";
     public string LightningHexademicalCode = "#FFC400";
-
-    private float BossHealthTarget;
     private float PlayerHealthTarget;
 
     void Start()
     {
-        if (TrinityController != null)
+        if (ATrinityGameManager.GetPlayerController() != null)
         {
-            TrinityController.HealthComponent.OnHealthModified += UpdateHealthBar;
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;
         }
 
-        if (TrinitySpells != null)
+        if (ATrinityGameManager.GetSpells() != null)
         {
-            TrinitySpells.ManaComponent.OnManaModified += UpdateManaBar;
+            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
         }
 
-        ATrinityBrain.OnNewBoss += SetupBossUI;
+        ATrinityGameManager.OnNewEnemies += SetupEnemyUI;
 
-        CurrentElementImage = ElementImages[(int)TrinityBrain.GetElement()];
+        CurrentElementImage = ElementImages[(int)ATrinityGameManager.GetBrain().GetElement()];
 
-        if (TrinityBrain != null)
+        if (ATrinityGameManager.GetBrain() != null)
         {
-            TrinityBrain.OnElementChanged += UpdateElement;
+            ATrinityGameManager.GetBrain().OnElementChanged += UpdateElement;
         }
     }
 
@@ -52,11 +50,6 @@ public class AGUI : MonoBehaviour
         if (DamageSlider != null)
         {
             DamageSlider.value = Mathf.Lerp(DamageSlider.value, PlayerHealthTarget, Time.deltaTime);
-        }
-
-        if (BossDamageSlider != null && BossHealthSlider.gameObject.activeSelf)
-        {
-            BossDamageSlider.value = Mathf.Lerp(BossDamageSlider.value, BossHealthTarget, Time.deltaTime);
         }
     }
 
@@ -92,29 +85,25 @@ public class AGUI : MonoBehaviour
         }
     }
 
-    private void SetupBossUI(IEnemyController bossController)
+    private void SetupEnemyUI(List<IEnemyController> enemyControllers)
     {
-        bossController.EnemyStatus.Health.OnHealthModified += UpdateBossHealthBar;
-        bossController.EnemyStatus.Health.OnDeath += HandleBossDeath;
-        BossHealthSlider.gameObject.SetActive(true);
-        BossHealthSlider.value = 100f;
-        BossDamageSlider.value = 100f; // Initialize BossDamageSlider
+        for (int i = 0; i < enemyControllers.Count; i++)
+        {
+            GameObject go = Instantiate(EnemyHealthBarPrefab, EnemyHealthBarsParent.transform, true);
+
+            AEnemyHealthBar ehb = go.GetComponent<AEnemyHealthBar>();
+
+            ehb.EnemyController = enemyControllers[i];
+            ehb.EnemyName.text = enemyControllers[i].Name;
+            ehb.transform.position = new Vector3(0f, i * -90, 0f);
+            ehb.DamageBar.value = 100f;
+            ehb.HealthBar.value = 100f;
+            ehb.HealthTarget = 100f;
+            ehb.gameObject.SetActive(true);
+        }
     }
 
-    private void HandleBossDeath()
-    {
-        BossHealthSlider.value = 0f;
-        BossDamageSlider.value = 0f;
-        BossHealthSlider.gameObject.SetActive(false);
-        BossDamageSlider.gameObject.SetActive(false);
-    }
-
-    private void UpdateBossHealthBar(float healthPercent)
-    {
-        BossHealthTarget = BossHealthSlider.value; // Record the current value
-        BossHealthSlider.value = healthPercent;
-    }
-
+    
     public void UpdateHealthBar(float healthPercent)
     {
         if (HealthSlider != null)
@@ -134,12 +123,12 @@ public class AGUI : MonoBehaviour
 
     void OnDestroy()
     {
-        if (TrinityController != null)
-            TrinityController.HealthComponent.OnHealthModified -= UpdateHealthBar;
+        if (ATrinityGameManager.GetPlayerController() != null)
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified -= UpdateHealthBar;
 
-        if (TrinitySpells != null)
-            TrinitySpells.ManaComponent.OnManaModified -= UpdateManaBar;
+        if (ATrinityGameManager.GetSpells() != null)
+            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified -= UpdateManaBar;
 
-        ATrinityBrain.OnNewBoss -= SetupBossUI;
+        ATrinityGameManager.OnNewEnemies -= SetupEnemyUI;
     }
 }

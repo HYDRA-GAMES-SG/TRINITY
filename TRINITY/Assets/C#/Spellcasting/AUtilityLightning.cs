@@ -24,10 +24,12 @@ public class AUtilityLightning : ASpell
 
     public override void CastStart()
     {
+        ATrinityController playerController = ATrinityGameManager.GetPlayerController();
+        
         if (!bCanBlink)
         {
-            BlinkPos = Controller.transform.position;
-            FlashPointObj = Instantiate(FlashPointVFX, Controller.transform.position, Quaternion.identity);
+            BlinkPos = playerController.transform.position;
+            FlashPointObj = Instantiate(FlashPointVFX, playerController.transform.position, Quaternion.identity);
             bCanBlink = true;
         }
         else
@@ -36,8 +38,8 @@ public class AUtilityLightning : ASpell
             {
                 Destroy(FlashPointObj);
             }
-            Controller.transform.position = BlinkPos;
-            GameObject flashBackVFX = Instantiate(FlashBackVFX, Controller.transform.position, Quaternion.identity);
+            playerController.transform.position = BlinkPos;
+            GameObject flashBackVFX = Instantiate(FlashBackVFX, playerController.transform.position, Quaternion.identity);
             bCanBlink = false;
         }
     }

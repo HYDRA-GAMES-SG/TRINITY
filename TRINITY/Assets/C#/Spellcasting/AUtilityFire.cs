@@ -53,16 +53,15 @@ public class AUtilityFire : ASpell
         //Spawn VFX
         GameObject explosionVFX = Instantiate(ExplosionVFX, SpawnPos.position, Quaternion.identity);
         GameObject auraVFX = Instantiate (AuraVFX, SpawnPos.position,Quaternion.identity);
-        auraVFX.transform.parent = Controller.transform;
+        auraVFX.transform.parent = ATrinityGameManager.GetPlayerController().transform;
         Destroy(auraVFX, AuraTime);
 
         //Get Trinity Brain on player and change action to cleanse
-        BrainReference.ModifyState(Cleanse);
+        ATrinityGameManager.GetBrain().ModifyState(Cleanse);
         bAura = true;
 
         //Apply heal, set aura timer where Primary attacks are faster, if aura is on and used with other primary, apply ignite as well
-        UHealthComponent playerHealth = Controller.gameObject.GetComponent<UHealthComponent>();
-        playerHealth.Modify(HealAmount);
+        ATrinityGameManager.GetPlayerController().HealthComponent.Modify(HealAmount);
         FireballSpell.Cooldown = LoweredCooldown;
         AuraTimer = AuraTime;
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IceHill : MonoBehaviour
+public class IceCrystal : MonoBehaviour
 {
     [HideInInspector]
     public static AUtilityCold UtilityCold;
@@ -11,7 +11,7 @@ public class IceHill : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UtilityCold = ATrinityManager.GetSpells().UtilityCold;
+        UtilityCold = ATrinityGameManager.GetSpells().UtilityCold;
         Rigidbody = GetComponent<Rigidbody>();
     }
 

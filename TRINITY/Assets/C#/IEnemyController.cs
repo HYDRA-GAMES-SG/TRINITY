@@ -9,6 +9,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class IEnemyController : MonoBehaviour
 {
+    public string Name = "Default";
+    
     [HideInInspector]
     public Rigidbody RB;
 

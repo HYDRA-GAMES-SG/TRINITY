@@ -16,7 +16,7 @@ public class APrimaryFire : ASpell
 
     public override void CastStart()
     {
-        GameObject go = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, Quaternion.identity);
+        GameObject go = Instantiate(SpellPrefab.gameObject, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
         go.transform.parent = this.gameObject.transform;
         
         Fireball fireball = go.GetComponent<Fireball>();

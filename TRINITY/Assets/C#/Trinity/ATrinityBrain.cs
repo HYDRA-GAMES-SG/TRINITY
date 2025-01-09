@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum ETrinityAction 
@@ -27,39 +26,30 @@ public class ATrinityBrain : MonoBehaviour
 {
     
     [HideInInspector]
-    public ATrinityController Controller; //reference
     public IAA_TrinityControls Controls;
     public bool bIsStunned => GetAction() == ETrinityAction.ETA_Stunned;
     public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned || GetAction() != ETrinityAction.ETA_Channeling;
     [HideInInspector]
     public bool bForcefieldActive = false;
     [HideInInspector]
-    public ATrinitySpells SpellsReference; //reference
     
-    private IEnemyController EnemyController;
     private ASpell CurrentSpell;
-    private APlayerInput InputReference; //reference
     private ETrinityElement CurrentElement;
     private ETrinityAction CurrentAction;
     private float StunnedCooldown = 0f;
     
-    public static event Action<IEnemyController> OnNewBoss;
     public event Action<ETrinityElement> OnElementChanged;
     public event Action<ETrinityAction> OnActionChanged;
 
+    void Awake()
+    {
+        ATrinityGameManager.SetBrain(this);
+    }
+    
     void Start()
     {
-        SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
-        Controller = transform.parent.Find("Controller").GetComponent<ATrinityController>();
-
-        
-        InputReference = GetComponent<APlayerInput>();
         CurrentElement = ETrinityElement.ETE_Fire;
         CurrentAction = ETrinityAction.ETA_None;
-        
-        EditorApplication.playModeStateChanged += OnPlay;
-        SceneManager.sceneLoaded += NewScene;
-        SceneManager.sceneUnloaded += CloseScene;
 
         BindToInputEvents(true);
     }
@@ -104,6 +94,11 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
+
+        if (bIsStunned && !bForcedStun)
+        {
+            return;
+        }
         
         if (GetCurrentSpell() != null)
         {
@@ -114,6 +109,7 @@ public class ATrinityBrain : MonoBehaviour
         ChangeAction(ETrinityAction.ETA_Stunned);
 
     }
+
     
     public bool CanAct()
     {
@@ -124,6 +120,7 @@ public class ATrinityBrain : MonoBehaviour
 
         return true;
     }
+    
     public void ModifyState(ETrinityAction newState) 
     {
         CurrentAction = newState;
@@ -138,16 +135,13 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
-                //if (SpellsReference.StateReference.CurrentState. == ETrinityMovement.ETM_Grounded) 
-                //{
-                    SpellsReference.PrimaryCold.Cast();
-                //}
+                ATrinityGameManager.GetSpells().PrimaryCold.Cast();
                 break;
             case ETrinityElement.ETE_Fire:
-                    SpellsReference.PrimaryFire.Cast();
+                ATrinityGameManager.GetSpells().PrimaryFire.Cast();
                 break;
             case ETrinityElement.ETE_Lightning:
-                    SpellsReference.PrimaryLightning.Cast();
+                ATrinityGameManager.GetSpells().PrimaryLightning.Cast();
                 break;
         }
     }
@@ -160,12 +154,12 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
-                SpellsReference.PrimaryCold.Release();
+                ATrinityGameManager.GetSpells().PrimaryCold.Release();
                 break;
             case ETrinityElement.ETE_Fire:
                 break;
             case ETrinityElement.ETE_Lightning:
-                SpellsReference.PrimaryLightning.Release();
+                ATrinityGameManager.GetSpells().PrimaryLightning.Release();
                 break;
         }
     }
@@ -182,10 +176,10 @@ public class ATrinityBrain : MonoBehaviour
             case ETrinityElement.ETE_Cold:
                 break;
             case ETrinityElement.ETE_Fire:
-                SpellsReference.SecondaryFire.Cast();
+                ATrinityGameManager.GetSpells().SecondaryFire.Cast();
                 break;
             case ETrinityElement.ETE_Lightning:
-                SpellsReference.SecondaryLightning.Cast();
+                ATrinityGameManager.GetSpells().SecondaryLightning.Cast();
                 break;
         }
     }
@@ -201,10 +195,10 @@ public class ATrinityBrain : MonoBehaviour
             case ETrinityElement.ETE_Cold:
                 break;
             case ETrinityElement.ETE_Fire:
-                SpellsReference.SecondaryFire.Release();
+                ATrinityGameManager.GetSpells().SecondaryFire.Release();
                 break;
             case ETrinityElement.ETE_Lightning:
-                SpellsReference.SecondaryLightning.Release();
+                ATrinityGameManager.GetSpells().SecondaryLightning.Release();
                 break;
         }
     }
@@ -219,13 +213,13 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
-                SpellsReference.UtilityCold.Cast();
+                ATrinityGameManager.GetSpells().UtilityCold.Cast();
                 break;
             case ETrinityElement.ETE_Fire:
-                SpellsReference.UtilityFire.Cast();
+                ATrinityGameManager.GetSpells().UtilityFire.Cast();
                 break;
             case ETrinityElement.ETE_Lightning:
-                SpellsReference.UtilityLightning.Cast();
+                ATrinityGameManager.GetSpells().UtilityLightning.Cast();
                 break;
         }
     }
@@ -237,7 +231,7 @@ public class ATrinityBrain : MonoBehaviour
             return;
         }
         
-        SpellsReference.Blink.Cast();
+        ATrinityGameManager.GetSpells().Blink.Cast();
     }
   
     public void Forcefield()
@@ -247,7 +241,7 @@ public class ATrinityBrain : MonoBehaviour
             return;
         }
         
-        SpellsReference.Forcefield.Cast();
+        ATrinityGameManager.GetSpells().Forcefield.Cast();
     }
     
     public void ChangeElement(ETrinityElement newElement)
@@ -341,92 +335,42 @@ public class ATrinityBrain : MonoBehaviour
     {
         if (bBind)
         {
-            InputReference.OnElementalPrimaryPressed += Primary;
-            InputReference.OnElementalSecondaryPressed += Secondary;
-            InputReference.OnElementalUtiltiyPressed += Utility;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Primary;
+            ATrinityGameManager.GetInput().OnElementalSecondaryPressed += Secondary;
+            ATrinityGameManager.GetInput().OnElementalUtiltiyPressed += Utility;
             
-            InputReference.OnNextElementPressed += NextElement;
-            InputReference.OnPreviousElementPressed += PreviousElement;
+            ATrinityGameManager.GetInput().OnNextElementPressed += NextElement;
+            ATrinityGameManager.GetInput().OnPreviousElementPressed += PreviousElement;
             
-            InputReference.OnBlinkPressed += Blink;
-            InputReference.OnForcefieldPressed += Forcefield;
-            InputReference.OnForcefieldReleased += SpellsReference.Forcefield.Release;
+            ATrinityGameManager.GetInput().OnBlinkPressed += Blink;
+            ATrinityGameManager.GetInput().OnForcefieldPressed += Forcefield;
+            ATrinityGameManager.GetInput().OnForcefieldReleased += ATrinityGameManager.GetSpells().Forcefield.Release;
             
-            InputReference.OnElementalPrimaryReleased += PrimaryRelease;
-            InputReference.OnElementalSecondaryReleased += SecondaryRelease;
+            ATrinityGameManager.GetInput().OnElementalPrimaryReleased += PrimaryRelease;
+            ATrinityGameManager.GetInput().OnElementalSecondaryReleased += SecondaryRelease;
 
-            InputReference.OnElementPressed += ChangeElement;
-            InputReference.OnMenuPressed += OnDebugInput;
+            ATrinityGameManager.GetInput().OnElementPressed += ChangeElement;
+            ATrinityGameManager.GetInput().OnMenuPressed += OnDebugInput;
             return;
         }
         else
         {
-            InputReference.OnElementPressed -= ChangeElement;
-            InputReference.OnElementalPrimaryPressed -= Primary;
-            InputReference.OnElementalSecondaryPressed -= Secondary;
-            InputReference.OnElementalUtiltiyPressed -= Utility;
-            InputReference.OnNextElementPressed -= NextElement;
-            InputReference.OnPreviousElementPressed -= PreviousElement;
-            InputReference.OnBlinkPressed -= Blink;
-            InputReference.OnForcefieldPressed -= Forcefield;
+            ATrinityGameManager.GetInput().OnElementPressed -= ChangeElement;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= Primary;
+            ATrinityGameManager.GetInput().OnElementalSecondaryPressed -= Secondary;
+            ATrinityGameManager.GetInput().OnElementalUtiltiyPressed -= Utility;
+            ATrinityGameManager.GetInput().OnNextElementPressed -= NextElement;
+            ATrinityGameManager.GetInput().OnPreviousElementPressed -= PreviousElement;
+            ATrinityGameManager.GetInput().OnBlinkPressed -= Blink;
+            ATrinityGameManager.GetInput().OnForcefieldPressed -= Forcefield;
 
-            InputReference.OnForcefieldReleased -= SpellsReference.Forcefield.Release;
-            InputReference.OnElementalPrimaryReleased -= PrimaryRelease;
-            InputReference.OnElementalSecondaryReleased -= SecondaryRelease;
-            InputReference.OnMenuPressed -= OnDebugInput;
+            ATrinityGameManager.GetInput().OnForcefieldReleased -= ATrinityGameManager.GetSpells().Forcefield.Release;
+            ATrinityGameManager.GetInput().OnElementalPrimaryReleased -= PrimaryRelease;
+            ATrinityGameManager.GetInput().OnElementalSecondaryReleased -= SecondaryRelease;
+            ATrinityGameManager.GetInput().OnMenuPressed -= OnDebugInput;
         }
     }
     
 
-    public void NewScene(Scene newScene, LoadSceneMode mode)
-    {
-        print("New Scene: " + newScene.name);
-        EnemyController = FindObjectOfType<IEnemyController>();
-        
-        if (EnemyController != null)
-        {
-            OnNewBoss?.Invoke(EnemyController);
-        }
-    }
-
-    public void CloseScene(Scene closedScene)
-    {
-        EnemyController = null;
-    }
     
-    
-    private void OnPlay(PlayModeStateChange playState)
-    {
-        if (playState == PlayModeStateChange.EnteredPlayMode)
-        {
-            print("Entering play.");
-            EnemyController = FindObjectOfType<IEnemyController>();
-        
-            if (EnemyController != null)
-            {
-                OnNewBoss?.Invoke(EnemyController);
-            }
-        }
-        else if (playState == PlayModeStateChange.ExitingPlayMode)
-        {
-            
-        }
-    }
-
-    
-    /// <summary>
-    /// Must be null checked.
-    /// </summary>
-    public IEnemyController GetEnemyController()
-    {
-        return EnemyController;
-    }
-    
-    /// <summary>
-    /// Must be null checked.
-    /// </summary>
-    public UAilmentComponent GetEnemyAilments()
-    {
-            return GetEnemyController().EnemyStatus.Ailments;
-    }
 }

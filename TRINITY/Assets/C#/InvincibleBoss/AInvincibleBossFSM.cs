@@ -56,7 +56,7 @@ public class AInvincibleBossFSM : MonoBehaviour, IFSM
 
         if (!PlayerController)
         {
-            PlayerController = ATrinityManager.GetPlayer();
+            PlayerController = ATrinityGameManager.GetPlayerController();
 
             if (!PlayerController)
             {

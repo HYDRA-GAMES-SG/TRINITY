@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ATrinityAnimator : MonoBehaviour
 {
-    private ATrinityBrain BrainReference;
     public bool ENABLE_DEBUG = false;
     [HideInInspector]
     public Animator AnimComponent;
@@ -26,7 +25,8 @@ public class ATrinityAnimator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BrainReference = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
+        ATrinityGameManager.SetAnimator(this);
+        
         AnimComponent = GetComponent<Animator>();
         AnimComponent.SetLayerWeight(MaskedLayerIndex, 0f);
         AnimComponent.SetLayerWeight(UnmaskedLayerIndex, 0f);
@@ -38,7 +38,7 @@ public class ATrinityAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (BrainReference.GetAction() == ETrinityAction.ETA_Stunned)
+        if (ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Stunned)
         {
             bChanneling = false;
             bMasked = false;
@@ -105,7 +105,7 @@ public class ATrinityAnimator : MonoBehaviour
     {
         bChanneling = false;
 
-        if (BrainReference.GetCurrentSpell().bUseMaskedLayer)
+        if (ATrinityGameManager.GetBrain().GetCurrentSpell().bUseMaskedLayer)
         {
             AnimComponent.Play("Null", MaskedLayerIndex, 0f);
         }

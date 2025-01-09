@@ -28,24 +28,24 @@ public class ABlink : ASpell
     public override void CastStart()
     {
         float distance = BlinkDistance;
-        BlinkPoint = BrainReference.Controller.Position;
-        Vector3 startPos = BrainReference.Controller.Position + BrainReference.Controller.Height * Vector3.up;
+        BlinkPoint = ATrinityGameManager.GetPlayerController().Position;
+        Vector3 startPos = ATrinityGameManager.GetPlayerController().Position + ATrinityGameManager.GetPlayerController().Height * Vector3.up;
 
-        float inputY = InputReference.MoveInput.y;
-        float inputX = InputReference.MoveInput.x;
+        float inputY = ATrinityGameManager.GetInput().MoveInput.y;
+        float inputX = ATrinityGameManager.GetInput().MoveInput.x;
         
         Vector2 input = new Vector2(inputX, inputY);
 
-        Vector3 direction = new Vector3(Controller.MoveDirection.x, 0f, Controller.MoveDirection.z).normalized;
+        Vector3 direction = new Vector3(ATrinityGameManager.GetPlayerController().MoveDirection.x, 0f, ATrinityGameManager.GetPlayerController().MoveDirection.z).normalized;
 
         Vector3 rotatedDirection = new Vector3();
 
 
         NormalMovement playerMovement = null;
         
-        if (SpellsReference.StateReference.CurrentState is NormalMovement)
+        if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement)
         {
-            playerMovement = (NormalMovement)SpellsReference.StateReference.CurrentState;
+            playerMovement = (NormalMovement)ATrinityGameManager.GetPlayerFSM().CurrentState;
             
         }
 
@@ -57,13 +57,13 @@ public class ABlink : ASpell
                 if (playerMovement.GetMovementState() != ETrinityMovement.ETM_Grounded)
                 {
                     if(DEBUG_ENABLE){print("vertical blink");}
-                    rotatedDirection = Controller.Up;
+                    rotatedDirection = ATrinityGameManager.GetPlayerController().Up;
                 }
             }
             else
             {
                 if(DEBUG_ENABLE){print("no input blink");}
-                rotatedDirection = Controller.Forward; //blink forward
+                rotatedDirection = ATrinityGameManager.GetPlayerController().Forward; //blink forward
                 BlinkCamera?.Invoke();
             }
         }
@@ -85,7 +85,7 @@ public class ABlink : ASpell
                     if(DEBUG_ENABLE){print("rotated blink");}
                     Vector3 rotateAxis = Vector3.Cross(Vector3.up, direction);
 
-                    float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
+                    float rotatePitch = ATrinityGameManager.GetCamera().Camera.transform.eulerAngles.x;
     
                     Quaternion rotateQuat = Quaternion.AngleAxis(rotatePitch, rotateAxis);
 
@@ -97,7 +97,7 @@ public class ABlink : ASpell
             if(DEBUG_ENABLE){print("rotated blink");}
             Vector3 rotateAxis = Vector3.Cross(Vector3.up, direction);
 
-            float rotatePitch = SpellsReference.CameraReference.Camera.transform.eulerAngles.x;
+            float rotatePitch = ATrinityGameManager.GetCamera().Camera.transform.eulerAngles.x;
         
             Quaternion rotateQuat = Quaternion.AngleAxis(rotatePitch, rotateAxis);
 
@@ -155,22 +155,24 @@ public class ABlink : ASpell
         if (!bInvalidBlink)
         {
             
-            GameObject SmokeCloudLeaving = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
+            GameObject SmokeCloudLeaving = Instantiate(SpellPrefab, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             SmokeCloudLeaving.transform.SetParent(this.gameObject.transform);
             Destroy(SmokeCloudLeaving, 5f);
             
             OnBlink?.Invoke();
 
-            bool bBlinkingIntoGround = Physics.Raycast(BlinkPoint, Vector3.down, out RaycastHit ground, BrainReference.Controller.Height, CollisionLayer);
+            ATrinityController playerController = ATrinityGameManager.GetPlayerController();
+            
+            bool bBlinkingIntoGround = Physics.Raycast(BlinkPoint, Vector3.down, out RaycastHit ground, playerController.Height, CollisionLayer);
 
             //prevent blinking through the ground when we readjust the blink point to the controller position at the feet
             if (bBlinkingIntoGround)
             {
-                Controller.transform.position = ground.point;
+                playerController.transform.position = ground.point;
             }
             else
             {
-                Controller.transform.position = BlinkPoint - BrainReference.Controller.Height * Vector3.up;
+                playerController.transform.position = BlinkPoint - playerController.Height * Vector3.up;
             }
             
             if(DEBUG_ENABLE){Debug.Log($"Blink successful to: {BlinkPoint}");}
@@ -181,7 +183,7 @@ public class ABlink : ASpell
                 AudioComponent.Play();
             }
             
-            GameObject SmokeCloudArriving = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
+            GameObject SmokeCloudArriving = Instantiate(SpellPrefab, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             SmokeCloudArriving.transform.SetParent(this.gameObject.transform);
             Destroy(SmokeCloudArriving, 5f);
         }

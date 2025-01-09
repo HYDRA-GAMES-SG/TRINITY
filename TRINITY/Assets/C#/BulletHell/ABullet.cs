@@ -79,7 +79,7 @@ public class ABullet : MonoBehaviour
 
         
         InitialSpawnerTransform = Spawner.transform;
-        InitialPlayerTransform = ATrinityManager.GetPlayer().transform;
+        InitialPlayerTransform = ATrinityGameManager.GetPlayerController().transform;
         
         SetVelocity();
         SetInitialValues();
@@ -124,24 +124,24 @@ public class ABullet : MonoBehaviour
                 break;
             case EBulletMotion.EBM_InitialPlayer:
 
-                    Vector3 directionToPlayer = ATrinityManager.GetPlayer().transform.position - transform.position;
+                    Vector3 directionToPlayer = ATrinityGameManager.GetPlayerController().transform.position - transform.position;
                     direction = directionToPlayer.normalized;
                 break;
             case EBulletMotion.EBM_PredictedPlayer:
                         // Ensure the player reference and its Rigidbody component are valid
-                        Rigidbody playerRigidbody = ATrinityManager.GetPlayer().RB;
+                        Rigidbody playerRigidbody = ATrinityGameManager.GetPlayerController().RB;
                         if (playerRigidbody != null)
                         {
                             // Calculate the distance to the player
                             float distanceToPlayer = Vector3.Distance(transform.position,
-                                ATrinityManager.GetPlayer().transform.position);
+                                ATrinityGameManager.GetPlayerController().transform.position);
 
                             // Calculate the time to reach the player (assuming constant speed)
                             // Note: You may need to adjust this depending on the bullet speed
                             float timeToReachPlayer = distanceToPlayer / Speed;
 
                             // Predict the future position of the player
-                            Vector3 futurePlayerPosition = ATrinityManager.GetPlayer().transform.position +
+                            Vector3 futurePlayerPosition = ATrinityGameManager.GetPlayerController().transform.position +
                                                            playerRigidbody.velocity * timeToReachPlayer;
 
                             // Calculate the direction to the player's future position
@@ -188,7 +188,7 @@ public class ABullet : MonoBehaviour
         }
 
         InitialSpawnerTransform = Spawner.transform;
-        InitialPlayerTransform = ATrinityManager.GetPlayer().transform;
+        InitialPlayerTransform = ATrinityGameManager.GetPlayerController().transform;
         SetVelocity();
     }
 

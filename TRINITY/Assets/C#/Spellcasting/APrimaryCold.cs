@@ -29,17 +29,19 @@ public class APrimaryCold : ASpell
     public override void CastStart()
     {
 
-        GameObject castFX = Instantiate(CastingVFX, SpellsReference.CastPoint.transform.position, Quaternion.identity);
-        castFX.GetComponent<FollowCastPoint>().CastPoint = SpellsReference.CastPoint;
+        GameObject castFX = Instantiate(CastingVFX, ATrinityGameManager.GetSpells().CastPoint.transform.position, Quaternion.identity);
+        castFX.GetComponent<FollowCastPoint>().CastPoint = ATrinityGameManager.GetSpells().CastPoint;
+
+        ATrinityController playerController = ATrinityGameManager.GetPlayerController();
         
-        Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;
+        Vector3 castPoint = playerController.transform.position + Vector3.up * playerController.Height + playerController.Forward * 1.5f;
         GameObject go = Instantiate(SpellPrefab, castPoint, SpellRot);
         CastNumber++;
         go.transform.parent = this.gameObject.transform; 
         
         IceWave iceWave = go.GetComponent<IceWave>();
 
-        iceWave.Controller = Controller;
+        iceWave.Controller = playerController;
         
         Release();
     }

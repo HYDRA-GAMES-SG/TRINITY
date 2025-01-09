@@ -23,8 +23,8 @@ public class APrimaryLightning : ASpell
     {
         if (Beam == null)
         {
-            Beam = Instantiate(SpellPrefab, SpellsReference.CastPoint.position, Quaternion.identity);
-            Beam.transform.parent = SpellsReference.CastPoint.transform;
+            Beam = Instantiate(SpellPrefab, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
+            Beam.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
         }
         LightningSource = GetComponent<AudioSource>();
         LightningSource.clip = LightningSustain;
@@ -39,7 +39,7 @@ public class APrimaryLightning : ASpell
 
     public override void CastUpdate()
     {
-        Quaternion newRot = SpellsReference.CameraReference.transform.rotation * Quaternion.Euler(0f, 80f, 0f);
+        Quaternion newRot = ATrinityGameManager.GetCamera().transform.rotation * Quaternion.Euler(0f, 80f, 0f);
         Beam.transform.rotation = newRot;
     }
 

@@ -11,12 +11,7 @@ public enum ESpellType
 [RequireComponent(typeof(AudioSource))]
 public class ASpell : MonoBehaviour
 {
-    protected APlayerInput InputReference;
     public GameObject SpellPrefab;
-    protected ATrinityAnimator AnimationReference;
-    protected ATrinityController Controller;
-    protected ATrinityBrain BrainReference;
-    protected ATrinitySpells SpellsReference;
     public float Cooldown;
     public float ManaCost = 0f;
     public float ManaUpkeepCost = 0f;
@@ -31,16 +26,12 @@ public class ASpell : MonoBehaviour
     public bool bSpellReady => CooldownCountdownTimer <= 0f;
 
     private float CooldownCountdownTimer = 0f;
-
+    private ATrinityBrain BrainReference;
 
     public void Start()
     {
-        InputReference = transform.root.Find("Brain").GetComponent<APlayerInput>();
-        Controller = transform.root.Find("Controller").GetComponent<ATrinityController>();
-        BrainReference = transform.root.Find("Brain").GetComponent<ATrinityBrain>();
-        SpellsReference = transform.parent.GetComponent<ATrinitySpells>();
-        AnimationReference = Controller.transform.Find("Graphics").GetComponent<ATrinityAnimator>();
         Initialize();
+        BrainReference = ATrinityGameManager.GetBrain();
     }
 
     public virtual void Initialize()
@@ -52,14 +43,14 @@ public class ASpell : MonoBehaviour
     {
         UpdateCooldown();
         
-        if (SpellsReference.ManaComponent.Current < ManaUpkeepCost * Time.deltaTime)
+        if (ATrinityGameManager.GetSpells().ManaComponent.Current < ManaUpkeepCost * Time.deltaTime)
         {
             Release();
         }
         
         if (BrainReference.GetCurrentSpell() == this || (this is AForcefield && BrainReference.bForcefieldActive))
         {
-            SpellsReference.ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
+            ATrinityGameManager.GetSpells().ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
             CastUpdate();
         }
     }
@@ -77,7 +68,7 @@ public class ASpell : MonoBehaviour
 
     public void Cast()
     {
-        if (!bSpellReady || SpellsReference.ManaComponent.Current < ManaCost)
+        if (!bSpellReady || ATrinityGameManager.GetSpells().ManaComponent.Current < ManaCost)
         {
             //print("Spell not ready.");
             return;
@@ -101,24 +92,24 @@ public class ASpell : MonoBehaviour
         
         if (SpellAction == ETrinityAction.ETA_Channeling)
         {
-            bool bShouldMask = bUseMaskedLayer || !Controller.CheckGround().transform;
+            bool bShouldMask = bUseMaskedLayer || !ATrinityGameManager.GetPlayerController().CheckGround().transform;
             
             if (bShouldMask)
             {
-                AnimationReference.PlayChannelAnimation($"Masked Layer.{gameObject.name}", bShouldMask);
+                ATrinityGameManager.GetAnimator().PlayChannelAnimation($"Masked Layer.{gameObject.name}", bShouldMask);
             }
             else
             {
-                AnimationReference.PlayChannelAnimation($"Unmasked Layer.{gameObject.name}", bShouldMask);
+                ATrinityGameManager.GetAnimator().PlayChannelAnimation($"Unmasked Layer.{gameObject.name}", bShouldMask);
             }
         }
         else
         {
             print("non channeled and masked");
-            AnimationReference.PlayCastAnimation($"Masked Layer.{gameObject.name}");
+            ATrinityGameManager.GetAnimator().PlayCastAnimation($"Masked Layer.{gameObject.name}");
         }
 
-        SpellsReference.ManaComponent.Modify(-ManaCost);
+        ATrinityGameManager.GetSpells().ManaComponent.Modify(-ManaCost);
         CastStart();
         StartCooldown();
     }
@@ -141,7 +132,7 @@ public class ASpell : MonoBehaviour
         
         if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
-            AnimationReference.ReleaseAnimation();
+            ATrinityGameManager.GetAnimator().ReleaseAnimation();
         }
         
         BrainReference.SetCurrentSpell(null);    

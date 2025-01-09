@@ -7,7 +7,6 @@ public class ATrinityGraphics : MonoBehaviour
 {
     [HideInInspector] public Animator AnimatorComponent;
 
-    [SerializeField] private ATrinityBrain Brain;
 
     [SerializeField] private GameObject ColdParent;
 
@@ -61,12 +60,12 @@ public class ATrinityGraphics : MonoBehaviour
             }
         }
 
-        Brain.OnElementChanged += UpdateMeshColor;
+        ATrinityGameManager.GetBrain().OnElementChanged += UpdateMeshColor;
     }
 
     private void OnDestroy()
     {
-        Brain.OnElementChanged -= UpdateMeshColor;
+        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
     }
 
     private void UpdateMeshColor(ETrinityElement newElement)

@@ -13,16 +13,13 @@ public class AUtilityCold : ASpell
     public float LiftForce;
     public int StacksApplied;
     public EAilmentType AilmentType;
-   
-    Rigidbody TrinityRB;
-
+    
     [Header("VFX")]
     public GameObject SurroundingIce;
     public GameObject IceSpike;
     public override void Initialize()
     {
         ColdUtilitySource = GetComponent<AudioSource>();
-        TrinityRB = Controller.RB;      
     }
 
     public override void CastStart()
@@ -46,11 +43,10 @@ public class AUtilityCold : ASpell
         GameObject vfxSpike = Instantiate(IceSpike, SpawnPos.position, Quaternion.identity);
         GameObject vfxSurroundingIce = Instantiate(SurroundingIce, SpawnPos.position, Quaternion.identity);
 
-        vfxSpike.transform.parent = Controller.transform;
+        vfxSpike.transform.parent = ATrinityGameManager.GetPlayerController().transform;
 
-        UHealthComponent playerHealth = Controller.gameObject.GetComponent<UHealthComponent>();
-        playerHealth.Modify(HealAmount);
+        ATrinityGameManager.GetPlayerController().HealthComponent.Modify(HealAmount);
 
-        BrainReference.SetStunnedState(FrozenTime, BrainReference.bIsStunned);
+        ATrinityGameManager.GetBrain().SetStunnedState(FrozenTime, true);
     }
 }

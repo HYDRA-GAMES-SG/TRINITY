@@ -99,7 +99,7 @@ public class IBulletSpawner : MonoBehaviour
 
     protected void Update()
     {
-        if (ATrinityManager.GetPlayer() == null)
+        if (ATrinityGameManager.GetPlayerController() == null)
         {
             return;
         }
@@ -235,7 +235,7 @@ public class IBulletSpawner : MonoBehaviour
     {
         if (bIsAimed)
         {
-            Vector3 directionToGhost = transform.position - ATrinityManager.GetPlayer().transform.position;
+            Vector3 directionToGhost = transform.position - ATrinityGameManager.GetPlayerController().transform.position;
             if (directionToGhost != Vector3.zero)
             {
                 return Quaternion.LookRotation(directionToGhost).eulerAngles;

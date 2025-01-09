@@ -36,12 +36,11 @@ public class NormalMovement : TrinityState
     [SerializeField] private float GlideGravityModifier = .4f;
     
     [HideInInspector] private int MirrorCounter = 0;
-
-    private UAilmentComponent BossAilments => Brain.GetEnemyController().EnemyStatus.Ailments;
-
+    
     private bool bUnstable = false;
     private bool bCanGlide = false;
     private bool bFixedUpdate = false;
+    private ATrinityController Controller;
 
 
     private Dictionary<string, string> AnimKeys = new Dictionary<string, string>
@@ -59,14 +58,16 @@ public class NormalMovement : TrinityState
     
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        Controller = ATrinityGameManager.GetPlayerController();
+        
         SetMovementState(ETrinityMovement.ETM_Grounded);
         TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
         TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
-        Controller.HealthComponent.OnDeath += HandleDeath;
-        Controller.OnHit += HandleHit;
+        ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath += HandleDeath;
+        ATrinityGameManager.GetPlayerController().OnHit += HandleHit;
     }
 
 
@@ -96,7 +97,7 @@ public class NormalMovement : TrinityState
         HandleFalling();
         HandleUnstableGround();
 
-        if (!TrinityFSM.IsActionable() || bUnstable)
+        if (!ATrinityGameManager.GetBrain().CanAct() || bUnstable || Controller.HealthComponent.bDead)
         {
             UpdateAnimParams();
             return;
@@ -144,7 +145,7 @@ public class NormalMovement : TrinityState
             return;
         }
         
-        if (!InputReference.JumpInput || Controller.CheckGround().transform) // let HandleFalling() handle groundedness
+        if (!ATrinityGameManager.GetInput().JumpInput || Controller.CheckGround().transform) // let HandleFalling() handle groundedness
         {
             SetMovementState(ETrinityMovement.ETM_Falling);
             Controller.Gravity = ATrinityController.GRAVITY_CONSTANT;
@@ -153,9 +154,9 @@ public class NormalMovement : TrinityState
 
         float chargeGravityModifier = 1f;
 
-        if (Brain.GetEnemyController() != null)
+        if (ATrinityGameManager.GetEnemyControllers().Count > 0)
         {
-            chargeGravityModifier = BossAilments.ChargeGlideGravityModifier;
+            chargeGravityModifier = UAilmentComponent.ChargeGlideGravityModifier;
         }
         //Handle Glide
         Controller.Gravity = ATrinityController.GRAVITY_CONSTANT * GlideGravityModifier * chargeGravityModifier;
@@ -176,8 +177,8 @@ public class NormalMovement : TrinityState
 
     private void HandleMovement()
     {
-        Vector3 moveZ = Controller.Forward * InputReference.MoveInput.y;
-        Vector3 moveX = Controller.Right * InputReference.MoveInput.x;
+        Vector3 moveZ = Controller.Forward * ATrinityGameManager.GetInput().MoveInput.y;
+        Vector3 moveX = Controller.Right * ATrinityGameManager.GetInput().MoveInput.x;
 
         switch (MovementState)
         {
@@ -201,7 +202,7 @@ public class NormalMovement : TrinityState
     
     private void HandleJumping()
     {  
-        if (InputReference.JumpInput)
+        if (ATrinityGameManager.GetInput().JumpInput)
         {
             if (MovementState == ETrinityMovement.ETM_Grounded)
             {
@@ -294,7 +295,7 @@ public class NormalMovement : TrinityState
 
         if (bCanGlide)
         {
-            if (InputReference.JumpInput && MovementState == ETrinityMovement.ETM_Falling)
+            if (ATrinityGameManager.GetInput().JumpInput && MovementState == ETrinityMovement.ETM_Falling)
             {
                 SetMovementState(ETrinityMovement.ETM_Gliding);
                 TrinityFSM.Animator.SetBool(AnimKeys["Glide"], true);
@@ -330,7 +331,7 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetFloat(AnimKeys["Move"], playerSpaceVelocity.z, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeys["Strafe"], playerSpaceVelocity.x, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
-        TrinityFSM.Animator.SetBool(AnimKeys["Stunned"], Brain.bIsStunned);
+        TrinityFSM.Animator.SetBool(AnimKeys["Stunned"], ATrinityGameManager.GetBrain().bIsStunned);
         TrinityFSM.Animator.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
     }
     
@@ -348,7 +349,7 @@ public class NormalMovement : TrinityState
     private void HandleHit(FHitInfo hitInfo)
     {
         bCanGlide = false;
-        Brain.SetStunnedState(1f * (hitInfo.Damage / Controller.HealthComponent.MAX));
+        ATrinityGameManager.GetBrain().SetStunnedState(1f * (hitInfo.Damage / Controller.HealthComponent.MAX));
         
         
         
@@ -371,9 +372,9 @@ public class NormalMovement : TrinityState
     public float GetChargedJumpForce()
     {
         float additionalJumpForce = 0f;
-        if (Brain.GetEnemyController() != null)
+        if (ATrinityGameManager.GetEnemyControllers().Count > 0)
         {
-            additionalJumpForce = BossAilments.ChargeAdditionalJumpForce;
+            additionalJumpForce = UAilmentComponent.ChargeAdditionalJumpForce;
         }
         
         return JumpForce + additionalJumpForce;
@@ -384,9 +385,9 @@ public class NormalMovement : TrinityState
 
         float chargeMoveModifier = 1f;
         
-        if (Brain.GetEnemyController() != null)
+        if (ATrinityGameManager.GetEnemyControllers().Count > 0)
         {
-            chargeMoveModifier = BossAilments.ChargeMoveModifier;
+            chargeMoveModifier = UAilmentComponent.ChargeMoveModifier;
         }
 
         float chargedX = Controller.MoveDirection.x * chargeMoveModifier;

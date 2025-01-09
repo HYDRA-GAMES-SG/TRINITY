@@ -8,13 +8,6 @@ public abstract class TrinityState : MonoBehaviour, IState
     public RuntimeAnimatorController StateAnimController;
     protected ATrinityFSM TrinityFSM;
     
-    [HideInInspector]
-    public ATrinityController Controller;
-    [HideInInspector]
-    public APlayerInput InputReference;
-    [HideInInspector] 
-    public ATrinityBrain Brain;
-    
     public void Awake()
     {
         
@@ -23,15 +16,7 @@ public abstract class TrinityState : MonoBehaviour, IState
 
     public void Update()
     {
-        if (Controller == null && TrinityFSM.Controller != null)
-        {
-            Controller = TrinityFSM.Controller;
-        }
 
-        if (InputReference == null && TrinityFSM.InputReference != null)
-        {
-            InputReference = TrinityFSM.InputReference;
-        }
     }
     public virtual bool CheckEnterTransition(IState fromState)
     {

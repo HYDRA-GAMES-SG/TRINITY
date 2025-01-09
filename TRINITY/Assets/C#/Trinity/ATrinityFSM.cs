@@ -15,15 +15,12 @@ public class ATrinityFSM : MonoBehaviour, IFSM
     public TrinityState PreviousState { get; private set; }
 
     public event Action<TrinityState, TrinityState> OnStateChange;
-    public ATrinityController Controller;
-    public ATrinityBrain Brain;
-    public ATrinityCamera Camera;
-    public APlayerInput InputReference;
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
     private void Awake()
     {
+        ATrinityGameManager.SetPlayerFSM(this);
         InitializeStates();
     }
 
@@ -43,10 +40,10 @@ public class ATrinityFSM : MonoBehaviour, IFSM
 
         // Check for transitions and update the current state
         ProcessTransitions();
-
-        if (!Controller || !InputReference || !Camera)
+        
+        if (!ATrinityGameManager.GetPlayerController() || !ATrinityGameManager.GetInput() || !ATrinityGameManager.GetCamera())
         {
-            print("FSM:Null Camera Controller or Input");
+            print("FSM:Null Camera, Controller, or Input");
             return;
         }
         
@@ -160,9 +157,6 @@ public class ATrinityFSM : MonoBehaviour, IFSM
             {
                 states.Add(stateName, state);
                 state.SetStateMachine(this);
-                state.Controller = Controller;
-                state.InputReference = InputReference;
-                state.Brain = Brain;
             }
             else
             {
@@ -171,13 +165,5 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         }
     }
 
-
-    public bool IsActionable()
-    {
-
-        return    !(Brain.GetAction() == ETrinityAction.ETA_Channeling
-                || Brain.GetAction() == ETrinityAction.ETA_Stunned
-                || Controller.HealthComponent.bDead);
-    }
 }
 

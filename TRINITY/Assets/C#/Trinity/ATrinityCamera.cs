@@ -6,8 +6,6 @@ public class ATrinityCamera : MonoBehaviour
 {
     private OverTheShoulder OverTheShoulderCameraComponent;
     public Camera Camera;
-    private ATrinityController Controller; // Reference to the player controller
-    private APlayerInput InputReference;   // Reference to the input script
     public GameObject LookAtObject;
     public float BlinkCameraLerpTime = 1f;
     public float BlinkCameraDistance = 5f;
@@ -18,9 +16,9 @@ public class ATrinityCamera : MonoBehaviour
 
     void Start()
     {
+        ATrinityGameManager.SetCamera(this);
+        
         Cursor.visible = false;
-        Controller = transform.parent.GetComponent<ATrinityController>();
-        InputReference = transform.root.Find("Brain").GetComponent<APlayerInput>();
         Camera = GetComponent<Camera>();
 
         OverTheShoulderCameraComponent = GetComponent<OverTheShoulder>();

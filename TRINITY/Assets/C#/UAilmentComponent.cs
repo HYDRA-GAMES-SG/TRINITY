@@ -13,23 +13,24 @@ public enum EAilmentType
 
 public class UAilmentComponent : MonoBehaviour
 {
-    public int MAX_STACKS = 100;
+    
+    [HideInInspector]
+    public static int ChargeStacks = 0;
+    
     public float IgniteDamage => IgniteDamagePerStack * AilmentKeys[EAilmentType.EAT_Ignite].Stacks;
     public float ChillSpeedModifier => 1 - ChillSlowPercentPerStack * AilmentKeys[EAilmentType.EAT_Chill].Stacks;
-    public float ChargeMoveModifier => 1 + ChargeMoveModifierPerStack * AilmentKeys[EAilmentType.EAT_Charge].Stacks;
-    public float ChargeAdditionalJumpForce => ChargeJumpForcePerStack * AilmentKeys[EAilmentType.EAT_Charge].Stacks;
-    public float ChargeGlideGravityModifier => 1 - ChargeGlideGravityModifierPerStack * AilmentKeys[EAilmentType.EAT_Charge].Stacks;
     
-    [SerializeField]
-    private float IgniteDamagePerStack = 1f;
-    [SerializeField]
-    private float ChillSlowPercentPerStack = .004f;
-    [SerializeField]
-    private float ChargeMoveModifierPerStack = .2f;
-    [SerializeField]
-    private float ChargeJumpForcePerStack = .02f;
-    [SerializeField]
-    private float ChargeGlideGravityModifierPerStack = .001f;
+    public static float ChargeMoveModifier => 1 + ChargeMoveModifierPerStack * ChargeStacks;
+    public static float ChargeAdditionalJumpForce => ChargeJumpForcePerStack * ChargeStacks;
+    public static float ChargeGlideGravityModifier => 1 - ChargeGlideGravityModifierPerStack * ChargeStacks;
+    
+    public static int MAX_STACKS = 100;
+
+    private static float IgniteDamagePerStack = 1f;
+    private static float ChillSlowPercentPerStack = .004f;
+    private static float ChargeMoveModifierPerStack = .2f;
+    private static float ChargeJumpForcePerStack = .02f;
+    private static float ChargeGlideGravityModifierPerStack = .001f;
     
     public class Ailment
     {
@@ -124,6 +125,7 @@ public class UAilmentComponent : MonoBehaviour
                     OnIgniteModified?.Invoke(this);
                     break;
                 case EAilmentType.EAT_Charge:
+                    ChargeStacks = Mathf.Clamp(ChargeStacks + stackModifier, 0, MAX_STACKS);
                     OnChargeModified?.Invoke(this);
                     break;
             }

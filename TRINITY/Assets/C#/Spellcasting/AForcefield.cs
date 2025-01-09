@@ -11,21 +11,21 @@ public class AForcefield : ASpell
     {
         if (ForcefieldEffect == null)
         {
-            ForcefieldEffect = Instantiate(SpellPrefab, Controller.Position, Quaternion.identity);
-            ForcefieldEffect.transform.parent = Controller.transform;
+            ForcefieldEffect = Instantiate(SpellPrefab, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
+            ForcefieldEffect.transform.parent = ATrinityGameManager.GetPlayerController().transform;
             ForcefieldEffect.SetActive(false);
         }
-        SpellsReference.ManaComponent.OnOutOfMana += Release;
+        ATrinityGameManager.GetSpells().ManaComponent.OnOutOfMana += Release;
     }
     
     public override void CastStart()
     {
-        if (SpellsReference.ManaComponent.Current <= 0)
+        if (ATrinityGameManager.GetSpells().ManaComponent.Current <= 0)
         {
             return;
         }
 
-        BrainReference.bForcefieldActive = true;
+        ATrinityGameManager.GetBrain().bForcefieldActive = true;
         ForcefieldEffect.SetActive(true);
     }
     
@@ -36,7 +36,7 @@ public class AForcefield : ASpell
     
     public override void CastEnd()
     {
-        BrainReference.bForcefieldActive = false;
+        ATrinityGameManager.GetBrain().bForcefieldActive = false;
         ForcefieldEffect.SetActive(false);
     }
 }

@@ -47,7 +47,7 @@ public class ASecondaryFire : ASpell
         RunePrefab = SpellPrefab;
         if (Rune == null)
         {
-            Rune = Instantiate(RunePrefab, SpellsReference.CastPoint.position, Quaternion.identity);
+            Rune = Instantiate(RunePrefab, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             Rune.transform.SetParent(this.gameObject.transform);
             Rune.SetActive(false); // Ensure the rune is initially inactive
         }
@@ -177,12 +177,12 @@ public class ASecondaryFire : ASpell
 
     private Vector3 GetGroundPosition()
     {
-        Ray ray = SpellsReference.CameraReference.Camera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+        Ray ray = ATrinityGameManager.GetCamera().Camera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
             
         if (Physics.Raycast(ray, out RaycastHit hit, Range, GroundLayer))
         {
             // make sure the hit point is within range and on valid ground
-            if (Vector3.Distance(SpellsReference.CastPoint.position, hit.point) <= Range)
+            if (Vector3.Distance(ATrinityGameManager.GetSpells().CastPoint.position, hit.point) <= Range)
             {
                 return hit.point + Vector3.up * .1f;
             }
@@ -190,7 +190,7 @@ public class ASecondaryFire : ASpell
         else
         {
             //if we don't get a valid ground hit we just find ground at the max range in the forward vector
-            Vector3 searchOrigin = SpellsReference.CastPoint.position + Controller.Forward * Range;
+            Vector3 searchOrigin = ATrinityGameManager.GetSpells().CastPoint.position + ATrinityGameManager.GetPlayerController().Forward * Range;
             
             if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range * 2f, GroundLayer))
             {

@@ -69,7 +69,7 @@ public class LightningBeam : MonoBehaviour
                 return;
             }
 
-            ATrinitySpells spellsRef = ATrinityManager.GetSpells();
+            ATrinitySpells spellsRef = ATrinityGameManager.GetSpells();
             
             enemyHitbox.EnemyController.TriggerGetHit();
 
@@ -77,7 +77,7 @@ public class LightningBeam : MonoBehaviour
 
             if (spellsRef.UtilityFire.bAura)
             {
-                IgniteStacks += ATrinityManager.GetSpells().PrimaryLightning.AilmentStacksPerSecond * Time.deltaTime;
+                IgniteStacks += ATrinityGameManager.GetSpells().PrimaryLightning.AilmentStacksPerSecond * Time.deltaTime;
             }
 
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;

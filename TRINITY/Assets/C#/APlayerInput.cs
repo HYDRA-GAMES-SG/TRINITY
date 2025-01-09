@@ -63,6 +63,8 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     void Awake()
     {
+        ATrinityGameManager.SetInput(this);
+        
         InputActions = new IAA_TrinityControls();
         InputActions.PLAYER.SetCallbacks(this);
         InputActions.Enable();

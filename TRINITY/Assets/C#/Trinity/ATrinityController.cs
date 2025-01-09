@@ -46,13 +46,6 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public Vector3 Rotation => transform.rotation.eulerAngles;
     [HideInInspector] public float VerticalVelocity => RB.velocity.y;
     [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
-    
-    [HideInInspector]
-    
-    private APlayerInput InputReference;
-    private ATrinitySpells SpellsReference;
-    private ATrinityBrain BrainReference;
-    private ATrinityCamera CameraReference;
 
     public System.Action<FHitInfo> OnHit; 
     
@@ -60,11 +53,7 @@ public class ATrinityController : MonoBehaviour
 
     private void Awake()
     {
-        ATrinityManager.SetPlayer(this);
-        InputReference = transform.parent.Find("Brain").GetComponent<APlayerInput>();
-        SpellsReference = transform.parent.Find("Spells").GetComponent<ATrinitySpells>();
-        BrainReference = transform.parent.Find("Brain").GetComponent<ATrinityBrain>();
-        CameraReference = transform.Find("Camera").GetComponent<ATrinityCamera>();
+        ATrinityGameManager.SetPlayerController(this);
         
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
@@ -109,7 +98,7 @@ public class ATrinityController : MonoBehaviour
     
     private void LateUpdate()
     {
-        if (BrainReference.bCanRotatePlayer)
+        if (ATrinityGameManager.GetBrain().bCanRotatePlayer)
         {
             AlignWithCameraYaw();
         }
@@ -169,28 +158,29 @@ public class ATrinityController : MonoBehaviour
 
     void AlignWithCameraYaw()
     {
-        Vector3 cameraYaw = new Vector3(0f, CameraReference.transform.rotation.eulerAngles.y, 0f);
+        Vector3 cameraYaw = new Vector3(0f, ATrinityGameManager.GetCamera().transform.rotation.eulerAngles.y, 0f);
         transform.rotation = Quaternion.Euler(cameraYaw);
     }
 
     public void ApplyHit(FHitInfo hitInfo)
     {
+        ATrinitySpells spellReference = ATrinityGameManager.GetSpells(); 
         float remainingDamage = hitInfo.Damage;
-        float remainingMana = SpellsReference.ManaComponent.Current;
+        float remainingMana = spellReference.ManaComponent.Current;
         float remainingHealth = HealthComponent.Current;
 
-        if (BrainReference.bForcefieldActive)
+        if (ATrinityGameManager.GetBrain().bForcefieldActive)
         {
-            if (remainingMana >= remainingDamage / SpellsReference.Forcefield.DamageAbsorbedPerMana)
+            if (remainingMana >= remainingDamage / spellReference.Forcefield.DamageAbsorbedPerMana)
             {
                 // Deduct all damage from mana
-                SpellsReference.ManaComponent.Modify(-remainingDamage / SpellsReference.Forcefield.DamageAbsorbedPerMana);
+                spellReference.ManaComponent.Modify(-remainingDamage / spellReference.Forcefield.DamageAbsorbedPerMana);
                 remainingDamage = 0;
             }
             else
             {
                 // Deduct as much as possible from mana
-                SpellsReference.ManaComponent.Modify(-remainingMana / SpellsReference.Forcefield.DamageAbsorbedPerMana);
+                spellReference.ManaComponent.Modify(-remainingMana / spellReference.Forcefield.DamageAbsorbedPerMana);
                 remainingDamage -= remainingMana;
             }
         }

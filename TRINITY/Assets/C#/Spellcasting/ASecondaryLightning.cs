@@ -32,8 +32,8 @@ public class ASecondaryLightning : ASpell
     {
         if (ChargeVFXObj == null) 
         {
-            GameObject chargeVFX = Instantiate(ChargeVFX, SpellsReference.CastPoint.position, Quaternion.identity);
-            chargeVFX.transform.parent = SpellsReference.CastPoint.transform;
+            GameObject chargeVFX = Instantiate(ChargeVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
+            chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             ChargeVFXObj = chargeVFX;
         }
         
@@ -54,8 +54,8 @@ public class ASecondaryLightning : ASpell
 
         if (ChannelTime >= MaxChannelTime && FullyChargedVFXObj == null) 
         {
-            GameObject chargeVFX = Instantiate(FullyChargedVFX, SpellsReference.CastPoint.position, Quaternion.identity);
-            chargeVFX.transform.parent = SpellsReference.CastPoint.transform;
+            GameObject chargeVFX = Instantiate(FullyChargedVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
+            chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             FullyChargedVFXObj = chargeVFX;
         }
     }
@@ -68,7 +68,7 @@ public class ASecondaryLightning : ASpell
 
             //Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;   
             
-            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, SpellsReference.CastPoint.position, SpellRot).GetComponent<LightningBolt>();
+            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, ATrinityGameManager.GetSpells().CastPoint.position, SpellRot).GetComponent<LightningBolt>();
             //lightningBolt.gameObject.transform.parent = this.transform;
             lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
 
