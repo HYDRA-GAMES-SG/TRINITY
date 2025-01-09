@@ -7,6 +7,7 @@ public class LightningBolt : MonoBehaviour
     public static ASecondaryLightning SecondaryLightning;
     [HideInInspector]
     private Vector3 Direction;
+    private Quaternion BaseRotation;
     public float Damage;
     public float Duration;
     public float Speed;
@@ -21,6 +22,7 @@ public class LightningBolt : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        BaseRotation = Quaternion.Euler(-90, 0, 0);
         RB = GetComponent<Rigidbody>();
         LightningSource = GetComponent<AudioSource>();
         SecondaryLightning = ATrinityGameManager.GetSpells().SecondaryLightning;
@@ -31,6 +33,7 @@ public class LightningBolt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.rotation = Quaternion.LookRotation(RB.velocity, Vector3.up) * BaseRotation;
         RB.velocity = Direction * Speed;
     }
     public void SpawnExplosion()

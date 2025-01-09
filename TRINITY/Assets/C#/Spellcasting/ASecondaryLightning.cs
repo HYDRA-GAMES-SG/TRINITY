@@ -66,10 +66,12 @@ public class ASecondaryLightning : ASpell
         {
             float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
 
-            //Vector3 castPoint = Controller.transform.position + Vector3.up * Controller.Height + Controller.Forward * 1.5f;   
+            ATrinityController playerController = ATrinityGameManager.GetPlayerController();
+
+            Vector3 castPoint = playerController.transform.position + Vector3.up * playerController.Height + playerController.Forward * 1.5f;   
             
-            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, ATrinityGameManager.GetSpells().CastPoint.position, SpellRot).GetComponent<LightningBolt>();
-            //lightningBolt.gameObject.transform.parent = this.transform;
+            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, castPoint, SpellRot).GetComponent<LightningBolt>();
+            lightningBolt.gameObject.transform.parent = this.transform;
             lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
 
             Destroy(lightningBolt.gameObject, 0.5f);
