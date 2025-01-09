@@ -10,7 +10,7 @@ public class IBLongAttack_ShotShock : InvincibleBossState
 
     [SerializeField] Transform ShockBluePos;
     [SerializeField] ParticleSystem ShockBlue;
-    [SerializeField] Shock ShockTrail;
+    [SerializeField] IBShock ShockTrail;
     [SerializeField] float ShockDelay;
     [SerializeField] float ShockSpeed;
     float timer = 0;
@@ -55,7 +55,7 @@ public class IBLongAttack_ShotShock : InvincibleBossState
         if (timer >= ShockDelay && !hasShot)
         {
             hasShot = true;
-            Shock shock = Instantiate(ShockTrail, ShockBluePos.transform.position, ShockBluePos.transform.rotation);
+            IBShock shock = Instantiate(ShockTrail, ShockBluePos.transform.position, ShockBluePos.transform.rotation);
             shock.GetController(InvincibleBossFSM.InvincibleBossController);
             Rigidbody rb = shock.GetComponent<Rigidbody>();
             rb.velocity = shock.transform.forward * ShockSpeed;

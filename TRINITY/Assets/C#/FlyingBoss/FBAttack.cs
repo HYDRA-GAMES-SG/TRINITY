@@ -9,7 +9,14 @@ public class FBAttack : FlyingBossState
     [SerializeField] float moveSpeed;
     [SerializeField] float hoverSmoothness;
 
+    [SerializeField] GameObject ElectricBomb; // Assign thunder prefab in the Inspector
+    [SerializeField] LayerMask groundLayer;    // Assign ground layer in the Inspector
+    [SerializeField] float thunderSpawnDelay = 0.5f;
+
+
     Vector3 AttackPos;
+    bool thunderSpawned = false;
+
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -20,6 +27,7 @@ public class FBAttack : FlyingBossState
     {
         Vector3[] attackPositions = AttackPositionBehind();
         AttackPos = attackPositions[Random.Range(0, attackPositions.Length)];
+        thunderSpawned = false;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -29,9 +37,11 @@ public class FBAttack : FlyingBossState
     public override void UpdateBehaviour(float dt)
     {
         MoveTowardsTarget(dt);
-        if (IsAtAttackPosition())
+        if (IsAtAttackPosition() && !thunderSpawned)
         {
             FlyingBossFSM.Animator.SetTrigger(AnimKey);
+            thunderSpawned = true; // Prevent multiple thunder spawns
+            StartCoroutine(SpawnThunderWithDelay(thunderSpawnDelay));
         }
 
         string layerName = GetType().Name;
@@ -91,6 +101,27 @@ public class FBAttack : FlyingBossState
     {
         float positionTolerance = 0.5f;
         return Vector3.Distance(FlyingBossFSM.FlyingBossController.transform.position, AttackPos) <= positionTolerance;
+    }
+    private IEnumerator SpawnThunderWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Vector3 groundPosition = GetGroundPosition(FlyingBossFSM.PlayerController.transform.position);
+        if (groundPosition != Vector3.zero && ElectricBomb != null)
+        {
+            Instantiate(ElectricBomb, groundPosition, Quaternion.identity);
+        }
+    }
+    private Vector3 GetGroundPosition(Vector3 startPosition)
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(startPosition, Vector3.down, out hit, Mathf.Infinity, groundLayer))
+        {
+            return hit.point; 
+        }
+
+        return Vector3.zero;
     }
 
     private void OnDrawGizmos()
