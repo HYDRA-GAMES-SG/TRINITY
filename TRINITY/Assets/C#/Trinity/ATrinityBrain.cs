@@ -174,6 +174,7 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
+                ATrinityGameManager.GetSpells().SecondaryCold.Cast();
                 break;
             case ETrinityElement.ETE_Fire:
                 ATrinityGameManager.GetSpells().SecondaryFire.Cast();
@@ -193,6 +194,7 @@ public class ATrinityBrain : MonoBehaviour
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
+                ATrinityGameManager.GetSpells().SecondaryCold.Release();
                 break;
             case ETrinityElement.ETE_Fire:
                 ATrinityGameManager.GetSpells().SecondaryFire.Release();

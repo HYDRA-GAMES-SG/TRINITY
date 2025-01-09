@@ -7,8 +7,6 @@ public class AUtilityFire : ASpell
 {
     public AudioSource FireUtilitySource;
 
-    public APrimaryFire FireballSpell;
-    public Transform SpawnPos;
     private ETrinityAction Cleanse;
 
     public float HealAmount;
@@ -24,7 +22,7 @@ public class AUtilityFire : ASpell
     public override void Initialize()
     {
         Cleanse = ETrinityAction.ETA_None;
-        OriginalCooldown = FireballSpell.Cooldown;
+        OriginalCooldown = ATrinityGameManager.GetSpells().PrimaryFire.Cooldown;
         FireUtilitySource = GetComponent<AudioSource>();
     }
 
@@ -38,7 +36,7 @@ public class AUtilityFire : ASpell
         AuraTimer -= Time.deltaTime;
         if (AuraTimer < 0)
         {
-            FireballSpell.Cooldown = OriginalCooldown;
+            ATrinityGameManager.GetSpells().PrimaryFire.Cooldown = OriginalCooldown;
             bAura = false;
             print("CleanseFlame cast ended");
         }
@@ -51,8 +49,8 @@ public class AUtilityFire : ASpell
     public void FlameAura() 
     {
         //Spawn VFX
-        GameObject explosionVFX = Instantiate(ExplosionVFX, SpawnPos.position, Quaternion.identity);
-        GameObject auraVFX = Instantiate (AuraVFX, SpawnPos.position,Quaternion.identity);
+        GameObject explosionVFX = Instantiate(ExplosionVFX, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
+        GameObject auraVFX = Instantiate (AuraVFX, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
         auraVFX.transform.parent = ATrinityGameManager.GetPlayerController().transform;
         Destroy(auraVFX, AuraTime);
 
@@ -62,7 +60,7 @@ public class AUtilityFire : ASpell
 
         //Apply heal, set aura timer where Primary attacks are faster, if aura is on and used with other primary, apply ignite as well
         ATrinityGameManager.GetPlayerController().HealthComponent.Modify(HealAmount);
-        FireballSpell.Cooldown = LoweredCooldown;
+        ATrinityGameManager.GetSpells().PrimaryFire.Cooldown = LoweredCooldown;
         AuraTimer = AuraTime;
     }
 }

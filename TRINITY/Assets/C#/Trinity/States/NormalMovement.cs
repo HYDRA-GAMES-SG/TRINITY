@@ -97,7 +97,8 @@ public class NormalMovement : TrinityState
         HandleFalling();
         HandleUnstableGround();
 
-        if (!ATrinityGameManager.GetBrain().CanAct() || bUnstable || Controller.HealthComponent.bDead)
+        if (!ATrinityGameManager.GetBrain().CanAct() || bUnstable || Controller.HealthComponent.bDead 
+            || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling)
         {
             UpdateAnimParams();
             return;

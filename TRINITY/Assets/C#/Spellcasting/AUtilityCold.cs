@@ -6,7 +6,6 @@ public class AUtilityCold : ASpell
 {
     public AudioSource ColdUtilitySource;
     public ATrinitySpells TrinitySpells;
-    public Transform SpawnPos;
 
     public float HealAmount;
     public float FrozenTime;
@@ -40,8 +39,8 @@ public class AUtilityCold : ASpell
 
     public void IceHill() 
     {
-        GameObject vfxSpike = Instantiate(IceSpike, SpawnPos.position, Quaternion.identity);
-        GameObject vfxSurroundingIce = Instantiate(SurroundingIce, SpawnPos.position, Quaternion.identity);
+        GameObject vfxSpike = Instantiate(IceSpike, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
+        GameObject vfxSurroundingIce = Instantiate(SurroundingIce, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
 
         vfxSpike.transform.parent = ATrinityGameManager.GetPlayerController().transform;
 

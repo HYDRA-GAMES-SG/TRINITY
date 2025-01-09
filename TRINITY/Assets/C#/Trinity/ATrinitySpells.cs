@@ -12,6 +12,8 @@ public class ATrinitySpells : MonoBehaviour
     [Header("Spells")] 
     [HideInInspector] 
     public ASecondaryFire SecondaryFire;
+    [HideInInspector] 
+    public ASecondaryCold SecondaryCold;
     [HideInInspector]
     public ASecondaryLightning SecondaryLightning;
     [HideInInspector]
@@ -45,6 +47,7 @@ public class ATrinitySpells : MonoBehaviour
         
         ManaComponent = GetComponent<UManaComponent>();
         SecondaryFire = GetComponentInChildren<ASecondaryFire>();
+        SecondaryCold = GetComponentInChildren<ASecondaryCold>();
         SecondaryLightning = GetComponentInChildren<ASecondaryLightning>();
         PrimaryFire = GetComponentInChildren<APrimaryFire>();
         PrimaryCold = GetComponentInChildren<APrimaryCold>();
