@@ -87,6 +87,7 @@ public class AGUI : MonoBehaviour
 
     private void SetupEnemyUI(List<IEnemyController> enemyControllers)
     {
+        print("count:" + enemyControllers.Count);
         for (int i = 0; i < enemyControllers.Count; i++)
         {
             GameObject go = Instantiate(EnemyHealthBarPrefab, EnemyHealthBarsParent.transform, true);

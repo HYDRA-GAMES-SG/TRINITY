@@ -2,7 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
+#if UNITY_EDITOR 
 using UnityEditor;
+#endif
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,7 +39,7 @@ public class ATrinityGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        EditorApplication.playModeStateChanged += OnPlay;
+        //EditorApplication.playModeStateChanged += OnPlay;
         SceneManager.sceneLoaded += NewScene;
         SceneManager.sceneUnloaded += CloseScene;
     }
@@ -176,19 +180,20 @@ public class ATrinityGameManager : MonoBehaviour
     }
     
     
-    private void OnPlay(PlayModeStateChange playState)
-    {
-        if (playState == PlayModeStateChange.EnteredPlayMode)
-        {
-            if (EnemyControllers.Count == 0)
-            {
-                EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
-                OnNewEnemies?.Invoke(EnemyControllers);
-            }
-        }
-        else if (playState == PlayModeStateChange.ExitingPlayMode)
-        {
-            
-        }
-    }
+     // //Editor Only
+     // private void OnPlay(PlayModeStateChange playState)
+     // {
+     //     if (playState == PlayModeStateChange.EnteredPlayMode)
+     //     {
+     //         if (EnemyControllers.Count == 0)
+     //         {
+     //             EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
+     //             OnNewEnemies?.Invoke(EnemyControllers);
+     //         }
+     //     }
+     //     else if (playState == PlayModeStateChange.ExitingPlayMode)
+     //     {
+     //         
+     //     }
+     // }
 }

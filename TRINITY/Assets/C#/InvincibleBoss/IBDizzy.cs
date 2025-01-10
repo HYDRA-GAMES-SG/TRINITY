@@ -17,7 +17,7 @@ public class IBDizzy : InvincibleBossState
     public override void EnterBehaviour(float dt, IState fromState)
     {
         IBController = InvincibleBossFSM.InvincibleBossController;
-        UHealthComponent Heath = InvincibleBossFSM.InvincibleBossController.Health;
+        Heath = InvincibleBossFSM.InvincibleBossController.Health;
 
         InvincibleBossFSM.InvincibleBossController.AI.ResetPath();
     }

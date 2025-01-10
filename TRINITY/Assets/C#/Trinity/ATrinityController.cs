@@ -40,6 +40,7 @@ public class ATrinityController : MonoBehaviour
     public Vector3 MoveDirection;
 
     [HideInInspector] public Vector3 Position => transform.position;
+    [HideInInspector] public Quaternion RotationQuat => transform.rotation;
     [HideInInspector] public Vector3 Up => transform.up;
     [HideInInspector] public Vector3 Forward => transform.forward;
     [HideInInspector] public Vector3 Right => transform.right;

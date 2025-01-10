@@ -1,15 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.VisualScripting.Metadata;
 
 public class ASecondaryLightning : ASpell
 {
     public int StacksApplied;
     public EAilmentType AilmentType;
     public AudioSource LightningSource;
-    public GameObject ChargeVFXObj;
-    public GameObject FullyChargedVFXObj;
 
     public float MinScale;
     public float MaxScale;
@@ -22,6 +19,10 @@ public class ASecondaryLightning : ASpell
     [Header("VFX Prefabs")]
     public GameObject ChargeVFX;
     public GameObject FullyChargedVFX;
+    
+    private GameObject ChargeVFXObj;
+    private GameObject FullyChargedVFXObj;
+    
     public override void Initialize()
     {
         LightningSource = GetComponent<AudioSource>();
@@ -68,11 +69,12 @@ public class ASecondaryLightning : ASpell
 
             ATrinityController playerController = ATrinityGameManager.GetPlayerController();
 
-            Vector3 castPoint = playerController.transform.position + Vector3.up * playerController.Height + playerController.Forward * 1.5f;   
-            
-            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, castPoint, SpellRot).GetComponent<LightningBolt>();
-            lightningBolt.gameObject.transform.parent = this.transform;
-            lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
+            Vector3 castPoint = playerController.transform.position + Vector3.up * playerController.Height + playerController.Forward * 1.5f;
+
+            Quaternion cameraRot = ATrinityGameManager.GetCamera().Camera.transform.rotation;
+            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, castPoint, cameraRot).GetComponent<LightningBolt>();
+            //lightningBolt.gameObject.transform.parent = this.transform;
+            //lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
 
             Destroy(lightningBolt.gameObject, 0.5f);
 
