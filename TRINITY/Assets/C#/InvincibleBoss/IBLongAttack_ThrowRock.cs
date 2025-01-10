@@ -19,6 +19,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     bool hasSpawned = false;
     bool isCharging = true;
     bool isFollow = false;
+    bool hasRelease = false;
 
     [SerializeField] float TimeCharge;
     float timer;
@@ -33,6 +34,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     public override void EnterBehaviour(float dt, IState fromState)
     {
         InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKeyCharge);
+        hasRelease = false;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -90,6 +92,13 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        if (toState is IBDizzy && !hasRelease)
+        {
+            Orb orb = orbObj.GetComponent<Orb>();
+            orb.StopAllCoroutines();
+            StartCoroutine(orb.ScaleOverTime(0.1f, 2));
+            Destroy(orb.gameObject, 2f);
+        }
         InvincibleBossFSM.InvincibleBossController.bCanThrow = false;
         orbObj = null;
         hasSpawned = false;
@@ -100,6 +109,10 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
+        if (toState is IBDizzy)
+        {
+            Destroy(orbObj);
+        }
         return true;
     }
     private Vector3 CalculateThrowVelocity(Vector3 start, Vector3 target, float time)// when 0.6 work
@@ -122,6 +135,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     }
     public void Throw()
     {
+        hasRelease = true;
         Vector3 start = bothHandCnetrelPos;
         Vector3 targetPos = InvincibleBossFSM.PlayerController.transform.position;
         Vector3 throwVelocity = CalculateThrowVelocity(start, targetPos, OrbTimeToTarget);

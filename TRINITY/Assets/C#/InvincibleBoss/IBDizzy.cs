@@ -11,7 +11,7 @@ public class IBDizzy : InvincibleBossState
     UHealthComponent Heath;
     public override bool CheckEnterTransition(IState fromState)
     {
-        return true;
+        return InvincibleBossFSM.InvincibleBossController.Health.Current <= 0;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -33,6 +33,7 @@ public class IBDizzy : InvincibleBossState
         if (Timer >= DizzyTime)
         {
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
+
         }
     }
     public override void PostUpdateBehaviour(float dt)
@@ -41,7 +42,11 @@ public class IBDizzy : InvincibleBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        Timer = 0f;
         Heath.Current = Heath.MAX;
+        Heath.bDead = false;
+        InvincibleBossFSM.InvincibleBossController.bIsDead = false;
+
     }
 
     public override bool CheckExitTransition(IState toState)

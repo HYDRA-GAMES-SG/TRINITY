@@ -978,7 +978,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 97829910}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_SacksRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3223,7 +3223,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 156162968}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearLeft_B_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3255,7 +3255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 161197935}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearRight_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4024,7 +4024,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 199704647}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearRight_B_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4087,7 +4087,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224261707}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontRight_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4805,7 +4805,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 301744729}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearLeft_ClawA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5679,7 +5679,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 368377759}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontRight_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7422,7 +7422,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 399912891}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontLeft_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7891,7 +7891,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 423908286}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearRight_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7923,7 +7923,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 427101488}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearLeft_A_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8091,7 +8091,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 453290781}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_FeelerRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8935,12 +8935,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_STACKS: 100
-  IgniteDamagePerStack: 1
-  ChillSlowPercentPerStack: 0.004
-  ChargeMoveModifierPerStack: 0.2
-  ChargeJumpForcePerStack: 0.02
-  ChargeGlideGravityModifierPerStack: 0.001
   AilmentDuration: 5
 --- !u!114 &548645809
 MonoBehaviour:
@@ -8970,6 +8964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f5bf77ab3cc7345a814da180211abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Default
   RB: {fileID: 0}
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
@@ -9121,11 +9116,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68303a33611d645449cedb5d85ec6e8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StateReference: {fileID: 896251173}
-  CameraReference: {fileID: 417349386}
-  BrainReference: {fileID: 1014231138}
   CastPoint: {fileID: 78114109}
   SecondaryFire: {fileID: 0}
+  SecondaryCold: {fileID: 0}
   SecondaryLightning: {fileID: 0}
   PrimaryFire: {fileID: 0}
   PrimaryCold: {fileID: 0}
@@ -9145,7 +9138,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 566876936}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearRight_ClawB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9351,7 +9344,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 584957568}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontRight_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9460,7 +9453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimatorComponent: {fileID: 0}
-  Brain: {fileID: 1014231138}
   ColdParent: {fileID: 1883019104}
   FireParent: {fileID: 311988577}
   LightningParent: {fileID: 179210193}
@@ -10205,7 +10197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 674289988}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearRight_B_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10649,7 +10641,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 715006562}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearLeft_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10682,7 +10674,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 715768103}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontLeft_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10715,7 +10707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 720976487}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearRight_A_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10747,7 +10739,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 721824400}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontLeft_A_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11536,7 +11528,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 778818938}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontRight_A_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13280,9 +13272,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 03779519027632845963c1d50d8aa073, type: 2}
-  Controller: {fileID: 0}
-  InputReference: {fileID: 0}
-  Brain: {fileID: 0}
   ENABLE_DEBUG: 0
   UnstableSlideAcceleration: 40
   AirStrafeModifier: 0.4
@@ -13311,10 +13300,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ENABLE_DEBUG: 0
   InitialState: {fileID: 896251172}
-  Controller: {fileID: 1223709191}
-  Brain: {fileID: 1014231138}
-  Camera: {fileID: 417349386}
-  InputReference: {fileID: 1014231137}
   Animator: {fileID: 609431872}
 --- !u!1 &897319627
 GameObject:
@@ -13865,7 +13850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 956417010}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontRight_ClawB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13987,9 +13972,9 @@ GameObject:
   m_Component:
   - component: {fileID: 959649840}
   - component: {fileID: 959649841}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: root
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14890,7 +14875,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1006038335}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontRight_B_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15129,9 +15114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: def17e7c58b777f44a835aa6e8f74d30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller: {fileID: 0}
   bForcefieldActive: 0
-  SpellsReference: {fileID: 0}
 --- !u!1 &1031328225
 GameObject:
   m_ObjectHideFlags: 0
@@ -15712,7 +15695,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1061754065}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontLeft_ClawA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15863,7 +15846,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1097833542}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearLeft_A_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15895,7 +15878,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1098288937}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontRight_B_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16047,7 +16030,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1130500850}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontLeft_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16079,7 +16062,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1142623157}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontRight_B_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18252,7 +18235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
-  DizzyTime: 20
+  DizzyTime: 10
 --- !u!114 &1214807525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18974,7 +18957,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1243395689}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearLeft_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19006,7 +18989,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1266285610}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearRight_B_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19070,7 +19053,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1290179850}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontLeft_ClawB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19435,7 +19418,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1343076849}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontLeft_B_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19739,7 +19722,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1370843869}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearLeft_B_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20042,7 +20025,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1395700542}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_Pelvis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20214,7 +20197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1399595553}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_FeelerLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21431,7 +21414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1538716300}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontRight_A_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21494,7 +21477,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1552624748}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearLeft_A_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21526,7 +21509,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1560693879}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearLeft_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21844,7 +21827,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1591836212}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearLeft_B_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22214,7 +22197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1628092558}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontLeft_B_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22503,14 +22486,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ff69e7d27eeaf43b43f416cb96cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyHealthBarsParent: {fileID: 970052281}
+  PauseMenu: {fileID: 0}
   HealthSlider: {fileID: 1534928663}
   ManaSlider: {fileID: 1219744751}
-  BossHealthSlider: {fileID: 970052286}
   DamageSlider: {fileID: 234451222}
-  BossDamageSlider: {fileID: 897319632}
-  TrinityController: {fileID: 1223709191}
-  TrinityBrain: {fileID: 1014231138}
-  TrinitySpells: {fileID: 560049243}
+  EnemyHealthBarPrefab: {fileID: 0}
   FrameBackground: {fileID: 444031566}
   CurrentElementImage: {fileID: 813573710}
   ElementImages:
@@ -22620,7 +22601,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1656269634}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_ThroatSacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22651,7 +22632,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1658282907}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegFrontRight_ClawA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22757,7 +22738,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1687797298}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearRight_A_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23072,6 +23053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce911149addb4b84fb19f05281b87caa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: Default
   RB: {fileID: 0}
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
@@ -23085,8 +23067,8 @@ MonoBehaviour:
   TauntCd: 20
   ThrowCd: 30
   bCanShotShock: 0
-  bCanTaunt: 1
-  bCanThrow: 0
+  bCanTaunt: 0
+  bCanThrow: 1
   SwingHandDMG: 10
   SmashDMG: 15
   StompDMG: 20
@@ -23094,6 +23076,7 @@ MonoBehaviour:
   ThrowOrbDMG: 30
   OrbExplosionDMG: 35
   Health: {fileID: 0}
+  bIsDead: 0
 --- !u!195 &1705963347
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -23190,12 +23173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_STACKS: 100
-  IgniteDamagePerStack: 1
-  ChillSlowPercentPerStack: 0.004
-  ChargeMoveModifierPerStack: 0.2
-  ChargeJumpForcePerStack: 0.02
-  ChargeGlideGravityModifierPerStack: 0.001
   AilmentDuration: 5
 --- !u!114 &1705963352
 MonoBehaviour:
@@ -23786,7 +23763,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1814969070}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingRearRight_A_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23849,7 +23826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1821364314}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontLeft_B_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23974,7 +23951,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1827634259}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearLeft_ClawB
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24344,7 +24321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1867311009}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontLeft_A_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24635,7 +24612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893016413}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontLeft_A_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24849,7 +24826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1922533176}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearRight_ClawA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27737,7 +27714,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2032410870}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_Throat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28292,7 +28269,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2085011192}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_WingFrontRight_A_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28444,7 +28421,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2097155531}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_LegRearRight_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28477,7 +28454,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2100822992}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Kupolojuve_SacksLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29039,7 +29016,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -2.1453652, y: -0.00000029710645, z: 0.00000010430813}
+  m_ConnectedAnchor: {x: -2.1453652, y: 0.0000016101912, z: 0.00000010430813}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -30046,7 +30023,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: -1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -3.8988698, y: 0.000000834465, z: -0.0000019967556}
+  m_ConnectedAnchor: {x: -3.8988702, y: -0.0000009536743, z: -0.0000023543835}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 0, z: -1}
   m_TwistLimitSpring:
@@ -31111,7 +31088,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -3.7016277, y: 1.4817568, z: 0.000005761981}
+  m_ConnectedAnchor: {x: -3.7016277, y: 1.4817549, z: 0.000005761973}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:
@@ -31414,7 +31391,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.039796267, y: -0.90992403, z: -0.9050073}
+  m_ConnectedAnchor: {x: 0.039798066, y: -0.9099246, z: -0.9050073}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -31519,7 +31496,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -2.1453648, y: -0.000000355074, z: -0.00000014901161}
+  m_ConnectedAnchor: {x: -2.1453648, y: 0.000001552231, z: -0.00000014901161}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -31760,7 +31737,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.30650654, y: 1.2768646, z: -0.99215925}
+  m_ConnectedAnchor: {x: -0.30650455, y: 1.276864, z: -0.99215925}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -31972,7 +31949,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.0000028729064, y: -0.0000021457672, z: -1.3902615}
+  m_ConnectedAnchor: {x: -0.0000028729087, y: -0.00000023841858, z: -1.3902612}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -32151,7 +32128,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: 1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0000009655591, y: 0.0000010728836, z: 1.3902613}
+  m_ConnectedAnchor: {x: 0.0000009655568, y: 0.0000030994415, z: 1.3902614}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:

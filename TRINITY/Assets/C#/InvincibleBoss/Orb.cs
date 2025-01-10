@@ -18,8 +18,9 @@ public class Orb : MonoBehaviour
         StartCoroutine(ScaleOverTime(targetSize, duration));
     }
 
-    private IEnumerator ScaleOverTime(float target, float time)
+    public IEnumerator ScaleOverTime(float target, float time)
     {
+        Debug.Log("Target scale :" + target);
         Vector3 initialScale = transform.localScale;
         Vector3 targetScale = Vector3.one * target;
         float elapsedTime = 0f;

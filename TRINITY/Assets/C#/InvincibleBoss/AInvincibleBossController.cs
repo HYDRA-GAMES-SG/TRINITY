@@ -36,6 +36,8 @@ public class AInvincibleBossController : IEnemyController
 
     [HideInInspector]
     public UHealthComponent Health;
+    [HideInInspector]
+    public bool bIsDead = false;
 
     void Start()
     {
@@ -47,11 +49,17 @@ public class AInvincibleBossController : IEnemyController
     void Update()
     {
         CheckCooldown();
-
-        if (Health.Current <= 0)
+        HandleChill();
+        if (Health.Current <= 0 && !bIsDead)
         {
+            bIsDead = true;
             InvincibleBossFSM.EnqueueTransition<IBDizzy>();
         }
+    }
+    private void HandleChill()
+    {
+        //AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
+        //CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
     }
 
     private void OnAnimatorMove()
