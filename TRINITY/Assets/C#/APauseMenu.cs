@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class APauseMenu : MonoBehaviour
 {
+    public Image CrossHair;
+    public bool bEnableCrosshair = true;
     private float NavigateCooldownTimer = 0f;
     public float NavigateCooldown = .2f;
     public float InputThreshold = .2f;
@@ -33,6 +35,8 @@ public class APauseMenu : MonoBehaviour
         {
             SelectMenuItem(CurrentMenuElementsIndex);
         }
+
+        CrossHair.gameObject.SetActive(false);
     }
     
     
@@ -42,6 +46,7 @@ public class APauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         ATrinityGameManager.GAME_PAUSED = false;
         ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
+        CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
     }
 
     private void Navigate()
@@ -106,5 +111,15 @@ public class APauseMenu : MonoBehaviour
     void Update()
     {
         NavigateCooldownTimer -= Time.unscaledDeltaTime;
+    }
+
+    public void OnCrossHairToggle(bool bToggle)
+    {
+        ATrinityGameManager.CROSSHAIR_ENABLED = bToggle;
+    }
+
+    public void OnReturnToGameClicked()
+    {
+        this.gameObject.SetActive(false);
     }
 }

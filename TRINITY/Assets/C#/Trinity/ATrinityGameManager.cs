@@ -13,6 +13,10 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityGameManager : MonoBehaviour
 {
+    public static float MOUSE_SENSITIVITY = .5f;
+    public static float GAMEPAD_SENSITIVITY = .5f;
+    public static float MASTER_VOLUME = 1f;
+    public static bool CROSSHAIR_ENABLED = true;
     public static bool GAME_PAUSED = false;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
