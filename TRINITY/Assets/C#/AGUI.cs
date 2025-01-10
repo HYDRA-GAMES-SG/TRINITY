@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,6 +22,7 @@ public class AGUI : MonoBehaviour
     public string ColdHexademicalCode = "#00CDFF";
     public string LightningHexademicalCode = "#FFC400";
     private float PlayerHealthTarget;
+    private List<IEnemyController> EnemyControllers;
 
     void Start()
     {
@@ -33,15 +35,15 @@ public class AGUI : MonoBehaviour
         {
             ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
         }
-
-        ATrinityGameManager.OnNewEnemies += SetupEnemyUI;
-
+        
         CurrentElementImage = ElementImages[(int)ATrinityGameManager.GetBrain().GetElement()];
 
         if (ATrinityGameManager.GetBrain() != null)
         {
             ATrinityGameManager.GetBrain().OnElementChanged += UpdateElement;
         }
+        
+        SetupEnemyUI();
     }
 
     void Update()
@@ -85,17 +87,19 @@ public class AGUI : MonoBehaviour
         }
     }
 
-    private void SetupEnemyUI(List<IEnemyController> enemyControllers)
+    private void SetupEnemyUI()
     {
-        print("count:" + enemyControllers.Count);
-        for (int i = 0; i < enemyControllers.Count; i++)
+        EnemyControllers = new List<IEnemyController>();
+        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
+        
+        for (int i = 0; i < EnemyControllers.Count; i++)
         {
             GameObject go = Instantiate(EnemyHealthBarPrefab, EnemyHealthBarsParent.transform, true);
 
             AEnemyHealthBar ehb = go.GetComponent<AEnemyHealthBar>();
 
-            ehb.EnemyController = enemyControllers[i];
-            ehb.EnemyName.text = enemyControllers[i].Name;
+            ehb.EnemyController = EnemyControllers[i];
+            ehb.EnemyName.text = EnemyControllers[i].Name;
             ehb.transform.position = new Vector3(0f, i * -90, 0f);
             ehb.DamageBar.value = 100f;
             ehb.HealthBar.value = 100f;
@@ -129,7 +133,5 @@ public class AGUI : MonoBehaviour
 
         if (ATrinityGameManager.GetSpells() != null)
             ATrinityGameManager.GetSpells().ManaComponent.OnManaModified -= UpdateManaBar;
-
-        ATrinityGameManager.OnNewEnemies -= SetupEnemyUI;
     }
 }

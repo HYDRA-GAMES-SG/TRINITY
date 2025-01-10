@@ -13,7 +13,6 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityGameManager : MonoBehaviour
 {
-    public static event Action<List<IEnemyController>> OnNewEnemies;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
     private static ATrinitySpells SpellsReference;
@@ -26,7 +25,6 @@ public class ATrinityGameManager : MonoBehaviour
     void Awake()
     {
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
-        EnemyControllers = new List<IEnemyController>();
         
         if (CurrentInstances.Count() > 1)
         {
@@ -39,9 +37,6 @@ public class ATrinityGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //EditorApplication.playModeStateChanged += OnPlay;
-        SceneManager.sceneLoaded += NewScene;
-        SceneManager.sceneUnloaded += CloseScene;
     }
 
     // Update is called once per frame
@@ -164,36 +159,4 @@ public class ATrinityGameManager : MonoBehaviour
         
         SpellsReference = spells;
     }
-    
-    public void NewScene(Scene newScene, LoadSceneMode mode)
-    {
-        if (EnemyControllers.Count == 0)
-        {
-            EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
-            OnNewEnemies?.Invoke(EnemyControllers);
-        }
-    }
-
-    public void CloseScene(Scene closedScene)
-    {
-        EnemyControllers.Clear();
-    }
-    
-    
-     // //Editor Only
-     // private void OnPlay(PlayModeStateChange playState)
-     // {
-     //     if (playState == PlayModeStateChange.EnteredPlayMode)
-     //     {
-     //         if (EnemyControllers.Count == 0)
-     //         {
-     //             EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
-     //             OnNewEnemies?.Invoke(EnemyControllers);
-     //         }
-     //     }
-     //     else if (playState == PlayModeStateChange.ExitingPlayMode)
-     //     {
-     //         
-     //     }
-     // }
 }
