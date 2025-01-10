@@ -258,6 +258,12 @@ namespace ThirdPersonCamera
 
         private void LateUpdate()
         {
+
+            if (ATrinityGameManager.GAME_PAUSED)
+            {
+                return;
+            }
+            
 #if TPC_DEBUG
             ResetCubes();
 #endif

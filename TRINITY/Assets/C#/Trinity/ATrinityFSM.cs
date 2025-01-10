@@ -37,6 +37,11 @@ public class ATrinityFSM : MonoBehaviour, IFSM
             StartStateMachine();
         }
 
+        if (ATrinityGameManager.GAME_PAUSED)
+        {
+            return;
+        }
+        
         // Check for transitions and update the current state
         ProcessTransitions();
         

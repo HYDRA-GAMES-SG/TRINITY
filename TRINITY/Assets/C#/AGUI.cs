@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class AGUI : MonoBehaviour
 {
     public GameObject EnemyHealthBarsParent;
+    public GameObject PauseMenu;
     
     [SerializeField] private Slider HealthSlider, ManaSlider, DamageSlider;
 
@@ -41,6 +42,8 @@ public class AGUI : MonoBehaviour
         {
             ATrinityGameManager.GetBrain().OnElementChanged += UpdateElement;
         }
+
+        ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
         
         SetupEnemyUI();
     }
@@ -86,6 +89,11 @@ public class AGUI : MonoBehaviour
         }
     }
 
+    private void TogglePause()
+    {
+        PauseMenu.SetActive(!PauseMenu.activeSelf);
+    }
+    
     private void SetupEnemyUI()
     {
         

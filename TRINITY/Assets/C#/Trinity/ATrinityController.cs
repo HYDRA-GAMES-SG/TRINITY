@@ -94,11 +94,22 @@ public class ATrinityController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (ATrinityGameManager.GAME_PAUSED)
+        {
+            return;
+        }
+        
         HandleGravity();
     }
     
     private void LateUpdate()
     {
+        
+        if (ATrinityGameManager.GAME_PAUSED)
+        {
+            return;
+        }
+        
         if (ATrinityGameManager.GetBrain().bCanRotatePlayer)
         {
             AlignWithCameraYaw();

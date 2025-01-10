@@ -66,6 +66,11 @@ public class ATrinityBrain : MonoBehaviour
 
     void Update()
     {
+        if (ATrinityGameManager.GAME_PAUSED)
+        {
+            return;
+        }
+        
         HandleStun();
     }
 
@@ -116,7 +121,7 @@ public class ATrinityBrain : MonoBehaviour
     
     public bool CanAct()
     {
-        if (CurrentAction == ETrinityAction.ETA_Stunned)
+        if (CurrentAction == ETrinityAction.ETA_Stunned || ATrinityGameManager.GAME_PAUSED)
         {
             return false;
         }

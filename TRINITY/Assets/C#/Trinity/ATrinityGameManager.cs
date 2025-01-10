@@ -13,6 +13,7 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityGameManager : MonoBehaviour
 {
+    public static bool GAME_PAUSED = false;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
     private static ATrinitySpells SpellsReference;
