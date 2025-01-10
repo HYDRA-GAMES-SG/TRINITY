@@ -21,9 +21,11 @@ public class ATrinityGameManager : MonoBehaviour
     private static APlayerInput InputReference;
     private static ATrinityAnimator AnimationReference;
     private static ATrinityCamera CameraReference;
+    
 
     void Awake()
     {
+        EnemyControllers = new List<IEnemyController>();
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
         
         if (CurrentInstances.Count() > 1)
@@ -31,12 +33,14 @@ public class ATrinityGameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         DontDestroyOnLoad(gameObject);
+        
+        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
     }
     // Start is called before the first frame update
     void Start()
     {
+        
     }
 
     // Update is called once per frame

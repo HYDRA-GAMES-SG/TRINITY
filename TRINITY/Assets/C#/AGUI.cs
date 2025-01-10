@@ -22,7 +22,6 @@ public class AGUI : MonoBehaviour
     public string ColdHexademicalCode = "#00CDFF";
     public string LightningHexademicalCode = "#FFC400";
     private float PlayerHealthTarget;
-    private List<IEnemyController> EnemyControllers;
 
     void Start()
     {
@@ -89,17 +88,15 @@ public class AGUI : MonoBehaviour
 
     private void SetupEnemyUI()
     {
-        EnemyControllers = new List<IEnemyController>();
-        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
         
-        for (int i = 0; i < EnemyControllers.Count; i++)
+        for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {
             GameObject go = Instantiate(EnemyHealthBarPrefab, EnemyHealthBarsParent.transform, true);
 
             AEnemyHealthBar ehb = go.GetComponent<AEnemyHealthBar>();
 
-            ehb.EnemyController = EnemyControllers[i];
-            ehb.EnemyName.text = EnemyControllers[i].Name;
+            ehb.EnemyController = ATrinityGameManager.GetEnemyControllers()[i];
+            ehb.EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
             ehb.transform.position = new Vector3(0f, i * -90, 0f);
             ehb.DamageBar.value = 100f;
             ehb.HealthBar.value = 100f;
