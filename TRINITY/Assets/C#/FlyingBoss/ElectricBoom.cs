@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class ElectricBoom : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class ElectricBoom : MonoBehaviour
 
     [SerializeField] float CallThunder;
     [SerializeField] float CallThunderExplosion;
+
+    public float Damage;
+    public IEnemyController Controller;
 
     float ThunderTimer;
     float ThunderExplosionTimer;
@@ -40,4 +44,11 @@ public class ElectricBoom : MonoBehaviour
             }
         }
     }
+
+    public void GetControllerDamage(IEnemyController controller,float damage)
+    {
+        Controller = controller;
+        Damage = damage;
+    }
+    
 }

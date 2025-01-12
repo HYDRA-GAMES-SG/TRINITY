@@ -41,8 +41,7 @@ public class AFlyingBossController : IEnemyController
     public bool bGOElectricChargeSpawned = false;
 
     [Header("Attack Damage")]
-    [SerializeField] float SpikeAttackDMG;
-    [SerializeField] float ElectricChareDMG;
+    [SerializeField] float ElectricBombDMG;
 
     public UHealthComponent Health;
 
@@ -93,7 +92,7 @@ public class AFlyingBossController : IEnemyController
     {
         if (FlyingBossFSM.CurrentState is FBAttack)
         {
-            return SpikeAttackDMG;
+            return ElectricBombDMG;
         }
         return NormalAttack;
     }

@@ -8996,8 +8996,7 @@ MonoBehaviour:
   bCanElectricChargeAttack: 0
   bGOElectricShotSpawned: 0
   bGOElectricChargeSpawned: 0
-  SpikeAttackDMG: 10
-  ElectricChareDMG: 20
+  ElectricBombDMG: 30
   Health: {fileID: 548645809}
 --- !u!4 &548645811
 Transform:
@@ -13132,6 +13131,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Menu: MenuScene
+  CrabBossStage: CrabBossDungeon
+  FlyingBossStage: FlyingBossStageScene
+  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &885919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20270,6 +20273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Menu: MenuScene
+  CrabBossStage: CrabBossDungeon
+  FlyingBossStage: FlyingBossStageScene
+  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &1405912127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22486,7 +22493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ff69e7d27eeaf43b43f416cb96cc2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyHealthBarsParent: {fileID: 970052281}
+  EnemyHealthBarsParent: {fileID: 1334798633200125011, guid: 7fe8bddba34293b43a58c1f7b50dc7f6,
+    type: 3}
   PauseMenu: {fileID: 0}
   HealthSlider: {fileID: 1534928663}
   ManaSlider: {fileID: 1219744751}
@@ -23059,7 +23067,7 @@ MonoBehaviour:
   EnemyStatus: {fileID: 0}
   AI: {fileID: 0}
   NormalAttack: 0
-  AttackForce: 150
+  AttackForce: 30
   InvincibleBossFSM: {fileID: 1214807521}
   CloseAttack: 13
   LongAttack: 28
@@ -23364,16 +23372,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dd900d6f6debf4bbb0b815f7c1a5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateSpeed: 0
+  RotateSpeed: 3
   AnimKey: FlyElectroShot
   moveSpeed: 10
-  hoverSmoothness: 3
-  ElectricBomb: {fileID: 6159100490320408924, guid: eabfb95374857894b891f72239cfbbf8,
+  ElecBomb: {fileID: 5859640689157921181, guid: eabfb95374857894b891f72239cfbbf8,
     type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  thunderSpawnDelay: 0.3
+  thunderSpawnDelay: 0.25
+  thunderCount: 4
+  thunderRadius: 3
+  minDis: 3.5
 --- !u!114 &1720804528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23386,9 +23396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f80598320b660e14d891aee8d1c090c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateSpeed: 0
+  RotateSpeed: 2
   moveSpeed: 5
-  hoverSmoothness: 2
   positionTolerance: 3
   behindBossOffset: {x: 0, y: 5, z: 3}
 --- !u!114 &1720804529

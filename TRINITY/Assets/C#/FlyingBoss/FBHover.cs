@@ -10,7 +10,6 @@ public class FBHover : FlyingBossState
     private const string HorizontalParameter = "Horizontal";
 
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private float hoverSmoothness = 2f;
     [SerializeField] private float positionTolerance = 3f;
     [SerializeField] private Vector3 behindBossOffset;
 
@@ -81,12 +80,12 @@ public class FBHover : FlyingBossState
     private void MoveTowardsTarget(float dt)
     {
         Vector3 direction = (targetHoverPosition - FlyingBossFSM.FlyingBossController.transform.position).normalized;
-        Vector3 smoothVelocity = Vector3.Lerp(FlyingBossFSM.FlyingBossController.RB.velocity, direction * moveSpeed, hoverSmoothness * dt);
+        Vector3 smoothVelocity = Vector3.Lerp(FlyingBossFSM.FlyingBossController.RB.velocity, direction * moveSpeed, RotateSpeed * dt);
         FlyingBossFSM.FlyingBossController.RB.velocity = smoothVelocity;
 
         Vector3 faceDirection = (FlyingBossFSM.PlayerController.transform.position - FlyingBossFSM.FlyingBossController.transform.position).normalized;
 
-        FlyingBossFSM.FlyingBossController.RotateTowardTarget(faceDirection, hoverSmoothness);
+        FlyingBossFSM.FlyingBossController.RotateTowardTarget(faceDirection, RotateSpeed);
         //Vector3 currentRotation = FlyingBossFSM.FlyingBossController.transform.eulerAngles;
 
         //FlyingBossFSM.FlyingBossController.transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);

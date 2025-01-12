@@ -5,6 +5,9 @@ using UnityEngine;
 public class AInvincibleBossController : IEnemyController
 {
     public AInvincibleBossFSM InvincibleBossFSM;
+
+    float InitialSpeed;
+
     [Header("Distance Check")]
     public float CloseAttack = 13f;
     public float LongAttack = 30f;
@@ -43,6 +46,7 @@ public class AInvincibleBossController : IEnemyController
     {
         Health = GetComponent<UHealthComponent>();
         AI.stoppingDistance = CloseAttack;
+        InitialSpeed = AI.speed;
     }
 
     // Update is called once per frame
@@ -58,8 +62,8 @@ public class AInvincibleBossController : IEnemyController
     }
     private void HandleChill()
     {
-        //AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
-        //CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
+        AI.speed = AI.speed * EnemyStatus.Ailments.ChillSpeedModifier;
+        InvincibleBossFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
     }
 
     private void OnAnimatorMove()
