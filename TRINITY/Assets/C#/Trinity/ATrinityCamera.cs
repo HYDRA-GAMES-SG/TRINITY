@@ -5,6 +5,7 @@ using UnityEngine;
 public class ATrinityCamera : MonoBehaviour
 {
     private OverTheShoulder OverTheShoulderCameraComponent;
+    public UCameraShakeComponent CameraShakeComponent;
     public Camera Camera;
     public GameObject LookAtObject;
     public float BlinkCameraLerpTime = 1f;

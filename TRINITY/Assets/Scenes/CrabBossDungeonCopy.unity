@@ -8422,8 +8422,7 @@ MonoBehaviour:
   bCanElectricChargeAttack: 0
   bGOElectricShotSpawned: 0
   bGOElectricChargeSpawned: 0
-  SpikeAttackDMG: 10
-  ElectricChareDMG: 20
+  ElectricBombDMG: 0
   Health: {fileID: 993652758}
 --- !u!4 &993652760
 Transform:
@@ -18015,13 +18014,14 @@ MonoBehaviour:
   RotateSpeed: 0
   AnimKey: FlyElectroShot
   moveSpeed: 10
-  hoverSmoothness: 3
-  ElectricBomb: {fileID: 6159100490320408924, guid: eabfb95374857894b891f72239cfbbf8,
-    type: 3}
+  ElecBomb: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
   thunderSpawnDelay: 0.3
+  thunderCount: 3
+  thunderRadius: 5
+  minDis: 3
 --- !u!114 &2110189871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18036,7 +18036,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RotateSpeed: 0
   moveSpeed: 5
-  hoverSmoothness: 2
   positionTolerance: 3
   behindBossOffset: {x: 0, y: 5, z: 3}
 --- !u!114 &2110189872
@@ -18687,6 +18686,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TRINITY
       objectReference: {fileID: 0}
+    - target: {fileID: 6105337564074184607, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: CameraShakeComponent
+      value: 
+      objectReference: {fileID: 4075609089960059740}
     - target: {fileID: 7234860868322912901, guid: 60b124caf32955048a64c10532b1f32f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -18740,8 +18744,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5747429643608456952, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4075609089960059740}
   m_SourcePrefab: {fileID: 100100000, guid: 60b124caf32955048a64c10532b1f32f, type: 3}
+--- !u!1 &4075609089960059739 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5747429643608456952, guid: 60b124caf32955048a64c10532b1f32f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4075609089960059738}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4075609089960059740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4075609089960059739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2bec8c2b8d1a284e9659bf6ec2384a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LookAtParentObj: {fileID: 0}
+  LookAtDisplacementMultiplier: 0.5
+  DistanceBasedIntensityAttenuation: -0.02
+  DistanceBasedIntensityOffset: 1.5
+  CameraResetSpeed: 5
+  PerlinNoiseSpeed: 30
 --- !u!64 &8137078217973040800
 MeshCollider:
   m_ObjectHideFlags: 0
