@@ -10,41 +10,105 @@ public class WorkerMonster : MonoBehaviour
     private string _currentstate;
     private Animator MonsterController;
     private NavMeshAgent MonsterAgent;
-    public List<Transform> Waypoints = new List<Transform>();
+    public Transform Mine;
+    public Transform MonsterBase;
 
-    public float AITimer;
-    public float AICollectingTime;
+    public float CollectingTimer;
+    public float CollectingTime;
     public float StockTime;
     public float StockTimer;
-    public float ChaseRange;
+
+    public float MonsterBaseRange;
+    public float MineRange;
+
     public float AttackRange;
     public float AFKOutOfRange;
-    private int WaypointIndex;
 
     public bool bSelfCompromised;
     public bool bResourcesCompromised;
+    public bool bHoldingResource;
+
+    const string CRAWLFORWARD = "CrawlForward";
+    const string TAUNT = "Taunt";
+    const string FLYFORWARD = "FlyForward";
+    const string FLYCLAWSFORWARD = "FlyClawsForward";
 
     // Start is called before the first frame update
     void Start()
     {
         PlayerHealth = Player.GetComponent<UHealthComponent>();
+        MonsterController = GetComponent<Animator>();
+        MonsterAgent = GetComponent<NavMeshAgent>();
+        CollectingTimer = CollectingTime;
+        StockTimer = StockTime;
+        ChangeAnimationState(CRAWLFORWARD);
     }
 
     // Update is called once per frame
     void Update()
     {
         float distanceFromPlayer = (transform.position - Player.transform.position).magnitude;
-        if (bSelfCompromised || bResourcesCompromised) 
+        float distanceFromBase = (MonsterBase.position - Player.transform.position).magnitude;
+        float distanceFromMine = (Mine.position - Player.transform.position).magnitude;
+        if (bSelfCompromised || bResourcesCompromised)
         {
+            if (bResourcesCompromised && (distanceFromBase > MonsterBaseRange || distanceFromMine > MineRange)) 
+            {
+                bResourcesCompromised = false;
+                return;
+            }
+
             if (distanceFromPlayer <= AttackRange)
             {
                 //attack player
+                ChangeAnimationState(FLYCLAWSFORWARD);
             }
-            else if (bSelfCompromised) 
+            else if (bSelfCompromised)
             {
                 //chase player
+                MonsterAgent.destination = Player.transform.position;
+                ChangeAnimationState(FLYFORWARD);
             }
         }
+        else 
+        {
+            if (!bHoldingResource)
+            {
+                MonsterAgent.destination = Mine.position;
+                //ChangeAnimationState(CRAWLFORWARD);
+            }
+            else 
+            {
+                MonsterAgent.destination = MonsterBase.position;
+                //ChangeAnimationState(CRAWLFORWARD);
+            }
+
+            if (HasFinishMoving() && !bHoldingResource)
+            {
+                ChangeAnimationState(TAUNT);
+                CollectingTimer -= Time.deltaTime;
+                if (CollectingTimer < 0)
+                {
+                    bHoldingResource = true;
+                    MonsterAgent.destination = MonsterBase.position;
+                    CollectingTimer = CollectingTime;
+                    ChangeAnimationState(CRAWLFORWARD);
+                }
+            }
+            else if (HasFinishMoving() && bHoldingResource) 
+            {
+                ChangeAnimationState(TAUNT);
+                StockTimer -= Time.deltaTime;
+                if (StockTimer < 0) 
+                {
+                    bHoldingResource = false;
+                    MonsterAgent.destination = Mine.position;
+                    StockTimer = StockTime;
+                    ChangeAnimationState(CRAWLFORWARD);
+                }
+            }
+        }
+
     }
     bool HasFinishMoving()
     {
