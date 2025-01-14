@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -39,10 +40,10 @@ public class AFinalMonsterController : IEnemyController
     public ParticleSystem OrbFrost;
 
     [Header("Long Range Attack Cooldown Time")]
-    public float InvokeSnowFallCD = 5f;
-    public float InvokeSpikeCD = 3f;
-    public float FrostRayCD = 5f;
-    public float FrostWaveCD = 2f;
+    public float InvokeSnowFallCD = 15f;
+    public float InvokeSpikeCD = 13f;
+    public float FrostRayCD = 15f;
+    public float FrostWaveCD = 12f;
 
     [Header("Long Range Attack Boolean")]
     public bool bInvokeSnowFall;
@@ -51,14 +52,16 @@ public class AFinalMonsterController : IEnemyController
     public bool bFrostWave;
 
     [Header("Close Range Attack Cooldown Time")]
-    public float HeavyAttackCD = 3f;
-    public float DashCD = 3f;
-    public float HitTheGroundCD = 5f;
+    public float HeavyAttackCD = 13f;
+    public float DashCD = 13f;
+    public float HitTheGroundCD = 15f;
 
     [Header("Close Range Attack Boolean")]
     public bool bHeavyAttack;
     public bool bDash;
     public bool bHitTheGround;
+
+    
 
     public UHealthComponent Health;
     public Rigidbody rb;
@@ -90,6 +93,8 @@ public class AFinalMonsterController : IEnemyController
         {
             FinalMonsterFSM.EnqueueTransition<FMBDie>();
         }
+
+        //Debug.Log(CalculateGroundDistance());
     }
     void CheckCoolDown()
     {
@@ -186,9 +191,9 @@ public class AFinalMonsterController : IEnemyController
     public float CalculateGroundDistance()
     {
         Vector3 PlayerPos = new Vector3(FinalMonsterFSM.PlayerController.transform.position.x, 0, FinalMonsterFSM.PlayerController.transform.position.z);
-        Vector3 IBPos = new Vector3(transform.position.x, 0, transform.position.z);
+        Vector3 FMBPos = new Vector3(transform.position.x, 0, transform.position.z);
 
-        float distanceToTarget = Vector3.Distance(PlayerPos, IBPos);
+        float distanceToTarget = Vector3.Distance(PlayerPos, FMBPos);
         return distanceToTarget;
     }
 }

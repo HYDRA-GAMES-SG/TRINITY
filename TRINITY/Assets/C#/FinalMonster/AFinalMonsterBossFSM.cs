@@ -26,6 +26,7 @@ public class AFinalMonsterBossFSM : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Debug.Log(TransitionQueue.Count);
         TryInitialize();
 
         // Check for transitions and update the current state
@@ -36,6 +37,8 @@ public class AFinalMonsterBossFSM : MonoBehaviour
             CurrentState.PreUpdateBehaviour(Time.deltaTime);
             CurrentState.UpdateBehaviour(Time.deltaTime);
             CurrentState.PostUpdateBehaviour(Time.deltaTime);
+
+            Debug.Log("Current State: " + CurrentState.GetType().Name);
         }
     }
 

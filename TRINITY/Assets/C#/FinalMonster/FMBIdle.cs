@@ -9,7 +9,6 @@ public class FMBIdle : FinalMonsterBossState
     AFinalMonsterController FMBController;
     ATrinityController PlayerController;
     NavMeshAgent AI;
-
     public override bool CheckEnterTransition(IState fromState)
     {
         return true;
@@ -21,6 +20,11 @@ public class FMBIdle : FinalMonsterBossState
         PlayerController = FinalMonsterBossFSM.PlayerController;
 
         AI = FMBController.AI;
+
+        if (FMBController.rb != null)
+        {
+            FMBController.rb.isKinematic = true;
+        }
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -29,10 +33,13 @@ public class FMBIdle : FinalMonsterBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        float randomValue = Random.Range(0f, 1f);
 
-        if (FinalMonsterBossFSM.FinalMonsterBossController.CalculateGroundDistance() <= FinalMonsterBossFSM.FinalMonsterBossController.LongAttackRange)
+        float distance = FMBController.CalculateGroundDistance();
+
+
+        if (distance <= FMBController.LongAttackRange && distance > FMBController.CloseAttackRange)
         {
+            float randomValue = Random.Range(0f, 1f);
             if (randomValue < 0.5f)
             {
                 FinalMonsterBossFSM.EnqueueTransition<FMBWalk>();
@@ -53,6 +60,6 @@ public class FMBIdle : FinalMonsterBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return false;
+        return true;
     }
 }
