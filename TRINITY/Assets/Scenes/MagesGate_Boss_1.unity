@@ -4345,7 +4345,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &253931327
 Transform:
   m_ObjectHideFlags: 0
@@ -7378,6 +7378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cdc04a39d766649b3de4d9b33526f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CameraShakeComponent: {fileID: 0}
   Camera: {fileID: 417349387}
   LookAtObject: {fileID: 362113812}
   BlinkCameraLerpTime: 1
@@ -12333,6 +12334,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Menu: MenuScene
+  CrabBossStage: CrabBossDungeon
+  FlyingBossStage: DevourerSentinelBossDungeon
+  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &885919894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14251,7 +14256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1033984962
 Transform:
   m_ObjectHideFlags: 0
@@ -18909,6 +18914,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34591a9b3a205714987f42ba25725198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Menu: MenuScene
+  CrabBossStage: CrabBossDungeon
+  FlyingBossStage: DevourerSentinelBossDungeon
+  HumanoidBossStage: HumanoidBossStageScene
 --- !u!114 &1405912127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28481,6 +28490,79 @@ Transform:
   - {fileID: 8027061007649751441}
   m_Father: {fileID: 2893464742311817980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &3436002352222947559
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 12247422422608459, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: PlayerController
+      value: 
+      objectReference: {fileID: 1223709191}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -22.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1049364830656206341, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608237296628200826, guid: 87fd6aef522664649a5ad7f8ce35ea64,
+        type: 3}
+      propertyPath: m_Name
+      value: Rabbit
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 87fd6aef522664649a5ad7f8ce35ea64, type: 3}
 --- !u!1 &3464271781330825100
 GameObject:
   m_ObjectHideFlags: 0
@@ -32845,3 +32927,4 @@ SceneRoots:
   - {fileID: 1033984962}
   - {fileID: 1843797607}
   - {fileID: 1516048676}
+  - {fileID: 3436002352222947559}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,7 +5,7 @@ public class ButtonFunction : MonoBehaviour
 {
     public string Menu = "MenuScene";
     public string CrabBossStage = "CrabBossDungeon";
-    public string FlyingBossStage = "FlyingBossStageScene";
+    public string FlyingBossStage = "DevourerSentinelBossDungeon";
     public string HumanoidBossStage = "HumanoidBossStageScene";
 
     public void OnMenu()
