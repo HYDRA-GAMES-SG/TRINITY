@@ -12,13 +12,12 @@ public class AGUI : MonoBehaviour
     public GameObject EnemyHealthBarsParent;
     public GameObject PauseMenu;
     
-    [SerializeField] private Slider HealthSlider, ManaSlider, DamageSlider;
+    [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
 
     [SerializeField] private GameObject EnemyHealthBarPrefab;
 
     
     [Header("UI Objects")]
-    public Image FrameBackground;
     public GameObject CurrentElementImage;
     public GameObject[] CurrentSpellImages = new GameObject[3];
 
@@ -29,9 +28,6 @@ public class AGUI : MonoBehaviour
     public Sprite[] ColdSpellImages = new Sprite[3];
     public Sprite[] LightningSpellImages = new Sprite[3];
     
-    // public string FireHexademicalCode = "#FF0000";
-    // public string ColdHexademicalCode = "#00CDFF";
-    // public string LightningHexademicalCode = "#FFC400";
     private float PlayerHealthTarget;
 
     void Start()
@@ -63,7 +59,7 @@ public class AGUI : MonoBehaviour
         // Lerp DamageSlider and BossDamageSlider to target values
         if (DamageSlider != null)
         {
-            DamageSlider.value = Mathf.Lerp(DamageSlider.value, PlayerHealthTarget, Time.deltaTime);
+            DamageSlider.fillAmount = Mathf.Lerp(DamageSlider.fillAmount, PlayerHealthTarget, Time.deltaTime);
         }
 
         UpdateCooldowns();
@@ -99,7 +95,7 @@ public class AGUI : MonoBehaviour
 
     public void UpdateElementUI(ETrinityElement newElement)
     {
-        //CurrentElementImage.GetComponent<SpriteRenderer>().sprite = ElementImages[(int)newElement];
+        CurrentElementImage.GetComponent<Image>().sprite = ElementImages[(int)newElement];
 
         for (int i = 0; i < CurrentSpellImages.Length; i++)
         {
@@ -120,17 +116,6 @@ public class AGUI : MonoBehaviour
             }
         }
     }
-    
-    // public void SetColorByHexademical(string hexCode)
-    // {
-    //     if (ColorUtility.TryParseHtmlString(hexCode, out Color newColor))
-    //     {
-    //         FrameBackground.color = newColor;
-    //         Color frameBackgroundColor = FrameBackground.color;
-    //         frameBackgroundColor.a = (40f / 255f);
-    //         FrameBackground.color = frameBackgroundColor;
-    //     }
-    // }
 
     private void TogglePause()
     {
@@ -161,8 +146,8 @@ public class AGUI : MonoBehaviour
     {
         if (HealthSlider != null)
         {
-            PlayerHealthTarget = HealthSlider.value; // Record the current value
-            HealthSlider.value = healthPercent;
+            PlayerHealthTarget = HealthSlider.fillAmount; // Record the current value
+            HealthSlider.fillAmount = healthPercent;
         }
     }
 
@@ -170,7 +155,7 @@ public class AGUI : MonoBehaviour
     {
         if (ManaSlider != null)
         {
-            ManaSlider.value = manaPercent;
+            ManaSlider.fillAmount = manaPercent;
         }
     }
 
