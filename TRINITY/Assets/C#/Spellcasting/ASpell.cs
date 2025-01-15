@@ -126,7 +126,7 @@ public class ASpell : MonoBehaviour
     public virtual void CastEnd()
     {
     }
-
+    
     public virtual void Release()
     {
         
@@ -138,5 +138,15 @@ public class ASpell : MonoBehaviour
         BrainReference.SetCurrentSpell(null);    
         
         CastEnd();
+    }
+
+    public float GetCooldownNormalized()
+    {
+        if (Cooldown == 0f || bSpellReady)
+        {
+            return 0f;
+        }
+            
+        return Mathf.Clamp(CooldownCountdownTimer / Cooldown, 0f, 1f);
     }
 }

@@ -44,7 +44,6 @@ public class UCameraShakeComponent : MonoBehaviour
         // Initialize random seed for Perlin noise
         PerlinNoiseSeed = Random.Range(0f, 1000f);
         PerlinNoiseOffset = new Vector2(PerlinNoiseSeed, PerlinNoiseSeed);
-        ATrinityGameManager.GetInput().OnForcefieldPressed += TestShake;
     }
 
     private void TestShake()
