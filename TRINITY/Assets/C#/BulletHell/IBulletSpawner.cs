@@ -99,37 +99,16 @@ public class IBulletSpawner : MonoBehaviour
 
     protected void Update()
     {
-        if (ATrinityGameManager.GetPlayerController() == null)
-        {
-            return;
-        }
-        
-        if (Time.time > StartDelay)
-        {
-            HandleSpawning();
-        }
     }
 
-    private void HandleSpawning()
+    public virtual IEnumerator Spawn()
     {
         if (EnemyController != null && EnemyController.EnemyStatus.Health.Current <= 0)
         {
-            return;
+            Debug.Log("Enemy Controller null or dead, yield returning null out of Spawn()");
+            yield return null;
         }
         
-        if (!bIsSpawning) //if we aren't spawning
-        {
-            CurrentCooldown -= Time.deltaTime;
-
-            if (CurrentCooldown <= 0f) //cooldown is complete
-            {
-                StartCoroutine(nameof(Spawn));
-            }
-        }
-    }
-
-    protected virtual IEnumerator Spawn()
-    {
         int bulletsSpawnedThisFrame = 0;
         int bulletsPerFrame = Mathf.Clamp(Mathf.RoundToInt(nBullets / (nBullets * SpawnDelay) * Time.deltaTime), 1, Int32.MaxValue);
         
@@ -221,7 +200,8 @@ public class IBulletSpawner : MonoBehaviour
         OnSpawnFinished?.Invoke();
         bIsSpawning = false;
         CurrentCooldown = CooldownTime;
-    
+        yield break;
+
     }
 
     private IEnumerator DeactivateBulletAfterTime(GameObject bullet, float time)

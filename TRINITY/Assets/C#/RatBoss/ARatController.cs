@@ -23,6 +23,6 @@ public class ARatController : IEnemyController
     // Update is called once per frame
     void Update()
     {
-
+               
     }
 }

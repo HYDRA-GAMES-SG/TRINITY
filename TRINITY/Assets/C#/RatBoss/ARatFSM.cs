@@ -25,12 +25,18 @@ public class ARatFSM : MonoBehaviour, IFSM
 
     private void Awake()
     {
-        RatController = transform.root.Find("Controller").GetComponent<ARatController>();
+        RatController = transform.root.GetComponent<ARatController>();
+        PlayerController = ATrinityGameManager.GetPlayerController();
         InitializeStates();
     }
 
     private void FixedUpdate()
     {
+        if (PlayerController == null)
+        {
+            PlayerController = ATrinityGameManager.GetPlayerController();
+        }
+        
         TryInitialize();
 
         // Check for transitions and update the current state

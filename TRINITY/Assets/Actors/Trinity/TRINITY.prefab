@@ -228,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6cdc04a39d766649b3de4d9b33526f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CameraShakeComponent: {fileID: 5594441789729913297}
+  CameraShakeComponent: {fileID: 0}
   Camera: {fileID: 17808386227748261}
   LookAtObject: {fileID: 8213105695855789028}
   BlinkCameraLerpTime: 1
@@ -13536,7 +13536,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8935501547440587126}
-  - component: {fileID: 5594441789729913297}
   m_Layer: 0
   m_Name: CameraShake
   m_TagString: Untagged
@@ -13560,24 +13559,6 @@ Transform:
   - {fileID: 7382857142493244733}
   m_Father: {fileID: 1633827851099317257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5594441789729913297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5747429643608456952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2bec8c2b8d1a284e9659bf6ec2384a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LookAtParentObj: {fileID: 0}
-  LookAtDisplacementMultiplier: 0.5
-  DistanceBasedIntensityAttenuation: -0.02
-  DistanceBasedIntensityOffset: 1.5
-  CameraResetSpeed: 5
-  PerlinNoiseSpeed: 30
 --- !u!1 &5750009417223365692
 GameObject:
   m_ObjectHideFlags: 0
