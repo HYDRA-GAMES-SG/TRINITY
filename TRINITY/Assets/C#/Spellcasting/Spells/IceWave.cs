@@ -115,12 +115,14 @@ public class IceWave : MonoBehaviour
             
             enemyHitbox.EnemyController.TriggerGetHit();
             UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
-            enemyStatus +=  new FDamageInstance(Damage, EAilmentType.EAT_Chill, PrimaryCold.StacksOfChillApplied);
-
+            
             if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
             {
                 enemyStatus += new FDamageInstance(0f, EAilmentType.EAT_Ignite, PrimaryCold.StacksOfChillApplied);
             }
+            
+            enemyStatus +=  new FDamageInstance(Damage, EAilmentType.EAT_Chill, PrimaryCold.StacksOfChillApplied);
+
         }
     }
 

@@ -21,6 +21,18 @@ public struct FHitInfo
     
 }
 
+public struct FCameraShakeInfo
+{
+    public float NormalizedIntensity;
+    public float Duration;
+
+    public FCameraShakeInfo(float normalizedIntensity, float duration)
+    {
+        NormalizedIntensity = normalizedIntensity;
+        Duration = duration;
+    }
+}
+
 public struct FDamageInstance
 {
     public float Damage;

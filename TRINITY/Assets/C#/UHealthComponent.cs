@@ -13,7 +13,7 @@ public class UHealthComponent : MonoBehaviour
     public float Percent => Current / MAX;
     public bool bDead;
 
-
+    public System.Action<float> OnDamageTaken;
     public System.Action<float> OnHealthModified;
     public System.Action OnDeath;
 
@@ -47,9 +47,11 @@ public class UHealthComponent : MonoBehaviour
             Current = 0;
         }
 
+        OnDamageTaken?.Invoke(damageSource.Damage);
         OnHealthModified?.Invoke(Percent);
         return Current;
     }
+    
     public float Modify(float signedValue)
     {
         if (bDead) return Current;
@@ -62,7 +64,7 @@ public class UHealthComponent : MonoBehaviour
             bDead = true;
             Current = 0;
         }
-
+        
         OnHealthModified?.Invoke(Percent);
         return Current;
     }

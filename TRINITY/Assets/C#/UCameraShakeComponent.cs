@@ -2,17 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct FCameraShakeInfo
-{
-    public float NormalizedIntensity;
-    public float Duration;
-
-    public FCameraShakeInfo(float normalizedIntensity, float duration)
-    {
-        NormalizedIntensity = normalizedIntensity;
-        Duration = duration;
-    }
-}
 
 public class UCameraShakeComponent : MonoBehaviour
 {
