@@ -31,7 +31,7 @@ public class WorkerMonster : MonoBehaviour
     const string CRAWLFORWARD = "CrawlForward";
     const string TAUNT = "Taunt";
     const string FLYFORWARD = "FlyForward";
-    const string FLYCLAWSFORWARD = "FlyClawsForward";
+    const string FLYCLAWSATTACK = "FlyClawsAttack";
 
     // Start is called before the first frame update
     void Start()
@@ -50,9 +50,18 @@ public class WorkerMonster : MonoBehaviour
         float distanceFromPlayer = (transform.position - Player.transform.position).magnitude;
         float distanceFromBase = (MonsterBase.position - Player.transform.position).magnitude;
         float distanceFromMine = (Mine.position - Player.transform.position).magnitude;
+        print($"Player distance from mine : {distanceFromMine}");
+        print($"Player distance from base : {distanceFromBase}");
+
+        if (distanceFromMine < MineRange || distanceFromBase < MonsterBaseRange) 
+        {
+            bResourcesCompromised = true;  
+        }
+
         if (bSelfCompromised || bResourcesCompromised)
         {
-            if (bResourcesCompromised && (distanceFromBase > MonsterBaseRange || distanceFromMine > MineRange)) 
+            print("VAS2");
+            if (bResourcesCompromised && (distanceFromBase > MonsterBaseRange && distanceFromMine > MineRange)) 
             {
                 bResourcesCompromised = false;
                 return;
@@ -61,9 +70,9 @@ public class WorkerMonster : MonoBehaviour
             if (distanceFromPlayer <= AttackRange)
             {
                 //attack player
-                ChangeAnimationState(FLYCLAWSFORWARD);
+                ChangeAnimationState(FLYCLAWSATTACK);
             }
-            else if (bSelfCompromised)
+            else if (bSelfCompromised || bResourcesCompromised)
             {
                 //chase player
                 MonsterAgent.destination = Player.transform.position;
@@ -72,6 +81,7 @@ public class WorkerMonster : MonoBehaviour
         }
         else 
         {
+            print("VAS");
             if (!bHoldingResource)
             {
                 MonsterAgent.destination = Mine.position;
