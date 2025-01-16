@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(UHealthComponent))]
 [RequireComponent(typeof(UAilmentComponent))]
-public class UEnemyStatus : MonoBehaviour
+public class UEnemyStatusComponent : MonoBehaviour
 {
     [HideInInspector]
     public UHealthComponent Health;

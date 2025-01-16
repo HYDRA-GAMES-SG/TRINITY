@@ -5,7 +5,7 @@ using UnityEngine;
 public class HitBox : MonoBehaviour
 {
     public UHealthComponent Health;
-    public UEnemyStatus EnemyStatus;
+    public UEnemyStatusComponent EnemyStatus;
     public IEnemyController EnemyController;
 
     public void Start()

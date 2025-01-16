@@ -35,7 +35,7 @@ public class IceCrystal : MonoBehaviour
             //print(enemyHitbox.EnemyController.name);
 
 
-            UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
+            UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, UtilityCold.AilmentType, UtilityCold.StacksApplied);
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {UtilityCold.AilmentType} + {UtilityCold.StacksApplied}");

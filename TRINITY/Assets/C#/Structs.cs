@@ -47,7 +47,7 @@ public struct FDamageInstance
         AilmentType = ailmentType;
     }
 
-    public static UEnemyStatus operator +(UEnemyStatus enemy, FDamageInstance damageSource) 
+    public static UEnemyStatusComponent operator +(UEnemyStatusComponent enemy, FDamageInstance damageSource) 
     {
         enemy.Health.Modify(damageSource);
         enemy.Ailments.ModifyStack(damageSource.AilmentType,damageSource.StatusStacks);

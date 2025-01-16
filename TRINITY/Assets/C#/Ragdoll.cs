@@ -7,14 +7,14 @@ public class Ragdoll : MonoBehaviour
     Rigidbody[] rigBody;
     Animator animator;
     UHealthComponent Health;
-    UEnemyStatus EnemyEntity;
+    UEnemyStatusComponent EnemyEntity;
     IEnemyController Controller;
     void Start()
     {
         rigBody = GetComponentsInChildren<Rigidbody>();
         Health = GetComponentInParent<UHealthComponent>();
         animator = GetComponentInParent<Animator>();
-        EnemyEntity = GetComponentInParent<UEnemyStatus>();
+        EnemyEntity = GetComponentInParent<UEnemyStatusComponent>();
         Controller = GetComponentInParent<IEnemyController>();
 
 

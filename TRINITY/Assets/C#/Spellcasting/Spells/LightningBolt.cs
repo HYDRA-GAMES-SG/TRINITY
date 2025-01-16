@@ -56,7 +56,7 @@ public class LightningBolt : MonoBehaviour
             //print(enemyHitbox.EnemyController.name);
 
 
-            UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
+            UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, SecondaryLightning.AilmentType, SecondaryLightning.StacksApplied);
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {SecondaryLightning.AilmentType} + {SecondaryLightning.StacksApplied}");           

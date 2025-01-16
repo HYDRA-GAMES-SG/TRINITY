@@ -114,7 +114,7 @@ public class IceWave : MonoBehaviour
             Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
             
             enemyHitbox.EnemyController.TriggerGetHit();
-            UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
+            UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
             
             if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
             {

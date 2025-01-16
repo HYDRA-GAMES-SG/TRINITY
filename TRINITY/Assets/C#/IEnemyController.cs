@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(UEnemyStatus))]
+[RequireComponent(typeof(UEnemyStatusComponent))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -18,7 +18,7 @@ public class IEnemyController : MonoBehaviour
     public Animator Animator;
     
     [HideInInspector]
-    public UEnemyStatus EnemyStatus;
+    public UEnemyStatusComponent EnemyStatus;
     
     [HideInInspector]
     public NavMeshAgent AI;
@@ -35,7 +35,7 @@ public class IEnemyController : MonoBehaviour
         AI = GetComponent<NavMeshAgent>();
         RB = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
-        EnemyStatus = GetComponent<UEnemyStatus>();
+        EnemyStatus = GetComponent<UEnemyStatusComponent>();
     }
     
     public virtual void TriggerGetHit()

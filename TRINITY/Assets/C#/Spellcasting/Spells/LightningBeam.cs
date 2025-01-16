@@ -80,7 +80,7 @@ public class LightningBeam : MonoBehaviour
                 IgniteStacks += ATrinityGameManager.GetSpells().PrimaryLightning.AilmentStacksPerSecond * Time.deltaTime;
             }
 
-            UEnemyStatus enemyStatus = enemyHitbox.EnemyStatus;
+            UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
             
             if (ChargeStacks < 1 && IgniteStacks < 1)
             {
