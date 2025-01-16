@@ -54,6 +54,7 @@ public class AInvincibleBossController : IEnemyController
     {
         CheckCooldown();
         HandleChill();
+
         if (Health.Current <= 0 && !bIsDead)
         {
             bIsDead = true;
@@ -62,7 +63,7 @@ public class AInvincibleBossController : IEnemyController
     }
     private void HandleChill()
     {
-        AI.speed = AI.speed * EnemyStatus.Ailments.ChillSpeedModifier;
+        AI.speed = InitialSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
         InvincibleBossFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
     }
 

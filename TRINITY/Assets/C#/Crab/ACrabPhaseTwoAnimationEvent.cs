@@ -110,4 +110,22 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         source.outputAudioMixerGroup = AttackMixer;
         source.PlayOneShot(attackSound);
     }
+
+    public void LightCameraShake()
+    {
+        if (!ATrinityGameManager.GetPlayerController().CheckGround().transform)
+        {
+            return;  //dont send small camera shakes if the player is not on the ground
+        }
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(.3f, .3f, transform);
+        Debug.Log("SmallShake");
+    }
+    public void MediumCameraShake()
+    {
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(.6f, .5f, transform);
+    }
+    public void HeavyCameraShake() //global
+    {
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCamera(1f, 1.3f);
+    }
 }
