@@ -111,21 +111,26 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         source.PlayOneShot(attackSound);
     }
 
-    public void LightCameraShake()
+
+    public void LightCameraShake(float duration = 0.3f)
     {
         if (!ATrinityGameManager.GetPlayerController().CheckGround().transform)
         {
             return;  //dont send small camera shakes if the player is not on the ground
         }
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(.3f, .3f, transform);
-        Debug.Log("SmallShake");
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.05f, duration, transform);
+        Debug.Log("Light Shake");
     }
-    public void MediumCameraShake()
+  
+    public void MediumCameraShake(float duration = 0.5f)
     {
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(.6f, .5f, transform);
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
+        Debug.Log("Medium Shake");
     }
-    public void HeavyCameraShake() //global
+  
+    public void HeavyCameraShake(float duration= 1.3f) //global
     {
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCamera(1f, 1.3f);
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCamera(1f, duration);
+        Debug.Log("Heavy Shake");
     }
 }
