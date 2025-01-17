@@ -26,8 +26,8 @@ public class IceWave : MonoBehaviour
     private Vector3 Direction;
     private Vector3 DesiredVelocity;
     private Quaternion BaseRotation;
-    
-    
+
+    private int BounceLimit = 4;
 
     void Start()
     {
@@ -69,6 +69,11 @@ public class IceWave : MonoBehaviour
 
     void Update()
     {
+        // if (BounceLimit <= 0)
+        // {
+        //     SpawnExplosion();
+        // }
+        
         Duration -= Time.deltaTime;
         
         transform.rotation = Quaternion.LookRotation(Rigidbody.velocity, Vector3.up) * BaseRotation;
@@ -135,15 +140,15 @@ public class IceWave : MonoBehaviour
             // we cast a variety of rays and take the average normal for purposes of projectile reflection
             Vector3 averageNormal = Vector3.zero;
             int hitCount = 0;
-            float radius = 0.3f;
+            float radius = 1f;
         
             for (int i = 0; i < 8; i++) // Cast 8 rays in a circle
             {
                 float angle = i * Mathf.PI * 2f / 8;
                 Vector3 offset = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
-                Ray ray = new Ray(contactPoint + offset + Vector3.up, Vector3.down);
+                Ray ray = new Ray(contactPoint + offset + transform.forward, -transform.forward);
             
-                if (Physics.Raycast(ray, out RaycastHit hit, 2f))
+                if (Physics.Raycast(ray, out RaycastHit hit, 3f))
                 {
                     averageNormal += hit.normal;
                     hitCount++;
@@ -156,6 +161,8 @@ public class IceWave : MonoBehaviour
                 averageNormal.Normalize();
                 DesiredVelocity -= Vector3.Project(DesiredVelocity, averageNormal) * 2f;
             }
+
+            BounceLimit--;
             return;
         }
     }
