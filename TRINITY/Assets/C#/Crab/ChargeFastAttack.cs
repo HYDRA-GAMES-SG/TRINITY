@@ -27,6 +27,8 @@ public class ChargeFastAttack : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        CrabFSM.CrabController.bCanChill = false;
+
         CrabFSM.CrabController.AI.enabled = false;
         bIsCharging = true;
         StateTimer = 0f;
@@ -89,6 +91,8 @@ public class ChargeFastAttack : CrabState
         CrabFSM.CrabController.AI.enabled = true;
         CapCollider.enabled = false;
         CrabFSM.CrabController.CanCharageMoveFast = false;
+        CrabFSM.CrabController.bCanChill = true;
+
     }
 
     public override bool CheckExitTransition(IState toState)

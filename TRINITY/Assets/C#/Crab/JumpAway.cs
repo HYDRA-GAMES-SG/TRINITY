@@ -30,6 +30,8 @@ public class JumpAway : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        CrabFSM.CrabController.bCanChill = false;
+
         CrabAI = CrabFSM.CrabController.AI;
         if (jumpCoroutine != null)
         {
@@ -62,6 +64,8 @@ public class JumpAway : CrabState
         CrabFSM.Animator.applyRootMotion = false;
         CrabFSM.CrabController.AI.enabled = true;
         RigBody.isKinematic = true;
+        CrabFSM.CrabController.bCanChill = true;
+
     }
     public override bool CheckExitTransition(IState toState)
     {

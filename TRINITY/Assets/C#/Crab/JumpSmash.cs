@@ -14,6 +14,7 @@ public class JumpSmash : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        CrabFSM.CrabController.bCanChill = false;
         CrabFSM.CrabController.AI.enabled = false;
         CrabFSM.Animator.applyRootMotion = true;
     }
@@ -47,6 +48,7 @@ public class JumpSmash : CrabState
         CrabFSM.Animator.applyRootMotion = false;
         CrabFSM.CrabController.AI.enabled = true;
         CrabFSM.CrabController.CanJumpSmash = false;
+        CrabFSM.CrabController.bCanChill = true;
 
     }
 

@@ -37,7 +37,8 @@ public class ACrabController : IEnemyController
     [HideInInspector] public bool CanGetHit = false;
 
 
-    [HideInInspector] public bool bElementPhase = false;
+    /*[HideInInspector] */public bool bElementPhase = false;
+    [HideInInspector] public bool bCanChill = true;
 
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
@@ -52,12 +53,13 @@ public class ACrabController : IEnemyController
         AI.speed = NavSpeed;
 
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        material=skinnedMeshRenderer.material;
+        material = skinnedMeshRenderer.material;
 
         EnemyStatus.Health.OnDamageTaken += StartBlinking;
     }
     void Update()
     {
+        //Debug.Log(Animator.speed);
         CheckCooldown();
 
         HandleChill();
@@ -75,8 +77,15 @@ public class ACrabController : IEnemyController
 
     private void HandleChill()
     {
-        AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
-        CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
+        if (bCanChill)
+        {
+            AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
+            CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;
+        }
+        else
+        {
+            CrabFSM.Animator.speed = 1;
+        }
     }
 
     public override float GetParticleAttack()
@@ -219,15 +228,14 @@ public class ACrabController : IEnemyController
     }
     public void StartBlinking(float damageAmount)
     {
-        blinkTimer = blinkDuration; // Reset the blink timer
-        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime); // Call HandleBlink repeatedly
+        blinkTimer = blinkDuration;
+        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime);
     }
 
     private void StopBlinking()
     {
         CancelInvoke(nameof(HandleBlink)); // Stop the blinking effect
 
-        // Reset emission color to default (no emission)
         if (material != null)
         {
             material.SetColor("_EmissionColor", Color.black);
@@ -238,23 +246,21 @@ public class ACrabController : IEnemyController
     {
         if (blinkTimer <= 0f)
         {
-            StopBlinking(); // Stop when the timer runs out
+            StopBlinking();
             return;
         }
 
         blinkTimer -= Time.deltaTime;
 
-        // Calculate emission intensity
         float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
         float intensity = lerp * blinkIntensity;
 
-        // Apply the emission color (use white or a desired color multiplied by intensity)
+
         if (material != null)
         {
-            Color emissionColor = Color.white * intensity; // Change Color.white to any desired color
+            Color emissionColor = Color.white * intensity;
             material.SetColor("_EmissionColor", emissionColor);
 
-            // Enable emission in the material
             DynamicGI.SetEmissive(skinnedMeshRenderer, emissionColor);
         }
     }

@@ -13,6 +13,8 @@ public class RoarIceSpray : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        CrabFSM.CrabController.bCanChill = false;
+
         CrabFSM.CrabController.AI.ResetPath();
         CrabFSM.Animator.SetBool("Roar1", true);
 
@@ -25,6 +27,7 @@ public class RoarIceSpray : CrabState
         {
             iceSpray.Play();
         }
+       
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -34,6 +37,8 @@ public class RoarIceSpray : CrabState
 
     public override void UpdateBehaviour(float dt)
     {
+        CrabFSM.Animator.speed = 1;
+
         Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
         CrabFSM.CrabController.RotateTowardTarget(faceDirection, RotateSpeed);
 
@@ -54,6 +59,8 @@ public class RoarIceSpray : CrabState
     {
         CrabFSM.CrabController.CanRoarStun = false;
         iceSpray.Stop();
+        CrabFSM.CrabController.bCanChill = true;
+
     }
 
     public override bool CheckExitTransition(IState toState)
