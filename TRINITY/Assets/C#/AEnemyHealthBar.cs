@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,6 +7,13 @@ using UnityEngine.UI;
 
 public class AEnemyHealthBar : MonoBehaviour
 {
+    public TextMeshProUGUI ChillText;
+    public TextMeshProUGUI ChargeText;
+    public TextMeshProUGUI IgniteText;
+    public GameObject ChillImage;
+    public GameObject ChargeImage;
+    public GameObject IgniteImage;
+    
     public TextMeshProUGUI DamageText;
     public IEnemyController EnemyController;
     public TextMeshProUGUI EnemyName;
@@ -24,7 +32,50 @@ public class AEnemyHealthBar : MonoBehaviour
         EnemyController.EnemyStatus.Health.OnHealthModified += UpdateEnemyHealthBar;
         EnemyController.EnemyStatus.Health.OnDamageTaken += UpdateDamageText;
         EnemyController.EnemyStatus.Health.OnDeath  += OnEnemyDeath;
+        EnemyController.EnemyStatus.Ailments.OnChargeModified += UpdateChargeStacks;
+        EnemyController.EnemyStatus.Ailments.OnChillModified += UpdateChillStacks;
+        EnemyController.EnemyStatus.Ailments.OnIgniteModified += UpdateIgniteStacks;
         DamageText.text = "";
+    }
+
+    private void UpdateChillStacks(UAilmentComponent ailmentComponent)
+    {
+        if (ailmentComponent.AilmentKeys[EAilmentType.EAT_Chill].Stacks > 0)
+        {
+            ChillText.text = ailmentComponent.AilmentKeys[EAilmentType.EAT_Chill].Stacks.ToString();
+            ChillImage.SetActive(true);
+        }
+        else
+        {
+            ChillText.text = "";
+            ChillImage.SetActive(false);
+        }
+    }
+    private void UpdateChargeStacks(UAilmentComponent ailmentComponent)
+    {
+        if (ailmentComponent.AilmentKeys[EAilmentType.EAT_Charge].Stacks > 0)
+        {
+            ChargeText.text = ailmentComponent.AilmentKeys[EAilmentType.EAT_Charge].Stacks.ToString();
+            ChargeImage.SetActive(true);
+        }
+        else
+        {
+            ChargeText.text = "";
+            ChargeImage.SetActive(false);
+        }
+    }
+    private void UpdateIgniteStacks(UAilmentComponent ailmentComponent)
+    {
+        if (ailmentComponent.AilmentKeys[EAilmentType.EAT_Ignite].Stacks > 0)
+        {
+            IgniteText.text = ailmentComponent.AilmentKeys[EAilmentType.EAT_Ignite].Stacks.ToString();
+            IgniteImage.SetActive(true);
+        }
+        else
+        {
+            IgniteText.text = "";
+            IgniteImage.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -37,6 +88,7 @@ public class AEnemyHealthBar : MonoBehaviour
        {
            DamageText.text = "";
        }
+
     }
 
     private void UpdateDamageText(float damageTaken)
@@ -71,6 +123,10 @@ public class AEnemyHealthBar : MonoBehaviour
         gameObject.SetActive(false);
         EnemyController.EnemyStatus.Health.OnHealthModified -= UpdateEnemyHealthBar;
         EnemyController.EnemyStatus.Health.OnDeath  -= OnEnemyDeath;
+        EnemyController.EnemyStatus.Health.OnDamageTaken -= UpdateDamageText;
+        EnemyController.EnemyStatus.Ailments.OnChargeModified -= UpdateChargeStacks;
+        EnemyController.EnemyStatus.Ailments.OnChillModified -= UpdateChillStacks;
+        EnemyController.EnemyStatus.Ailments.OnIgniteModified -= UpdateIgniteStacks;
         
         Destroy(this);
     }
