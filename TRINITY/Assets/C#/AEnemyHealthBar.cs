@@ -15,16 +15,27 @@ public class AEnemyHealthBar : MonoBehaviour
     public GameObject IgniteImage;
     
     public TextMeshProUGUI DamageText;
-    public IEnemyController EnemyController;
     public TextMeshProUGUI EnemyName;
-    public Slider HealthBar;    
-    public Slider DamageBar;
+    public Image HealthBar;    
+    public Image DamageBar;
 
-    public float HealthTarget;
 
     public float DamageTextUpdateFrequency = 1f;
 
     private float DamageTextUpdateTimer = 1f;
+
+    private float HealthTarget;
+    private IEnemyController EnemyController;
+
+    public float GetHealthTarget()
+    {
+        return HealthTarget;
+    }
+    
+    public void SetEnemyController(IEnemyController enemyController)
+    {
+        EnemyController = enemyController;
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -39,6 +50,9 @@ public class AEnemyHealthBar : MonoBehaviour
         UpdateChillStacks(EnemyController.EnemyStatus.Ailments);
         UpdateIgniteStacks(EnemyController.EnemyStatus.Ailments);
         UpdateChargeStacks(EnemyController.EnemyStatus.Ailments);
+        HealthTarget = 1f;
+        DamageBar.fillAmount = 1f;
+        HealthBar.fillAmount = 1f;
     }
 
     private void UpdateChillStacks(UAilmentComponent ailmentComponent)
@@ -84,7 +98,7 @@ public class AEnemyHealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       DamageBar.value = Mathf.Lerp(DamageBar.value, HealthTarget, Time.deltaTime);
+       DamageBar.fillAmount = Mathf.Lerp(DamageBar.fillAmount, HealthTarget, Time.deltaTime);
        DamageTextUpdateTimer -= Time.deltaTime;
        
        if (DamageTextUpdateTimer <= 0f && DamageText.text != "")
@@ -115,14 +129,14 @@ public class AEnemyHealthBar : MonoBehaviour
     
     private void UpdateEnemyHealthBar(float healthPercent)
     {
-        HealthTarget = HealthBar.value;
-        HealthBar.value = healthPercent;
+        HealthTarget = HealthBar.fillAmount;
+        HealthBar.fillAmount = healthPercent;
     }
 
     private void OnEnemyDeath()
     {
-        HealthBar.value = 0f;
-        DamageBar.value = 0f;
+        HealthBar.fillAmount = 0f;
+        DamageBar.fillAmount = 0f;
         gameObject.SetActive(false);
         EnemyController.EnemyStatus.Health.OnHealthModified -= UpdateEnemyHealthBar;
         EnemyController.EnemyStatus.Health.OnDeath  -= OnEnemyDeath;

@@ -131,12 +131,9 @@ public class AGUI : MonoBehaviour
 
             AEnemyHealthBar ehb = go.GetComponent<AEnemyHealthBar>();
 
-            ehb.EnemyController = ATrinityGameManager.GetEnemyControllers()[i];
+            ehb.SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
             ehb.EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
             ehb.GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, i * -40, 0f);
-            ehb.DamageBar.value = 100f;
-            ehb.HealthBar.value = 100f;
-            ehb.HealthTarget = 100f;
             ehb.gameObject.SetActive(true);
         }
     }

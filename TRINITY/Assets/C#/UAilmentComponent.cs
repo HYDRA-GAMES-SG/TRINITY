@@ -95,6 +95,19 @@ public class UAilmentComponent : MonoBehaviour
                 {
                     ailment.Stacks = 0;
                     ailment.Timer = 0f;
+                    
+                    switch (ailmentType)
+                    {
+                        case EAilmentType.EAT_Chill:
+                            OnChillModified?.Invoke(this);
+                            break;
+                        case EAilmentType.EAT_Ignite:
+                            OnIgniteModified?.Invoke(this);
+                            break;
+                        case EAilmentType.EAT_Charge:
+                            OnChargeModified?.Invoke(this);
+                            break;
+                    }
                 }
             }
         }
