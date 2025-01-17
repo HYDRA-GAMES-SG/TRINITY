@@ -42,11 +42,20 @@ public class ACrabController : IEnemyController
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
 
+    [SerializeField] float blinkTimer;
+    [SerializeField] float blinkDuration = 1.0f;
+    [SerializeField] float blinkIntensity = 2.0f;
+    SkinnedMeshRenderer skinnedMeshRenderer;
+    Material material;
     private void Start()
     {
         AI.speed = NavSpeed;
-    }
 
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        material=skinnedMeshRenderer.material;
+
+        EnemyStatus.Health.OnDamageTaken += StartBlinking;
+    }
     void Update()
     {
         CheckCooldown();
@@ -207,5 +216,46 @@ public class ACrabController : IEnemyController
 
         float distanceToTarget = Vector3.Distance(PlayerPos, IBPos);
         return distanceToTarget;
+    }
+    public void StartBlinking(float damageAmount)
+    {
+        blinkTimer = blinkDuration; // Reset the blink timer
+        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime); // Call HandleBlink repeatedly
+    }
+
+    private void StopBlinking()
+    {
+        CancelInvoke(nameof(HandleBlink)); // Stop the blinking effect
+
+        // Reset emission color to default (no emission)
+        if (material != null)
+        {
+            material.SetColor("_EmissionColor", Color.black);
+        }
+    }
+
+    private void HandleBlink()
+    {
+        if (blinkTimer <= 0f)
+        {
+            StopBlinking(); // Stop when the timer runs out
+            return;
+        }
+
+        blinkTimer -= Time.deltaTime;
+
+        // Calculate emission intensity
+        float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
+        float intensity = lerp * blinkIntensity;
+
+        // Apply the emission color (use white or a desired color multiplied by intensity)
+        if (material != null)
+        {
+            Color emissionColor = Color.white * intensity; // Change Color.white to any desired color
+            material.SetColor("_EmissionColor", emissionColor);
+
+            // Enable emission in the material
+            DynamicGI.SetEmissive(skinnedMeshRenderer, emissionColor);
+        }
     }
 }
