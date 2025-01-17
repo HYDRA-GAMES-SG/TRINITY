@@ -133,7 +133,7 @@ public class AGUI : MonoBehaviour
 
             ehb.EnemyController = ATrinityGameManager.GetEnemyControllers()[i];
             ehb.EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
-            ehb.transform.position = new Vector3(0f, i * -90, 0f);
+            ehb.GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, i * -40, 0f);
             ehb.DamageBar.value = 100f;
             ehb.HealthBar.value = 100f;
             ehb.HealthTarget = 100f;

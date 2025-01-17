@@ -36,6 +36,9 @@ public class AEnemyHealthBar : MonoBehaviour
         EnemyController.EnemyStatus.Ailments.OnChillModified += UpdateChillStacks;
         EnemyController.EnemyStatus.Ailments.OnIgniteModified += UpdateIgniteStacks;
         DamageText.text = "";
+        UpdateChillStacks(EnemyController.EnemyStatus.Ailments);
+        UpdateIgniteStacks(EnemyController.EnemyStatus.Ailments);
+        UpdateChargeStacks(EnemyController.EnemyStatus.Ailments);
     }
 
     private void UpdateChillStacks(UAilmentComponent ailmentComponent)
