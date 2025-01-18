@@ -119,18 +119,15 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
             return;  //dont send small camera shakes if the player is not on the ground
         }
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.05f, duration, transform);
-        Debug.Log("Light Shake");
     }
   
     public void MediumCameraShake(float duration = 0.5f)
     {
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
-        Debug.Log("Medium Shake");
     }
   
     public void HeavyCameraShake(float duration= 1.3f) //global
     {
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCamera(1f, duration);
-        Debug.Log("Heavy Shake");
     }
 }

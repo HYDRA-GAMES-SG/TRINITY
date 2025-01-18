@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IBDizzy : InvincibleBossState
 {
+    [SerializeField] ParticleSystem LightningEffect;
+
     [SerializeField] float DizzyTime;
     float Timer = 0f;
 
@@ -20,6 +22,7 @@ public class IBDizzy : InvincibleBossState
         Heath = InvincibleBossFSM.InvincibleBossController.Health;
 
         InvincibleBossFSM.InvincibleBossController.AI.ResetPath();
+        LightningEffect.Stop();
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -46,6 +49,7 @@ public class IBDizzy : InvincibleBossState
         Heath.Current = Heath.MAX;
         Heath.bDead = false;
         InvincibleBossFSM.InvincibleBossController.bIsDead = false;
+        LightningEffect.Play();
 
     }
 

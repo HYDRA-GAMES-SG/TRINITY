@@ -16,6 +16,7 @@ public class Orb : MonoBehaviour
     private void Start()
     {
         StartCoroutine(ScaleOverTime(targetSize, duration));
+        MediumCameraShake(duration);
     }
 
     public IEnumerator ScaleOverTime(float target, float time)
@@ -67,4 +68,9 @@ public class Orb : MonoBehaviour
         IBController = controller;
         Damage = controller.GetCurrentAttackDamage();
     }
+    public void MediumCameraShake(float duration = 0.5f)
+    {
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.3f, duration, transform);
+    }
+
 }

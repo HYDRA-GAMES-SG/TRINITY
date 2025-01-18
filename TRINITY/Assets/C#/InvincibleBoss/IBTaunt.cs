@@ -10,7 +10,11 @@ public class IBTaunt : InvincibleBossState
 
     [SerializeField] ParticleSystem TauntParticle;
     [SerializeField] Collider TauntCollider;
-
+    [SerializeField] float OnTauntParticleDelay;
+    [SerializeField] float OnTauntParticleDuration;
+    float DelayTimer;
+    float DurationTimer;
+    bool bOnTaunt = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return InvincibleBossFSM.InvincibleBossController.bCanTaunt && fromState is IBPursue;
@@ -18,10 +22,12 @@ public class IBTaunt : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        bOnTaunt = false;
+        DelayTimer = 0;
+        DurationTimer = 0;
+
         InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKey);
 
-        TauntParticle.Play();
-        TauntCollider.enabled = true;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -37,13 +43,28 @@ public class IBTaunt : InvincibleBossState
         int layerIndex = InvincibleBossFSM.InvincibleBossController.Animator.GetLayerIndex(layerName);
         AnimatorStateInfo stateInfo = InvincibleBossFSM.InvincibleBossController.Animator.GetCurrentAnimatorStateInfo(layerIndex);
 
+        DelayTimer += Time.fixedDeltaTime;
+        if (DelayTimer >= OnTauntParticleDelay && !bOnTaunt)
+        {
+            bOnTaunt = true;
+            TauntParticle.Play();
+            TauntCollider.enabled = true;
+            MediumCameraShake(OnTauntParticleDuration);
+        }
+        if (bOnTaunt)
+        {
+            DurationTimer += Time.fixedDeltaTime;
+            if (DurationTimer >= OnTauntParticleDuration)
+            {
+                InvincibleBossFSM.EnqueueTransition<IBPursue>();
+            }
+        }
         if (InvincibleBossFSM.InvincibleBossController.CalculateGroundDistance() <= InvincibleBossFSM.InvincibleBossController.CloseAttack)
         {
             InvincibleBossFSM.EnqueueTransition<IBHandAttack>();
         }
         else if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
         {
-            InvincibleBossFSM.EnqueueTransition<IBPursue>();
         }
 
     }
@@ -61,5 +82,9 @@ public class IBTaunt : InvincibleBossState
     public override bool CheckExitTransition(IState toState)
     {
         return true;
+    }
+    public void MediumCameraShake(float duration = 0.5f)
+    {
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
     }
 }
