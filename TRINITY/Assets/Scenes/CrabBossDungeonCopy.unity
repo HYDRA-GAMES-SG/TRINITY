@@ -9091,6 +9091,9 @@ MonoBehaviour:
   OrbExplosionDMG: 35
   Health: {fileID: 0}
   bIsDead: 0
+  blinkTimer: 0
+  blinkDuration: 1
+  blinkIntensity: 2
 --- !u!114 &1530166236
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13586,6 +13589,77 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: Range
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: Duration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: ManaCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: MaxScale
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: MinScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: SpellAction
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: SpellPrefab
+      value: 
+      objectReference: {fileID: 3700622013099532468, guid: 3e792a7811dbde347b3f3f6808ff2e6f,
+        type: 3}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: ManaUpkeepCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: MaxChannelTime
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: GroundLayer.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: InitialChillStacks
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: ChillStacksPerSecond
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570083600932332481, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: IceCreationPercentThreshold
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3343403444346800088, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: m_Name
+      value: IceCube
+      objectReference: {fileID: 0}
     - target: {fileID: 5356537904899141138, guid: 60b124caf32955048a64c10532b1f32f,
         type: 3}
       propertyPath: m_Name

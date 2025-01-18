@@ -133,7 +133,9 @@ public class IceWave : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Default") || collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Default") 
+            || collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") 
+            || collision.gameObject.layer == LayerMask.NameToLayer("IceCube"))
         {
             Vector3 contactPoint = collision.GetContact(0).point;
             
