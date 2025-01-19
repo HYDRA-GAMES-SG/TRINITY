@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class IcePhaseRoar : CrabState
 {
+    [SerializeField] ParticleSystem FrostEffect;
     public override bool CheckEnterTransition(IState fromState)
     {
         return fromState is Pursue || fromState is NormalAttack || fromState is GetHit;
@@ -16,6 +17,7 @@ public class IcePhaseRoar : CrabState
 
         CrabFSM.CrabController.bElementPhase = true;
         CrabFSM.CrabController.AI.ResetPath();
+        FrostEffect.Play();
     }
 
     public override void PreUpdateBehaviour(float dt)

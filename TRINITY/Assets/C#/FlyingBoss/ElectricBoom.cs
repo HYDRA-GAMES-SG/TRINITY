@@ -33,6 +33,7 @@ public class ElectricBoom : MonoBehaviour
         {
             bThunder = true;
             Thunder.gameObject.SetActive(true);
+            Controller.LightCameraShake(0.2f);
         }
         if (bThunder)
         {
@@ -41,14 +42,15 @@ public class ElectricBoom : MonoBehaviour
             {
                 bThunderExplosion = true;
                 ThunderExplosion.gameObject.SetActive(true);
+                Controller.LightCameraShake(0.2f);
             }
         }
     }
 
-    public void GetControllerDamage(IEnemyController controller,float damage)
+    public void GetControllerDamage(IEnemyController controller, float damage)
     {
         Controller = controller;
         Damage = damage;
     }
-    
+
 }

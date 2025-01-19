@@ -3559,7 +3559,11 @@ MonoBehaviour:
   CanCharageMoveFast: 0
   CanGetHit: 0
   bElementPhase: 0
+  bCanChill: 1
   RootMotionNotEnterDistance: 8
+  blinkTimer: 0
+  blinkDuration: 1
+  blinkIntensity: 2
 --- !u!114 &1727026065975959313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3572,9 +3576,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d871bb7c46b1d74f80abcf47d1ba0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX: 50
-  Regen: 5
-  Current: 0
+  MAX: 15000
+  Regen: 0
+  Current: 15000
   bDead: 0
 --- !u!114 &1422212878879520057
 MonoBehaviour:
@@ -4624,6 +4628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 86adf29bb173ffd4ea066b597ef138b1, type: 2}
   RotateSpeed: 3
+  FrostEffect: {fileID: 996146502139608770}
 --- !u!1 &8076962933247045074
 GameObject:
   m_ObjectHideFlags: 0
@@ -4950,6 +4955,7 @@ Transform:
   m_Children:
   - {fileID: 3765410599053852209}
   - {fileID: 4013008775068282575}
+  - {fileID: 996146502139608768}
   m_Father: {fileID: 9144458036026273463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6630742639147448095
@@ -5453,3 +5459,228 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3515266342212385134}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1229174785545811907
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1248656005762323920}
+    m_Modifications:
+    - target: {fileID: 2080067105553586679, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067105553586679, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067105553586679, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: SizeModule.curve.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067105553586679, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067105553586679, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.m_SkinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067106127327306, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106127327306, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106127327306, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: SizeModule.curve.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106127327306, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106127327306, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.m_SkinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067106411756277, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106411756277, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106411756277, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: SizeModule.curve.scalar
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106411756277, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106411756277, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.m_SkinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067106486110465, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110465, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110465, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: SizeModule.curve.scalar
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110465, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110465, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.m_SkinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110468, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_Name
+      value: MeshFX_Frost
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106900056682, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106900056682, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106900056682, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: SizeModule.curve.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106900056682, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2080067106900056682, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.m_SkinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 6868883316193393093, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868883316193393093, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.type
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868883316193393093, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: SizeModule.curve.scalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868883316193393093, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6868883316193393093, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: ShapeModule.m_SkinnedMeshRenderer
+      value: 
+      objectReference: {fileID: 1780199293464288330}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ee2150003cc5bc146b7591e1727fe79c, type: 3}
+--- !u!4 &996146502139608768 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2080067106486110467, guid: ee2150003cc5bc146b7591e1727fe79c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1229174785545811907}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &996146502139608770 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2080067106486110465, guid: ee2150003cc5bc146b7591e1727fe79c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1229174785545811907}
+  m_PrefabAsset: {fileID: 0}

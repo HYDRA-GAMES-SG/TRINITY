@@ -25,7 +25,7 @@ public class OrbExplosion : MonoBehaviour
         if (timer >= delay - 0.5f && !hasShake)
         {
             hasShake = true;
-            Controller.MediumCameraShake();
+            Controller.MediumCameraShake(.5f);
         }
     }
     private void OnParticleCollision(GameObject other)

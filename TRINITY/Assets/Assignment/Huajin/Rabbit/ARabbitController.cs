@@ -15,7 +15,10 @@ namespace Huajin
 
         void Update()
         {
-            //Debug.Log(CalculateDistance());
+            if (EnemyStatus.Health.Current <= 0f)
+            {
+                RabbitFSM.EnqueueTransition<RabbitDead>();
+            }
         }
 
         public float CalculateDistance()

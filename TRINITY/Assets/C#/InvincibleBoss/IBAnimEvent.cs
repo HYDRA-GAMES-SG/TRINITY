@@ -11,7 +11,6 @@ public class IBAnimEvent : MonoBehaviour
     public Transform LeftFoot;
     public Transform RightFoot;
     public Transform Bottom;
-    public Transform MouthPos;
 
     AInvincibleBossController Controller;
     private void Start()

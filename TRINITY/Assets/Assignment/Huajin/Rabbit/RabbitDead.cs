@@ -37,7 +37,7 @@ namespace Huajin
         }
         public override bool CheckExitTransition(IState fromState)
         {
-            return true;
+            return false;
         }
     }
 

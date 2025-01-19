@@ -2045,6 +2045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
+  LightningEffect: {fileID: 2518858920553660347}
   DizzyTime: 10
 --- !u!1 &4232199503636760189
 GameObject:
@@ -3564,9 +3565,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d871bb7c46b1d74f80abcf47d1ba0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX: 100
+  MAX: 5000
   Regen: 0
-  Current: 0
+  Current: 5000
   bDead: 0
 --- !u!114 &4877522077660684301
 MonoBehaviour:
@@ -4592,6 +4593,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ec5a9c44b10d29343a873599d06ad4e0, type: 3}
+--- !u!198 &2518858920553660347 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3727449396898214802, guid: ec5a9c44b10d29343a873599d06ad4e0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1247012959388961833}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8070962665956480203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7011988507815483618, guid: ec5a9c44b10d29343a873599d06ad4e0,
