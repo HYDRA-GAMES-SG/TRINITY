@@ -25,7 +25,7 @@ public class OrbExplosion : MonoBehaviour
         if (timer >= delay - 0.5f && !hasShake)
         {
             hasShake = true;
-            MediumCameraShake();
+            Controller.MediumCameraShake();
         }
     }
     private void OnParticleCollision(GameObject other)
@@ -51,10 +51,5 @@ public class OrbExplosion : MonoBehaviour
     public void SetController(AInvincibleBossController enemyController)
     {
         Controller = enemyController;
-    }
-
-    public void MediumCameraShake(float duration = 0.5f)
-    {
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
     }
 }

@@ -42,6 +42,12 @@ public class ATrinityGameManager : MonoBehaviour
         
         EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
     }
+
+    private void TriggerBulletTime()
+    {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {

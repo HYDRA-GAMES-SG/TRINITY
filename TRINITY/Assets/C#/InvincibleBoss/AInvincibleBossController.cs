@@ -38,8 +38,6 @@ public class AInvincibleBossController : IEnemyController
     public float OrbExplosionDMG;
 
     [HideInInspector]
-    public UHealthComponent Health;
-    [HideInInspector]
     public bool bIsDead = false;
 
     [SerializeField] float blinkTimer;
@@ -50,7 +48,6 @@ public class AInvincibleBossController : IEnemyController
 
     void Start()
     {
-        Health = GetComponent<UHealthComponent>();
         AI.stoppingDistance = CloseAttack;
         InitialSpeed = AI.speed;
 
@@ -62,6 +59,7 @@ public class AInvincibleBossController : IEnemyController
         {
             materials[i] = skinnedMeshRenderer[i].material;
         }
+        
         EnemyStatus.Health.OnDamageTaken += StartBlinking;
     }
 
@@ -71,7 +69,7 @@ public class AInvincibleBossController : IEnemyController
         CheckCooldown();
         HandleChill();
 
-        if (Health.Current <= 0 && !bIsDead)
+        if (EnemyStatus.Health.Current <= 0 && !bIsDead)
         {
             bIsDead = true;
             InvincibleBossFSM.EnqueueTransition<IBDizzy>();

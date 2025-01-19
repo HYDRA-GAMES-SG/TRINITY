@@ -8447,6 +8447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
+  LightningEffect: {fileID: 0}
   DizzyTime: 20
 --- !u!114 &1427429673
 MonoBehaviour:
@@ -8464,6 +8465,8 @@ MonoBehaviour:
   AnimKey: Taunt
   TauntParticle: {fileID: 222682666}
   TauntCollider: {fileID: 222682667}
+  OnTauntParticleDelay: 0
+  OnTauntParticleDuration: 0
 --- !u!114 &1427429674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9089,7 +9092,6 @@ MonoBehaviour:
   ShotShockDMG: 25
   ThrowOrbDMG: 30
   OrbExplosionDMG: 35
-  Health: {fileID: 0}
   bIsDead: 0
   blinkTimer: 0
   blinkDuration: 1
@@ -13664,6 +13666,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TRINITY
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105337564074184607, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: BulletTimeScale
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105337564074184607, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: BulletTimeDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105337564074184607, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: BulletTimeDuration
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 7234860868322912901, guid: 60b124caf32955048a64c10532b1f32f,
         type: 3}

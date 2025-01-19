@@ -36,22 +36,4 @@ public class IBAnimEvent : MonoBehaviour
     {
         Instantiate(TauntEffect, Bottom.position, Bottom.rotation);
     }
-    public void LightCameraShake(float duration = 0.3f)
-    {
-        if (!ATrinityGameManager.GetPlayerController().CheckGround().transform)
-        {
-            return;  //dont send small camera shakes if the player is not on the ground
-        }
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.05f, duration, transform);
-    }
-
-    public void MediumCameraShake(float duration = 0.5f)
-    {
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
-    }
-
-    public void HeavyCameraShake(float duration = 1.3f) //global
-    {
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCamera(1f, duration);
-    }
 }

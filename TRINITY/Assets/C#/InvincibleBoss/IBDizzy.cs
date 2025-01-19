@@ -11,15 +11,16 @@ public class IBDizzy : InvincibleBossState
 
     AInvincibleBossController IBController;
     UHealthComponent Heath;
+    
     public override bool CheckEnterTransition(IState fromState)
     {
-        return InvincibleBossFSM.InvincibleBossController.Health.Current <= 0;
+        return InvincibleBossFSM.InvincibleBossController.EnemyStatus.Health.Current <= 0;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
         IBController = InvincibleBossFSM.InvincibleBossController;
-        Heath = InvincibleBossFSM.InvincibleBossController.Health;
+        Heath = InvincibleBossFSM.InvincibleBossController.EnemyStatus.Health;
 
         InvincibleBossFSM.InvincibleBossController.AI.ResetPath();
         LightningEffect.Stop();

@@ -102,6 +102,11 @@ public class UCameraShakeComponent : MonoBehaviour
 
     public void ShakeCameraFrom(float normalizedIntensity, float duration, Transform origin)
     {
+        if (origin == null)
+        {
+            return;
+        }
+        
         float distance = Vector3.Distance(ATrinityGameManager.GetPlayerController().Position, origin.position);
         
         //desmos graph

@@ -49,7 +49,7 @@ public class IBTaunt : InvincibleBossState
             bOnTaunt = true;
             TauntParticle.Play();
             TauntCollider.enabled = true;
-            MediumCameraShake(OnTauntParticleDuration);
+            InvincibleBossFSM.InvincibleBossController.MediumCameraShake();
         }
         if (bOnTaunt)
         {
@@ -82,9 +82,5 @@ public class IBTaunt : InvincibleBossState
     public override bool CheckExitTransition(IState toState)
     {
         return true;
-    }
-    public void MediumCameraShake(float duration = 0.5f)
-    {
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using ThirdPersonCamera;
 using UnityEngine;
 
@@ -13,10 +14,17 @@ public class ATrinityCamera : MonoBehaviour
 
     private float OriginalCameraDistance; // To store the original value of ReleaseDistance
     private float CurrentLerpTime;         // To track lerp progress
-    private bool bBlinkLerp;               // To track if a blink event is active
+    private bool bBlinkLerp;// To track if a blink event is active
+    private bool bBulletTimeLerp; //to track if a bullet time event is active
 
+    public float BulletTimeDuration = .3f;
+    public float BulletTimeDistance = 5f;
+    public float BulletTimeScale = .5f;
+    
     void Start()
     {
+        CameraShakeComponent = LookAtObject.GetComponent<UCameraShakeComponent>();
+        
         ATrinityGameManager.SetCamera(this);
         
         Cursor.visible = false;
@@ -28,7 +36,58 @@ public class ATrinityCamera : MonoBehaviour
             OriginalCameraDistance = OverTheShoulderCameraComponent.ReleaseDistance;
         }
 
+        foreach(IEnemyController enemyController in ATrinityGameManager.GetEnemyControllers())
+        {
+            enemyController.OnBulletTime += HandleBulletTime;
+        }
+        
         ABlink.BlinkCamera += HandleBlink;
+    }
+
+    private void HandleBulletTime()
+    {
+        if (Time.timeScale != 1.0f || bBulletTimeLerp)
+        {
+            return;
+        }
+        
+        bBulletTimeLerp = true;
+        // Start coroutine to return to normal time
+        StartCoroutine(BulletTimeLerpRoutine());
+    }
+
+    private IEnumerator BulletTimeLerpRoutine()
+    {
+        // First lerp down to slow motion
+        float startTimeScale = Time.timeScale;
+        float originalFixedDeltaTime = Time.fixedDeltaTime;
+
+        float elapsedTime = 0f;
+    
+        while (elapsedTime < BulletTimeDuration)
+        {
+            elapsedTime += Time.unscaledDeltaTime; // Use unscaledDeltaTime since we're modifying time scale
+            float t = elapsedTime / BulletTimeDuration;
+        
+            Time.timeScale = Mathf.Lerp(startTimeScale, BulletTimeScale, t);
+            Time.fixedDeltaTime = originalFixedDeltaTime * Time.timeScale;
+            yield return null;
+        }
+    
+        // Then lerp back to normal speed
+        elapsedTime = 0f;
+        while (elapsedTime < BulletTimeDuration)
+        {
+            elapsedTime += Time.unscaledDeltaTime;
+            float t = elapsedTime / BulletTimeDuration;
+        
+            Time.timeScale = Mathf.Lerp(BulletTimeScale, 1f, t);
+            yield return null;
+        }
+    
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = originalFixedDeltaTime;
+        bBulletTimeLerp = false;
     }
 
     private void HandleBlink()
@@ -43,7 +102,12 @@ public class ATrinityCamera : MonoBehaviour
 
     private void OnDestroy()
     {
-        ABlink.OnBlink -= HandleBlink; // Unsubscribe from the event to avoid memory leaks
+        ABlink.OnBlink -= HandleBlink;
+        
+        foreach(IEnemyController enemyController in ATrinityGameManager.GetEnemyControllers())
+        {
+            enemyController.OnBulletTime -= HandleBulletTime;
+        }
     }
 
     void Update()
