@@ -233,6 +233,9 @@ MonoBehaviour:
   LookAtObject: {fileID: 8213105695855789028}
   BlinkCameraLerpTime: 1
   BlinkCameraDistance: 5
+  BulletTimeDuration: 0.2
+  BulletTimeDistance: 5
+  BulletTimeScale: 0.1
 --- !u!20 &17808386227748261
 Camera:
   m_ObjectHideFlags: 0
@@ -5217,7 +5220,7 @@ GameObject:
   - component: {fileID: 2570083600932332481}
   - component: {fileID: 531074706720849890}
   m_Layer: 0
-  m_Name: Icenado
+  m_Name: IceCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5250,18 +5253,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88165e401a6ef754f9c0704e82b3c878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 4322042558168451035, guid: f7d341a241c3ce34e93dd858eb1cf951,
+  SpellPrefab: {fileID: 3700622013099532468, guid: 3e792a7811dbde347b3f3f6808ff2e6f,
     type: 3}
-  Cooldown: 0
-  ManaCost: 0
-  ManaUpkeepCost: 0
+  Cooldown: 4
+  ManaCost: 5
+  ManaUpkeepCost: 5
   SpellElement: 1
   SpellType: 1
-  SpellAction: 3
+  SpellAction: 4
   bUseMaskedLayer: 1
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  Range: 10
+  InitialChillStacks: 25
+  MaxScale: 25
+  MinScale: 1
+  MaxChannelTime: 6
+  Duration: 20
+  IceCreationPercentThreshold: 0.66
   CastingSFX: {fileID: 0}
-  CastingVFX: {fileID: 8695824347021378171, guid: 5c2628dd62019c94d86b18cc95df6717,
-    type: 3}
 --- !u!82 &531074706720849890
 AudioSource:
   m_ObjectHideFlags: 0
