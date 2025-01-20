@@ -70,7 +70,7 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
-        
+
         HandleStun();
     }
 
@@ -366,14 +366,13 @@ public class ATrinityBrain : MonoBehaviour
             
             ATrinityGameManager.GetInput().OnBlinkPressed += Blink;
             ATrinityGameManager.GetInput().OnForcefieldPressed += Forcefield;
-            ATrinityGameManager.GetInput().OnForcefieldReleased += ATrinityGameManager.GetSpells().Forcefield.Release;
+            ATrinityGameManager.GetInput().OnForcefieldReleased += ATrinityGameManager.GetSpells().Forcefield.CastEnd;
             
             ATrinityGameManager.GetInput().OnElementalPrimaryReleased += PrimaryRelease;
             ATrinityGameManager.GetInput().OnElementalSecondaryReleased += SecondaryRelease;
 
             ATrinityGameManager.GetInput().OnElementPressed += ChangeElement;
             ATrinityGameManager.GetInput().OnMenuPressed += OnDebugInput;
-            return;
         }
         else
         {
@@ -386,7 +385,7 @@ public class ATrinityBrain : MonoBehaviour
             ATrinityGameManager.GetInput().OnBlinkPressed -= Blink;
             ATrinityGameManager.GetInput().OnForcefieldPressed -= Forcefield;
 
-            ATrinityGameManager.GetInput().OnForcefieldReleased -= ATrinityGameManager.GetSpells().Forcefield.Release;
+            ATrinityGameManager.GetInput().OnForcefieldReleased -= ATrinityGameManager.GetSpells().Forcefield.CastEnd;
             ATrinityGameManager.GetInput().OnElementalPrimaryReleased -= PrimaryRelease;
             ATrinityGameManager.GetInput().OnElementalSecondaryReleased -= SecondaryRelease;
             ATrinityGameManager.GetInput().OnMenuPressed -= OnDebugInput;

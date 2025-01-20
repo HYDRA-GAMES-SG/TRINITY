@@ -5047,166 +5047,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &3315196092930294997
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5576310475204757462}
-  - component: {fileID: 501229780303510771}
-  - component: {fileID: 623451941633336521}
-  m_Layer: 0
-  m_Name: LightningBeam
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5576310475204757462
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3315196092930294997}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6082099646200123171}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &501229780303510771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3315196092930294997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5efb5bb3b04c9f14f88c05e721815ce5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 3830785774540179595, guid: 985e55eaf9048c246938ef2616bc5e0d,
-    type: 3}
-  Cooldown: 0
-  ManaCost: 0
-  ManaUpkeepCost: 0
-  SpellElement: 2
-  SpellType: 0
-  SpellAction: 3
-  bUseMaskedLayer: 1
-  StacksApplied: 0
-  AilmentType: 0
-  LightningSource: {fileID: 623451941633336521}
-  MinScale: 0
-  MaxScale: 0
-  MaxChannelTime: 0
-  ChannelTime: 0
-  SpellRot: {x: 0, y: 0, z: 0, w: 0}
-  ChargeVFX: {fileID: 0}
-  FullyChargedVFX: {fileID: 0}
---- !u!82 &623451941633336521
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3315196092930294997}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 0.783
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &3343403444346800088
 GameObject:
   m_ObjectHideFlags: 0
@@ -5670,7 +5510,6 @@ MonoBehaviour:
   SpellAction: 0
   bUseMaskedLayer: 1
   UtilityLightningSource: {fileID: 0}
-  TrinitySpells: {fileID: 0}
   FlashPointObj: {fileID: 0}
   BlinkPos: {x: 0, y: 0, z: 0}
   DurationToBlink: 0
@@ -6168,7 +6007,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4167034834973353163}
-  - {fileID: 5576310475204757462}
   - {fileID: 2980241197929999130}
   - {fileID: 6995803390098422280}
   - {fileID: 6159921082643614308}
@@ -14021,6 +13859,7 @@ MonoBehaviour:
   TotemDuration: 20
   AttackFrequency: 1
   AttackRange: 40
+  TotemMaxPitchSpawn: 15
   CastingSFX: {fileID: 0}
 --- !u!82 &4387279059668304295
 AudioSource:
@@ -17508,7 +17347,7 @@ MonoBehaviour:
   ManaUpkeepCost: 5
   SpellElement: 2
   SpellType: 0
-  SpellAction: 4
+  SpellAction: 3
   bUseMaskedLayer: 1
   StacksApplied: 25
   AilmentType: 1

@@ -14,6 +14,8 @@ public class ASecondaryLightning : ASpell
     public float TotemDuration;
     public float AttackFrequency;
     public float AttackRange;
+    public float TotemMaxPitchSpawn = 15f;
+
 
     
     [Header("Audio")]
@@ -50,6 +52,7 @@ public class ASecondaryLightning : ASpell
             lightningTotem.AttackRange = AttackRange;
             lightningTotem.InvokePosition = InvokePosition;
             lightningTotem.SummonDepth = TotemSummonDepth;
+            lightningTotem.MaxPitchSpawn = TotemMaxPitchSpawn;
             
             Totem.transform.position = InvokePosition + Vector3.down * TotemSummonDepth;
             
@@ -79,6 +82,7 @@ public class ASecondaryLightning : ASpell
         
         if (ChannelTime >= MaxChannelTime)
         {
+            Totem.GetComponent<LightningTotem>().bSummoned = true;
             Release(); //trigger end when max channel time is reached
         }
     }

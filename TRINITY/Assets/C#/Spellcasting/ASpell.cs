@@ -41,6 +41,11 @@ public class ASpell : MonoBehaviour
 
     public void Update()
     {
+        if (ATrinityGameManager.GAME_PAUSED)
+        {
+            return;
+        }
+        
         UpdateCooldown();
         
         if (ATrinityGameManager.GetSpells().ManaComponent.Current < ManaUpkeepCost * Time.deltaTime)

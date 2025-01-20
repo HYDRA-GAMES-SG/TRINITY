@@ -17,11 +17,12 @@ Material:
   - _EMISSION
   - _NORMALMAP
   - _OCCLUSIONMAP
+  - _PARALLAXMAP
   - _RECEIVE_SHADOWS_OFF
   - _SPECULARHIGHLIGHTS_OFF
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 3050
@@ -83,7 +84,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3229a4dd1095440418dada83e6607d86, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -110,7 +111,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BlendOp: 0
-    - _BumpScale: 4
+    - _BumpScale: 100
     - _ClearCoat: 0
     - _ClearCoatMask: 0.636
     - _ClearCoatSmoothness: 1
@@ -133,11 +134,11 @@ Material:
     - _MiddlePointPos1: 0.5
     - _MultiplyNoiseDesaturation: 1
     - _OcclusionStrength: 1
-    - _Parallax: 0.005
+    - _Parallax: 0.0278
     - _QueueControl: 0
     - _QueueOffset: 50
     - _ReceiveShadows: 0
-    - _Smoothness: 0
+    - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SoftFadeFactor: 0.1
     - _SourceBlendRGB: 10

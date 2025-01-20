@@ -6,7 +6,8 @@ using UnityEngine;
 public class AUtilityLightning : ASpell
 {
     public AudioSource UtilityLightningSource;
-    public ATrinitySpells TrinitySpells;
+    
+    [HideInInspector]
     public GameObject FlashPointObj;
 
     [SerializeField] private Vector3 BlinkPos;

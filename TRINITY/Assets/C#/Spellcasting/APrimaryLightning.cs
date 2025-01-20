@@ -31,6 +31,7 @@ public class APrimaryLightning : ASpell
 
     public override void CastStart()
     {
+        ChannelTime = 0f;
         if (ChargeVFXObj == null) 
         {
             GameObject chargeVFX = Instantiate(ChargeVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
@@ -86,6 +87,5 @@ public class APrimaryLightning : ASpell
             Destroy(FullyChargedVFXObj);
             FullyChargedVFXObj = null;
         }
-        ChannelTime = 0;
     }
 }

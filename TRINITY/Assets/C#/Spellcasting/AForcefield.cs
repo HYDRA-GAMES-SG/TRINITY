@@ -36,6 +36,7 @@ public class AForcefield : ASpell
     
     public override void CastEnd()
     {
+        ATrinityGameManager.GetAnimator().AnimComponent.Play("Null", 1, 0f);
         ATrinityGameManager.GetBrain().bForcefieldActive = false;
         ForcefieldEffect.SetActive(false);
     }

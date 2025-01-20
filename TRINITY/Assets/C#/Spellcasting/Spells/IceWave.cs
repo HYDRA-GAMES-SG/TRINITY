@@ -27,7 +27,9 @@ public class IceWave : MonoBehaviour
     private Vector3 DesiredVelocity;
     private Quaternion BaseRotation;
 
-    private int BounceLimit = 4;
+    public int MaxBounces = 4;
+    private int BouncesLeft;
+    private bool bCanDealDamage = true;
 
     void Start()
     {
@@ -39,7 +41,8 @@ public class IceWave : MonoBehaviour
         int shouldRotate = PrimaryCold.CastNumber % 2 == 0 ? 1 : -1;
         
         BaseRotation = Quaternion.Euler(0, 180, shouldRotate * 45);
-    
+        BouncesLeft = MaxBounces;
+
         //Vector3 offset = Controller.Right * 2f * shouldRotate;
         //transform.position += offset;
     }
@@ -108,7 +111,11 @@ public class IceWave : MonoBehaviour
         
         if (other.gameObject.CompareTag("Enemy"))
         {
-
+            if (!bCanDealDamage)
+            {
+                return;
+            }
+            
             HitBox enemyHitbox = other.gameObject.GetComponent<HitBox>();
 
             if (!enemyHitbox)
@@ -128,6 +135,7 @@ public class IceWave : MonoBehaviour
             
             enemyStatus +=  new FDamageInstance(Damage, EAilmentType.EAT_Chill, PrimaryCold.StacksOfChillApplied);
 
+            bCanDealDamage = false;
         }
     }
 
@@ -163,8 +171,9 @@ public class IceWave : MonoBehaviour
                 averageNormal.Normalize();
                 DesiredVelocity -= Vector3.Project(DesiredVelocity, averageNormal) * 2f;
             }
-
-            BounceLimit--;
+            
+            bCanDealDamage = true;
+            BouncesLeft--;
             return;
         }
     }
