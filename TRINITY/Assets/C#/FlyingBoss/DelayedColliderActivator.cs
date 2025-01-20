@@ -46,6 +46,7 @@ public class DelayedColliderActivator : MonoBehaviour
             if (timer >= delayTime)
             {
                 targetCollider.enabled = true;
+                MediumCameraShake(0.2f);
                 isTimerRunning = false;
             }
         }
@@ -101,5 +102,11 @@ public class DelayedColliderActivator : MonoBehaviour
         FHitInfo hitInfo = new FHitInfo(EnemyController.gameObject, this.gameObject, null, damage / devide);
         player.ApplyHit(hitInfo);
 
+    }
+
+    public void MediumCameraShake(float duration = .5f)
+    {
+        Debug.Log("IsShack"+this.gameObject.name);
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
     }
 }

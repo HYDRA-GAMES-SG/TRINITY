@@ -560,6 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f5bf77ab3cc7345a814da180211abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoreCollider: {fileID: 5014182996902062823}
   Name: Sentinel
   RB: {fileID: 0}
   Animator: {fileID: 0}
@@ -593,7 +594,9 @@ MonoBehaviour:
   bGOElectricShotSpawned: 0
   bGOElectricChargeSpawned: 0
   ElectricBombDMG: 30
-  Health: {fileID: 3413527218791458888}
+  blinkTimer: 0
+  blinkDuration: 1
+  blinkIntensity: 2
 --- !u!114 &3413527218791458888
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ public class AAttackCollider : MonoBehaviour
         if (rootTransform.TryGetComponent<IEnemyController>(out var enemyController))
         {
             Controller = enemyController;
-            Debug.Log("IEnemyController found on the root object.");
+            //Debug.Log("IEnemyController found on the root object.");
             return;
         }
 
@@ -29,7 +29,7 @@ public class AAttackCollider : MonoBehaviour
         if (controllerTransform != null && controllerTransform.TryGetComponent<IEnemyController>(out enemyController))
         {
             Controller = enemyController;
-            Debug.Log("IEnemyController found on the 'Controller' child object.");
+            //Debug.Log("IEnemyController found on the 'Controller' child object.");
         }
     }
 
