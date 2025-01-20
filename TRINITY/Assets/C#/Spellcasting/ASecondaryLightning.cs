@@ -4,88 +4,121 @@ using UnityEngine;
 
 public class ASecondaryLightning : ASpell
 {
-    public int StacksApplied;
-    public EAilmentType AilmentType;
-    public AudioSource LightningSource;
-
-    public float MinScale;
-    public float MaxScale;
-    public float MaxChannelTime;
-    public float ChannelTime;
-
-    [HideInInspector]
-    public Quaternion SpellRot = new Quaternion();
-
-    [Header("VFX Prefabs")]
-    public GameObject ChargeVFX;
-    public GameObject FullyChargedVFX;
+    [Header("Summoning Properties")]
+    public LayerMask GroundLayer;
+    public float Range = 10f;
+    public float MaxChannelTime = 2f;
+    public float TotemSummonDepth = 5f;
     
-    private GameObject ChargeVFXObj;
-    private GameObject FullyChargedVFXObj;
+    [Header("Totem Properties")]
+    public float TotemDuration;
+    public float AttackFrequency;
+    public float AttackRange;
+
+    
+    [Header("Audio")]
+    public AudioClip CastingSFX;
+    private AudioSource SFXSource;
+
+    private List<GameObject> Totems;
+    
+    private GameObject Totem;
+    private float ChannelTime;
+    private float CurrentPosition;
+    private Vector3 InvokePosition;
     
     public override void Initialize()
     {
-        LightningSource = GetComponent<AudioSource>();
-        SpellRot = Quaternion.Euler(-90, 0, 0);
+        Totems = new List<GameObject>();
+        
+         SFXSource = GetComponent<AudioSource>();
     }
-
+    
     public override void CastStart()
     {
-        if (ChargeVFXObj == null) 
-        {
-            GameObject chargeVFX = Instantiate(ChargeVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
-            chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
-            ChargeVFXObj = chargeVFX;
-        }
+        Totem = Instantiate(SpellPrefab);
+        Totems.Add(Totem);
+        Totem.transform.SetParent(this.gameObject.transform);
         
+        InvokePosition = GetGroundPosition();
+        
+        if (InvokePosition != Vector3.zero)
+        {
+            LightningTotem lightningTotem = Totem.GetComponent<LightningTotem>();
+            lightningTotem.Duration = TotemDuration;
+            lightningTotem.AttackFrequency = AttackFrequency;
+            lightningTotem.AttackRange = AttackRange;
+            lightningTotem.InvokePosition = InvokePosition;
+            lightningTotem.SummonDepth = TotemSummonDepth;
+            
+            Totem.transform.position = InvokePosition + Vector3.down * TotemSummonDepth;
+            
+            ChannelTime = 0f;
+        
+            if (CastingSFX != null)
+            {
+                SFXSource.clip = CastingSFX;
+                SFXSource.Play();
+            }
+        }
+        else
+        {
+            Release();
+        }
     }
-
     public override void CastUpdate()
     {
-        print("Channeling lightning bolt");
+        // Update the channeling time
         ChannelTime += Time.deltaTime;
 
         float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
-
-        foreach (Transform children in ChargeVFXObj.GetComponentInChildren<Transform>()) 
+        
+        CurrentPosition = Mathf.Lerp(InvokePosition.y - TotemSummonDepth, InvokePosition.y, t);
+        Vector3 newPos = new Vector3(InvokePosition.x, CurrentPosition, InvokePosition.z);
+        Totem.transform.localPosition = newPos;
+        
+        if (ChannelTime >= MaxChannelTime)
         {
-            children.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
-        }
-
-
-        if (ChannelTime >= MaxChannelTime && FullyChargedVFXObj == null) 
-        {
-            GameObject chargeVFX = Instantiate(FullyChargedVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
-            chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
-            FullyChargedVFXObj = chargeVFX;
+            Release(); //trigger end when max channel time is reached
         }
     }
-
     public override void CastEnd()
     {
-        if (ChargeVFXObj != null) 
+        if (CastingSFX != null)
         {
-            float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
-
-            ATrinityController playerController = ATrinityGameManager.GetPlayerController();
-
-            Vector3 castPoint = playerController.transform.position + Vector3.up * playerController.Height + playerController.Forward * 1.5f;
-
-            Quaternion cameraRot = ATrinityGameManager.GetCamera().Camera.transform.rotation;
-            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, castPoint, cameraRot).GetComponent<LightningBolt>();
-            //lightningBolt.gameObject.transform.parent = this.transform;
-            //lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
-
-            Destroy(lightningBolt.gameObject, 0.5f);
-
-            Destroy(ChargeVFXObj);
-            ChargeVFXObj = null;         
+            SFXSource.Stop();
         }
-        if (FullyChargedVFXObj != null) 
+
+        if (ChannelTime < MaxChannelTime)
         {
-            Destroy(FullyChargedVFXObj);
-            FullyChargedVFXObj = null;
+            Totem.GetComponent<LightningTotem>().Unsummon();
         }
-        ChannelTime = 0;
+        
+    }
+    
+    private Vector3 GetGroundPosition()
+    {
+        Ray ray = ATrinityGameManager.GetCamera().Camera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
+            
+        if (Physics.Raycast(ray, out RaycastHit hit, Range, GroundLayer))
+        {
+            // make sure the hit point is within range and on valid ground
+            if (Vector3.Distance(ATrinityGameManager.GetSpells().CastPoint.position, hit.point) <= Range)
+            {
+                return hit.point + Vector3.up * .1f;
+            }
+        }
+        else
+        {
+            //if we don't get a valid ground hit we just find ground at the max range in the forward vector
+            Vector3 searchOrigin = ATrinityGameManager.GetSpells().CastPoint.position + ATrinityGameManager.GetPlayerController().Forward * Range;
+            
+            if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range * 2f, GroundLayer))
+            {
+                return groundHit.point + Vector3.up * .1f;
+            }
+        }
+        
+        return Vector3.zero;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightningBolt : MonoBehaviour
 {    
-    public static ASecondaryLightning SecondaryLightning;
+    public static APrimaryLightning PrimaryLightning;
     [HideInInspector]
     private Vector3 Direction;
     private Quaternion BaseRotation;
@@ -25,8 +25,8 @@ public class LightningBolt : MonoBehaviour
         BaseRotation = Quaternion.Euler(-90, 0, 0);
         RB = GetComponent<Rigidbody>();
         LightningSource = GetComponent<AudioSource>();
-        SecondaryLightning = ATrinityGameManager.GetSpells().SecondaryLightning;
-        this.transform.SetParent(SecondaryLightning.transform);
+        PrimaryLightning = ATrinityGameManager.GetSpells().PrimaryLightning;
+        this.transform.SetParent(PrimaryLightning.transform);
         Direction = ATrinityGameManager.GetSpells().CastDirection;
     }
 
@@ -57,9 +57,9 @@ public class LightningBolt : MonoBehaviour
 
 
             UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
-            FDamageInstance damageSource = new FDamageInstance(Damage, SecondaryLightning.AilmentType, SecondaryLightning.StacksApplied);
+            FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryLightning.AilmentType, PrimaryLightning.StacksApplied);
             enemyStatus += damageSource;
-            print($"Damage Taken : {Damage}, Ailment type and stacks : {SecondaryLightning.AilmentType} + {SecondaryLightning.StacksApplied}");           
+            print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryLightning.AilmentType} + {PrimaryLightning.StacksApplied}");           
            
         }
         //else

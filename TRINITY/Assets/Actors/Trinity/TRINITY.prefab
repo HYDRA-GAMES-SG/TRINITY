@@ -5101,17 +5101,16 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 3
   bUseMaskedLayer: 1
-  DamagePerSecond: 10
-  AilmentStacksPerSecond: 1
-  ImpactVFX: {fileID: 5773043792457465958, guid: 7a0c3aa6f3d6cbc46b22a5facf149d0b,
-    type: 3}
-  ShockVFX: {fileID: 1484152931052635222, guid: 4f5efa757c6e40d49a5c8f0f4cc07fc6,
-    type: 3}
+  StacksApplied: 0
+  AilmentType: 0
   LightningSource: {fileID: 623451941633336521}
-  LightningAttack: {fileID: 0}
-  LightningSustain: {fileID: 8300000, guid: 8c1e587b86c21f442bbff062ddef052d, type: 3}
-  LightningRelease: {fileID: 0}
-  UtilityFire: {fileID: 0}
+  MinScale: 0
+  MaxScale: 0
+  MaxChannelTime: 0
+  ChannelTime: 0
+  SpellRot: {x: 0, y: 0, z: 0, w: 0}
+  ChargeVFX: {fileID: 0}
+  FullyChargedVFX: {fileID: 0}
 --- !u!82 &623451941633336521
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6178,6 +6177,7 @@ Transform:
   - {fileID: 3348408429048621400}
   - {fileID: 3913385792558024440}
   - {fileID: 4763335539188537845}
+  - {fileID: 7745213355697516291}
   - {fileID: 3297978679634564814}
   m_Father: {fileID: 7234860868322912901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -13958,6 +13958,166 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1579824548316262131}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6147523628709538166
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7745213355697516291}
+  - component: {fileID: 94990014435649391}
+  - component: {fileID: 4387279059668304295}
+  m_Layer: 0
+  m_Name: LightningTotem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7745213355697516291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147523628709538166}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6082099646200123171}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &94990014435649391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147523628709538166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87386ddbe4b92a243ab3069d748987a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpellPrefab: {fileID: 4260736446530102828, guid: 831e2da0456db8c4abe6b18edf94e783,
+    type: 3}
+  Cooldown: 0
+  ManaCost: 5
+  ManaUpkeepCost: 5
+  SpellElement: 2
+  SpellType: 1
+  SpellAction: 4
+  bUseMaskedLayer: 1
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  Range: 10
+  MaxChannelTime: 2
+  TotemSummonDepth: 3
+  TotemDuration: 20
+  AttackFrequency: 1
+  AttackRange: 40
+  CastingSFX: {fileID: 0}
+--- !u!82 &4387279059668304295
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6147523628709538166}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6188675260942489623
 GameObject:
   m_ObjectHideFlags: 0
@@ -17305,7 +17465,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4763335539188537845}
-  - component: {fileID: 2897409358473513606}
+  - component: {fileID: 8644861117205668588}
   - component: {fileID: 5231305642204913684}
   m_Layer: 0
   m_Name: LightningBolt
@@ -17329,7 +17489,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6082099646200123171}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2897409358473513606
+--- !u!114 &8644861117205668588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17338,24 +17498,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 7212912829760153717}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87386ddbe4b92a243ab3069d748987a6, type: 3}
+  m_Script: {fileID: 11500000, guid: 5efb5bb3b04c9f14f88c05e721815ce5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   SpellPrefab: {fileID: 6639925515291015476, guid: 56f35689e2b9a064c968d222ad2ed512,
     type: 3}
   Cooldown: 0
-  ManaCost: 0
-  ManaUpkeepCost: 0
+  ManaCost: 5
+  ManaUpkeepCost: 5
   SpellElement: 2
-  SpellType: 1
-  SpellAction: 3
+  SpellType: 0
+  SpellAction: 4
   bUseMaskedLayer: 1
   StacksApplied: 25
   AilmentType: 1
   LightningSource: {fileID: 0}
   MinScale: 1
   MaxScale: 5
-  MaxChannelTime: 2.5
+  MaxChannelTime: 4
   ChannelTime: 0
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
   ChargeVFX: {fileID: 8913368109206024948, guid: 4ad27ea84d25f5a49a8b6b74606628ed,
