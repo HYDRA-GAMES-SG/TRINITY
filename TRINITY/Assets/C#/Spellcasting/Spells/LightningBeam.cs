@@ -13,6 +13,8 @@ public class LightningBeam : MonoBehaviour
 
     private float ChargeStacks = 0f;
     private float IgniteStacks = 0f;
+
+    private bool bIsHitting;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +26,10 @@ public class LightningBeam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!bIsHitting) 
+        {
+            ImpactVFX.SetActive(false);
+        }
     }
     //private void OnParticleCollision(GameObject other)
     //{
@@ -66,9 +71,12 @@ public class LightningBeam : MonoBehaviour
 
             if (!enemyHitbox)
             {
+                bIsHitting = false;
                 return;
             }
 
+            bIsHitting = true;
+            ImpactVFX.SetActive(true);
             ATrinitySpells spellsRef = ATrinityGameManager.GetSpells();
             
             enemyHitbox.EnemyController.TriggerGetHit();
@@ -107,5 +115,9 @@ public class LightningBeam : MonoBehaviour
                 }
             }
         }
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        bIsHitting = false;
     }
 }

@@ -7587,6 +7587,9 @@ MonoBehaviour:
   LookAtObject: {fileID: 2141154515}
   BlinkCameraLerpTime: 1
   BlinkCameraDistance: 5
+  BulletTimeDuration: 0.3
+  BulletTimeDistance: 5
+  BulletTimeScale: 0.5
 --- !u!20 &533620756
 Camera:
   m_ObjectHideFlags: 0
@@ -10794,15 +10797,33 @@ MonoBehaviour:
   ManaSlider: {fileID: 0}
   DamageSlider: {fileID: 0}
   EnemyHealthBarPrefab: {fileID: 0}
-  FrameBackground: {fileID: 0}
   CurrentElementImage: {fileID: 0}
+  CurrentSpellImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  CooldownFills:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   ElementImages:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  FireHexademicalCode: '#FF0000'
-  ColdHexademicalCode: '#00CDFF'
-  LightningHexademicalCode: '#FFC400'
+  FireSpellImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ColdSpellImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  LightningSpellImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &789692183
 Transform:
   m_ObjectHideFlags: 0
@@ -12311,6 +12332,12 @@ GameObject:
   - component: {fileID: 1007589382}
   - component: {fileID: 1007589381}
   - component: {fileID: 1007589386}
+  - component: {fileID: 1007589392}
+  - component: {fileID: 1007589391}
+  - component: {fileID: 1007589390}
+  - component: {fileID: 1007589389}
+  - component: {fileID: 1007589388}
+  - component: {fileID: 1007589387}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -12446,6 +12473,113 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AilmentDuration: 5
+--- !u!114 &1007589387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007589380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d5882fe542c4a91860fddbcdf6a470e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Default
+  RB: {fileID: 0}
+  Animator: {fileID: 0}
+  EnemyStatus: {fileID: 0}
+  AI: {fileID: 0}
+  NormalAttack: 0
+  AttackForce: 150
+--- !u!195 &1007589388
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007589380}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!95 &1007589389
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007589380}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1007589390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007589380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1a2a52e8c6a134bbdcd47750275a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: {fileID: 0}
+  Ailments: {fileID: 0}
+--- !u!114 &1007589391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007589380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d871bb7c46b1d74f80abcf47d1ba0b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MAX: 50
+  Regen: 5
+  Current: 0
+  bDead: 0
+--- !u!114 &1007589392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007589380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb0abb598aa0e940ae6f19413a51f62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: {fileID: 1007589391}
+  EnemyStatus: {fileID: 1007589390}
+  EnemyController: {fileID: 1007589387}
 --- !u!1 &1011471854
 GameObject:
   m_ObjectHideFlags: 0
