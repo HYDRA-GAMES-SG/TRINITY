@@ -37,12 +37,14 @@ public class ACrabController : IEnemyController
     [HideInInspector] public bool CanGetHit = false;
 
 
-    /*[HideInInspector] */public bool bElementPhase = false;
+    /*[HideInInspector] */
+    public bool bElementPhase = false;
     [HideInInspector] public bool bCanChill = true;
 
     [Header("The max distance that root motion animation near to target")]
     [SerializeField] float RootMotionNotEnterDistance;
 
+    [Header("GetHitEffect")]
     [SerializeField] float blinkTimer;
     [SerializeField] float blinkDuration = 1.0f;
     [SerializeField] float blinkIntensity = 2.0f;

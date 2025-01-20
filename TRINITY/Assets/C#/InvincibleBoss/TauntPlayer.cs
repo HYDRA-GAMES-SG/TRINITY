@@ -17,7 +17,7 @@ public class TauntPlayer : MonoBehaviour
             ATrinityBrain playerBrain = other.gameObject.transform.root.GetComponentInChildren<ATrinityBrain>();
             if (playerBrain != null)
             {
-                playerBrain.SetStunnedState(StunTime, true);
+                playerBrain.SetStunnedState(StunTime);
             }
             //Debug.Log("Player inside range");
             Vector3 direction = (other.transform.position - IBController.transform.position).normalized;

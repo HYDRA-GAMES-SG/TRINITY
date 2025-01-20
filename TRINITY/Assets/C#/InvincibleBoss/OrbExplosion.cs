@@ -11,26 +11,27 @@ public class OrbExplosion : MonoBehaviour
     public float ShakeDuration = 0.5f;
     public float delay;
     private bool hasDealtDamage = false;
-
+    float timer;
+    bool hasShake = false;
     private void Start()
     {
         ParticleSystem ps = GetComponent<ParticleSystem>();
         delay = ps.main.startDelay.constant;
+        Controller.MediumCameraShake(.5f);
     }
     private void Update()
     {
-        bool hasShake = false;
-        float timer = 0f;
         timer += Time.deltaTime;
-        if (timer >= delay - 0.5f && !hasShake)
+        if (timer >= delay && !hasShake)
         {
             hasShake = true;
             Controller.MediumCameraShake(.5f);
+
         }
     }
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log($"Particles Hit player ");
+        //Debug.Log($"Particles Hit player ");
         if (DealDamageOnlyOnce && hasDealtDamage)
         {
             return;
@@ -46,10 +47,11 @@ public class OrbExplosion : MonoBehaviour
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, null, Controller.OrbExplosionDMG);
         player.ApplyHit(hitInfo);
         hasDealtDamage = true;
-        Debug.Log($"Particles Hit player " + Controller.OrbExplosionDMG);
+        //Debug.Log($"Particles Hit player " + Controller.OrbExplosionDMG);
     }
     public void SetController(AInvincibleBossController enemyController)
     {
         Controller = enemyController;
     }
+   
 }

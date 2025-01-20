@@ -43,17 +43,29 @@ public class AFlyingBossController : IEnemyController
     [Header("Attack Damage")]
     [SerializeField] float ElectricBombDMG;
 
-    public UHealthComponent Health;
-
+    [Header("GetHitEffect")]
+    [SerializeField] float blinkTimer;
+    [SerializeField] float blinkDuration = 1.0f;
+    [SerializeField] float blinkIntensity = 2.0f;
+    SkinnedMeshRenderer[] skinnedMeshRenderer;
+    Material[] materials;
     void Start()
     {
-        Health = GetComponent<UHealthComponent>();
+        skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
+        materials = new Material[skinnedMeshRenderer.Length];
+
+        // Cache all materials
+        for (int i = 0; i < skinnedMeshRenderer.Length; i++)
+        {
+            materials[i] = skinnedMeshRenderer[i].material;
+        }
+        EnemyStatus.Health.OnDamageTaken += StartBlinking;
     }
     void Update()
     {
         CheckCoolDown();
 
-        if (Health.Current <= 0)
+        if (EnemyStatus.Health.Current <= 0)
         {
             FlyingBossFSM.EnqueueTransition<FBDie>();
         }
@@ -109,5 +121,49 @@ public class AFlyingBossController : IEnemyController
 
         float distanceToTarget = Vector3.Distance(PlayerPos, FlyBossPos);
         return distanceToTarget;
+    }
+    public void StartBlinking(float damageAmount)
+    {
+        blinkTimer = blinkDuration;
+        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime);
+    }
+
+    private void StopBlinking()
+    {
+        CancelInvoke(nameof(HandleBlink));
+
+        foreach (var material in materials)
+        {
+            if (material != null)
+            {
+                material.SetColor("_EmissionColor", Color.black);
+            }
+        }
+    }
+
+    private void HandleBlink()
+    {
+        if (blinkTimer <= 0f)
+        {
+            StopBlinking();
+            return;
+        }
+
+        blinkTimer -= Time.deltaTime;
+
+        float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
+        float intensity = lerp * blinkIntensity;
+
+        foreach (var material in materials)
+        {
+            if (material != null)
+            {
+                Color emissionColor = Color.white * intensity;
+                material.SetColor("_EmissionColor", emissionColor);
+
+                // Enable emission in the material
+                DynamicGI.SetEmissive(skinnedMeshRenderer[0], emissionColor);
+            }
+        }
     }
 }

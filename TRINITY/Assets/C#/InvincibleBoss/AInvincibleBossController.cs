@@ -40,6 +40,7 @@ public class AInvincibleBossController : IEnemyController
     [HideInInspector]
     public bool bIsDead = false;
 
+    [Header("GetHitEffect")]
     [SerializeField] float blinkTimer;
     [SerializeField] float blinkDuration = 1.0f;
     [SerializeField] float blinkIntensity = 2.0f;
@@ -59,7 +60,7 @@ public class AInvincibleBossController : IEnemyController
         {
             materials[i] = skinnedMeshRenderer[i].material;
         }
-        
+
         EnemyStatus.Health.OnDamageTaken += StartBlinking;
     }
 
@@ -173,13 +174,13 @@ public class AInvincibleBossController : IEnemyController
 
     public void StartBlinking(float damageAmount)
     {
-        blinkTimer = blinkDuration; 
-        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime); 
+        blinkTimer = blinkDuration;
+        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime);
     }
 
     private void StopBlinking()
     {
-        CancelInvoke(nameof(HandleBlink)); 
+        CancelInvoke(nameof(HandleBlink));
 
         foreach (var material in materials)
         {
@@ -194,7 +195,7 @@ public class AInvincibleBossController : IEnemyController
     {
         if (blinkTimer <= 0f)
         {
-            StopBlinking(); 
+            StopBlinking();
             return;
         }
 
@@ -207,11 +208,11 @@ public class AInvincibleBossController : IEnemyController
         {
             if (material != null)
             {
-                Color emissionColor = Color.white * intensity; 
+                Color emissionColor = Color.white * intensity;
                 material.SetColor("_EmissionColor", emissionColor);
 
                 // Enable emission in the material
-                DynamicGI.SetEmissive(skinnedMeshRenderer[0], emissionColor); 
+                DynamicGI.SetEmissive(skinnedMeshRenderer[0], emissionColor);
             }
         }
     }
