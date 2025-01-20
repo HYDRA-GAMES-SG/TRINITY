@@ -8,7 +8,6 @@ public class ASecondaryCold : ASpell
     public LayerMask GroundLayer;
     public float Range;
     public int InitialChillStacks;
-    public int ChillStacksPerSecond;
     public float MaxScale;
     public float MinScale;
     public float MaxChannelTime;
@@ -50,10 +49,12 @@ public class ASecondaryCold : ASpell
         
         if (invokePosition != Vector3.zero)
         {
-            IceCube.GetComponent<IceCube>().Duration = Duration;
-            IceCube.GetComponent<IceCube>().Mesh.enabled = false;
+            IceCube iceCube = IceCube.GetComponent<IceCube>();
+            iceCube.Duration = Duration;
+            iceCube.Mesh.enabled = false;
+            iceCube.Reset();
             IceCube.transform.position = invokePosition;
-            IceCube.transform.localScale = Vector3.one * MinScale; 
+            IceCube.transform.localScale = Vector3.one * MinScale;
             IceCube.SetActive(true);
             ChannelTime = 0f;
         
@@ -99,6 +100,11 @@ public class ASecondaryCold : ASpell
             SFXSource.Stop();
         }
 
+        if (ChannelTime / MaxChannelTime < IceCreationPercentThreshold)
+        {
+            IceCube.GetComponent<IceCube>().Melt();
+        }
+        
         if (IceCube == null || !IceCube.activeSelf)
         {
             return; //do nothing if rune does not exist since no valid placement found

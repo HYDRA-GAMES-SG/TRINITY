@@ -11,6 +11,8 @@ public class IEnemyController : MonoBehaviour
 {
     private static Transform TransformReference;
     
+    public Transform CoreCollider;
+    
     public string Name = "Default";
     
     [HideInInspector]
