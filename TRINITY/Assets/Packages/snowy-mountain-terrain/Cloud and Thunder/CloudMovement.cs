@@ -10,20 +10,20 @@ public class CloudMovement : MonoBehaviour
     [SerializeField] float maxThunderInterval = 15f;
     [SerializeField] float scaleLerpDuration = 4f;
     [SerializeField] Vector3 movementDirection = Vector3.right;
-    [SerializeField] Vector2 movementAreaSize = new Vector2(250f, 250f);
-    [SerializeField] Vector2 minMaxSize = new Vector2(30f, 45f);
 
-    ParticleSystem thunderParticles;
+    ParticleSystem[] thunderParticles;
     float currentSpeed;
     float scaleTimer;
     float thunderTimer;
+    Vector2 minMaxSize = new Vector2(550f, 750f);
+    Vector3 movementAreaSize = new Vector3(250f, 50f, 250f);
     Vector3 initialPosition;
     Vector3 initialScale;
     Vector3 targetScale;
 
     void Start()
     {
-        thunderParticles = GetComponentInChildren<ParticleSystem>();
+        thunderParticles = GetComponentsInChildren<ParticleSystem>();
         thunderTimer = Random.Range(minThunderInterval, maxThunderInterval);
         currentSpeed = Random.Range(minSpeed, maxSpeed);
         initialPosition = transform.position;
@@ -35,7 +35,8 @@ public class CloudMovement : MonoBehaviour
         transform.Translate(movementDirection * currentSpeed * Time.deltaTime);
 
         if (Mathf.Abs(transform.position.x - initialPosition.x) > movementAreaSize.x / 2 ||
-            Mathf.Abs(transform.position.y - initialPosition.y) > movementAreaSize.y / 2)
+            Mathf.Abs(transform.position.y - initialPosition.y) > movementAreaSize.y / 2 ||
+            Mathf.Abs(transform.position.z - initialPosition.z) > movementAreaSize.z / 2)
         {
             ResetCloudPosition();
         }
@@ -51,7 +52,7 @@ public class CloudMovement : MonoBehaviour
         {
             if (thunderParticles != null)
             {
-                thunderParticles.Play();
+                PlayRandomThunder();
             }
             thunderTimer = 0f;
         }
@@ -59,24 +60,49 @@ public class CloudMovement : MonoBehaviour
 
     void ResetCloudPosition()
     {
-        float newX = transform.position.x;
-        float newY = transform.position.y;
+        float newX = Mathf.Clamp(
+            transform.position.x,
+            initialPosition.x - movementAreaSize.x / 2,
+            initialPosition.x + movementAreaSize.x / 2
+        );
 
-        if (Mathf.Abs(transform.position.x - initialPosition.x) > movementAreaSize.x / 2)
-        {
-            newX = initialPosition.x - Mathf.Sign(transform.position.x - initialPosition.x) * movementAreaSize.x / 2;
-        }
-        if (Mathf.Abs(transform.position.y - initialPosition.y) > movementAreaSize.y / 2)
-        {
-            newY = initialPosition.y - Mathf.Sign(transform.position.y - initialPosition.y) * movementAreaSize.y / 2;
-        }
-        transform.position = new Vector3(newX, newY, transform.position.z);
-        currentSpeed = Random.Range(minSpeed, maxSpeed);
+        float newY = Mathf.Clamp(
+            transform.position.y,
+            initialPosition.y - movementAreaSize.y / 2,
+            initialPosition.y + movementAreaSize.y / 2
+        );
+
+        float newZ = Mathf.Clamp(
+            transform.position.z,
+            initialPosition.z - movementAreaSize.z / 2,
+            initialPosition.z + movementAreaSize.z / 2
+        );
+
+        transform.position = new Vector3(newX, newY, newZ);
+
         movementDirection = -movementDirection;
     }
     void SetRandomScale()
     {
         initialScale = transform.localScale;
-        targetScale = Vector3.one * Random.Range(minMaxSize.x, minMaxSize.y);
+        targetScale = new Vector3
+            (
+            Random.Range(minMaxSize.x, minMaxSize.y),
+            Random.Range(minMaxSize.x, minMaxSize.y),
+            Random.Range(minMaxSize.x, minMaxSize.y)
+            );
+    }
+    void PlayRandomThunder()
+    {
+        int numThunderToPlay = Random.Range(1, thunderParticles.Length + 1);
+
+        for (int i = 0; i < numThunderToPlay; i++)
+        {
+            int randomIndex = Random.Range(0, thunderParticles.Length);
+            if (thunderParticles[randomIndex] != null)
+            {
+                thunderParticles[randomIndex].Play();
+            }
+        }
     }
 }
