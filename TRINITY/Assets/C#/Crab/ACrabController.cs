@@ -33,7 +33,7 @@ public class ACrabController : IEnemyController
     [HideInInspector] public bool CanJumpSmash = false;
     [HideInInspector] public bool CanRoarStun = false;
     [HideInInspector] public bool CanComboAttack = false;
-    [HideInInspector] public bool CanCharageMoveFast = false;
+    /*[HideInInspector]*/ public bool CanCharageMoveFast = false;
     [HideInInspector] public bool CanGetHit = false;
 
 
@@ -86,7 +86,10 @@ public class ACrabController : IEnemyController
         }
         else
         {
-            CrabFSM.Animator.speed = 1;
+            //if (!(CrabFSM.CurrentState is ChargeFastAttack))
+            {
+                CrabFSM.Animator.speed = 1;
+            }
         }
     }
 

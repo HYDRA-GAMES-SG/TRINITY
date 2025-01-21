@@ -12,6 +12,12 @@ public class ChargeFastAttack : CrabState
     [SerializeField] float PedictionMultiplier;
     [SerializeField] float DashDuration;
 
+    [SerializeField] Transform Indicator;
+    [SerializeField] Vector3 targetScale;
+    [SerializeField] Vector3 initialScale;
+    [SerializeField] float scaleSpeed = 30f;
+    [SerializeField] bool isScaling = false;
+
     [Header("Components")]
     [SerializeField] Collider CapCollider;
 
@@ -32,6 +38,9 @@ public class ChargeFastAttack : CrabState
         CrabFSM.CrabController.AI.enabled = false;
         bIsCharging = true;
         StateTimer = 0f;
+
+        initialScale = Indicator.localScale;
+        isScaling = false;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -42,6 +51,8 @@ public class ChargeFastAttack : CrabState
     {
         if (bIsCharging)
         {
+            isScaling = true;
+            Indicator.gameObject.SetActive(true);
             PredictTargetPosition();
             Vector3 faceDirection = (CrabFSM.PlayerController.transform.position - CrabFSM.CrabController.transform.position).normalized;
             CrabFSM.CrabController.RotateTowardTarget(faceDirection, RotateSpeed);
@@ -60,11 +71,11 @@ public class ChargeFastAttack : CrabState
         }
         else if (bIsDashing)
         {
+            Indicator.gameObject.SetActive(false);
             Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * CrabFSM.CrabController.AI.height;
             Debug.DrawRay(start, CrabFSM.CrabController.transform.forward * 10, Color.red);
             if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, 10, LayerMask.GetMask("Obstacle")))
             {
-
                 bIsDashing = false;
                 CapCollider.enabled = false;
                 CrabFSM.Animator.SetBool("Release", false);
@@ -77,6 +88,16 @@ public class ChargeFastAttack : CrabState
                 CapCollider.enabled = false;
                 CrabFSM.Animator.SetBool("Release", false);
                 CrabFSM.EnqueueTransition<Pursue>();
+            }
+        }
+
+        if (isScaling)
+        {
+            Indicator.localScale = Vector3.Lerp(Indicator.localScale, targetScale, Time.deltaTime / (1f / scaleSpeed));
+
+            if (Mathf.Abs(Indicator.localScale.z - targetScale.z) < 0.01f)
+            {
+                Indicator.localScale = targetScale;
             }
         }
     }
@@ -92,6 +113,9 @@ public class ChargeFastAttack : CrabState
         CapCollider.enabled = false;
         CrabFSM.CrabController.CanCharageMoveFast = false;
         CrabFSM.CrabController.bCanChill = true;
+        Indicator.localScale = initialScale;
+        Indicator.gameObject.SetActive(false);
+        isScaling =false;
 
     }
 
