@@ -43,7 +43,6 @@ public class APrimaryLightning : ASpell
 
     public override void CastUpdate()
     {
-        print("Channeling lightning bolt");
         ChannelTime += Time.deltaTime;
 
         float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
@@ -60,7 +59,6 @@ public class APrimaryLightning : ASpell
             chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             FullyChargedVFXObj = chargeVFX;
         }
-        print($"{ATrinityGameManager.GetSpells().ManaComponent.Current} # {ManaUpkeepCost * Time.deltaTime}");
     }
 
     public override void CastEnd()
@@ -73,8 +71,9 @@ public class APrimaryLightning : ASpell
 
             Vector3 castPoint = playerController.transform.position + Vector3.up * playerController.Height + playerController.Forward * 1.5f;
 
-            Quaternion cameraRot = ATrinityGameManager.GetCamera().Camera.transform.rotation;
-            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, castPoint, cameraRot).GetComponent<LightningBolt>();
+            Quaternion spellRot = Quaternion.Euler(-90f, 0f, 0f);
+            
+            LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, castPoint, spellRot).GetComponent<LightningBolt>();
             //lightningBolt.gameObject.transform.parent = this.transform;
             //lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
 

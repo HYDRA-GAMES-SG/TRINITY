@@ -78,7 +78,7 @@ public class LightningTotem : MonoBehaviour
             TotemOrb totemOrb = orbPrefab.GetComponent<TotemOrb>();
             totemOrb.transform.SetParent(this.transform);
             totemOrb.SetTarget(TargetEnemy);
-            Destroy(totemOrb, ATrinityGameManager.GetSpells().SecondaryLightning.ProjectileDuration);
+            Destroy(totemOrb.gameObject, ATrinityGameManager.GetSpells().SecondaryLightning.ProjectileDuration);
         }
     }
 

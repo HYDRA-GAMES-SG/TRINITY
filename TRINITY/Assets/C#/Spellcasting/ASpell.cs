@@ -51,7 +51,6 @@ public class ASpell : MonoBehaviour
  
         if (BrainReference.GetCurrentSpell() == this  && ManaUpkeepCost > 0 && ATrinityGameManager.GetSpells().ManaComponent.Current < 1)            
         {
-            print("No mana!");
             Release();
         }
         

@@ -19,6 +19,8 @@ public class LightningBolt : MonoBehaviour
     [Header("VFX Prefabs")]
     public GameObject ExplosionVFX;
 
+    private SphereCollider Collider;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,13 +30,19 @@ public class LightningBolt : MonoBehaviour
         PrimaryLightning = ATrinityGameManager.GetSpells().PrimaryLightning;
         this.transform.SetParent(PrimaryLightning.transform);
         Direction = ATrinityGameManager.GetSpells().CastDirection;
+        Collider = GetComponent<SphereCollider>();
+        RB.velocity = Direction * Speed;
     }
 
     // Update is called once per frame
     void Update()
     {
         transform.rotation = Quaternion.LookRotation(RB.velocity, Vector3.up) * BaseRotation;
-        RB.velocity = Direction * Speed;
+        
+        if (!Collider.enabled)
+        {
+            Collider.enabled = true;
+        }
     }
     public void SpawnExplosion()
     {
@@ -43,7 +51,8 @@ public class LightningBolt : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
 
@@ -59,9 +68,10 @@ public class LightningBolt : MonoBehaviour
             UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryLightning.AilmentType, PrimaryLightning.StacksApplied);
             enemyStatus += damageSource;
-            print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryLightning.AilmentType} + {PrimaryLightning.StacksApplied}");           
-           
+            print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryLightning.AilmentType} + {PrimaryLightning.StacksApplied}");
         }
+
+        SpawnExplosion();
         //else
         //{
         //    SpawnExplosion();

@@ -11,6 +11,7 @@ public class ASecondaryLightning : ASpell
     public float TotemSummonDepth = 5f;
     public float Range = 10f;
     public GameObject SummonVFX;
+    [HideInInspector]
     public GameObject SummonVFXObj;
 
     [Header("Projectile Properties")] 

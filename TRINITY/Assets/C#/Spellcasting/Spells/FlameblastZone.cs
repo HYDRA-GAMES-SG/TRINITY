@@ -1,0 +1,92 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class FlameblastZone : MonoBehaviour
+{
+    public GameObject FireballExplosion;
+    private float Duration;
+    void Start()
+    {
+        // Start a coroutine to pause particles after 1 second
+        StartCoroutine(PauseParticlesAfterDelay());
+        Duration = ATrinityGameManager.GetSpells().SecondaryFire.ZoneDuration;
+    }
+
+    void Update()
+    {
+        Duration -= Time.deltaTime;
+        if (Duration < 0f)
+        {
+            UnpauseParticles();
+            Destroy(this.gameObject, 4f);
+        }
+
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Fireball>())
+        {
+            GameObject fireballExplosion = Instantiate(FireballExplosion, transform.position, Quaternion.identity);
+            fireballExplosion.transform.localScale = Vector3.one * ATrinityGameManager.GetSpells().SecondaryFire.CurrentRadius / 3f;
+
+            foreach (ParticleSystem ps in fireballExplosion.GetComponentsInChildren<ParticleSystem>().ToList())
+            {
+                ps.Play();
+            }
+            
+            Destroy(fireballExplosion, 2f);
+            
+            ASecondaryFire flameblast = ATrinityGameManager.GetSpells().SecondaryFire;
+            Ray ray = new Ray(transform.position, Vector3.up);
+            Physics.SphereCast(ray, flameblast.CurrentRadius, out RaycastHit hitInfo, 5f);
+
+            HitBox hitBox;
+            if (hitInfo.collider != null)
+            {
+                print("spherecast hits");
+
+                //print("Spherecast collider not null)");
+                hitInfo.collider.TryGetComponent<HitBox>(out hitBox);
+
+                if (hitBox != null)
+                {
+                    FDamageInstance damage = new FDamageInstance(-other.GetComponent<Fireball>().Damage 
+                                                                 -flameblast.DamagePerStack * flameblast.CurrentRadius, 
+                                                                EAilmentType.EAT_Ignite, 
+                                                                ATrinityGameManager.GetSpells().PrimaryFire.StacksApplied);
+                    hitBox.EnemyStatus += damage;
+                }
+            }
+        }
+    }
+
+    private IEnumerator PauseParticlesAfterDelay()
+    {
+        // Wait for 1 second
+        yield return new WaitForSeconds(1f);
+        
+        // Get all particle systems on this object and its children
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>(true);
+        
+        // Pause each particle system
+        foreach (ParticleSystem ps in particles)
+        {
+            ps.Pause();
+        }
+    }
+    private void UnpauseParticles()
+    {
+        // Get all particle systems on this object and its children
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>(true);
+        
+        // Pause each particle system
+        foreach (ParticleSystem ps in particles)
+        {
+            ps.Play();
+        }
+    }
+}

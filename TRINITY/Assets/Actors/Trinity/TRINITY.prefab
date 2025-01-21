@@ -3298,7 +3298,7 @@ MonoBehaviour:
     type: 3}
   Cooldown: 0
   ManaCost: 0
-  ManaUpkeepCost: 10
+  ManaUpkeepCost: 4
   SpellElement: 0
   SpellType: 1
   SpellAction: 0
@@ -4945,7 +4945,7 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 0
   bUseMaskedLayer: 1
-  StacksOfChillApplied: 5
+  StacksOfChillApplied: 3
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
   CastNumber: 0
   CastingSFX: {fileID: 0}
@@ -5096,7 +5096,7 @@ MonoBehaviour:
     type: 3}
   Cooldown: 4
   ManaCost: 5
-  ManaUpkeepCost: 5
+  ManaUpkeepCost: 3
   SpellElement: 1
   SpellType: 1
   SpellAction: 4
@@ -6056,9 +6056,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2da402914294bbd4f98f1ec37d6e1632, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX: 50
-  Regen: 5
-  Current: 50
+  MAX: 75
+  Regen: 8
+  Current: 75
 --- !u!1 &3927814798572013269
 GameObject:
   m_ObjectHideFlags: 0
@@ -13845,7 +13845,7 @@ MonoBehaviour:
     type: 3}
   Cooldown: 0
   ManaCost: 5
-  ManaUpkeepCost: 5
+  ManaUpkeepCost: 2
   SpellElement: 2
   SpellType: 1
   SpellAction: 4
@@ -13856,8 +13856,9 @@ MonoBehaviour:
   MaxChannelTime: 1.5
   TotemSummonDepth: 2.5
   Range: 7
-  SummonVFX: {fileID: 4472059949396441891, guid: 46b27e16f8fe1f34eafb5b06e1f5c1dd,
+  SummonVFX: {fileID: 2900534572940629487, guid: c3896d1837507224fb975dc6392f0988,
     type: 3}
+  SummonVFXObj: {fileID: 0}
   ProjectileDuration: 4.5
   ProjectileRange: 60
   ProjectileSpeed: 6
@@ -16913,7 +16914,7 @@ MonoBehaviour:
     type: 3}
   Cooldown: 0
   ManaCost: 5
-  ManaUpkeepCost: 5
+  ManaUpkeepCost: 3
   SpellElement: 0
   SpellType: 1
   SpellAction: 4
@@ -16922,12 +16923,13 @@ MonoBehaviour:
   AilmentType: 0
   StacksPerRadius: 15
   DamagePerStack: 50
+  ZoneDuration: 25
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
-  Range: 10
+  Range: 11
   MaxChannelTime: 2
-  MaxRadius: 4
+  MaxRadius: 5.5
   MinRadius: 0.1
   MaxRuneParticleHeight: 0.5
   GlyphPrefab: {fileID: 4928933366125351325, guid: 8876011cd171c7c409bdceb767d9b2a0,
@@ -16936,6 +16938,7 @@ MonoBehaviour:
     type: 3}
   Channeling: {fileID: 0}
   Explosion: {fileID: 8300000, guid: 051fcc37559376e4a998bc094a2791b5, type: 3}
+  CurrentRadius: 1
 --- !u!82 &6599781360173754770
 AudioSource:
   m_ObjectHideFlags: 0
@@ -17353,7 +17356,7 @@ MonoBehaviour:
     type: 3}
   Cooldown: 0
   ManaCost: 5
-  ManaUpkeepCost: 5
+  ManaUpkeepCost: 1
   SpellElement: 2
   SpellType: 0
   SpellAction: 3
@@ -19690,7 +19693,7 @@ MonoBehaviour:
   SpellPrefab: {fileID: 904328815561062564, guid: 9269c405172bbe845971ab6f79b927e5,
     type: 3}
   Cooldown: 2
-  ManaCost: 5
+  ManaCost: 10
   ManaUpkeepCost: 0
   SpellElement: 0
   SpellType: 1

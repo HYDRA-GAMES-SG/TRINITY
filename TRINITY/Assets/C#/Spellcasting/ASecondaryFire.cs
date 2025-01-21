@@ -12,6 +12,9 @@ public class ASecondaryFire : ASpell
     public EAilmentType AilmentType;
     public int StacksPerRadius;
     public float DamagePerStack = 50f;
+
+    [Header("Zone Properties")] 
+    public float ZoneDuration = 10f;
     
     // Flameblast Properties
     [Header("Properties")] 
@@ -38,7 +41,9 @@ public class ASecondaryFire : ASpell
 
     // Cached Components
     private AudioSource SFX;
-    private float CurrentRadius = 1f;
+    
+    [HideInInspector]
+    public float CurrentRadius = 1f;
 
     public override void Initialize()
     {
@@ -57,6 +62,11 @@ public class ASecondaryFire : ASpell
 
     public override void CastStart()
     {
+        if (Glyph != null)
+        {
+            Destroy(Glyph);
+        }
+        
         if (Rune == null) return;
 
         Vector3 invokePosition = GetGroundPosition();
@@ -145,11 +155,12 @@ public class ASecondaryFire : ASpell
         // spawn the glyph and pillar at the rune's location
         if (GlyphPrefab != null)
         {
-            Glyph = Instantiate(GlyphPrefab, Rune.transform.position, Quaternion.identity);
+            Vector3 glyphPos = Rune.transform.position + Vector3.up * .15f;
+            Glyph = Instantiate(GlyphPrefab, glyphPos, Quaternion.identity);
             Glyph.transform.SetParent(this.gameObject.transform);
             Vector3 newScale = new Vector3(Rune.transform.localScale.x * .5f, 1f, Rune.transform.localScale.x *.5f);
             Glyph.transform.localScale = newScale;
-            Destroy(Glyph, 6f);
+            //Destroy(Glyph, 6f);
         }
 
         if (PillarPrefab != null)

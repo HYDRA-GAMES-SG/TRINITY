@@ -7262,7 +7262,7 @@ GameObject:
   - component: {fileID: 6639925515291015477}
   - component: {fileID: 276422972833615442}
   - component: {fileID: 8702824847389385152}
-  - component: {fileID: 7017642682999567353}
+  - component: {fileID: 4738928323352265880}
   m_Layer: 7
   m_Name: LightningBolt
   m_TagString: Untagged
@@ -7390,7 +7390,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0.74599767, b: 0.13333333, a: 0.38431373}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9889,9 +9889,9 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!65 &7017642682999567353
-BoxCollider:
+  m_CollisionDetection: 1
+--- !u!135 &4738928323352265880
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -9907,10 +9907,10 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 0.99278206, y: 11.689678, z: 0.89756536}
-  m_Center: {x: -0.004345447, y: 5.5275855, z: 0.0044560432}
+  m_Radius: 0.26
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &6639925516002077118
 GameObject:
   m_ObjectHideFlags: 0
