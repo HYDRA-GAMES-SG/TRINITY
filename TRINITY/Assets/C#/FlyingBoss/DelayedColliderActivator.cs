@@ -106,7 +106,7 @@ public class DelayedColliderActivator : MonoBehaviour
 
     public void MediumCameraShake(float duration = .5f)
     {
-        Debug.Log("IsShack"+this.gameObject.name);
+        //Debug.Log("IsShack"+this.gameObject.name);
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
     }
 }

@@ -26,12 +26,28 @@ public class IBShock : MonoBehaviour
             {
                 FHitInfo hitInfo = new FHitInfo(IBController.gameObject, this.gameObject, collision, Damage);
                 player.ApplyHit(hitInfo);
-                Debug.Log($"Particles Hit player " + IBController.GetCurrentAttackDamage());
+                //Debug.Log($"Particles Hit player " + IBController.GetCurrentAttackDamage());
 
             }
         }
     }
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if ((CollideMask.value & (1 << other.gameObject.layer)) != 0)
+        {
+            Destroy(gameObject);
+            //Debug.Log(other.gameObject.name);
+            Collider.enabled = false;
+            ATrinityController player = other.GetComponent<ATrinityController>();
+            if (player != null)
+            {
+                FHitInfo hitInfo = new FHitInfo(IBController.gameObject, this.gameObject, null, Damage);
+                player.ApplyHit(hitInfo);
+                //Debug.Log($"Particles Hit player " + IBController.GetCurrentAttackDamage());
+            }
+        }
+    }
+
     public void GetController(AInvincibleBossController controller)
     {
         IBController = controller;

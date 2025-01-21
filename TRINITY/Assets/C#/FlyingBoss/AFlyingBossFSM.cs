@@ -100,7 +100,7 @@ public class AFlyingBossFSM : MonoBehaviour
 
         OnStateChange?.Invoke(PreviousState, nextState);
 
-        Debug.Log("AI: " + CurrentState + "=>" + nextState);
+        //Debug.Log("AI: " + CurrentState + "=>" + nextState);
 
         CurrentState = nextState;
         UpdateAnimatorLayer(CurrentState.GetType().Name);

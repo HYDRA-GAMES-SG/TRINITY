@@ -60,7 +60,7 @@ public class AAttackCollider : MonoBehaviour
         // Combine horizontal and upward forces
         Vector3 knockbackForce = (direction + upwardForce).normalized * Controller.AttackForce;
         rb.AddForce(knockbackForce, ForceMode.Impulse);
-        Debug.Log($"Knockback Applied! Direction: {direction}, Force: {knockbackForce}");
+        //Debug.Log($"Knockback Applied! Direction: {direction}, Force: {knockbackForce}");
 
 
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, collision, Controller.GetCurrentAttackDamage());
@@ -71,7 +71,7 @@ public class AAttackCollider : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log($"Particles Hit player ");
+        //Debug.Log($"Particles Hit player ");
         if (DealDamageOnlyOnce && hasDealtDamage)
         {
             return;
@@ -87,7 +87,7 @@ public class AAttackCollider : MonoBehaviour
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, null, Controller.GetParticleAttack());
         player.ApplyHit(hitInfo);
         hasDealtDamage = true;
-        Debug.Log($"Particles Hit player " + Controller.GetParticleAttack());
+        //Debug.Log($"Particles Hit player " + Controller.GetParticleAttack());
     }
 
     public void SetController(IEnemyController enemyController)

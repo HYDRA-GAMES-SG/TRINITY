@@ -8,6 +8,7 @@ public class IBTaunt : InvincibleBossState
     [SerializeField]
     string AnimKey = "Taunt";
 
+    [SerializeField] GameObject Indecator;
     [SerializeField] ParticleSystem TauntParticle;
     [SerializeField] Collider TauntCollider;
     [SerializeField] float OnTauntParticleDelay;
@@ -27,7 +28,7 @@ public class IBTaunt : InvincibleBossState
         DurationTimer = 0;
 
         InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKey);
-
+        Indecator.SetActive(true);
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -47,6 +48,7 @@ public class IBTaunt : InvincibleBossState
         if (DelayTimer >= OnTauntParticleDelay && !bOnTaunt)
         {
             bOnTaunt = true;
+            Indecator.SetActive(false);
             TauntParticle.Play();
             TauntCollider.enabled = true;
             InvincibleBossFSM.InvincibleBossController.MediumCameraShake(3f);
