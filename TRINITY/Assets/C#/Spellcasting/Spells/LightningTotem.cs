@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LightningTotem : MonoBehaviour
 {
-    [Header("Totem Properties")] public float Duration;
-    public float AttackFrequency;
+    [Header("Totem Properties")] 
+    public float AttackFrequency = .85f;
+    public float Duration;
     public Vector3 InvokePosition;
-    public float AttackRange;
     public float SummonDepth;
     public bool bUnsummoned = false;
     public bool bSummoned = false;
     public float UnsummonSpeed = 1.5f;
     public float MaxPitchSpawn = 10f;
+    public Transform ProjectileSpawnPoint;
+    private float AttackTimer;
+    private Transform TargetEnemy;
     
     
     // Start is called before the first frame update
@@ -26,12 +30,27 @@ public class LightningTotem : MonoBehaviour
         System.Random RNG = new System.Random();
         float spawnPitch = ((float)RNG.NextDouble() - .5f) * 2f * MaxPitchSpawn;
         transform.Find("Totem").transform.localRotation *= Quaternion.AngleAxis(spawnPitch, transform.forward); //makes no sense
+        AttackTimer = AttackFrequency;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (bSummoned)
+        Duration -= Time.deltaTime;
+        AttackTimer -= Time.deltaTime;
+        
+        if (AttackTimer < 0 && !bUnsummoned)
+        {
+            Attack();
+            AttackTimer = AttackFrequency;
+        }
+        
+        if (Duration <= 0)
+        {
+            Unsummon();
+        }
+        
+        if (bSummoned  && !bUnsummoned)
         {
             LookAtClosestEnemy();
             
@@ -42,6 +61,24 @@ public class LightningTotem : MonoBehaviour
             float newY = Mathf.Lerp(transform.position.y, InvokePosition.y - SummonDepth, UnsummonSpeed * Time.deltaTime);
             Vector3 newPos = new Vector3(InvokePosition.x, newY, InvokePosition.z);
             transform.localPosition = newPos;
+
+            if (Mathf.Abs(newY - InvokePosition.y - SummonDepth) < .05f)
+            {
+                Destroy(this);
+            }
+        }
+    }
+
+    private void Attack()
+    {
+        if (TargetEnemy != null)
+        {
+            GameObject orbPrefab = Instantiate(ATrinityGameManager.GetSpells().SecondaryLightning.ProjectilePrefab,
+                ProjectileSpawnPoint.position, Quaternion.identity);
+            TotemOrb totemOrb = orbPrefab.GetComponent<TotemOrb>();
+            totemOrb.transform.SetParent(this.transform);
+            totemOrb.SetTarget(TargetEnemy);
+            Destroy(totemOrb, ATrinityGameManager.GetSpells().SecondaryLightning.ProjectileDuration);
         }
     }
 
@@ -63,7 +100,8 @@ public class LightningTotem : MonoBehaviour
 
             if (closestEnemy != null)
             {
-                Vector3 toEnemy = closestEnemy.transform.position - transform.position;
+                TargetEnemy = closestEnemy.CoreCollider.transform;
+                Vector3 toEnemy = closestEnemy.CoreCollider.transform.position - transform.position;
                 toEnemy.y = 0; // flatten
                 Transform totem = transform.Find("Totem");
                 totem.localRotation = Quaternion.Lerp(totem.localRotation, 

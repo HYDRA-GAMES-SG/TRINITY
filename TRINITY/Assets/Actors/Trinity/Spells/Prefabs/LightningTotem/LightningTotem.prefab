@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8221499328488630607}
   - component: {fileID: 289224880540561003}
   - component: {fileID: 3417149543682393300}
-  - component: {fileID: 3408066211683643869}
   m_Layer: 0
   m_Name: eye1
   m_TagString: Untagged
@@ -85,27 +84,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &3408066211683643869
-SphereCollider:
+--- !u!1 &835471118004782665
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 445345035980868206}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2427987112900312256}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2427987112900312256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 835471118004782665}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.951, z: 0.53}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6873415243977233689}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4260736446530102828
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,7 +125,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6770049311435700918}
   - component: {fileID: 2663962874601821866}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LightningTotem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,15 +160,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe79cf81e05b07c478e9184d2c95e4c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0
   AttackFrequency: 0
+  Duration: 0
   InvokePosition: {x: 0, y: 0, z: 0}
-  AttackRange: 0
   SummonDepth: 0
   bUnsummoned: 0
   bSummoned: 0
   UnsummonSpeed: 1.5
   MaxPitchSpawn: 15
+  ProjectileSpawnPoint: {fileID: 2427987112900312256}
 --- !u!1 &4340784208990729503
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +180,6 @@ GameObject:
   - component: {fileID: 6006142302120276590}
   - component: {fileID: 4917847924654149044}
   - component: {fileID: 3704879096659287017}
-  - component: {fileID: 398193015300300249}
   m_Layer: 0
   m_Name: eye2
   m_TagString: Untagged
@@ -245,27 +253,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &398193015300300249
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4340784208990729503}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6876959959603932263
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,6 +265,7 @@ GameObject:
   - component: {fileID: 6852958599901821339}
   - component: {fileID: 6861280241879880691}
   - component: {fileID: 6836679047782254745}
+  - component: {fileID: 5737945113557371011}
   m_Layer: 0
   m_Name: Totem
   m_TagString: Untagged
@@ -300,6 +288,7 @@ Transform:
   m_Children:
   - {fileID: 8221499328488630607}
   - {fileID: 6006142302120276590}
+  - {fileID: 2427987112900312256}
   m_Father: {fileID: 6770049311435700918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6852958599901821339
@@ -367,6 +356,29 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!136 &5737945113557371011
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6876959959603932263}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.24
+  m_Height: 2.17783
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.064474, z: 0.05570078}
 --- !u!1 &8060582433060877791
 GameObject:
   m_ObjectHideFlags: 0

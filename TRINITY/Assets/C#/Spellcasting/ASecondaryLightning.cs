@@ -6,14 +6,22 @@ public class ASecondaryLightning : ASpell
 {
     [Header("Summoning Properties")]
     public LayerMask GroundLayer;
-    public float Range = 10f;
     public float MaxChannelTime = 2f;
     public float TotemSummonDepth = 5f;
+    public float Range = 10f;
+
+    [Header("Projectile Properties")] 
+    public float ProjectileDuration = 4.5f;
+    public float ProjectileRange = 10f;
+    public float ProjectileSpeed;
+    public float AggroRange;
+    public float ProjectileDamage;
+    public GameObject ProjectilePrefab;
+    public int ProjectileChargeStacks = 1;
     
     [Header("Totem Properties")]
-    public float TotemDuration;
     public float AttackFrequency;
-    public float AttackRange;
+    public float TotemDuration;
     public float TotemMaxPitchSpawn = 15f;
 
 
@@ -49,7 +57,6 @@ public class ASecondaryLightning : ASpell
             LightningTotem lightningTotem = Totem.GetComponent<LightningTotem>();
             lightningTotem.Duration = TotemDuration;
             lightningTotem.AttackFrequency = AttackFrequency;
-            lightningTotem.AttackRange = AttackRange;
             lightningTotem.InvokePosition = InvokePosition;
             lightningTotem.SummonDepth = TotemSummonDepth;
             lightningTotem.MaxPitchSpawn = TotemMaxPitchSpawn;
