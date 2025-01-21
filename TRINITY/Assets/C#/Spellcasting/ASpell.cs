@@ -47,9 +47,11 @@ public class ASpell : MonoBehaviour
         }
         
         UpdateCooldown();
-        
-        if (ATrinityGameManager.GetSpells().ManaComponent.Current < ManaUpkeepCost * Time.deltaTime)
+
+ 
+        if (BrainReference.GetCurrentSpell() == this  && ManaUpkeepCost > 0 && ATrinityGameManager.GetSpells().ManaComponent.Current < 1)            
         {
+            print("No mana!");
             Release();
         }
         
@@ -134,7 +136,6 @@ public class ASpell : MonoBehaviour
     
     public virtual void Release()
     {
-        
         if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
             ATrinityGameManager.GetAnimator().ReleaseAnimation();

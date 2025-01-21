@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ASecondaryLightning : ASpell
@@ -9,6 +10,8 @@ public class ASecondaryLightning : ASpell
     public float MaxChannelTime = 2f;
     public float TotemSummonDepth = 5f;
     public float Range = 10f;
+    public GameObject SummonVFX;
+    public GameObject SummonVFXObj;
 
     [Header("Projectile Properties")] 
     public float ProjectileDuration = 4.5f;
@@ -60,9 +63,11 @@ public class ASecondaryLightning : ASpell
             lightningTotem.InvokePosition = InvokePosition;
             lightningTotem.SummonDepth = TotemSummonDepth;
             lightningTotem.MaxPitchSpawn = TotemMaxPitchSpawn;
-            
+     
             Totem.transform.position = InvokePosition + Vector3.down * TotemSummonDepth;
-            
+            Vector3 vfxPos = new(Totem.transform.position.x, Totem.transform.position.y + 2.4f, Totem.transform.position.z);
+            SummonVFXObj = Instantiate(SummonVFX, vfxPos, Quaternion.identity);
+
             ChannelTime = 0f;
         
             if (CastingSFX != null)
@@ -90,11 +95,13 @@ public class ASecondaryLightning : ASpell
         if (ChannelTime >= MaxChannelTime)
         {
             Totem.GetComponent<LightningTotem>().bSummoned = true;
+            
             Release(); //trigger end when max channel time is reached
         }
     }
     public override void CastEnd()
     {
+        print("unsummon");
         if (CastingSFX != null)
         {
             SFXSource.Stop();
@@ -104,7 +111,8 @@ public class ASecondaryLightning : ASpell
         {
             Totem.GetComponent<LightningTotem>().Unsummon();
         }
-        
+
+        Destroy(SummonVFXObj);
     }
     
     private Vector3 GetGroundPosition()

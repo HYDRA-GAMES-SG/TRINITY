@@ -60,6 +60,7 @@ public class APrimaryLightning : ASpell
             chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             FullyChargedVFXObj = chargeVFX;
         }
+        print($"{ATrinityGameManager.GetSpells().ManaComponent.Current} # {ManaUpkeepCost * Time.deltaTime}");
     }
 
     public override void CastEnd()

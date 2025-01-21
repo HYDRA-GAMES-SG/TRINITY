@@ -52,13 +52,10 @@ public class ABlink : ASpell
         //if the direction is zeroish
         if (Mathf.Abs(input.y) < float.Epsilon && Mathf.Abs(input.x) < float.Epsilon)
         {
-            if (playerMovement != null)
+            if (playerMovement.GetMovementState() != ETrinityMovement.ETM_Grounded)
             {
-                if (playerMovement.GetMovementState() != ETrinityMovement.ETM_Grounded)
-                {
-                    if(DEBUG_ENABLE){print("vertical blink");}
-                    rotatedDirection = ATrinityGameManager.GetPlayerController().Up;
-                }
+                if(DEBUG_ENABLE){print("vertical blink");}
+                rotatedDirection = ATrinityGameManager.GetPlayerController().Up;
             }
             else
             {

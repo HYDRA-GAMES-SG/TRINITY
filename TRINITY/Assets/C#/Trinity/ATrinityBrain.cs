@@ -139,7 +139,7 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
-        
+       
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
@@ -159,12 +159,17 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
+        if (GetCurrentSpell().SpellType != ESpellType.EST_Primary)
+        {
+            return;
+        }
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
                 ATrinityGameManager.GetSpells().PrimaryCold.Release();
                 break;
             case ETrinityElement.ETE_Fire:
+                ATrinityGameManager.GetSpells().PrimaryFire.Release();
                 break;
             case ETrinityElement.ETE_Lightning:
                 ATrinityGameManager.GetSpells().PrimaryLightning.Release();

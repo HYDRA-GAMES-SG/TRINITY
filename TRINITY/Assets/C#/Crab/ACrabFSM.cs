@@ -26,7 +26,6 @@ public class ACrabFSM : MonoBehaviour, IFSM
 
     private void FixedUpdate()
     {
-        Debug.Log(TransitionQueue.Count);
         TryInitialize();
 
         // Check for transitions and update the current state
