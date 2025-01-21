@@ -6,7 +6,8 @@ using UnityEngine;
 public class TotemOrb : MonoBehaviour
 {
 
-    [Header("Projectile Properties")] private int ChargeStacks;
+    [Header("Projectile Properties")] 
+    private int ChargeStacks;
     private float ProjectileSpeed;
     private float Range;
     private float Damage;
@@ -14,6 +15,7 @@ public class TotemOrb : MonoBehaviour
     private Vector3 InitialPosition;
     private Vector3 InitialTargetPosition;
     private Vector3 Direction;
+
 
     public void SetTarget(Transform newTarget)
     {
@@ -53,17 +55,26 @@ public class TotemOrb : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         print(other.gameObject.name);
-        
+
+        if (other.gameObject.name.Contains("LightningOrb")) 
+        {
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+            return;
+        }
         HitBox collisionHitBox = other.gameObject.GetComponent<HitBox>();
-        
+       
         if (!collisionHitBox) //if null
         {
             Destroy(this);
             return;
         }
-
-        collisionHitBox.Health.Modify(-Damage);
-        collisionHitBox.EnemyStatus.Ailments.ModifyStack(EAilmentType.EAT_Charge, ChargeStacks);
-        Destroy(this);
+        if (other.gameObject.tag == "Enemy") 
+        {
+            UEnemyStatusComponent enemyStatus = collisionHitBox.EnemyStatus;
+            FDamageInstance damageSource = new FDamageInstance(Damage, EAilmentType.EAT_Charge, ChargeStacks);
+            enemyStatus += damageSource;
+            Destroy(this.gameObject);
+        }
     }
 }
