@@ -59,6 +59,10 @@ public class ASpell : MonoBehaviour
             ATrinityGameManager.GetSpells().ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
             CastUpdate();
         }
+        if (this is AUtilityFire) 
+        {
+            CastUpdate();
+        }
     }
 
     protected void UpdateCooldown()

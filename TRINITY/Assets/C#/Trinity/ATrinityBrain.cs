@@ -231,6 +231,10 @@ public class ATrinityBrain : MonoBehaviour
                 ATrinityGameManager.GetSpells().UtilityCold.Cast();
                 break;
             case ETrinityElement.ETE_Fire:
+                if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
+                {
+                    return;
+                }
                 ATrinityGameManager.GetSpells().UtilityFire.Cast();
                 break;
             case ETrinityElement.ETE_Lightning:
