@@ -21,27 +21,26 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TransparentRed
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: 4800000, guid: 333fbbaf710d46a39d6725dee82d8cb1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
-  - _EMISSION
-  - _SURFACE_TYPE_TRANSPARENT
+  - _USERAMP_ON
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - DepthOnly
-  - SHADOWCASTER
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaOverride:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -55,6 +54,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNoise:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -101,6 +104,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
+    - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
@@ -108,31 +112,65 @@ Material:
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
+    - _Culling: 0
     - _Cutoff: 0.5
+    - _Desaturate: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DisableErosion: 0
+    - _DistortionIntensity: 2
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
+    - _Fresnel: 0
+    - _FresnelPower: 1
+    - _FresnelScale: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 1
+    - _MiddlePointPos: 0.5
+    - _MiddlePointPos1: 0.5
+    - _MultiplyNoiseDesaturation: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SoftFadeFactor: 0.1
+    - _SourceBlendRGB: 5
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 1
+    - _UseAlphaOverride: 0
+    - _UsePixelation: 0
+    - _UseRamp: 1
+    - _UseSoftAlpha: 0
+    - _UseUVOffset: 0
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
+    - _AlphaOverrideChannel: {r: 0, g: 0, b: 0, a: 1}
+    - _AlphaOverridePanning: {r: 0, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 0, b: 0, a: 0.2784314}
     - _Color: {r: 1, g: 0, b: 0, a: 0.2784314}
+    - _DetailAdditiveChannel: {r: 0, g: 0, b: 0, a: 0}
+    - _DetailDisolveChannel: {r: 1, g: 0, b: 0, a: 0}
+    - _DetailDistortionChannel: {r: 0, g: 0, b: 0, a: 0}
+    - _DetailMultiplyChannel: {r: 0, g: 0, b: 0, a: 0}
+    - _DetailNoisePanning: {r: 0, g: 0, b: 0, a: 0}
+    - _DetailVertexOffsetChannel: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.25, g: 0, b: 0, a: 1}
+    - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
+    - _LastColor: {r: 1, g: 0, b: 0, a: 0}
+    - _MainAlphaChannel: {r: 0, g: 0, b: 0, a: 1}
+    - _MainTextureChannel: {r: 1, g: 1, b: 1, a: 0}
+    - _MainTexturePanning: {r: 0, g: 0, b: 0, a: 0}
+    - _MidColor: {r: 1, g: 0.4447915, b: 0, a: 0}
+    - _Resolution: {r: 64, g: 64, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WhiteColor: {r: 1, g: 0.023867305, b: 0, a: 0}
   m_BuildTextureStacks: []
