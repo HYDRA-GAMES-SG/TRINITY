@@ -49,7 +49,7 @@ public class AUtilityFire : ASpell
     {
         //Spawn VFX
         GameObject explosionVFX = Instantiate(ExplosionVFX, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
-        GameObject auraVFX = Instantiate (AuraVFX, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
+        GameObject auraVFX = Instantiate (AuraVFX, ATrinityGameManager.GetPlayerController().Position + new Vector3(0, 0.75f, 0), Quaternion.identity);
         auraVFX.transform.parent = ATrinityGameManager.GetPlayerController().transform;
         Destroy(auraVFX, AuraTime);
 
