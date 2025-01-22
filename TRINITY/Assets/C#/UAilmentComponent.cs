@@ -14,6 +14,8 @@ public enum EAilmentType
 public class UAilmentComponent : MonoBehaviour
 {
     
+    public static float AilmentDuration = 5f;
+    
     [HideInInspector]
     public static int ChargeStacks = 0;
     
@@ -39,7 +41,6 @@ public class UAilmentComponent : MonoBehaviour
         public float Duration { get; set; }
     }
 
-    public float AilmentDuration = 5f;
 
     public Dictionary<EAilmentType, Ailment> AilmentKeys = new();
 

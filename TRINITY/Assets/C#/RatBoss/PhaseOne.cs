@@ -8,24 +8,28 @@ public enum ERatMovementState
 {
     ERMS_Dead,
     ERMS_Reposition,
-    ERMS_Idle
+    ERMS_Idle,
+    ERMS_Pursue,
+    ERMS_Attack
 }
 
 public class PhaseOne : RatState
 {
     public float ThresholdAngle = 30f;
     public float WanderRadius = 10f;
+    public float PursueDistance = 15f;  // Distance at which rat starts pursuing player
+    public float AttackRange = 3f;      // Distance at which rat can attack player
     public ERatMovementState RatMovementState;
-    public ABulletRingSpawner RingSpawner;
-    public ABulletSphereSpawner SphereSpawner;
     private Dictionary<string, string> AnimKeys = new Dictionary<string, string>
     {
         { "Move", "Forward" }, { "Turn", "Turn" },{ "AcidWave", "AcidWave" }, { "AcidSphere", "AcidSphere" },
-        {"Death", "bDeath"}, {"Idle", "bIdle"}, {"WaveTrigger", "WaveTrigger"}, {"SphereTrigger", "SphereTrigger"}
+        {"Death", "bDeath"}, {"Idle", "bIdle"}, {"WaveTrigger", "WaveTrigger"}, {"SphereTrigger", "SphereTrigger"},
+        {"Attack", "Attack"}  // Added Attack animation trigger
     };
-    private Coroutine SpawnCoro;
     private bool bSpawningAcid = false;
-
+    private Coroutine idleCoroutine;
+    private float attackCooldown = 2f;  // Time between attacks
+    private float lastAttackTime = 0f;
 
     private int SpawnerFlipFlop; // modulo 3
     
@@ -49,27 +53,89 @@ public class PhaseOne : RatState
         }
 
         RatMovementState = ERatMovementState.ERMS_Idle;
-
+        // Start the idle coroutine when entering the state
+        idleCoroutine = StartCoroutine(IdleStateCoroutine());
     }
 
     public override void PreUpdateBehaviour(float dt)
     {
         if (RatFSM.RatController.EnemyStatus.Health.Current <= 0f)
         {
+            if (idleCoroutine != null)
+            {
+                StopCoroutine(idleCoroutine);
+            }
             RatMovementState = ERatMovementState.ERMS_Dead;
+            return;
+        }
+
+        // Check distance to player and transition to pursue if within range
+        float distanceToPlayer = Vector3.Distance(RatFSM.RatController.transform.position, 
+                                                RatFSM.PlayerController.transform.position);
+        
+        if (distanceToPlayer <= PursueDistance && RatMovementState != ERatMovementState.ERMS_Attack)
+        {
+            if (RatMovementState != ERatMovementState.ERMS_Pursue)
+            {
+                if (idleCoroutine != null)
+                {
+                    StopCoroutine(idleCoroutine);
+                }
+                RatMovementState = ERatMovementState.ERMS_Pursue;
+            }
+            
+            // Check if close enough to attack
+            if (distanceToPlayer <= AttackRange && Time.time >= lastAttackTime + attackCooldown)
+            {
+                RatMovementState = ERatMovementState.ERMS_Attack;
+            }
+        }
+        else if (distanceToPlayer > PursueDistance && RatMovementState == ERatMovementState.ERMS_Pursue)
+        {
+            // Return to idle if player gets too far
+            RatMovementState = ERatMovementState.ERMS_Idle;
+            idleCoroutine = StartCoroutine(IdleStateCoroutine());
         }
     }
 
+    private IEnumerator IdleStateCoroutine()
+    {
+        // Wait for 3 seconds
+        yield return new WaitForSeconds(3f);
+        
+        // After 3 seconds, transition to reposition state
+        if (RatMovementState == ERatMovementState.ERMS_Idle)
+        {
+            RatMovementState = ERatMovementState.ERMS_Reposition;
+            RatFSM.Animator.SetBool(AnimKeys["Idle"], false);
+        }
+    }
 
     public override void UpdateBehaviour(float dt)
     {
+        print(RatMovementState);
         switch (RatMovementState)
         {
             case ERatMovementState.ERMS_Idle:
-                if (!bSpawningAcid && SpawnCoro == null)  // Only spawn if we're not already spawning
+                if (!bSpawningAcid)  // Only spawn if we're not already spawning
                 {
                     SpawnAcid();
                 }
+                break;
+            
+            case ERatMovementState.ERMS_Pursue:
+                // Move towards the player
+                MoveTowardTarget(RatFSM.PlayerController.transform.position);
+                RatFSM.Animator.SetFloat(AnimKeys["Move"], Mathf.Abs(RatFSM.RatController.RB.velocity.magnitude));
+                break;
+
+            case ERatMovementState.ERMS_Attack:
+                // Perform attack
+                RatFSM.RatController.AI.ResetPath(); // Stop moving
+                RatFSM.Animator.SetTrigger(AnimKeys["Attack"]);
+                lastAttackTime = Time.time;
+                // Return to pursue state after attack
+                RatMovementState = ERatMovementState.ERMS_Pursue;
                 break;
             
             case ERatMovementState.ERMS_Reposition:
@@ -88,6 +154,8 @@ public class PhaseOne : RatState
                         RatFSM.RatController.AI.ResetPath(); // Clear the path
                         RatMovementState = ERatMovementState.ERMS_Idle;
                         RatFSM.Animator.SetBool(AnimKeys["Idle"], true);
+                        // Start a new idle coroutine
+                        idleCoroutine = StartCoroutine(IdleStateCoroutine());
                     }
                     else 
                     {
@@ -98,11 +166,14 @@ public class PhaseOne : RatState
                 break;
             
             case ERatMovementState.ERMS_Dead:
+                if (idleCoroutine != null)
+                {
+                    StopCoroutine(idleCoroutine);
+                }
                 RatFSM.Animator.SetBool(AnimKeys["Death"], true);
                 break;
         }
     }
-
 
     public override void PostUpdateBehaviour(float dt)
     {
@@ -110,43 +181,21 @@ public class PhaseOne : RatState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
+        // Clean up any running coroutine when exiting the state
+        if (idleCoroutine != null)
+        {
+            StopCoroutine(idleCoroutine);
+        }
     }
 
     public override bool CheckExitTransition(IState toState)
     {
         return true;
     }
-    
-    
 
     private void SpawnAcid()
     {
-        if (bSpawningAcid || SpawnCoro != null) // Double-check to prevent multiple spawns
-            return;
-        
         bSpawningAcid = true;
-        if (SpawnerFlipFlop % 3 == 0)
-        {
-            SpawnCoro = StartCoroutine(HandleSpawning(SphereSpawner.Spawn()));
-        }
-        else
-        {
-            SpawnCoro = StartCoroutine(HandleSpawning(RingSpawner.Spawn()));
-        }
-        SpawnerFlipFlop++;
-    }
-
-    private IEnumerator HandleSpawning(IEnumerator spawnRoutine)
-    {
-        yield return StartCoroutine(spawnRoutine);
-    
-        // Add a small delay to ensure animations have time to play
-        yield return new WaitForSeconds(0.5f);
-    
-        SpawnCoro = null;
-        bSpawningAcid = false;
-        RatMovementState = ERatMovementState.ERMS_Reposition;
-        RatFSM.Animator.SetBool(AnimKeys["Idle"], false);
     }
     
     public Vector3 GetWanderPoint()
@@ -156,7 +205,7 @@ public class PhaseOne : RatState
         /* Generate a random point inside a unit sphere, then scale it by our wanderRadius */
         Vector3 randomDirection = Random.insideUnitSphere * WanderRadius; 
     
-        /* Shift this random direction so that it’s relative to our origin point */
+        /* Shift this random direction so that it's relative to our origin point */
         randomDirection += origin;
 
         /* Try sampling this position on the NavMesh */

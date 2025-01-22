@@ -8,9 +8,12 @@ public class UHealthComponent : MonoBehaviour
     public float MAX = 50;
 
     public float Regen = 5f;
+    
+    [HideInInspector]
     public float Current = 0f;
 
     public float Percent => Current / MAX;
+    [HideInInspector]
     public bool bDead;
 
     public System.Action<float> OnDamageTaken;
