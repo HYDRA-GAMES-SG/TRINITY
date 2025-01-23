@@ -37,7 +37,6 @@ public class AUtilityFire : ASpell
         {
             ATrinityGameManager.GetSpells().PrimaryFire.Cooldown = OriginalCooldown;
             bAura = false;
-            print("CleanseFlame cast ended");
         }
     }
 
