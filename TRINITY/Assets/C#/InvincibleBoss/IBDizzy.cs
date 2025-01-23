@@ -48,7 +48,6 @@ public class IBDizzy : InvincibleBossState
     {
         Timer = 0f;
         Heath.Current = Heath.MAX;
-        Heath.bDead = false;
         InvincibleBossFSM.InvincibleBossController.bIsDead = false;
         LightningEffect.Play();
 

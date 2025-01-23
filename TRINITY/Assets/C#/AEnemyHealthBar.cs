@@ -137,7 +137,6 @@ public class AEnemyHealthBar : MonoBehaviour
     {
         HealthBar.fillAmount = 0f;
         DamageBar.fillAmount = 0f;
-        gameObject.SetActive(false);
         EnemyController.EnemyStatus.Health.OnHealthModified -= UpdateEnemyHealthBar;
         EnemyController.EnemyStatus.Health.OnDeath  -= OnEnemyDeath;
         EnemyController.EnemyStatus.Health.OnDamageTaken -= UpdateDamageText;
@@ -145,6 +144,6 @@ public class AEnemyHealthBar : MonoBehaviour
         EnemyController.EnemyStatus.Ailments.OnChillModified -= UpdateChillStacks;
         EnemyController.EnemyStatus.Ailments.OnIgniteModified -= UpdateIgniteStacks;
         
-        Destroy(this);
+        Destroy(this.gameObject, 10f);
     }
 }

@@ -8,6 +8,10 @@ public class AInvincibleBossController : IEnemyController
 
     float InitialSpeed;
 
+    [Header("Vincible Health")] 
+    public float VINCIBLE_MAX_HEALTH = 15000f;
+    public GameObject Shield;
+
     [Header("Distance Check")]
     public float CloseAttack = 13f;
     public float LongAttack = 30f;
@@ -47,6 +51,7 @@ public class AInvincibleBossController : IEnemyController
     SkinnedMeshRenderer[] skinnedMeshRenderer;
     Material[] materials;
 
+
     void Start()
     {
         AI.stoppingDistance = CloseAttack;
@@ -62,6 +67,21 @@ public class AInvincibleBossController : IEnemyController
         }
 
         EnemyStatus.Health.OnDamageTaken += StartBlinking;
+        
+        foreach(IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
+        {
+            if (ec.Name == "Sentinel")
+            {
+                ec.EnemyStatus.Health.OnDeath += LowerShield;
+            }
+        }
+    }
+
+    private void LowerShield()
+    {
+        Shield.SetActive(false);
+        EnemyStatus.Health.MAX = VINCIBLE_MAX_HEALTH;
+        EnemyStatus.Health.Current = VINCIBLE_MAX_HEALTH;
     }
 
     // Update is called once per frame

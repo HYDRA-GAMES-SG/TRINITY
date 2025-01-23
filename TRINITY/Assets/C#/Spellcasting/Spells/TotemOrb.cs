@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TotemOrb : MonoBehaviour
+public class TotemOrb : AProjectile
 {
 
     [Header("Projectile Properties")] 
@@ -35,6 +35,10 @@ public class TotemOrb : MonoBehaviour
         InitialPosition = transform.position;
     }
 
+    public override void Despawn()
+    {
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -62,6 +66,7 @@ public class TotemOrb : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+        
         HitBox collisionHitBox = other.gameObject.GetComponent<HitBox>();
        
         if (!collisionHitBox) //if null

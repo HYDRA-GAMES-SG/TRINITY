@@ -119,7 +119,10 @@ public class AGUI : MonoBehaviour
 
     private void TogglePause()
     {
-        PauseMenu.SetActive(!PauseMenu.activeSelf);
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD)
+        {
+            PauseMenu.SetActive(!PauseMenu.activeSelf);
+        }
     }
     
     private void SetupEnemyUI()

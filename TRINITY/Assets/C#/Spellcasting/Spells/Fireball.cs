@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Fireball : MonoBehaviour
+public class Fireball : AProjectile
 {
     public static APrimaryFire PrimaryFire;
     [HideInInspector]
@@ -38,13 +38,13 @@ public class Fireball : MonoBehaviour
         
         if (Duration < 0)
         {
-            SpawnExplosion();
+            Despawn();
         }
         
         RB.velocity = Direction * Speed;
     }
     
-    public void SpawnExplosion()
+    public override void Despawn()
     {
         GameObject vfx = Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
         int i = Random.Range(0, FireRelease.Length - 1);
@@ -71,7 +71,7 @@ public class Fireball : MonoBehaviour
             FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryFire.AilmentType, PrimaryFire.StacksApplied);
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryFire.AilmentType} + {PrimaryFire.StacksApplied}");
-            SpawnExplosion();
+            Despawn();
 
             //if (collision.gameObject.transform.childCount == 0)
             //{
@@ -89,7 +89,7 @@ public class Fireball : MonoBehaviour
         }
         else 
         {
-            SpawnExplosion();
+            Despawn();
         }
     }
 }

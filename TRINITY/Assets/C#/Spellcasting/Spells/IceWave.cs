@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class IceWave : MonoBehaviour
+public class IceWave : AProjectile
 {
     
     [Header("Ice Wave Properties")]
@@ -84,11 +84,11 @@ public class IceWave : MonoBehaviour
         
         if (Duration < 0)
         {
-            SpawnExplosion();
+            Despawn();
         }
     }
     
-    public void SpawnExplosion() 
+    public override void Despawn() 
     {
         GameObject vfx = Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
@@ -104,7 +104,7 @@ public class IceWave : MonoBehaviour
 
         if (other.GetComponent<IceWave>())
         {
-            SpawnExplosion();
+            Despawn();
             return;
         }
         
@@ -141,6 +141,11 @@ public class IceWave : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        HandleBounce(collision);
+    }
+
+    public void HandleBounce(Collision collision)
+    {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Default") 
             || collision.gameObject.layer == LayerMask.NameToLayer("Obstacle") 
             || collision.gameObject.layer == LayerMask.NameToLayer("IceCube"))
@@ -175,7 +180,6 @@ public class IceWave : MonoBehaviour
             bCanDealDamage = true;
             BouncesLeft--;
             return;
-        }
+        } 
     }
-
 }

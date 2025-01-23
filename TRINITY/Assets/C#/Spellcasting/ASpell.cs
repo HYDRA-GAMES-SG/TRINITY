@@ -41,12 +41,18 @@ public class ASpell : MonoBehaviour
 
     public void Update()
     {
-        if (ATrinityGameManager.GAME_PAUSED)
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
         {
             return;
         }
         
         UpdateCooldown();
+
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD)
+        {
+            Release();
+            return;
+        }
 
  
         if (BrainReference.GetCurrentSpell() == this  && ManaUpkeepCost > 0 && ATrinityGameManager.GetSpells().ManaComponent.Current < 1)            

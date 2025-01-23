@@ -13,8 +13,8 @@ public class UHealthComponent : MonoBehaviour
     public float Current = 0f;
 
     public float Percent => Current / MAX;
-    [HideInInspector]
-    public bool bDead;
+    
+    [HideInInspector] public bool bDead => Current <= 0f;
 
     public System.Action<float> OnDamageTaken;
     public System.Action<float> OnHealthModified;
@@ -33,20 +33,26 @@ public class UHealthComponent : MonoBehaviour
 
     public void LateUpdate()
     {
-        CheckForDeath();
+        if (CheckForDeath())
+        {
+            return;
+        }
+        
         ApplyRegen();
     }
     
     public float Modify(FDamageInstance damageSource)
     {
-        if (bDead) return Current;
+        if (bDead)
+        {
+            return Current;
+        }
 
         Current -= damageSource.Damage;
         Current = Mathf.Clamp(Current, 0, MAX);
 
         if (Current <= 0)
         {
-            bDead = true;
             Current = 0;
         }
 
@@ -57,14 +63,16 @@ public class UHealthComponent : MonoBehaviour
     
     public float Modify(float signedValue)
     {
-        if (bDead) return Current;
+        if (bDead)
+        {
+            return Current;
+        }
 
         Current += signedValue;
         Current = Mathf.Clamp(Current, 0, MAX);
 
         if (Current <= 0)
         {
-            bDead = true;
             Current = 0;
         }
         
@@ -83,12 +91,16 @@ public class UHealthComponent : MonoBehaviour
         }
     }
     
-    public void CheckForDeath()
+    public bool CheckForDeath()
     {
-        if (Current <= 0f && !bDead)
+        if (bDead)
         {
-            bDead = true;
             OnDeath?.Invoke();
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 }

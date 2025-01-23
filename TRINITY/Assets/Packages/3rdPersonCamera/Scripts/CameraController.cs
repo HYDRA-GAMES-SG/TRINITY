@@ -259,7 +259,7 @@ namespace ThirdPersonCamera
         private void LateUpdate()
         {
 
-            if (ATrinityGameManager.GAME_PAUSED)
+            if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
             {
                 return;
             }

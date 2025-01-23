@@ -37,7 +37,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
             StartStateMachine();
         }
 
-        if (ATrinityGameManager.GAME_PAUSED)
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
         {
             return;
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningBolt : MonoBehaviour
+public class LightningBolt : AProjectile
 {    
     public static APrimaryLightning PrimaryLightning;
     [HideInInspector]
@@ -44,7 +44,7 @@ public class LightningBolt : MonoBehaviour
             Collider.enabled = true;
         }
     }
-    public void SpawnExplosion()
+    public override void Despawn()
     {
         GameObject vfx = Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
@@ -71,7 +71,7 @@ public class LightningBolt : MonoBehaviour
             print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryLightning.AilmentType} + {PrimaryLightning.StacksApplied}");
         }
 
-        SpawnExplosion();
+        Despawn();
         //else
         //{
         //    SpawnExplosion();

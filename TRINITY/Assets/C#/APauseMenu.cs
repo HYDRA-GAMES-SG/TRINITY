@@ -27,7 +27,7 @@ public class APauseMenu : MonoBehaviour
     void OnEnable()
     {
         Time.timeScale = 0f;
-        ATrinityGameManager.GAME_PAUSED = true;
+        ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
         ATrinityGameManager.GetInput().OnMovePressed += Navigate;
         
         // Ensure proper initial selection when menu is enabled
@@ -44,7 +44,7 @@ public class APauseMenu : MonoBehaviour
     void OnDisable()
     {
         Time.timeScale = 1f;
-        ATrinityGameManager.GAME_PAUSED = false;
+        ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
         ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
         CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
     }

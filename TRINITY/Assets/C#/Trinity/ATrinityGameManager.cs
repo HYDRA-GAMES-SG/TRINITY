@@ -11,13 +11,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
+public enum EGameFlowState
+{
+    PLAY,
+    PAUSED,
+    DEAD
+        
+}
+
 public class ATrinityGameManager : MonoBehaviour
 {
     public static float MOUSE_SENSITIVITY = .5f;
     public static float GAMEPAD_SENSITIVITY = .5f;
     public static float MASTER_VOLUME = 1f;
     public static bool CROSSHAIR_ENABLED = true;
-    public static bool GAME_PAUSED = false;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
     private static ATrinitySpells SpellsReference;
@@ -26,6 +33,7 @@ public class ATrinityGameManager : MonoBehaviour
     private static APlayerInput InputReference;
     private static ATrinityAnimator AnimationReference;
     private static ATrinityCamera CameraReference;
+    private static EGameFlowState GameFlowState;
     
 
     void Awake()
@@ -51,14 +59,30 @@ public class ATrinityGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (PlayerController && GameFlowState != EGameFlowState.DEAD)
+        {
+            if (PlayerController.HealthComponent.bDead)
+            {
+                SetGameFlowState(EGameFlowState.DEAD);
+            }
+            else
+            {
+                
+            }
+        }
+        
     }
 
+    public static EGameFlowState GetGameFlowState()
+    {
+        return GameFlowState;
+    }
+    
     public static ATrinityFSM GetPlayerFSM()
     {
         return PlayerFSM;
@@ -173,5 +197,10 @@ public class ATrinityGameManager : MonoBehaviour
         }
         
         SpellsReference = spells;
+    }
+
+    public static void SetGameFlowState(EGameFlowState newGameFlowState)
+    {
+        GameFlowState = newGameFlowState;
     }
 }

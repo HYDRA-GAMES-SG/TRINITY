@@ -66,7 +66,7 @@ public class ATrinityBrain : MonoBehaviour
 
     void Update()
     {
-        if (ATrinityGameManager.GAME_PAUSED)
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
         {
             return;
         }
@@ -121,7 +121,8 @@ public class ATrinityBrain : MonoBehaviour
     
     public bool CanAct()
     {
-        if (CurrentAction == ETrinityAction.ETA_Stunned || ATrinityGameManager.GAME_PAUSED)
+        if (CurrentAction == ETrinityAction.ETA_Stunned || 
+            ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
         {
             return false;
         }

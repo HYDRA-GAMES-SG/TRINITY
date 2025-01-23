@@ -94,7 +94,7 @@ public class ATrinityController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (ATrinityGameManager.GAME_PAUSED)
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
         {
             return;
         }
@@ -105,7 +105,7 @@ public class ATrinityController : MonoBehaviour
     private void LateUpdate()
     {
         
-        if (ATrinityGameManager.GAME_PAUSED)
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
         {
             return;
         }
