@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public class SkyboxColourChange : MonoBehaviour
@@ -33,7 +34,6 @@ public class SkyboxColourChange : MonoBehaviour
             TransitionToTargetColor();
         }
     }
-
     void TransitionToTargetColor()
     {
         float elapsedTime = Time.time - startTime;
