@@ -60,9 +60,6 @@ public class FBAttack : FlyingBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        FlyingBossFSM.FlyingBossController.ElectricCharge.Stop();
-        FlyingBossFSM.FlyingBossController.ElectricShot.Stop();
-
         FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack = false;
     }
 

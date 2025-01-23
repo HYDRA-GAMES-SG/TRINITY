@@ -7,16 +7,10 @@ public class AFlyingBossController : IEnemyController
     public AFlyingBossFSM FlyingBossFSM;
     public Transform InvincibleBoss;
 
-    public ParticleSystem ElectricShot;
-    public GameObject GOElectricShot;
-    public ParticleSystem ElectricCharge;
-    public GameObject GOElectricCharge;
 
     [Header("Distance Check")]
-    public float CloseAttackRange = 13f;
-    public float LongAttackRange = 30f;
+   
     public float HoverRange = 50f;
-    public float InvincibleBossRange = 2f;
 
     [Header("Custom Hide Range")]
     public float HoverXAxis = 10f;
@@ -25,20 +19,14 @@ public class AFlyingBossController : IEnemyController
 
     [Header("Cooldown Time")]
     [SerializeField] float ElectricChargeAttackCD = 10f;
-    [SerializeField] float SpikeAttackCD = 10f;
     [SerializeField] float RandomFlyCD = 2f;
 
 
-    float TimerSpikeAttack = 0f;
     float TimerElectricChargeAttack = 0f;
     float TimerRandomFly = 0f;
 
     public bool bCanRandomFly = true;
-    public bool bCanSpikeAttack = false;
     public bool bCanElectricChargeAttack = false;
-
-    public bool bGOElectricShotSpawned = false;
-    public bool bGOElectricChargeSpawned = false;
 
     [Header("Attack Damage")]
     [SerializeField] float ElectricBombDMG;

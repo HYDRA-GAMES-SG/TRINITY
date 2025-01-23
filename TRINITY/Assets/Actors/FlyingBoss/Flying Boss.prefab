@@ -567,37 +567,22 @@ MonoBehaviour:
   EnemyStatus: {fileID: 0}
   AI: {fileID: 0}
   NormalAttack: 0
-  AttackForce: 150
+  AttackForce: 0
   FlyingBossFSM: {fileID: 4759994442646636491}
   InvincibleBoss: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
     type: 3}
-  ElectricShot: {fileID: 2900534572940629485, guid: 1d8d1503ac7ed224ab0e2cdd6b8a4ae5,
-    type: 3}
-  GOElectricShot: {fileID: 2900534572940629487, guid: 1d8d1503ac7ed224ab0e2cdd6b8a4ae5,
-    type: 3}
-  ElectricCharge: {fileID: 5773043792457465953, guid: 1179c16628afee74d98445f01d98f755,
-    type: 3}
-  GOElectricCharge: {fileID: 5773043792457465958, guid: 1179c16628afee74d98445f01d98f755,
-    type: 3}
-  CloseAttackRange: 13
-  LongAttackRange: 30
   HoverRange: 50
-  InvincibleBossRange: 5
-  HoverXAxis: 10
-  HoverYAxis: 10
+  HoverXAxis: 15
+  HoverYAxis: 17
   HoverZAxis: -3
   ElectricChargeAttackCD: 5
-  SpikeAttackCD: 10
   RandomFlyCD: 2
   bCanRandomFly: 0
-  bCanSpikeAttack: 0
   bCanElectricChargeAttack: 0
-  bGOElectricShotSpawned: 0
-  bGOElectricChargeSpawned: 0
   ElectricBombDMG: 30
   blinkTimer: 0
-  blinkDuration: 1
-  blinkIntensity: 2
+  blinkDuration: 0.3
+  blinkIntensity: 0.8
 --- !u!114 &3413527218791458888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,7 +598,6 @@ MonoBehaviour:
   MAX: 10000
   Regen: 0
   Current: 10000
-  bDead: 0
 --- !u!114 &3863862045023342108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,7 +610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AilmentDuration: 5
 --- !u!114 &4320670786713491310
 MonoBehaviour:
   m_ObjectHideFlags: 0
