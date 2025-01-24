@@ -12,7 +12,7 @@ public class IBHandAttack : InvincibleBossState
     [HideInInspector]
     public string AnimKey;
 
-
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return fromState is IBPursue || fromState is IBTaunt;
@@ -20,6 +20,8 @@ public class IBHandAttack : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
+
         InvincibleBossFSM.InvincibleBossController.Animator.applyRootMotion = true;
 
         int index = Random.Range(0, AnimKeyTriggerATK.Length);
@@ -41,6 +43,7 @@ public class IBHandAttack : InvincibleBossState
         AnimatorStateInfo stateInfo = InvincibleBossFSM.InvincibleBossController.Animator.GetCurrentAnimatorStateInfo(layerIndex);
         if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
         {
+            AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
         }
     }
@@ -55,6 +58,6 @@ public class IBHandAttack : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return true;
+        return toState is IBPursue || toState is IBDead || (toState is IBIdle && AnimFinish);
     }
 }

@@ -2,15 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IBDizzy : InvincibleBossState
+public class IBDead : InvincibleBossState
 {
     [SerializeField] ParticleSystem LightningEffect;
-
-    [SerializeField] float DizzyTime;
-    float Timer = 0f;
-
-    AInvincibleBossController IBController;
-    UHealthComponent Heath;
     
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -19,8 +13,6 @@ public class IBDizzy : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        IBController = InvincibleBossFSM.InvincibleBossController;
-        Heath = InvincibleBossFSM.InvincibleBossController.EnemyStatus.Health;
 
         InvincibleBossFSM.InvincibleBossController.AI.ResetPath();
         LightningEffect.Stop();
@@ -32,13 +24,7 @@ public class IBDizzy : InvincibleBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        Timer += Time.deltaTime;
-
-        if (Timer >= DizzyTime)
-        {
-            InvincibleBossFSM.EnqueueTransition<IBPursue>();
-
-        }
+        
     }
     public override void PostUpdateBehaviour(float dt)
     {
@@ -46,15 +32,11 @@ public class IBDizzy : InvincibleBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        Timer = 0f;
-        Heath.Current = Heath.MAX;
-        InvincibleBossFSM.InvincibleBossController.bIsDead = false;
-        LightningEffect.Play();
-
+        
     }
 
     public override bool CheckExitTransition(IState toState)
     {
-        return true;
+        return false;
     }
 }

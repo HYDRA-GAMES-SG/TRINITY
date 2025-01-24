@@ -26,6 +26,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
     [SerializeField] float OrbTimeToTarget = 0.5f;
 
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return InvincibleBossFSM.InvincibleBossController.bCanThrow && fromState is IBPursue;
@@ -33,6 +34,8 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
+
         InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKeyCharge);
         hasRelease = false;
     }
@@ -83,6 +86,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
         }
         else if (stateInfo.IsName(AnimKeyThrowRock) && stateInfo.normalizedTime >= 0.95f) // Animation nearly complete
         {
+            AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
         }
     }
@@ -92,7 +96,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
     public override void ExitBehaviour(float dt, IState toState)
     {
-        if (toState is IBDizzy && !hasRelease)
+        if (toState is IBDead && !hasRelease)
         {
             Orb orb = orbObj.GetComponent<Orb>();
             orb.StopAllCoroutines();
@@ -109,11 +113,11 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        if (toState is IBDizzy)
+        if (toState is IBDead)
         {
             Destroy(orbObj);
         }
-        return true;
+        return toState is IBPursue || toState is IBDead || (toState is IBIdle && AnimFinish);
     }
     private Vector3 CalculateThrowVelocity(Vector3 start, Vector3 target, float time)// when 0.6 work
     {

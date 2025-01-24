@@ -22,6 +22,8 @@ public class IBLongAttack_ShotShock : InvincibleBossState
 
     float timer = 0;
     bool hasShot = false;
+
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return InvincibleBossFSM.InvincibleBossController.bCanShotShock && fromState is IBPursue;
@@ -29,6 +31,7 @@ public class IBLongAttack_ShotShock : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
         InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKey);
 
         ShockBlue.Play();
@@ -51,6 +54,7 @@ public class IBLongAttack_ShotShock : InvincibleBossState
         AnimatorStateInfo stateInfo = InvincibleBossFSM.InvincibleBossController.Animator.GetCurrentAnimatorStateInfo(layerIndex);
         if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
         {
+            AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
         }
 
@@ -62,7 +66,7 @@ public class IBLongAttack_ShotShock : InvincibleBossState
         ShockBluePos.transform.rotation = Quaternion.LookRotation(ShockBlueDirection, Vector3.up);
 
         timer += Time.fixedDeltaTime;
-        if (timer >=  2 && !isScaling)
+        if (timer >= 2 && !isScaling)
         {
             isScaling = true;
             Indicator.gameObject.SetActive(true);
@@ -104,6 +108,6 @@ public class IBLongAttack_ShotShock : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return true;
+        return toState is IBPursue || toState is IBDead || (toState is IBIdle && AnimFinish);
     }
 }

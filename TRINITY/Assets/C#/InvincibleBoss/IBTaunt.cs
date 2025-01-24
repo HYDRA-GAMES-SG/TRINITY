@@ -16,6 +16,7 @@ public class IBTaunt : InvincibleBossState
     float DelayTimer;
     float DurationTimer;
     bool bOnTaunt = false;
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return InvincibleBossFSM.InvincibleBossController.bCanTaunt && fromState is IBPursue;
@@ -23,6 +24,7 @@ public class IBTaunt : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish=false;
         bOnTaunt = false;
         DelayTimer = 0;
         DurationTimer = 0;
@@ -58,11 +60,13 @@ public class IBTaunt : InvincibleBossState
             DurationTimer += Time.fixedDeltaTime;
             if (DurationTimer >= OnTauntParticleDuration)
             {
+                AnimFinish = true;
                 InvincibleBossFSM.EnqueueTransition<IBPursue>();
             }
         }
         if (InvincibleBossFSM.InvincibleBossController.CalculateGroundDistance() <= InvincibleBossFSM.InvincibleBossController.CloseAttack)
         {
+                AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBHandAttack>();
         }
         else if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
@@ -83,6 +87,6 @@ public class IBTaunt : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return true;
+        return toState is IBPursue || toState is IBDead || (toState is IBIdle && AnimFinish);
     }
 }

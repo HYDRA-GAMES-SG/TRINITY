@@ -41,9 +41,6 @@ public class AInvincibleBossController : IEnemyController
     [SerializeField] float ThrowOrbDMG;
     public float OrbExplosionDMG;
 
-    [HideInInspector]
-    public bool bIsDead = false;
-
     [Header("GetHitEffect")]
     [SerializeField] float blinkTimer;
     [SerializeField] float blinkDuration = 1.0f;
@@ -90,11 +87,15 @@ public class AInvincibleBossController : IEnemyController
         CheckCooldown();
         HandleChill();
 
-        if (EnemyStatus.Health.Current <= 0 && !bIsDead)
+        if (EnemyStatus.Health.Current <= 0 && !(InvincibleBossFSM.CurrentState is IBDead))
         {
-            bIsDead = true;
-            InvincibleBossFSM.EnqueueTransition<IBDizzy>();
+            InvincibleBossFSM.EnqueueTransition<IBDead>();
         }
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD && !(InvincibleBossFSM.CurrentState is IBIdle))
+        {
+            InvincibleBossFSM.EnqueueTransition<IBIdle>();
+        }
+
     }
     private void HandleChill()
     {

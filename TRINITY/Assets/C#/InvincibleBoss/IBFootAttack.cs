@@ -12,7 +12,7 @@ public class IBFootAttack : InvincibleBossState
     };
 
     string AnimKey;
-
+    bool AnimFinish = false;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -21,6 +21,8 @@ public class IBFootAttack : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
+
         int index = Random.Range(0, AnimKeyTriggerATK.Length);
         AnimKey = AnimKeyTriggerATK[index];
         InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKey);
@@ -40,6 +42,7 @@ public class IBFootAttack : InvincibleBossState
         AnimatorStateInfo stateInfo = InvincibleBossFSM.InvincibleBossController.Animator.GetCurrentAnimatorStateInfo(layerIndex);
         if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
         {
+            AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
         }
     }
@@ -53,6 +56,6 @@ public class IBFootAttack : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return true;
+        return toState is IBPursue || toState is IBDead || (toState is IBIdle && AnimFinish);
     }
 }
