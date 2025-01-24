@@ -32,9 +32,9 @@ public class ACrabController : IEnemyController
     [SerializeField] float JumpSmashFrozenGroundAttack;
 
     public bool CanJumpSmash = false;
-     public bool CanRoarStun = false;
-     public bool CanComboAttack = false;
-     public bool CanCharageMoveFast = false;
+    public bool CanRoarStun = false;
+    public bool CanComboAttack = false;
+    public bool CanCharageMoveFast = false;
     public bool CanGetHit = true;
 
 
@@ -72,9 +72,13 @@ public class ACrabController : IEnemyController
             CrabFSM.EnqueueTransition<IcePhaseRoar>();
             ComboAttack = 0;
         }
-        if (EnemyStatus.Health.Current <= 0f)
+        if (EnemyStatus.Health.Current <= 0f && !(CrabFSM.CurrentState is Death))
         {
             CrabFSM.EnqueueTransition<Death>();
+        }
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD && !(CrabFSM.CurrentState is Idle))
+        {
+            CrabFSM.EnqueueTransition<Idle>();
         }
     }
 

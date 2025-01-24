@@ -6,6 +6,7 @@ public class RoarIceSpray : CrabState
     [SerializeField] ParticleSystem IceSpray;
     [SerializeField] Transform CrabMounth;
     ParticleSystem iceSpray;
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return fromState is Pursue && CrabFSM.CrabController.CanRoarStun;
@@ -13,6 +14,8 @@ public class RoarIceSpray : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
+
         CrabFSM.CrabController.bCanChill = false;
 
         CrabFSM.CrabController.AI.ResetPath();
@@ -48,6 +51,7 @@ public class RoarIceSpray : CrabState
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("Roar3") && stateInfo.normalizedTime >= 0.95f)
         {
+            AnimFinish = true;
             CrabFSM.EnqueueTransition<Pursue>();
         }
     }
@@ -65,6 +69,6 @@ public class RoarIceSpray : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is Pursue || toState is Death;
+        return toState is Pursue || toState is Death || (toState is Idle && AnimFinish);
     }
 }

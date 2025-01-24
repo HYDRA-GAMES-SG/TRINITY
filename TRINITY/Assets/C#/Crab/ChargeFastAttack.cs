@@ -25,7 +25,7 @@ public class ChargeFastAttack : CrabState
     private bool bIsCharging = false;
     private bool bIsDashing = false;
     private float StateTimer = 0f;
-
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return fromState is Pursue && CrabFSM.CrabController.CanCharageMoveFast && CrabFSM.CrabController.FacingTarget();
@@ -33,6 +33,8 @@ public class ChargeFastAttack : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
+
         CrabFSM.CrabController.bCanChill = false;
 
         CrabFSM.CrabController.AI.enabled = false;
@@ -87,6 +89,7 @@ public class ChargeFastAttack : CrabState
                 bIsDashing = false;
                 CapCollider.enabled = false;
                 CrabFSM.Animator.SetBool("Release", false);
+                AnimFinish = true;
                 CrabFSM.EnqueueTransition<Pursue>();
             }
         }
@@ -115,13 +118,13 @@ public class ChargeFastAttack : CrabState
         CrabFSM.CrabController.bCanChill = true;
         Indicator.localScale = initialScale;
         Indicator.gameObject.SetActive(false);
-        isScaling =false;
+        isScaling = false;
 
     }
 
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is Pursue || toState is Death;
+        return toState is Pursue || toState is Death || (toState is Idle && AnimFinish);
     }
     private void PredictTargetPosition()
     {

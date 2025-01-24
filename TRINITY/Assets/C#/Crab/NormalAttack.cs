@@ -11,6 +11,7 @@ public class NormalAttack : CrabState
     [SerializeField] string[] AnimKeyAttack;
     private string anim;
 
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return fromState is Pursue;
@@ -18,6 +19,7 @@ public class NormalAttack : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
         CrabFSM.CrabController.AI.enabled = false;
         CrabFSM.Animator.applyRootMotion = true;
 
@@ -37,6 +39,7 @@ public class NormalAttack : CrabState
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName(anim) && stateInfo.normalizedTime > 0.95f)
         {
+            AnimFinish = true;
             CrabFSM.EnqueueTransition<Pursue>();
         }
     }
@@ -52,7 +55,7 @@ public class NormalAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is Pursue || toState is IcePhaseRoar || toState is GetHit || toState is Death;
+        return toState is Pursue || toState is IcePhaseRoar || toState is GetHit || toState is Death || (toState is Idle && AnimFinish);
     }
 
     private string RandomAttackAnim(string[] anim)

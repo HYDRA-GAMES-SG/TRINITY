@@ -8,6 +8,7 @@ public class ComboAttack : CrabState
     [SerializeField] string AnimKeySmashAttackCombo = "2HitComboSmashAttack_RM_End";
     [HideInInspector]
     public string AnimKey;
+    bool AnimFinish = false;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -16,6 +17,8 @@ public class ComboAttack : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
+
         CrabFSM.CrabController.AI.enabled = false;
         CrabFSM.Animator.applyRootMotion = true;
 
@@ -45,6 +48,7 @@ public class ComboAttack : CrabState
         bool isInTransition = CrabFSM.Animator.IsInTransition(0);
         if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
         {
+            AnimFinish = true;
             CrabFSM.EnqueueTransition<Pursue>();
         }
     }
@@ -63,6 +67,6 @@ public class ComboAttack : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is Pursue || toState is Death;
+        return toState is Pursue || toState is Death || (toState is Idle && AnimFinish);
     }
 }

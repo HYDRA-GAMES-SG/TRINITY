@@ -7,6 +7,7 @@ public class JumpSmash : CrabState
 {
     [SerializeField, Range(0.10f, 1.00f)] float AnimationCheckExitTime;
 
+    bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
         return fromState is Pursue && CrabFSM.CrabController.CanJumpSmash && CrabFSM.CrabController.FacingTarget();
@@ -14,6 +15,8 @@ public class JumpSmash : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        AnimFinish = false;
+
         CrabFSM.CrabController.bCanChill = false;
         CrabFSM.CrabController.AI.enabled = false;
         CrabFSM.Animator.applyRootMotion = true;
@@ -34,6 +37,7 @@ public class JumpSmash : CrabState
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("3JumpSmashAttack_RM") && stateInfo.normalizedTime >= 0.95f)
         {
+            AnimFinish=true;
             CrabFSM.EnqueueTransition<Pursue>();
         }
     }
@@ -54,6 +58,6 @@ public class JumpSmash : CrabState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is Pursue || toState is Death;
+        return toState is Pursue || toState is Death || (toState is Idle && AnimFinish);
     }
 }

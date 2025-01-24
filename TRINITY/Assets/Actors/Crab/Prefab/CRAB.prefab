@@ -3663,6 +3663,7 @@ MonoBehaviour:
   ComboCooldown: 5
   GetHitCooldown: 3
   NavSpeed: 7
+  dotThreshold: 0.95
   ComboAttack: 15
   JumpSmashAttack: 30
   ChargeFastAttack: 25
@@ -4523,6 +4524,7 @@ GameObject:
   m_Component:
   - component: {fileID: 204084248474088662}
   - component: {fileID: 4812435512381346427}
+  - component: {fileID: 604348687354974787}
   - component: {fileID: 5324638850348715388}
   - component: {fileID: 5449641495434798036}
   - component: {fileID: 9097950124894726070}
@@ -4567,10 +4569,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9ebc7a3231bc1f4884e20bf4679ad77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialState: {fileID: 5324638850348715388}
+  InitialState: {fileID: 604348687354974787}
   CrabController: {fileID: 590067304611633414}
   PlayerController: {fileID: 0}
   Animator: {fileID: 8427644227223135767}
+--- !u!114 &604348687354974787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730679632618582426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e49e64b482abc24ebef2159ca312144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StateAnimController: {fileID: 9100000, guid: a298a90ce05a8cb4e8514427db58b348, type: 2}
+  RotateSpeed: 3
 --- !u!114 &5324638850348715388
 MonoBehaviour:
   m_ObjectHideFlags: 0
