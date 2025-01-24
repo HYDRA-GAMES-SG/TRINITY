@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,11 @@ using ColorUtility = UnityEngine.ColorUtility;
 
 public class AGUI : MonoBehaviour
 {
-    public GameObject EnemyHealthBarsParent;
+    public AEnemyHealthBar[] EnemyHealthBars = new AEnemyHealthBar[3];
     public GameObject PauseMenu;
+    public GameObject GameOver;
     
     [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
-
-    [SerializeField] private GameObject EnemyHealthBarPrefab;
-
     
     [Header("UI Objects")]
     public GameObject CurrentElementImage;
@@ -35,6 +34,7 @@ public class AGUI : MonoBehaviour
         if (ATrinityGameManager.GetPlayerController() != null)
         {
             ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath += DisplayGameOver;
         }
 
         if (ATrinityGameManager.GetSpells() != null)
@@ -52,6 +52,11 @@ public class AGUI : MonoBehaviour
         ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
         
         SetupEnemyUI();
+    }
+
+    private void DisplayGameOver()
+    {
+        GameOver.GetComponent<AGameOver>().Display();
     }
 
     void Update()
@@ -127,17 +132,11 @@ public class AGUI : MonoBehaviour
     
     private void SetupEnemyUI()
     {
-        
         for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {
-            GameObject go = Instantiate(EnemyHealthBarPrefab, EnemyHealthBarsParent.transform, true);
-
-            AEnemyHealthBar ehb = go.GetComponent<AEnemyHealthBar>();
-
-            ehb.SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
-            ehb.EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
-            ehb.GetComponent<RectTransform>().anchoredPosition = new Vector3(0f, i * -40, 0f);
-            ehb.gameObject.SetActive(true);
+            EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
+            EnemyHealthBars[i].EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
+            EnemyHealthBars[i].gameObject.SetActive(true);
         }
     }
 

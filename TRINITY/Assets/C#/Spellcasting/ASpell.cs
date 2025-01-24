@@ -50,10 +50,13 @@ public class ASpell : MonoBehaviour
 
         if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD)
         {
-            Release();
+            if (BrainReference.GetCurrentSpell())
+            {
+                BrainReference.GetCurrentSpell().Release();
+                BrainReference.SetCurrentSpell(null);
+            }
             return;
         }
-
  
         if (BrainReference.GetCurrentSpell() == this  && ManaUpkeepCost > 0 && ATrinityGameManager.GetSpells().ManaComponent.Current < 1)            
         {
@@ -164,4 +167,5 @@ public class ASpell : MonoBehaviour
             
         return Mathf.Clamp(CooldownCountdownTimer / Cooldown, 0f, 1f);
     }
+    
 }

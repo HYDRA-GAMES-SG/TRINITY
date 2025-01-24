@@ -64,15 +64,11 @@ public class ATrinityGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerController && GameFlowState != EGameFlowState.DEAD)
+        if (GameFlowState != EGameFlowState.DEAD)
         {
-            if (PlayerController.HealthComponent.bDead)
+            if (PlayerController && PlayerController.HealthComponent.bDead)
             {
                 SetGameFlowState(EGameFlowState.DEAD);
-            }
-            else
-            {
-                
             }
         }
         

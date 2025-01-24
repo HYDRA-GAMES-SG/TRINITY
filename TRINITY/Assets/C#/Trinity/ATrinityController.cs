@@ -89,7 +89,10 @@ public class ATrinityController : MonoBehaviour
 
     private void Update()
     {
-        
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD)
+        {
+            HandleDeath();
+        }
     }
 
     private void FixedUpdate()
@@ -105,7 +108,7 @@ public class ATrinityController : MonoBehaviour
     private void LateUpdate()
     {
         
-        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
         {
             return;
         }
@@ -203,6 +206,11 @@ public class ATrinityController : MonoBehaviour
             HealthComponent.Modify(-remainingDamage);
             OnHit?.Invoke(hitInfo);
         }
+    }
+    
+    private void HandleDeath()
+    {
+        RB.isKinematic = true;
     }
     
     // public void EnableRagdoll()

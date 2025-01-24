@@ -16,6 +16,8 @@ public class UHealthComponent : MonoBehaviour
     
     [HideInInspector] public bool bDead => Current <= 0f;
 
+    private bool bDeathFrame = false;
+
     public System.Action<float> OnDamageTaken;
     public System.Action<float> OnHealthModified;
     public System.Action OnDeath;
@@ -93,9 +95,15 @@ public class UHealthComponent : MonoBehaviour
     
     public bool CheckForDeath()
     {
+        
         if (bDead)
         {
-            OnDeath?.Invoke();
+            if (!bDeathFrame)
+            {
+                OnDeath?.Invoke();
+                bDeathFrame = true; //prevent multiple event calls
+            }
+            
             return true;
         }
         else

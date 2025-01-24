@@ -100,6 +100,7 @@ public class ASecondaryLightning : ASpell
             Release(); //trigger end when max channel time is reached
         }
     }
+    
     public override void CastEnd()
     {
         print("unsummon");
