@@ -1396,7 +1396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 312712230469605294}
   m_Layer: 0
-  m_Name: CRAB
+  m_Name: CRAB (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3532,6 +3532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dac8b36d81e2ef34690025739ebaf1ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoreCollider: {fileID: 0}
+  Name: Default
   RB: {fileID: 0}
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
@@ -3558,7 +3560,11 @@ MonoBehaviour:
   CanCharageMoveFast: 0
   CanGetHit: 0
   bElementPhase: 0
+  bCanChill: 1
   RootMotionNotEnterDistance: 8
+  blinkTimer: 0
+  blinkDuration: 0.3
+  blinkIntensity: 0.8
 --- !u!114 &1727026065975959313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3574,7 +3580,6 @@ MonoBehaviour:
   MAX: 50
   Regen: 5
   Current: 0
-  bDead: 0
 --- !u!114 &1422212878879520057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3601,13 +3606,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_STACKS: 100
-  IgniteDamagePerStack: 1
-  ChillSlowPercentPerStack: 0.004
-  ChargeMoveModifierPerStack: 0.2
-  ChargeJumpForcePerStack: 0.02
-  ChargeGlideGravityModifierPerStack: 0.001
-  AilmentDuration: 5
 --- !u!95 &8427644227223135767
 Animator:
   serializedVersion: 5
@@ -4457,7 +4455,6 @@ MonoBehaviour:
   CrabController: {fileID: 590067304611633414}
   PlayerController: {fileID: 0}
   Animator: {fileID: 8427644227223135767}
-  ShowDebugLog: 0
 --- !u!114 &5324638850348715388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4510,6 +4507,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 6cdd1bb0dc50aca479d921072a9c5e83, type: 2}
   RotateSpeed: 2
+  AnimKeyClawAttackCombo: 2HitComboClawsAttack_RM_End
+  AnimKeySmashAttackCombo: 2HitComboSmashAttack_RM_End
   AnimKey: 
 --- !u!114 &4706325902575116676
 MonoBehaviour:
@@ -4561,6 +4560,11 @@ MonoBehaviour:
   DashSpeed: 10
   PedictionMultiplier: 0.3
   DashDuration: 1
+  Indicator: {fileID: 0}
+  targetScale: {x: 0, y: 0, z: 0}
+  initialScale: {x: 0, y: 0, z: 0}
+  scaleSpeed: 30
+  isScaling: 0
   CapCollider: {fileID: 1643759408695698379}
 --- !u!114 &6332264156654733324
 MonoBehaviour:
@@ -4628,6 +4632,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 86adf29bb173ffd4ea066b597ef138b1, type: 2}
   RotateSpeed: 3
+  FrostEffect: {fileID: 0}
 --- !u!1 &8076962933247045074
 GameObject:
   m_ObjectHideFlags: 0

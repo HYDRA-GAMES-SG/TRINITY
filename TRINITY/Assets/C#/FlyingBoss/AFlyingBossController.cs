@@ -9,7 +9,7 @@ public class AFlyingBossController : IEnemyController
 
 
     [Header("Distance Check")]
-   
+
     public float HoverRange = 50f;
 
     [Header("Custom Hide Range")]
@@ -35,18 +35,12 @@ public class AFlyingBossController : IEnemyController
     [SerializeField] float blinkTimer;
     [SerializeField] float blinkDuration = 1.0f;
     [SerializeField] float blinkIntensity = 2.0f;
-    SkinnedMeshRenderer[] skinnedMeshRenderer;
-    Material[] materials;
+    SkinnedMeshRenderer skinnedMeshRenderer;
+    Material material;
     void Start()
     {
-        skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
-        materials = new Material[skinnedMeshRenderer.Length];
-
-        // Cache all materials
-        for (int i = 0; i < skinnedMeshRenderer.Length; i++)
-        {
-            materials[i] = skinnedMeshRenderer[i].material;
-        }
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        material = skinnedMeshRenderer.material;
         EnemyStatus.Health.OnDamageTaken += StartBlinking;
     }
     void Update()
@@ -118,14 +112,11 @@ public class AFlyingBossController : IEnemyController
 
     private void StopBlinking()
     {
-        CancelInvoke(nameof(HandleBlink));
+        CancelInvoke(nameof(HandleBlink)); // Stop the blinking effect
 
-        foreach (var material in materials)
+        if (material != null)
         {
-            if (material != null)
-            {
-                material.SetColor("_EmissionColor", Color.black);
-            }
+            material.SetColor("_EmissionColor", Color.black);
         }
     }
 
@@ -142,16 +133,11 @@ public class AFlyingBossController : IEnemyController
         float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
         float intensity = lerp * blinkIntensity;
 
-        foreach (var material in materials)
+        if (material != null)
         {
-            if (material != null)
-            {
-                Color emissionColor = Color.white * intensity;
-                material.SetColor("_EmissionColor", emissionColor);
-
-                // Enable emission in the material
-                DynamicGI.SetEmissive(skinnedMeshRenderer[0], emissionColor);
-            }
+            material.EnableKeyword("_EMISSION");
+            Color emissionColor = Color.white * intensity;
+            material.SetColor("_EmissionColor", emissionColor);
         }
     }
 }

@@ -3661,7 +3661,7 @@ MonoBehaviour:
   ChargeMoveFastCooldown: 15
   RoarIceSprayCooldown: 10
   ComboCooldown: 5
-  GetHitCooldown: 0.5
+  GetHitCooldown: 3
   NavSpeed: 7
   ComboAttack: 15
   JumpSmashAttack: 30
@@ -3674,13 +3674,13 @@ MonoBehaviour:
   CanRoarStun: 0
   CanComboAttack: 0
   CanCharageMoveFast: 0
-  CanGetHit: 0
+  CanGetHit: 1
   bElementPhase: 0
   bCanChill: 1
   RootMotionNotEnterDistance: 8
   blinkTimer: 0
-  blinkDuration: 1
-  blinkIntensity: 2
+  blinkDuration: 0.3
+  blinkIntensity: 0.8
 --- !u!114 &1727026065975959313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3696,7 +3696,6 @@ MonoBehaviour:
   MAX: 15000
   Regen: 0
   Current: 15000
-  bDead: 0
 --- !u!114 &1422212878879520057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4125,7 +4124,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1e3bdd8adfdf5394a867f8036f5cbb3b, type: 2}
+  - {fileID: 2100000, guid: 586e3ace7688a9a488be00bab9551986, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

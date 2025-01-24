@@ -9,7 +9,7 @@ public class JumpSmash : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        return fromState is Pursue && CrabFSM.CrabController.CanJumpSmash;
+        return fromState is Pursue && CrabFSM.CrabController.CanJumpSmash && CrabFSM.CrabController.FacingTarget();
     }
 
     public override void EnterBehaviour(float dt, IState fromState)

@@ -12,6 +12,7 @@ public class ACrabController : IEnemyController
     [SerializeField] float ComboCooldown = 5f;
     [SerializeField] float GetHitCooldown = 1f;
     [SerializeField] private float NavSpeed = 7f;
+    [SerializeField] float dotThreshold = 0.95f;
 
     private float JumpSmashTimer = 0f;
     private float ChargeMoveFastTimer = 0f;
@@ -30,11 +31,11 @@ public class ACrabController : IEnemyController
     [SerializeField] float SmashFrozenGroundAttack;
     [SerializeField] float JumpSmashFrozenGroundAttack;
 
-    [HideInInspector] public bool CanJumpSmash = false;
-    [HideInInspector] public bool CanRoarStun = false;
-    [HideInInspector] public bool CanComboAttack = false;
-    /*[HideInInspector]*/ public bool CanCharageMoveFast = false;
-    [HideInInspector] public bool CanGetHit = false;
+    public bool CanJumpSmash = false;
+     public bool CanRoarStun = false;
+     public bool CanComboAttack = false;
+     public bool CanCharageMoveFast = false;
+    public bool CanGetHit = true;
 
 
     /*[HideInInspector] */
@@ -263,10 +264,16 @@ public class ACrabController : IEnemyController
 
         if (material != null)
         {
+            material.EnableKeyword("_EMISSION");
             Color emissionColor = Color.white * intensity;
             material.SetColor("_EmissionColor", emissionColor);
-
-            DynamicGI.SetEmissive(skinnedMeshRenderer, emissionColor);
         }
+    }
+
+    public bool FacingTarget()
+    {
+        Vector3 directionToTarget = (CrabFSM.PlayerController.transform.position - transform.position).normalized;
+        float dot = Vector3.Dot(transform.forward, directionToTarget);
+        return dot > dotThreshold;
     }
 }

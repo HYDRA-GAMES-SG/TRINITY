@@ -228,11 +228,9 @@ public class AInvincibleBossController : IEnemyController
         {
             if (material != null)
             {
+                material.EnableKeyword("_EMISSION");
                 Color emissionColor = Color.white * intensity;
                 material.SetColor("_EmissionColor", emissionColor);
-
-                // Enable emission in the material
-                DynamicGI.SetEmissive(skinnedMeshRenderer[0], emissionColor);
             }
         }
     }

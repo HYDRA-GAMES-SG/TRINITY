@@ -28,7 +28,7 @@ public class ChargeFastAttack : CrabState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        return fromState is Pursue && CrabFSM.CrabController.CanCharageMoveFast;
+        return fromState is Pursue && CrabFSM.CrabController.CanCharageMoveFast && CrabFSM.CrabController.FacingTarget();
     }
 
     public override void EnterBehaviour(float dt, IState fromState)

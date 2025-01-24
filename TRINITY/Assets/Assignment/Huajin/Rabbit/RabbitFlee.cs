@@ -11,7 +11,7 @@ namespace Huajin
         [SerializeField] float WaitTime = 0.5f;
         [SerializeField] float FleeDistance = 3;
         float aiWaitTime_;
-        bool hasFlee = false;
+        //bool hasFlee = false;
 
         public override void Awake()
         {

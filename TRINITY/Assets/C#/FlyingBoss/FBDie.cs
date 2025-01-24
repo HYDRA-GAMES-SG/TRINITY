@@ -11,6 +11,9 @@ public class FBDie : FlyingBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     { 
+        FlyingBossFSM.FlyingBossController.RB.useGravity = true;
+        Ragdoll rd = FlyingBossFSM.FlyingBossController.GetComponentInChildren<Ragdoll>();
+       // rd.ActivateRagdoll();
     }
 
     public override void PreUpdateBehaviour(float dt)

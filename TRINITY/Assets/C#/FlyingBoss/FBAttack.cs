@@ -10,7 +10,7 @@ public class FBAttack : FlyingBossState
 
     [SerializeField] ElectricBoom ElecBomb;
     [SerializeField] LayerMask groundLayer;
-    [SerializeField] float thunderSpawnDelay = 0.5f;
+    //[SerializeField] float thunderSpawnDelay = 0.5f;
     [SerializeField] int thunderCount = 3;
     [SerializeField] float thunderRadius = 5f;
     [SerializeField] float minDis = 3f;
