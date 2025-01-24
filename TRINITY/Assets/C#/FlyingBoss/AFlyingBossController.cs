@@ -47,9 +47,13 @@ public class AFlyingBossController : IEnemyController
     {
         CheckCoolDown();
 
-        if (EnemyStatus.Health.Current <= 0)
+        if (EnemyStatus.Health.Current <= 0 && !(FlyingBossFSM.CurrentState is FBDie))
         {
             FlyingBossFSM.EnqueueTransition<FBDie>();
+        }
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD && !(FlyingBossFSM.CurrentState is FBHover))
+        {
+            FlyingBossFSM.EnqueueTransition<FBHover>();
         }
     }
     private void CheckCoolDown()
@@ -63,15 +67,6 @@ public class AFlyingBossController : IEnemyController
                 TimerRandomFly = 0f;
             }
         }
-        //if (!bCanSpikeAttack)
-        //{
-        //    TimerSpikeAttack += Time.deltaTime;
-        //    if (TimerSpikeAttack >= SpikeAttackCD)
-        //    {
-        //        bCanSpikeAttack = true;
-        //        TimerSpikeAttack = 0f;
-        //    }
-        //}
         if (!bCanElectricChargeAttack)
         {
             TimerElectricChargeAttack += Time.deltaTime;

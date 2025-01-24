@@ -48,16 +48,10 @@ public class FBHover : FlyingBossState
         UpdateBlendTreeParameters();
 
 
-        if (FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack /*&& FlyingBossFSM.FlyingBossController.CalculateDistance() <= FlyingBossFSM.FlyingBossController.LongAttackRange*/)
+        if (FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack && ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD)
         {
             FlyingBossFSM.EnqueueTransition<FBAttack>();
         }
-        //else if (FlyingBossFSM.FlyingBossController.bCanSpikeAttack /*&& FlyingBossFSM.FlyingBossController.CalculateDistance() <= FlyingBossFSM.FlyingBossController.CloseAttackRange*/)
-        //{
-        //    FlyingBossFSM.EnqueueTransition<FBAttack>();
-        //    FlyingBossFSM.FlyingBossController.bCanSpikeAttack = false;
-        //}
-
     }
 
     public override void PostUpdateBehaviour(float dt)
@@ -85,10 +79,7 @@ public class FBHover : FlyingBossState
 
         Vector3 faceDirection = (FlyingBossFSM.PlayerController.transform.position - FlyingBossFSM.FlyingBossController.transform.position).normalized;
 
-        FlyingBossFSM.FlyingBossController.RotateTowardTarget(faceDirection, RotateSpeed);
-        //Vector3 currentRotation = FlyingBossFSM.FlyingBossController.transform.eulerAngles;
-
-        //FlyingBossFSM.FlyingBossController.transform.rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
+        FlyingBossFSM.FlyingBossController.RotateTowardTarget(faceDirection, RotateSpeed);       
     }
 
     Vector3 GetRandomHoverPosition()

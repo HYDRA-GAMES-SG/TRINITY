@@ -21,7 +21,7 @@ public class FBAttack : FlyingBossState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        return true;
+        return ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD;
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
