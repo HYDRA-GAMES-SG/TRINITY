@@ -11,7 +11,7 @@ public class Idle : CrabState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-
+        CrabFSM.CrabController.AI.ResetPath();
     }
 
     public override void PreUpdateBehaviour(float dt)

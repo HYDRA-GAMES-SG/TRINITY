@@ -420,7 +420,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.4299664, y: -0.31332457, z: 0.3234983}
+  m_ConnectedAnchor: {x: 0.4299664, y: -0.3133248, z: 0.3234983}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:
@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 375015980852147800}
   - component: {fileID: 4102150935974799518}
   - component: {fileID: 7988240713942314670}
+  - component: {fileID: 7635581217390072844}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -693,6 +694,29 @@ NavMeshAgent:
   m_BaseOffset: 7
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &7635581217390072844
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818426703504117141}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 2.12
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 2.1, z: 0}
 --- !u!1 &2115904251884640815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,6 +1280,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
+  Collider: {fileID: 7635581217390072844}
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 257
 --- !u!1 &3905255072100153290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,7 +1885,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.42996573, y: -0.31329533, z: -0.32346138}
+  m_ConnectedAnchor: {x: 0.42996573, y: -0.3132957, z: -0.32346138}
   serializedVersion: 2
   m_SwingAxis: {x: 0, y: 1, z: 0}
   m_TwistLimitSpring:

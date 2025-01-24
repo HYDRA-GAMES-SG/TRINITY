@@ -49,9 +49,14 @@ public class Ragdoll : MonoBehaviour
     {
         foreach (var r in rigBody)
         {
-            r.isKinematic = false;
+            Collider[] colliders = r.GetComponents<Collider>();
+
+            foreach (var collider in colliders)
+            {
+                collider.enabled = false;
+            }
         }
-        animator.enabled = false;
+
     }
 
     

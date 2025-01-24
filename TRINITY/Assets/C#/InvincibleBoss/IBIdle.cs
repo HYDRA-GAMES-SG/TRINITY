@@ -11,6 +11,7 @@ public class IBIdle : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        InvincibleBossFSM.InvincibleBossController.AI.ResetPath();
     }
 
     public override void PreUpdateBehaviour(float dt)

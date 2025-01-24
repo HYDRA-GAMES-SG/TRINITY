@@ -45,7 +45,7 @@ public class AInvincibleBossController : IEnemyController
     [SerializeField] float blinkTimer;
     [SerializeField] float blinkDuration = 1.0f;
     [SerializeField] float blinkIntensity = 2.0f;
-    SkinnedMeshRenderer[] skinnedMeshRenderer;
+    [SerializeField]SkinnedMeshRenderer[] skinnedMeshRenderer;
     Material[] materials;
 
 
