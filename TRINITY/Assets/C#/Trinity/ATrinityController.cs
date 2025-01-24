@@ -210,7 +210,11 @@ public class ATrinityController : MonoBehaviour
     
     private void HandleDeath()
     {
-        RB.isKinematic = true;
+        if (CheckGround().transform)
+        {
+            RB.isKinematic = true;
+        }
+            
     }
     
     // public void EnableRagdoll()
