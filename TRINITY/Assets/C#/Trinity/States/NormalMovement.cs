@@ -150,21 +150,11 @@ public class NormalMovement : TrinityState
             return;
         }
         
-        if (!Input.JumpInput || Controller.CheckGround().transform) // let HandleFalling() handle groundedness
+        if (!Input.JumpInput || Controller.CheckGround().transform || ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD) // let HandleFalling() handle groundedness
         {
             SetMovementState(ETrinityMovement.ETM_Falling);
-            Controller.Gravity = ATrinityController.GRAVITY_CONSTANT;
             return;
         }
-
-        float chargeGravityModifier = 1f;
-
-        if (ATrinityGameManager.GetEnemyControllers().Count > 0)
-        {
-            chargeGravityModifier = UAilmentComponent.ChargeGlideGravityModifier;
-        }
-        //Handle Glide
-        Controller.Gravity = ATrinityController.GRAVITY_CONSTANT * GlideGravityModifier * chargeGravityModifier;
     }
     
     private void HandleAirStrafing()

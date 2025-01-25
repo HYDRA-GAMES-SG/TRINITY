@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class LightningBolt : AProjectile
@@ -21,6 +23,9 @@ public class LightningBolt : AProjectile
 
     private SphereCollider Collider;
 
+    private Light[] PointLights;
+
+    private System.Random RNG;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +37,8 @@ public class LightningBolt : AProjectile
         Direction = ATrinityGameManager.GetSpells().CastDirection;
         Collider = GetComponent<SphereCollider>();
         RB.velocity = Direction * Speed;
+        PointLights = GetComponentsInChildren<Light>();
+        RNG = new System.Random();
     }
 
     // Update is called once per frame
@@ -42,6 +49,11 @@ public class LightningBolt : AProjectile
         if (!Collider.enabled)
         {
             Collider.enabled = true;
+        }
+
+        foreach (Light light in PointLights)
+        {
+            light.intensity = 50f + (float)RNG.NextDouble() * 150;
         }
     }
     public override void Despawn()

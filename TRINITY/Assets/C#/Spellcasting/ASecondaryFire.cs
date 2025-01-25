@@ -105,6 +105,10 @@ public class ASecondaryFire : ASpell
         CurrentRadius = Mathf.Lerp(MinRadius, MaxRadius, t);
         Rune.transform.localScale = new Vector3(CurrentRadius, CurrentRadius > MaxRuneParticleHeight ? MaxRuneParticleHeight : CurrentRadius, CurrentRadius);
         
+        Light runeLight = Rune.transform.Find("Light").gameObject.GetComponent<Light>();
+        runeLight.range = Mathf.Lerp(3f, 15f, t);
+        runeLight.intensity = Mathf.Lerp(20f, 400f, t);
+        
         if (ChannelTime >= MaxChannelTime)
         {
             Release(); //trigger end when max channel time is reached

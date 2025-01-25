@@ -19,17 +19,20 @@ public class ASecondaryCold : ASpell
     public AudioClip CastingSFX;
 
     private AudioSource SFXSource;
-    private GameObject IceCube;
+    public GameObject IceCubeInstance;
     private float CurrentScale;
     private float ChannelTime;
 
+    public BoxCollider IceCubeTrigger;
+
     public override void Initialize()
     {
-        if (IceCube == null)
+        if (IceCubeInstance == null)
         {
-            IceCube = Instantiate(SpellPrefab);
-            IceCube.transform.SetParent(this.gameObject.transform);
-            IceCube.SetActive(false);
+            IceCubeInstance = Instantiate(SpellPrefab);
+            IceCubeInstance.transform.SetParent(this.gameObject.transform);
+            IceCubeInstance.SetActive(false);
+            IceCubeTrigger = IceCubeInstance.transform.Find("SpellTrigger").GetComponent<BoxCollider>();
         }
         
          SFXSource = GetComponent<AudioSource>();
@@ -37,7 +40,7 @@ public class ASecondaryCold : ASpell
     
     public override void CastStart()
     {
-        if (IceCube == null)
+        if (IceCubeInstance == null)
         {
             return;
         }
@@ -49,13 +52,14 @@ public class ASecondaryCold : ASpell
         
         if (invokePosition != Vector3.zero)
         {
-            IceCube iceCube = IceCube.GetComponent<IceCube>();
+            IceCube iceCube = IceCubeInstance.GetComponent<IceCube>();
             iceCube.Duration = Duration;
             iceCube.Mesh.enabled = false;
             iceCube.Reset();
-            IceCube.transform.position = invokePosition;
-            IceCube.transform.localScale = Vector3.one * MinScale;
-            IceCube.SetActive(true);
+            IceCubeInstance.transform.position = invokePosition;
+            IceCubeInstance.transform.localScale = Vector3.one * MinScale;
+            IceCubeInstance.transform.Find("GlowWide").gameObject.SetActive(true);
+            IceCubeInstance.SetActive(true);
             ChannelTime = 0f;
         
             if (CastingSFX != null)
@@ -71,7 +75,7 @@ public class ASecondaryCold : ASpell
     }
     public override void CastUpdate()
     {
-        if (IceCube == null || !IceCube.activeSelf)
+        if (IceCubeInstance == null || !IceCubeInstance.activeSelf)
         {
             return;
         }
@@ -81,11 +85,12 @@ public class ASecondaryCold : ASpell
 
         float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
         CurrentScale = Mathf.Lerp(MinScale, MaxScale, t);
-        IceCube.transform.localScale = CurrentScale * Vector3.one;
+        IceCubeInstance.transform.localScale = CurrentScale * Vector3.one;
 
         if (ChannelTime / MaxChannelTime >= IceCreationPercentThreshold)
         {
-            IceCube.GetComponent<IceCube>().Mesh.enabled = true;
+            IceCubeInstance.GetComponent<IceCube>().Mesh.enabled = true;
+            IceCubeInstance.transform.Find("GlowWide").gameObject.SetActive(false);
         }
         
         if (ChannelTime >= MaxChannelTime)
@@ -102,10 +107,10 @@ public class ASecondaryCold : ASpell
 
         if (ChannelTime / MaxChannelTime < IceCreationPercentThreshold)
         {
-            IceCube.GetComponent<IceCube>().Melt();
+            IceCubeInstance.GetComponent<IceCube>().Melt();
         }
         
-        if (IceCube == null || !IceCube.activeSelf)
+        if (IceCubeInstance == null || !IceCubeInstance.activeSelf)
         {
             return; //do nothing if rune does not exist since no valid placement found
         }

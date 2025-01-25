@@ -16,7 +16,7 @@ public class ATrinityController : MonoBehaviour
     public LayerMask GroundLayer;
 
     [SerializeField] 
-    public float Gravity = 9.81f;
+    private float Gravity = 9.81f;
 
     public const float GRAVITY_CONSTANT = 9.81f;
     
@@ -122,6 +122,20 @@ public class ATrinityController : MonoBehaviour
     
     private void HandleGravity()
     {
+        float glideGravityModifier = 1f;
+        float chargeGravityModifier = 1f;
+
+        if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement)
+        {
+            if (ATrinityGameManager.GetEnemyControllers().Count > 0)
+            {
+                chargeGravityModifier = UAilmentComponent.ChargeGlideGravityModifier;
+            }
+        }
+
+        //Handle Glide
+        Gravity = ATrinityController.GRAVITY_CONSTANT * glideGravityModifier * chargeGravityModifier;
+        
         RB.AddForce(-Up * Gravity);
     }
 

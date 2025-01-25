@@ -28,6 +28,10 @@ public class ASecondaryLightning : ASpell
     public float TotemDuration;
     public float TotemMaxPitchSpawn = 15f;
 
+    [Header("Enraged Properties")] 
+    public float EnragedAttackFrequency = 1.2f;
+    public float EnragedAttackDamage = 150f;
+
 
     
     [Header("Audio")]
@@ -40,6 +44,7 @@ public class ASecondaryLightning : ASpell
     private float ChannelTime;
     private float CurrentPosition;
     private Vector3 InvokePosition;
+
     
     public override void Initialize()
     {
@@ -61,6 +66,7 @@ public class ASecondaryLightning : ASpell
             LightningTotem lightningTotem = Totem.GetComponent<LightningTotem>();
             lightningTotem.Duration = TotemDuration;
             lightningTotem.AttackFrequency = AttackFrequency;
+            lightningTotem.EnragedAttackFrequency = EnragedAttackFrequency;
             lightningTotem.InvokePosition = InvokePosition;
             lightningTotem.SummonDepth = TotemSummonDepth;
             lightningTotem.MaxPitchSpawn = TotemMaxPitchSpawn;
@@ -95,7 +101,7 @@ public class ASecondaryLightning : ASpell
         
         if (ChannelTime >= MaxChannelTime)
         {
-            Totem.GetComponent<LightningTotem>().bSummoned = true;
+            Totem.GetComponent<LightningTotem>().Summoned();
             
             Release(); //trigger end when max channel time is reached
         }
@@ -103,7 +109,6 @@ public class ASecondaryLightning : ASpell
     
     public override void CastEnd()
     {
-        print("unsummon");
         if (CastingSFX != null)
         {
             SFXSource.Stop();

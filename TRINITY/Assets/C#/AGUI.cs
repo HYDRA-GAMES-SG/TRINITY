@@ -29,6 +29,8 @@ public class AGUI : MonoBehaviour
     
     private float PlayerHealthTarget;
 
+    public float PlayerDamageDecayRate = 3f;
+
     void Start()
     {
         if (ATrinityGameManager.GetPlayerController() != null)
@@ -61,10 +63,10 @@ public class AGUI : MonoBehaviour
 
     void Update()
     {
-        // Lerp DamageSlider and BossDamageSlider to target values
+        // Lerp DamageSlider to target values
         if (DamageSlider != null)
         {
-            DamageSlider.fillAmount = Mathf.Lerp(DamageSlider.fillAmount, PlayerHealthTarget, Time.deltaTime);
+            DamageSlider.fillAmount = Mathf.Lerp(DamageSlider.fillAmount, PlayerHealthTarget, PlayerDamageDecayRate * Time.deltaTime);
         }
 
         UpdateCooldowns();
@@ -145,8 +147,8 @@ public class AGUI : MonoBehaviour
     {
         if (HealthSlider != null)
         {
-            PlayerHealthTarget = HealthSlider.fillAmount; // Record the current value
             HealthSlider.fillAmount = healthPercent;
+            PlayerHealthTarget = HealthSlider.fillAmount; // Record the current value
         }
     }
 

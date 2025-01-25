@@ -1,28 +1,42 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum ELightningTotemStatus
+{
+    ELTS_Summoning,
+    ELTS_Summoned,
+    ELTS_Enraged,
+    ELTS_Unsummoned
+}
+
 public class LightningTotem : MonoBehaviour
 {
+    [HideInInspector]
+    public ELightningTotemStatus Status;
     [Header("Totem Properties")] 
     public float AttackFrequency = .85f;
+    public float EnragedAttackFrequency = 1.2f;
     public float Duration;
     public Vector3 InvokePosition;
     public float SummonDepth;
-    public bool bUnsummoned = false;
-    public bool bSummoned = false;
     public float UnsummonSpeed = 1.5f;
     public float MaxPitchSpawn = 10f;
     public Transform ProjectileSpawnPoint;
     private float AttackTimer;
     private Transform TargetEnemy;
+    private GameObject EnrageFX;
+    
+    private Light[] EyeLights;
+
     
     
     // Start is called before the first frame update
     void Start()
     {
-        bUnsummoned = false;
+        Status = ELightningTotemStatus.ELTS_Summoning;
         Vector3 toPlayer = ATrinityGameManager.GetPlayerController().Position - transform.position;
         toPlayer.y = 0; //flatten
         
@@ -30,33 +44,15 @@ public class LightningTotem : MonoBehaviour
         System.Random RNG = new System.Random();
         float spawnPitch = ((float)RNG.NextDouble() - .5f) * 2f * MaxPitchSpawn;
         transform.Find("Totem").transform.localRotation *= Quaternion.AngleAxis(spawnPitch, transform.forward); //makes no sense
+        EnrageFX = transform.Find("EnrageFX").gameObject;
         AttackTimer = AttackFrequency;
+        EyeLights = GetComponentsInChildren<Light>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Duration -= Time.deltaTime;
-        AttackTimer -= Time.deltaTime;
-        
-        if (AttackTimer < 0 && !bUnsummoned)
-        {
-            Attack();
-            AttackTimer = AttackFrequency;
-        }
-        
-        if (Duration <= 0)
-        {
-            Unsummon();
-        }
-        
-        if (bSummoned  && !bUnsummoned)
-        {
-            LookAtClosestEnemy();
-            
-        }
-        
-        if (bUnsummoned)
+        if (Status == ELightningTotemStatus.ELTS_Unsummoned)
         {
             float newY = Mathf.Lerp(transform.position.y, InvokePosition.y - SummonDepth, UnsummonSpeed * Time.deltaTime);
             Vector3 newPos = new Vector3(InvokePosition.x, newY, InvokePosition.z);
@@ -66,7 +62,58 @@ public class LightningTotem : MonoBehaviour
             {
                 Destroy(this);
             }
+
+            return;
         }
+        
+        Duration -= Time.deltaTime;
+        AttackTimer -= Time.deltaTime;
+        
+        if (AttackTimer < 0 && Status == ELightningTotemStatus.ELTS_Summoned || Status == ELightningTotemStatus.ELTS_Enraged)
+        {
+            Attack();
+            if (Status == ELightningTotemStatus.ELTS_Enraged)
+            {
+                AttackTimer = EnragedAttackFrequency;
+            }
+            else
+            {
+                AttackTimer = AttackFrequency;
+            }
+        }
+        
+        if (Duration <= 0)
+        {
+            Unsummon();
+        }
+        
+        if (Status != ELightningTotemStatus.ELTS_Unsummoned)
+        {
+            LookAtClosestEnemy();
+            
+        }
+        
+    }
+
+    private void Enrage()
+    {
+        if (Status == ELightningTotemStatus.ELTS_Summoned)
+        {
+            Status = ELightningTotemStatus.ELTS_Enraged;
+            float attackProgress = AttackTimer / AttackFrequency;
+
+            AttackTimer = attackProgress * EnragedAttackFrequency;
+            EnrageFX.SetActive(true);
+            
+            transform.Find("Totem").gameObject.GetComponent<MeshRenderer>().material.SetVector("_BaseColor", new Vector4(.6f, .76f, .58f, 1f));
+            
+            foreach (Light light in EyeLights)
+            {
+                //light.color = Color.red;
+                light.transform.parent.GetComponent<MeshRenderer>().material.SetVector("_EmissionColor", new Vector4(1f, 0, 0, 1f));
+            }
+        }
+        
     }
 
     private void Attack()
@@ -113,7 +160,19 @@ public class LightningTotem : MonoBehaviour
 
     public void Unsummon()
     {
-        //lerp the totem back underground
-        bUnsummoned = true;
+        Status = ELightningTotemStatus.ELTS_Unsummoned;
+    }
+
+    public void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.GetComponent<LightningBolt>())
+        {
+            Enrage();
+        }
+    }
+
+    public void Summoned()
+    {
+        Status = ELightningTotemStatus.ELTS_Summoned;
     }
 }

@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Diagnostics;
 using ThirdPersonCamera;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ATrinityCamera : MonoBehaviour
 {
+    private CameraController CameraController;
     private OverTheShoulder OverTheShoulderCameraComponent;
     public UCameraShakeComponent CameraShakeComponent;
     public Camera Camera;
@@ -20,6 +23,8 @@ public class ATrinityCamera : MonoBehaviour
     public float BulletTimeDuration = .3f;
     public float BulletTimeDistance = 5f;
     public float BulletTimeScale = .5f;
+
+    private string PostProcessingLayerName = "PP_Default";
     
     void Start()
     {
@@ -30,8 +35,13 @@ public class ATrinityCamera : MonoBehaviour
         Cursor.visible = false;
         Camera = GetComponent<Camera>();
 
+        CameraController = GetComponent<CameraController>();
         OverTheShoulderCameraComponent = GetComponent<OverTheShoulder>();
         if (OverTheShoulderCameraComponent != null)
+        {
+            OriginalCameraDistance = OverTheShoulderCameraComponent.ReleaseDistance;
+        }
+        
         {
             OriginalCameraDistance = OverTheShoulderCameraComponent.ReleaseDistance;
         }
@@ -42,6 +52,8 @@ public class ATrinityCamera : MonoBehaviour
         }
         
         ABlink.BlinkCamera += HandleBlink;
+
+        SwitchPostProcessing("PP_Default");
     }
 
     private void HandleBulletTime()
@@ -128,10 +140,58 @@ public class ATrinityCamera : MonoBehaviour
                 bBlinkLerp = false;
             }
         }
+        
+        if (ATrinityGameManager.GetSpells().SecondaryCold.IceCubeInstance.GetComponent<IceCube>().Mesh.enabled)
+        {
+            if (IsPointInBoxCollider(transform.position, ATrinityGameManager.GetSpells().SecondaryCold.IceCubeTrigger, .08f))
+            {
+                SwitchPostProcessing("PP_IceCube");
+                return;
+            }
+            else
+            {
+                SwitchPostProcessing("PP_Default");
+            }
+        }
+        else
+        {
+            SwitchPostProcessing("PP_Default");
+        }
+
     }
 
     void LateUpdate()
     {
         // Additional LateUpdate logic if needed
+    }
+    
+    public bool IsPointInBoxCollider(Vector3 point, BoxCollider boxCollider, float sizeOffset = 0f) 
+    {
+        point = boxCollider.transform.InverseTransformPoint(point);
+        
+        Vector3 bounds = new Vector3(
+            (boxCollider.size.x + sizeOffset) * 0.5f,
+            (boxCollider.size.y + sizeOffset) * 0.5f,
+            (boxCollider.size.z + sizeOffset) * 0.5f
+        );
+    
+        return Mathf.Abs(point.x) <= bounds.x && 
+               Mathf.Abs(point.y) <= bounds.y && 
+               Mathf.Abs(point.z) <= bounds.z;
+    }
+
+    void SwitchPostProcessing(string postProcessingChildObjectName)
+    {
+        if (postProcessingChildObjectName == PostProcessingLayerName)
+        {
+            return;
+        }
+        
+        if (transform.Find(postProcessingChildObjectName))
+        {
+            transform.Find(postProcessingChildObjectName).gameObject.SetActive(true);
+            transform.Find(PostProcessingLayerName).gameObject.SetActive(false);
+            PostProcessingLayerName = postProcessingChildObjectName;
+        }
     }
 }

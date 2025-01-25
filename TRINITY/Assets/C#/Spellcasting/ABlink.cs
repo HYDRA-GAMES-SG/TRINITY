@@ -19,6 +19,9 @@ public class ABlink : ASpell
     private AudioSource AudioComponent;
     public static System.Action OnBlink;
     public static System.Action BlinkCamera;
+
+    private GameObject DepartCloud;
+    private GameObject ArrivalCloud;
     
     public override void Initialize()
     {
@@ -151,10 +154,15 @@ public class ABlink : ASpell
         // Set position and log final result
         if (!bInvalidBlink)
         {
+            if (DepartCloud)
+            {
+                Destroy(DepartCloud.gameObject);
+            }
+            Destroy(DepartCloud, 7);
             
-            GameObject SmokeCloudLeaving = Instantiate(SpellPrefab, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
-            SmokeCloudLeaving.transform.SetParent(this.gameObject.transform);
-            Destroy(SmokeCloudLeaving, 5f);
+            GameObject SmokeCloudDeparting = Instantiate(SpellPrefab, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
+            DepartCloud = SmokeCloudDeparting;
+            SmokeCloudDeparting.transform.SetParent(this.gameObject.transform);
             
             OnBlink?.Invoke();
 
@@ -179,10 +187,15 @@ public class ABlink : ASpell
                 AudioComponent.clip = SFX;
                 AudioComponent.Play();
             }
-            
+
+            if (ArrivalCloud)
+            {
+                Destroy(ArrivalCloud.gameObject);
+            }
             GameObject SmokeCloudArriving = Instantiate(SpellPrefab, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
+            ArrivalCloud = SmokeCloudArriving;
             SmokeCloudArriving.transform.SetParent(this.gameObject.transform);
-            Destroy(SmokeCloudArriving, 5f);
+            Destroy(ArrivalCloud, 7);
         }
         else
         {

@@ -11,13 +11,18 @@ public class AUtilityFire : ASpell
     public float HealAmount;
     private float OriginalCooldown;
     public float LoweredCooldown;
+    
+    [HideInInspector]
     public float AuraTimer;
+    [HideInInspector]
     public float AuraTime;
+    
+    [HideInInspector]
     public bool bAura;
 
     [Header("VFX")]
-    public GameObject AuraVFX;
     public GameObject ExplosionVFX;
+    
     public override void Initialize()
     {
         Cleanse = ETrinityAction.ETA_None;
@@ -38,6 +43,10 @@ public class AUtilityFire : ASpell
             ATrinityGameManager.GetSpells().PrimaryFire.Cooldown = OriginalCooldown;
             bAura = false;
         }
+        else
+        {
+            ATrinityGameManager.GetPlayerController().HealthComponent.Modify((HealAmount / AuraTimer) * Time.deltaTime );
+        }
     }
 
     public override void CastEnd()
@@ -48,7 +57,7 @@ public class AUtilityFire : ASpell
     {
         //Spawn VFX
         GameObject explosionVFX = Instantiate(ExplosionVFX, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
-        GameObject auraVFX = Instantiate (AuraVFX, ATrinityGameManager.GetPlayerController().Position + new Vector3(0, 0.75f, 0), Quaternion.identity);
+        GameObject auraVFX = Instantiate (SpellPrefab, ATrinityGameManager.GetPlayerController().Position + new Vector3(0, 0.75f, 0), Quaternion.identity);
         auraVFX.transform.parent = ATrinityGameManager.GetPlayerController().transform;
         Destroy(auraVFX, AuraTime);
 
@@ -57,7 +66,6 @@ public class AUtilityFire : ASpell
         bAura = true;
 
         //Apply heal, set aura timer where Primary attacks are faster, if aura is on and used with other primary, apply ignite as well
-        ATrinityGameManager.GetPlayerController().HealthComponent.Modify(HealAmount);
         ATrinityGameManager.GetSpells().PrimaryFire.Cooldown = LoweredCooldown;
         AuraTimer = AuraTime;
     }
