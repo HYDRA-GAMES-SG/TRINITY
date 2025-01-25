@@ -518,9 +518,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2804232800461846407}
   - component: {fileID: 1768469164542981620}
-  - component: {fileID: 3413527218791458888}
-  - component: {fileID: 3863862045023342108}
   - component: {fileID: 4320670786713491310}
+  - component: {fileID: 3863862045023342108}
+  - component: {fileID: 3413527218791458888}
+  - component: {fileID: 7205701424928979438}
   - component: {fileID: 375015980852147800}
   - component: {fileID: 4102150935974799518}
   - component: {fileID: 7988240713942314670}
@@ -580,9 +581,32 @@ MonoBehaviour:
   bCanRandomFly: 0
   bCanElectricChargeAttack: 0
   ElectricBombDMG: 30
-  blinkTimer: 0
-  blinkDuration: 0.3
-  blinkIntensity: 0.8
+--- !u!114 &4320670786713491310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818426703504117141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1a2a52e8c6a134bbdcd47750275a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: {fileID: 0}
+  Ailments: {fileID: 0}
+--- !u!114 &3863862045023342108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818426703504117141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3413527218791458888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,7 +622,7 @@ MonoBehaviour:
   MAX: 10000
   Regen: 0
   Current: 10000
---- !u!114 &3863862045023342108
+--- !u!114 &7205701424928979438
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -607,23 +631,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1818426703504117141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4320670786713491310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818426703504117141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea1a2a52e8c6a134bbdcd47750275a71, type: 3}
+  m_Script: {fileID: 11500000, guid: fd44f7748e50be1479457ca361f179a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Health: {fileID: 0}
-  Ailments: {fileID: 0}
+  blinkTimer: 0
+  blinkDuration: 0.3
+  blinkIntensity: 0.8
+  skinnedMeshRenderer: []
 --- !u!54 &375015980852147800
 Rigidbody:
   m_ObjectHideFlags: 0

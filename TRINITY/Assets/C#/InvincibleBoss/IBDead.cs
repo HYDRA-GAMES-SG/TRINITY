@@ -13,8 +13,9 @@ public class IBDead : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-
         InvincibleBossFSM.InvincibleBossController.AI.ResetPath();
+        InvincibleBossFSM.Animator.SetTrigger("IsDead");
+        
         LightningEffect.Stop();
     }
 

@@ -8,7 +8,7 @@ public class AInvincibleBossController : IEnemyController
 
     float InitialSpeed;
 
-    [Header("Vincible Health")] 
+    [Header("Vincible Health")]
     public float VINCIBLE_MAX_HEALTH = 15000f;
     public GameObject Shield;
 
@@ -41,12 +41,12 @@ public class AInvincibleBossController : IEnemyController
     [SerializeField] float ThrowOrbDMG;
     public float OrbExplosionDMG;
 
-    [Header("GetHitEffect")]
-    [SerializeField] float blinkTimer;
-    [SerializeField] float blinkDuration = 1.0f;
-    [SerializeField] float blinkIntensity = 2.0f;
-    [SerializeField]SkinnedMeshRenderer[] skinnedMeshRenderer;
-    Material[] materials;
+    //[Header("GetHitEffect")]
+    //[SerializeField] float blinkTimer;
+    //[SerializeField] float blinkDuration = 1.0f;
+    //[SerializeField] float blinkIntensity = 2.0f;
+    //[SerializeField]SkinnedMeshRenderer[] skinnedMeshRenderer;
+    //Material[] materials;
 
 
     void Start()
@@ -54,18 +54,18 @@ public class AInvincibleBossController : IEnemyController
         AI.stoppingDistance = CloseAttack;
         InitialSpeed = AI.speed;
 
-        skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
-        materials = new Material[skinnedMeshRenderer.Length];
+        //skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
+        //materials = new Material[skinnedMeshRenderer.Length];
 
-        // Cache all materials
-        for (int i = 0; i < skinnedMeshRenderer.Length; i++)
-        {
-            materials[i] = skinnedMeshRenderer[i].material;
-        }
+        //// Cache all materials
+        //for (int i = 0; i < skinnedMeshRenderer.Length; i++)
+        //{
+        //    materials[i] = skinnedMeshRenderer[i].material;
+        //}
 
-        EnemyStatus.Health.OnDamageTaken += StartBlinking;
-        
-        foreach(IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
+        //EnemyStatus.Health.OnDamageTaken += StartBlinking;
+
+        foreach (IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
         {
             if (ec.Name == "Sentinel")
             {
@@ -193,46 +193,46 @@ public class AInvincibleBossController : IEnemyController
         return distanceToTarget;
     }
 
-    public void StartBlinking(float damageAmount)
-    {
-        blinkTimer = blinkDuration;
-        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime);
-    }
+    //public void StartBlinking(float damageAmount)
+    //{
+    //    blinkTimer = blinkDuration;
+    //    InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime);
+    //}
 
-    private void StopBlinking()
-    {
-        CancelInvoke(nameof(HandleBlink));
+    //private void StopBlinking()
+    //{
+    //    CancelInvoke(nameof(HandleBlink));
 
-        foreach (var material in materials)
-        {
-            if (material != null)
-            {
-                material.SetColor("_EmissionColor", Color.black);
-            }
-        }
-    }
+    //    foreach (var material in materials)
+    //    {
+    //        if (material != null)
+    //        {
+    //            material.SetColor("_EmissionColor", Color.black);
+    //        }
+    //    }
+    //}
 
-    private void HandleBlink()
-    {
-        if (blinkTimer <= 0f)
-        {
-            StopBlinking();
-            return;
-        }
+    //private void HandleBlink()
+    //{
+    //    if (blinkTimer <= 0f)
+    //    {
+    //        StopBlinking();
+    //        return;
+    //    }
 
-        blinkTimer -= Time.deltaTime;
+    //    blinkTimer -= Time.deltaTime;
 
-        float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
-        float intensity = lerp * blinkIntensity;
+    //    float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
+    //    float intensity = lerp * blinkIntensity;
 
-        foreach (var material in materials)
-        {
-            if (material != null)
-            {
-                material.EnableKeyword("_EMISSION");
-                Color emissionColor = Color.white * intensity;
-                material.SetColor("_EmissionColor", emissionColor);
-            }
-        }
-    }
+    //    foreach (var material in materials)
+    //    {
+    //        if (material != null)
+    //        {
+    //            material.EnableKeyword("_EMISSION");
+    //            Color emissionColor = Color.white * intensity;
+    //            material.SetColor("_EmissionColor", emissionColor);
+    //        }
+    //    }
+    //}
 }

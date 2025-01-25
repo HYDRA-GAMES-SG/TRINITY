@@ -31,17 +31,17 @@ public class AFlyingBossController : IEnemyController
     [Header("Attack Damage")]
     [SerializeField] float ElectricBombDMG;
 
-    [Header("GetHitEffect")]
-    [SerializeField] float blinkTimer;
-    [SerializeField] float blinkDuration = 1.0f;
-    [SerializeField] float blinkIntensity = 2.0f;
-    SkinnedMeshRenderer skinnedMeshRenderer;
-    Material material;
+    //[Header("GetHitEffect")]
+    //[SerializeField] float blinkTimer;
+    //[SerializeField] float blinkDuration = 1.0f;
+    //[SerializeField] float blinkIntensity = 2.0f;
+    //SkinnedMeshRenderer skinnedMeshRenderer;
+    //Material material;
     void Start()
     {
-        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        material = skinnedMeshRenderer.material;
-        EnemyStatus.Health.OnDamageTaken += StartBlinking;
+        //skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        //material = skinnedMeshRenderer.material;
+        //EnemyStatus.Health.OnDamageTaken += StartBlinking;
     }
     void Update()
     {
@@ -99,40 +99,40 @@ public class AFlyingBossController : IEnemyController
         float distanceToTarget = Vector3.Distance(PlayerPos, FlyBossPos);
         return distanceToTarget;
     }
-    public void StartBlinking(float damageAmount)
-    {
-        blinkTimer = blinkDuration;
-        InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime);
-    }
+    //public void StartBlinking(float damageAmount)
+    //{
+    //    blinkTimer = blinkDuration;
+    //    InvokeRepeating(nameof(HandleBlink), 0f, Time.deltaTime);
+    //}
 
-    private void StopBlinking()
-    {
-        CancelInvoke(nameof(HandleBlink)); // Stop the blinking effect
+    //private void StopBlinking()
+    //{
+    //    CancelInvoke(nameof(HandleBlink)); // Stop the blinking effect
 
-        if (material != null)
-        {
-            material.SetColor("_EmissionColor", Color.black);
-        }
-    }
+    //    if (material != null)
+    //    {
+    //        material.SetColor("_EmissionColor", Color.black);
+    //    }
+    //}
 
-    private void HandleBlink()
-    {
-        if (blinkTimer <= 0f)
-        {
-            StopBlinking();
-            return;
-        }
+    //private void HandleBlink()
+    //{
+    //    if (blinkTimer <= 0f)
+    //    {
+    //        StopBlinking();
+    //        return;
+    //    }
 
-        blinkTimer -= Time.deltaTime;
+    //    blinkTimer -= Time.deltaTime;
 
-        float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
-        float intensity = lerp * blinkIntensity;
+    //    float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
+    //    float intensity = lerp * blinkIntensity;
 
-        if (material != null)
-        {
-            material.EnableKeyword("_EMISSION");
-            Color emissionColor = Color.white * intensity;
-            material.SetColor("_EmissionColor", emissionColor);
-        }
-    }
+    //    if (material != null)
+    //    {
+    //        material.EnableKeyword("_EMISSION");
+    //        Color emissionColor = Color.white * intensity;
+    //        material.SetColor("_EmissionColor", emissionColor);
+    //    }
+    //}
 }
