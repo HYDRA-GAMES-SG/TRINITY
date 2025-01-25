@@ -6,6 +6,8 @@ public class AInvincibleBossController : IEnemyController
 {
     public AInvincibleBossFSM InvincibleBossFSM;
 
+    public UHealthComponent FlyingBossHealth;
+
     float InitialSpeed;
 
     [Header("Vincible Health")]
@@ -65,13 +67,14 @@ public class AInvincibleBossController : IEnemyController
 
         //EnemyStatus.Health.OnDamageTaken += StartBlinking;
 
-        foreach (IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
-        {
-            if (ec.Name == "Sentinel")
-            {
-                ec.EnemyStatus.Health.OnDeath += LowerShield;
-            }
-        }
+        //foreach (IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
+        //{
+        //    if (ec.Name == "Sentinel")
+        //    {
+        //        ec.EnemyStatus.Health.OnDeath += LowerShield;
+        //    }
+        //}
+        FlyingBossHealth.OnDeath += LowerShield;
     }
 
     private void LowerShield()
