@@ -8,6 +8,8 @@ public class FBAttack : FlyingBossState
 
     [SerializeField] float moveSpeed;
 
+    [SerializeField] ParticleSystem ChargeEffect;
+    [SerializeField] ParticleSystem ReleaseEffect;
     [SerializeField] ElectricBoom ElecBomb;
     [SerializeField] LayerMask groundLayer;
     //[SerializeField] float thunderSpawnDelay = 0.5f;
@@ -37,22 +39,32 @@ public class FBAttack : FlyingBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        MoveTowardsTarget(dt);
-        if (IsAtAttackPosition() && !thunderSpawned)
-        {
-            FlyingBossFSM.Animator.SetTrigger(AnimKey);
-            thunderSpawned = true; // Prevent multiple thunder spawns
-            StartCoroutine(SpawnMultipleThundersWithDelay(0.2f));
-        }
-
         string layerName = GetType().Name;
         int layerIndex = FlyingBossFSM.Animator.GetLayerIndex(layerName);
         AnimatorStateInfo stateInfo = FlyingBossFSM.Animator.GetCurrentAnimatorStateInfo(layerIndex);
-        if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
+
+        MoveTowardsTarget(dt);
+
+        if (IsAtAttackPosition() && !thunderSpawned)
         {
-            FlyingBossFSM.EnqueueTransition<FBHover>();
+            FlyingBossFSM.Animator.SetTrigger(AnimKey);
+            ChargeEffect.Play();
+            if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
+            {
+                thunderSpawned = true; 
+                ChargeEffect.Stop();
+                ReleaseEffect.Play();
+                StartCoroutine(SpawnMultipleThundersWithDelay(0.2f));
+                FlyingBossFSM.EnqueueTransition<FBHover>();
+            }
+        }
+
+        if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.1f)
+        {
         }
     }
+
+
 
     public override void PostUpdateBehaviour(float dt)
     {
@@ -61,6 +73,7 @@ public class FBAttack : FlyingBossState
     public override void ExitBehaviour(float dt, IState toState)
     {
         FlyingBossFSM.FlyingBossController.bCanElectricChargeAttack = false;
+        ChargeEffect.Stop();
     }
 
     public override bool CheckExitTransition(IState toState)
@@ -100,17 +113,7 @@ public class FBAttack : FlyingBossState
         float positionTolerance = 0.5f;
         return Vector3.Distance(FlyingBossFSM.FlyingBossController.transform.position, AttackPos) <= positionTolerance;
     }
-    //private IEnumerator SpawnThunderWithDelay(float delay)
-    //{
-    //    yield return new WaitForSeconds(delay);
-
-    //    Vector3 groundPosition = GetGroundPosition(FlyingBossFSM.PlayerController.transform.position);
-    //    if (groundPosition != Vector3.zero && ElecBomb != null)
-    //    {
-    //        ElectricBoom eb = Instantiate(ElecBomb, groundPosition, Quaternion.identity);
-    //        eb.GetDamage(FlyingBossFSM.FlyingBossController.GetCurrentAttackDamage());
-    //    }
-    //}
+    
     private IEnumerator SpawnMultipleThundersWithDelay(float interval)
     {
         List<Vector3> spawnPositions = new List<Vector3>();
