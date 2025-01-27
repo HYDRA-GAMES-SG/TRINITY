@@ -3,29 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class ButtonFunction : MonoBehaviour
 {
-    public string Menu = "MenuScene";
-    public string CrabBossStage = "CrabBossDungeon";
-    public string FlyingBossStage = "DevourerSentinelBossDungeon";
-    public string HumanoidBossStage = "HumanoidBossStageScene";
-
-    public void OnMenu()
+    public void LoadScene(string SceneName)
     {
-        SceneManager.LoadScene(Menu);
-    }public void OnCrabBoss()
-    {
-        SceneManager.LoadScene(CrabBossStage);
+        SceneManager.LoadScene(SceneName);
     }
-    public void OnFlyingBoss()
+    public void StartMenu(string SceneName)
     {
-        SceneManager.LoadScene(FlyingBossStage);
-    }
-    public void OnHumanoid()
-    {
-        SceneManager.LoadScene(HumanoidBossStage);
-    }
-    public void OnRestart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneName);
     }
     public void OnQuit()
     {
