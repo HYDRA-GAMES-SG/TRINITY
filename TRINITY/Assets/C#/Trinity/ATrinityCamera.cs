@@ -140,7 +140,14 @@ public class ATrinityCamera : MonoBehaviour
                 bBlinkLerp = false;
             }
         }
+
+        HandlePostProcessing();
         
+
+    }
+
+    private void HandlePostProcessing()
+    {
         if (ATrinityGameManager.GetSpells().SecondaryCold.IceCubeInstance.GetComponent<IceCube>().Mesh.enabled)
         {
             if (IsPointInBoxCollider(transform.position, ATrinityGameManager.GetSpells().SecondaryCold.IceCubeTrigger, .08f))
@@ -148,16 +155,23 @@ public class ATrinityCamera : MonoBehaviour
                 SwitchPostProcessing("PP_IceCube");
                 return;
             }
+            else if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
+            {
+                SwitchPostProcessing("PP_Pause");
+            }
             else
             {
                 SwitchPostProcessing("PP_Default");
             }
         }
+        else if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
+        {
+            SwitchPostProcessing("PP_Pause");
+        }
         else
         {
             SwitchPostProcessing("PP_Default");
         }
-
     }
 
     void LateUpdate()

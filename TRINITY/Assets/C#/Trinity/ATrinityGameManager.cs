@@ -8,6 +8,7 @@ using UnityEditor;
 #endif
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 
@@ -25,6 +26,7 @@ public class ATrinityGameManager : MonoBehaviour
     public static float GAMEPAD_SENSITIVITY = .5f;
     public static float MASTER_VOLUME = 1f;
     public static bool CROSSHAIR_ENABLED = true;
+    
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
     private static ATrinitySpells SpellsReference;
@@ -33,6 +35,7 @@ public class ATrinityGameManager : MonoBehaviour
     private static APlayerInput InputReference;
     private static ATrinityAnimator AnimationReference;
     private static ATrinityCamera CameraReference;
+    
     private static EGameFlowState GameFlowState;
     
 
@@ -59,6 +62,10 @@ public class ATrinityGameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CROSSHAIR_ENABLED = PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false;
+        MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
+        GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
+        MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
     }
 
     // Update is called once per frame
@@ -198,5 +205,18 @@ public class ATrinityGameManager : MonoBehaviour
     public static void SetGameFlowState(EGameFlowState newGameFlowState)
     {
         GameFlowState = newGameFlowState;
+    }
+
+    public static void SerializeSettings(FGameSettings newSettings)
+    {
+        CROSSHAIR_ENABLED = newSettings.bCrossHairEnabled;
+        MOUSE_SENSITIVITY = newSettings.MouseSensitivity;
+        GAMEPAD_SENSITIVITY = newSettings.GamepadSensitivity;
+        MASTER_VOLUME = newSettings.MasterVolume;
+        
+        PlayerPrefs.SetInt("bCrossHairEnabled", CROSSHAIR_ENABLED ? 1 : 0);
+        PlayerPrefs.SetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
+        PlayerPrefs.SetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
+        PlayerPrefs.SetFloat("MasterVolume", MASTER_VOLUME);
     }
 }

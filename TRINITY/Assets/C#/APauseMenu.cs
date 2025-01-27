@@ -1,15 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class APauseMenu : MonoBehaviour
 {
+    public Toggle CrossHairToggle;
+    public Slider GamepadSensitivity;
+    public Slider MouseSensitivity;
+    public Slider MasterVolume;
+    public Button ReturnToGameButton;
+    public Button QuitButton;
+    
     public Image CrossHair;
     public bool bEnableCrosshair = true;
     private float NavigateCooldownTimer = 0f;
     public float NavigateCooldown = .2f;
-    public float InputThreshold = .2f;
+    public float InputThreshold = 0f;
     
     [Header("Menu Items")]
     public Selectable[] MenuElements;  // Array of UI elements (buttons, etc.)
@@ -24,11 +33,29 @@ public class APauseMenu : MonoBehaviour
         }
     }
 
+    private void PressInteractable()
+    {
+        
+        if (NavigateCooldownTimer > 0f)
+        {
+            return;
+        }
+        
+        if (MenuElements[CurrentMenuElementsIndex] is Toggle)
+        {
+            Toggle currentToggle = MenuElements[CurrentMenuElementsIndex] as Toggle;
+
+            currentToggle.isOn = !currentToggle.isOn;
+            NavigateCooldownTimer = NavigateCooldown;
+        }
+    }
+
     void OnEnable()
     {
         Time.timeScale = 0f;
         ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
-        ATrinityGameManager.GetInput().OnMovePressed += Navigate;
+
+        //ATrinityGameManager.GetInput().OnMovePressed += Navigate;
         
         // Ensure proper initial selection when menu is enabled
         if (MenuElements != null && MenuElements.Length > 0)
@@ -37,6 +64,10 @@ public class APauseMenu : MonoBehaviour
         }
 
         CrossHair.gameObject.SetActive(false);
+        NavigateCooldownTimer = 0f;
+        
+        ATrinityGameManager.GetInput().OnMovePressed += Navigate;
+        ATrinityGameManager.GetInput().OnJumpGlidePressed += PressInteractable;
     }
     
     
@@ -45,7 +76,20 @@ public class APauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
+        //ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
+        
         ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
+        ATrinityGameManager.GetInput().OnJumpGlidePressed -= PressInteractable;
+
+        FGameSettings newSettings = new FGameSettings(
+            CrossHairToggle.isOn,
+            GamepadSensitivity.value,
+            MouseSensitivity.value,
+            MasterVolume.value
+        );
+
+        ATrinityGameManager.SerializeSettings(newSettings);
+        
         CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
     }
 
@@ -57,7 +101,7 @@ public class APauseMenu : MonoBehaviour
         }
 
         Vector2 moveInput = ATrinityGameManager.GetInput().MoveInput;
-
+        
         // Only process input if it exceeds the threshold
         if (Mathf.Abs(moveInput.y) >= InputThreshold)
         {
@@ -89,11 +133,23 @@ public class APauseMenu : MonoBehaviour
         // Optional: Handle horizontal navigation if needed
         else if (Mathf.Abs(moveInput.x) >= InputThreshold)
         {
-            // Add horizontal navigation logic here if needed
+            if (MenuElements[CurrentMenuElementsIndex] is Slider)
+            {
+                Slider currentSlider = MenuElements[CurrentMenuElementsIndex] as Slider;
+                if (moveInput.x > 0)
+                {
+                    currentSlider.value += .1f;
+                }
+                else
+                {
+                    currentSlider.value -= .1f;
+                }
+            }
+            // Add horizontal Snavigation logic here if needed
             NavigateCooldownTimer = NavigateCooldown;
         }
     }
-
+    
     private void SelectMenuItem(int index)
     {
         // Deselect current item
@@ -121,5 +177,10 @@ public class APauseMenu : MonoBehaviour
     public void OnReturnToGameClicked()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void OnQuitClicked()
+    {
+        SceneManager.LoadScene("PORTAL");
     }
 }

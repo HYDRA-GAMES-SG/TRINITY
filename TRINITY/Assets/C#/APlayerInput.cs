@@ -164,6 +164,7 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     
     public void OnJumpGlide(InputAction.CallbackContext context)
     {
+        JumpInput = context.ReadValue<float>() > 0f;
         if (context.started)
         {
             OnJumpGlidePressed?.Invoke();
@@ -173,12 +174,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         {
             OnJumpGlideReleased?.Invoke();
         }
-        JumpInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnBlink(InputAction.CallbackContext context)
-    {
-        
+    { 
+        BlinkInput = context.ReadValue<float>() > 0f;
         if (context.started)
         {
             OnBlinkPressed?.Invoke();
@@ -188,11 +188,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         {
             OnBlinkReleased?.Invoke();
         }
-        BlinkInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnForcefield(InputAction.CallbackContext context)
     {
+        ForcefieldInput = context.ReadValue<float>() > 0f;
         if (context.started)
         {
             OnForcefieldPressed?.Invoke();
@@ -203,11 +203,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnForcefieldReleased?.Invoke();
         }
         
-        ForcefieldInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnElementalUtility(InputAction.CallbackContext context)
     {
+        ElementalUtililyInput = context.ReadValue<float>() > 0f;
         if (context.started)
         {
             OnElementalUtiltiyPressed?.Invoke();
@@ -218,11 +218,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnElementalUtilityReleased?.Invoke();
         }
 
-        ElementalUtililyInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnElementalPrimary(InputAction.CallbackContext context)
     {
+        ElementalPrimaryInput = context.ReadValue<float>() > 0f;
         if (context.started)
         {
             OnElementalPrimaryPressed?.Invoke();
@@ -233,11 +233,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnElementalPrimaryReleased?.Invoke();
         }
 
-        ElementalPrimaryInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnElementalSecondary(InputAction.CallbackContext context)
     {
+        ElementalSecondaryInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
             OnElementalSecondaryPressed?.Invoke();
@@ -248,11 +248,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnElementalSecondaryReleased?.Invoke();
         }
 
-        ElementalSecondaryInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnNextElement(InputAction.CallbackContext context)
     {
+        NextElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
             OnNextElementPressed?.Invoke();
@@ -263,11 +263,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnNextElementReleased?.Invoke();
         }
 
-        NextElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnPreviousElement(InputAction.CallbackContext context)
     {
+        PreviousElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
             OnPreviousElementPressed?.Invoke();
@@ -278,11 +278,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnPreviousElementReleased?.Invoke();
         }
 
-        PreviousElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnFireElement(InputAction.CallbackContext context)
     {
+        FireElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
             OnElementPressed?.Invoke(ETrinityElement.ETE_Fire);
@@ -293,11 +293,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnElementReleased?.Invoke(ETrinityElement.ETE_Fire);
         }
 
-        FireElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnColdElement(InputAction.CallbackContext context)
     {
+        ColdElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
             OnElementPressed?.Invoke(ETrinityElement.ETE_Cold);
@@ -308,11 +308,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnElementReleased?.Invoke(ETrinityElement.ETE_Cold);
         }
 
-        ColdElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnLightningElement(InputAction.CallbackContext context)
     {
+        LightningElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
             OnElementPressed?.Invoke(ETrinityElement.ETE_Lightning);
@@ -323,12 +323,12 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnElementReleased?.Invoke(ETrinityElement.ETE_Lightning);
         }
 
-        LightningElementInput = context.ReadValue<float>() > 0f;
     }
 
     public void OnMenu(InputAction.CallbackContext context)
     {
         
+        MenuInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
             OnMenuPressed?.Invoke();
@@ -339,12 +339,12 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnMenuReleased?.Invoke();
         }
 
-        MenuInput = context.ReadValue<float>() > 0f;
     }
     public void OnMove(InputAction.CallbackContext context)
     {
+        MoveInput = context.ReadValue<Vector2>();
         if(context.started)
-        {
+        {        
             OnMovePressed?.Invoke();
         }
 
@@ -352,12 +352,11 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         {
             OnMoveReleased?.Invoke();
         }
-
-        MoveInput = context.ReadValue<Vector2>();
     }
 
     public void OnCamera(InputAction.CallbackContext context)
     {
+        CameraInput = context.ReadValue<Vector2>();
         if(context.started)
         {
             OnCameraPressed?.Invoke();
@@ -368,6 +367,5 @@ public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
             OnCameraReleased?.Invoke();
         }
         
-        CameraInput = context.ReadValue<Vector2>();
     }
 }

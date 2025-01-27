@@ -4,6 +4,22 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
+public struct FGameSettings
+{
+    public bool bCrossHairEnabled;
+    public float GamepadSensitivity;
+    public float MouseSensitivity;
+    public float MasterVolume;
+
+    public FGameSettings(bool bCrossHair, float gamepadSensitivity, float mouseSensitivity, float masterVolume)
+    {
+        bCrossHairEnabled = bCrossHair;
+        GamepadSensitivity = gamepadSensitivity;
+        MouseSensitivity = mouseSensitivity;
+        MasterVolume = masterVolume;
+    }
+}
+
 public struct FHitInfo
 {
     public GameObject Attacker;
