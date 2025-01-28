@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlashHitEffect : MonoBehaviour
+public class UDamageFlashComponent : MonoBehaviour
 {
     [SerializeField] UHealthComponent Health;
 

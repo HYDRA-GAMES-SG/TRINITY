@@ -20,14 +20,14 @@ public class IBAnimEvent : MonoBehaviour
     public void SpawnLeftFootStompVFX()
     {
         ParticleSystem stomp = Instantiate(FootStompEffect, transform.position, transform.rotation);
-        AAttackCollider projectileController = stomp.GetComponentInChildren<AAttackCollider>();
+        UAttackColliderComponent projectileController = stomp.GetComponentInChildren<UAttackColliderComponent>();
         projectileController.SetController(Controller);
     }
 
     public void SpawnRightFootStompVFX()
     {
         ParticleSystem stomp = Instantiate(FootStompEffect, transform.position, transform.rotation);
-        AAttackCollider projectileController = stomp.GetComponentInChildren<AAttackCollider>();
+        UAttackColliderComponent projectileController = stomp.GetComponentInChildren<UAttackColliderComponent>();
         projectileController.SetController(Controller);
     }
 

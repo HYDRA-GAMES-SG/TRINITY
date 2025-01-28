@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Services.Analytics.Platform;
 using UnityEngine;
 
-public class EnemyStunPlayer : MonoBehaviour
+public class UStunPlayerComponent : MonoBehaviour
 {
     [SerializeField] float StunTime;
 

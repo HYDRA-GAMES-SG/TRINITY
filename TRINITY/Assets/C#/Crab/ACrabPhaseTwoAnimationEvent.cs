@@ -34,7 +34,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, RightClaw.position, RightClaw.rotation);
-            AAttackCollider projectileController = iceClawSwingAttack.GetComponentInChildren<AAttackCollider>();
+            UAttackColliderComponent projectileController = iceClawSwingAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
     }
@@ -43,7 +43,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, LeftClaw.position, LeftClaw.rotation);
-            AAttackCollider projectileController = iceClawSwingAttack.GetComponentInChildren<AAttackCollider>();
+            UAttackColliderComponent projectileController = iceClawSwingAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
 
         }
@@ -55,7 +55,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
-            AAttackCollider projectileController = smashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
+            UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
     }
@@ -64,7 +64,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, LeftClaw.position, LeftClaw.rotation);
-            AAttackCollider projectileController = smashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
+            UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
     }
@@ -75,7 +75,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem jumpSmashFrozenGroundAttack = Instantiate(JumpSmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
-            AAttackCollider projectileController = jumpSmashFrozenGroundAttack.GetComponentInChildren<AAttackCollider>();
+            UAttackColliderComponent projectileController = jumpSmashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
     }

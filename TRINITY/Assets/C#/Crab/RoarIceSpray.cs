@@ -24,7 +24,7 @@ public class RoarIceSpray : CrabState
         if (iceSpray == null)
         {
             iceSpray = Instantiate(IceSpray, CrabMounth);
-            AAttackCollider projectileController = iceSpray.GetComponentInChildren<AAttackCollider>();
+            UAttackColliderComponent projectileController = iceSpray.GetComponentInChildren<UAttackColliderComponent>();
         }
         else
         {

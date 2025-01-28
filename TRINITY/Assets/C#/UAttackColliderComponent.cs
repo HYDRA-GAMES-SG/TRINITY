@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AAttackCollider : MonoBehaviour
+public class UAttackColliderComponent : MonoBehaviour
 {
     private IEnemyController Controller;
 
