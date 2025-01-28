@@ -19,9 +19,9 @@ public class IceCubeTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<HitBox>())
+        if (other.GetComponent<UEnemyColliderComponent>())
         {
-            IEnemyController enemyController = other.GetComponent<HitBox>().EnemyController;
+            IEnemyController enemyController = other.GetComponent<UEnemyColliderComponent>().EnemyController;
 
             if (other.transform == enemyController.CoreCollider)
             {
@@ -43,9 +43,9 @@ public class IceCubeTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<HitBox>())
+        if (other.GetComponent<UEnemyColliderComponent>())
         {
-            IEnemyController enemyController = other.GetComponent<HitBox>().EnemyController;
+            IEnemyController enemyController = other.GetComponent<UEnemyColliderComponent>().EnemyController;
 
             if (other.transform == enemyController.CoreCollider)
             {

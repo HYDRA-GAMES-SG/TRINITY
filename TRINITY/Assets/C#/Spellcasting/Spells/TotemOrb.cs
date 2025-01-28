@@ -67,16 +67,16 @@ public class TotemOrb : AProjectile
             return;
         }
         
-        HitBox collisionHitBox = other.gameObject.GetComponent<HitBox>();
+        UEnemyColliderComponent enemyCollider = other.gameObject.GetComponent<UEnemyColliderComponent>();
        
-        if (!collisionHitBox) //if null
+        if (!enemyCollider) //if null
         {
             Destroy(this);
             return;
         }
         if (other.gameObject.tag == "Enemy") 
         {
-            UEnemyStatusComponent enemyStatus = collisionHitBox.EnemyStatus;
+            UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, EAilmentType.EAT_Charge, ChargeStacks);
             enemyStatus += damageSource;
             Destroy(this.gameObject);

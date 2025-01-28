@@ -24,18 +24,17 @@ public class IceCrystal : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy") 
         {
-            HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
+            UEnemyColliderComponent enemyCollider = collision.gameObject.GetComponent<UEnemyColliderComponent>();
 
-            if (!enemyHitbox)
+            if (!enemyCollider)
             {
                 return;
             }
 
-            enemyHitbox.EnemyController.TriggerGetHit();
-            //print(enemyHitbox.EnemyController.name);
+            enemyCollider.EnemyController.TriggerGetHit();
 
 
-            UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
+            UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, UtilityCold.AilmentType, UtilityCold.StacksApplied);
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {UtilityCold.AilmentType} + {UtilityCold.StacksApplied}");

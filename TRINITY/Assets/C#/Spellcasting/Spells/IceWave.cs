@@ -116,17 +116,17 @@ public class IceWave : AProjectile
                 return;
             }
             
-            HitBox enemyHitbox = other.gameObject.GetComponent<HitBox>();
+            UEnemyColliderComponent enemyCollider = other.gameObject.GetComponent<UEnemyColliderComponent>();
 
-            if (!enemyHitbox)
+            if (!enemyCollider)
             {
                 return;
             }
 
             Instantiate(ExplosionVFX, transform.position, Quaternion.identity);
             
-            enemyHitbox.EnemyController.TriggerGetHit();
-            UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
+            enemyCollider.EnemyController.TriggerGetHit();
+            UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
             
             if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
             {

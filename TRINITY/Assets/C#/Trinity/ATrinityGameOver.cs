@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(AudioSource))]
-public class AGameOver : MonoBehaviour
+public class ATrinityGameOver : MonoBehaviour
 {
     [SerializeField] private string PortalScene;
     [SerializeField] private GameObject ContinueParent;

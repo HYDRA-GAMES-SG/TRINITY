@@ -4,15 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum ERatMovementState
-{
-    ERMS_Dead,
-    ERMS_Reposition,
-    ERMS_Idle,
-    ERMS_Pursue,
-    ERMS_Attack
-}
-
 public class PhaseOne : RatState
 {
     public float ThresholdAngle = 30f;

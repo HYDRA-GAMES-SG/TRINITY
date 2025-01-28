@@ -9,21 +9,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public enum ETrinityAction 
-{
-    ETA_None,
-    ETA_Stunned,
-    ETA_IFrame,
-    ETA_Casting,
-    ETA_Channeling
-}
-
-public enum ETrinityElement 
-{
-    ETE_Fire,
-    ETE_Cold,
-    ETE_Lightning,
-}
 
 public class ATrinityBrain : MonoBehaviour
 {

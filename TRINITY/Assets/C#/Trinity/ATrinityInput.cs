@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class APlayerInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
+public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 {
     public IAA_TrinityControls InputActions;
 

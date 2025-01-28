@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Death : CrabState
 {
-    public Ragdoll Graphics;
     public override bool CheckEnterTransition(IState fromState)
     {
         return true;

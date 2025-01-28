@@ -8,10 +8,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using ColorUtility = UnityEngine.ColorUtility;
 
-public class AGUI : MonoBehaviour
+public class ATrinityGUI : MonoBehaviour
 {
     public AEnemyHealthBar[] EnemyHealthBars = new AEnemyHealthBar[3];
-    public GameObject PauseMenu;
+    public GameObject OptionsMenu;
     public GameObject GameOver;
     
     [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
@@ -58,7 +58,7 @@ public class AGUI : MonoBehaviour
 
     private void DisplayGameOver()
     {
-        GameOver.GetComponent<AGameOver>().Display();
+        GameOver.GetComponent<ATrinityGameOver>().Display();
     }
 
     void Update()
@@ -126,9 +126,9 @@ public class AGUI : MonoBehaviour
 
     private void TogglePause()
     {
-        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD)
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD || ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
         {
-            PauseMenu.SetActive(!PauseMenu.activeSelf);
+            OptionsMenu.SetActive(!OptionsMenu.activeSelf);
         }
     }
     

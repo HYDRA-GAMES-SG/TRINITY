@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class APauseMenu : MonoBehaviour
+public class ATrinityOptions : MonoBehaviour
 {
     public Toggle CrossHairToggle;
     public Slider GamepadSensitivity;
@@ -50,8 +50,11 @@ public class APauseMenu : MonoBehaviour
 
     void OnEnable()
     {
-        Time.timeScale = 0f;
-        ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
+        {
+            Time.timeScale = 0f;
+            ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
+        }
 
         //ATrinityGameManager.GetInput().OnMovePressed += Navigate;
         
@@ -72,8 +75,11 @@ public class APauseMenu : MonoBehaviour
 
     void OnDisable()
     {
-        Time.timeScale = 1f;
-        ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
+        {
+            Time.timeScale = 1f;
+            ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
+        }
         //ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
         
         ATrinityGameManager.GetInput().OnMovePressed -= Navigate;

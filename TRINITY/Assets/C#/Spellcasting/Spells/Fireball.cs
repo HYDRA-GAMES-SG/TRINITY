@@ -56,36 +56,22 @@ public class Fireball : AProjectile
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            HitBox enemyHitbox = collision.gameObject.GetComponent<HitBox>();
+            UEnemyColliderComponent enemyCollider = collision.gameObject.GetComponent<UEnemyColliderComponent>();
 
-            if (!enemyHitbox)
+            if (!enemyCollider)
             {
                 return;
             }
 
-            enemyHitbox.EnemyController.TriggerGetHit();
-            //print(enemyHitbox.EnemyController.name);
+            enemyCollider.EnemyController.TriggerGetHit();
 
 
-            UEnemyStatusComponent enemyStatus = enemyHitbox.EnemyStatus;
+            UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryFire.AilmentType, PrimaryFire.StacksApplied);
             enemyStatus += damageSource;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryFire.AilmentType} + {PrimaryFire.StacksApplied}");
             Despawn();
-
-            //if (collision.gameObject.transform.childCount == 0)
-            //{
-            //    GameObject enemyVFX = Instantiate(IgniteVFX, collision.transform.position, Quaternion.identity);
-            //    enemyVFX.transform.parent = collision.transform;
-            //}
-            //else
-            //{
-            //    GameObject enemyObject = collision.transform.GetChild(0).gameObject;
-            //    ParticleSystem enemyVFX = enemyObject.GetComponent<ParticleSystem>();
-            //    enemyVFX.gameObject.SetActive(true);
-            //    enemyVFX.Play();
-            //}
-
+            
         }
         else 
         {

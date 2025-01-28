@@ -44,21 +44,21 @@ public class FlameblastZone : MonoBehaviour
             Ray ray = new Ray(transform.position, Vector3.up);
             Physics.SphereCast(ray, flameblast.CurrentRadius, out RaycastHit hitInfo, 5f);
 
-            HitBox hitBox;
+            UEnemyColliderComponent enemyCollider;
             if (hitInfo.collider != null)
             {
                 print("spherecast hits");
 
                 //print("Spherecast collider not null)");
-                hitInfo.collider.TryGetComponent<HitBox>(out hitBox);
+                hitInfo.collider.TryGetComponent<UEnemyColliderComponent>(out enemyCollider);
 
-                if (hitBox != null)
+                if (enemyCollider != null)
                 {
                     FDamageInstance damage = new FDamageInstance(-other.GetComponent<Fireball>().Damage 
                                                                  -flameblast.DamagePerStack * flameblast.CurrentRadius, 
                                                                 EAilmentType.EAT_Ignite, 
                                                                 ATrinityGameManager.GetSpells().PrimaryFire.StacksApplied);
-                    hitBox.EnemyStatus += damage;
+                    enemyCollider.EnemyStatus += damage;
                 }
             }
         }

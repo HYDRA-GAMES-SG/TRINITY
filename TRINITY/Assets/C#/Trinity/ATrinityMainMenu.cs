@@ -4,15 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum EMainMenu
-{
-    EMM_Start,
-    EMM_Quit,
-    EMM_Options
-}
 
 [RequireComponent(typeof(ATrinityGameManager))]
-[RequireComponent(typeof(APlayerInput))]
+[RequireComponent(typeof(ATrinityInput))]
 public class ATrinityMainMenu : MonoBehaviour
 {
     public float RotationSpeed = 240f;

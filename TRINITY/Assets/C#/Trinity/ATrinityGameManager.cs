@@ -12,15 +12,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 
-public enum EGameFlowState
-{
-    PLAY,
-    PAUSED,
-    DEAD,
-    MAIN_MENU
-        
-}
-
 public class ATrinityGameManager : MonoBehaviour
 {
     public static float MOUSE_SENSITIVITY = .5f;
@@ -33,7 +24,7 @@ public class ATrinityGameManager : MonoBehaviour
     private static ATrinitySpells SpellsReference;
     private static ATrinityBrain BrainReference;
     private static List<IEnemyController> EnemyControllers;
-    private static APlayerInput InputReference;
+    private static ATrinityInput InputReference;
     private static ATrinityAnimator AnimationReference;
     private static ATrinityCamera CameraReference;
     
@@ -111,7 +102,7 @@ public class ATrinityGameManager : MonoBehaviour
         return SpellsReference;
     }
 
-    public static APlayerInput GetInput()
+    public static ATrinityInput GetInput()
     {
         return InputReference;
     }
@@ -159,7 +150,7 @@ public class ATrinityGameManager : MonoBehaviour
         PlayerController = player;
     }
     
-    public static void SetInput(APlayerInput input)
+    public static void SetInput(ATrinityInput input)
     {
         if (InputReference != null)
         {

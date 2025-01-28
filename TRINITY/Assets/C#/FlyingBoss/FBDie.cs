@@ -16,8 +16,7 @@ public class FBDie : FlyingBossState
     {
         Collider.enabled = true;
         FlyingBossFSM.FlyingBossController.RB.useGravity = true;
-        Ragdoll rd = FlyingBossFSM.FlyingBossController.GetComponentInChildren<Ragdoll>();
-        rd.ActivateRagdoll();
+        FlyingBossFSM.FlyingBossController.ActivateRagdoll();
     }
 
     public override void PreUpdateBehaviour(float dt)

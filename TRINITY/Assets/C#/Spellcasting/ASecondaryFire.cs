@@ -136,18 +136,16 @@ public class ASecondaryFire : ASpell
         Ray ray = new Ray(Rune.transform.position, Vector3.up);
         Physics.SphereCast(ray, CurrentRadius, out RaycastHit hitInfo, 5f);
 
-        HitBox hitBox;
+        UEnemyColliderComponent enemyCollider;
         if (hitInfo.collider != null)
         {
             //print("Spherecast collider not null)");
-            hitInfo.collider.TryGetComponent<HitBox>(out hitBox);
+            hitInfo.collider.TryGetComponent<UEnemyColliderComponent>(out enemyCollider);
 
-            if (hitBox != null)
+            if (enemyCollider != null)
             {
-                //print("Hitbox exists");
-
-                hitBox.EnemyStatus.Ailments.ModifyStack(AilmentType, Mathf.RoundToInt(StacksPerRadius * CurrentRadius));
-                hitBox.EnemyStatus.Health.Modify(-DamagePerStack * CurrentRadius);
+                enemyCollider.EnemyStatus.Ailments.ModifyStack(AilmentType, Mathf.RoundToInt(StacksPerRadius * CurrentRadius));
+                enemyCollider.EnemyStatus.Health.Modify(-DamagePerStack * CurrentRadius);
                 
                 if (ENABLE_DEBUG)
                 {

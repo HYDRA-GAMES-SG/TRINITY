@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public enum EAilmentType
-{
-    EAT_Ignite,
-    EAT_Charge,
-    EAT_Chill,
-    EAT_None
-}
 
 public class UAilmentComponent : MonoBehaviour
 {

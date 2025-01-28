@@ -9,6 +9,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class IEnemyController : MonoBehaviour
 {
+    private Rigidbody[] Rigidbodies;
+    
     private static Transform TransformReference;
     
     public Transform CoreCollider;
@@ -44,6 +46,7 @@ public class IEnemyController : MonoBehaviour
         RB = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
         EnemyStatus = GetComponent<UEnemyStatusComponent>();
+        Rigidbodies = GetComponentsInChildren<Rigidbody>();
     }
     
     public virtual void TriggerGetHit()
@@ -106,5 +109,39 @@ public class IEnemyController : MonoBehaviour
     public void HeavyCameraShake(float duration = 1.3f) //global
     {
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCamera(1f, duration);
+    }
+    
+    void AttachColliderComponentsToRB() 
+    {
+        foreach (var r in Rigidbodies)
+        {
+            if (r.gameObject.GetComponent<UEnemyColliderComponent>() == null)
+            {
+                UEnemyColliderComponent enemyCollider = r.gameObject.AddComponent<UEnemyColliderComponent>();
+            }
+        }
+    }
+    
+    public void DeactiveRagdoll()
+    {
+        foreach (var r in Rigidbodies)
+        {
+            r.isKinematic = true;
+        }
+        Animator.enabled = true;
+    }
+    
+    public void ActivateRagdoll()
+    {
+        foreach (var r in Rigidbodies)
+        {
+            Collider[] colliders = r.GetComponents<Collider>();
+
+            foreach (var collider in colliders)
+            {
+                collider.enabled = false;
+            }
+        }
+
     }
 }

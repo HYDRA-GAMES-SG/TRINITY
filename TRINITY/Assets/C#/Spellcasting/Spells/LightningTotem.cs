@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public enum ELightningTotemStatus
-{
-    ELTS_Summoning,
-    ELTS_Summoned,
-    ELTS_Enraged,
-    ELTS_Unsummoned
-}
-
 public class LightningTotem : MonoBehaviour
 {
     [HideInInspector]

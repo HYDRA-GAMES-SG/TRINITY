@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
 
-public enum ETrinityMovement
-{
-    ETM_Grounded,
-    ETM_Jumping,
-    ETM_Falling,
-    ETM_Gliding
-}
-
 public class NormalMovement : TrinityState
 {
     public bool ENABLE_DEBUG = false;
@@ -42,7 +34,7 @@ public class NormalMovement : TrinityState
     private bool bFixedUpdate = false;
     
     private ATrinityController Controller;
-    private APlayerInput Input;
+    private ATrinityInput Input;
     private ATrinityAnimator Animator;
 
 

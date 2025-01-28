@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio; // Import for AudioMixerGroup
 
-public class SFX : MonoBehaviour
+public class UAudioPoolComponent : MonoBehaviour
 {
     [Header("Pool Settings")]
     public int AudioPoolSize = 3; // Default size of the audio source pool

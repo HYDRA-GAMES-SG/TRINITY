@@ -13,7 +13,7 @@ public class ATrinityTutorial : MonoBehaviour
     public float DisplayDuration = 5f;
     public float FadeDuration = 1.0f;
     
-    private APlayerInput InputReference;
+    private ATrinityInput InputReference;
     private Image[] VideoBackgroundImages;
     private GameObject CurrentTutorialParent;
     private VideoPlayer CurrentVideoPlayer;
@@ -25,17 +25,17 @@ public class ATrinityTutorial : MonoBehaviour
 
     void Awake()
     {
-        if (SceneManager.GetActiveScene().name != "PORTAL")
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-
         VideoBackgroundImages = transform.Find("Background").GetComponentsInChildren<Image>();
     }
     
     void Start()
     {
+        
+        if (SceneManager.GetActiveScene().name != "PORTAL")
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         
         InputReference = ATrinityGameManager.GetInput();
         BindToInputEvents(true);
