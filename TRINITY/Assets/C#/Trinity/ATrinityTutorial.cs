@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ATrinityTutorial : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class ATrinityTutorial : MonoBehaviour
     public float FadeDuration = 1.0f;
     
     private APlayerInput InputReference;
+    private Image[] VideoBackgroundImages;
     private GameObject CurrentTutorialParent;
     private VideoPlayer CurrentVideoPlayer;
     private TextMeshProUGUI[] CurrentTextElements;
@@ -28,6 +30,8 @@ public class ATrinityTutorial : MonoBehaviour
             Destroy(this.gameObject);
             return;
         }
+
+        VideoBackgroundImages = transform.Find("Background").GetComponentsInChildren<Image>();
     }
     
     void Start()
@@ -62,6 +66,16 @@ public class ATrinityTutorial : MonoBehaviour
                 return;
             }
 
+            if (VideoBackgroundImages != null)
+            {
+                foreach (Image img in VideoBackgroundImages)
+                {
+                    Color color = img.color;
+                    color.a = alpha;
+                    img.color = color;
+                }
+            }
+            
             // Fade VideoPlayers
             if (CurrentVideoPlayer != null)
             {
@@ -75,7 +89,7 @@ public class ATrinityTutorial : MonoBehaviour
                 {
                     if (textElement != null)
                     {
-                        var color = textElement.color;
+                        Color color = textElement.color;
                         color.a = alpha;
                         textElement.color = color;
                     }
@@ -93,6 +107,41 @@ public class ATrinityTutorial : MonoBehaviour
             DisplayTimer = 0f;
             bIsDisplaying = true;
             bIsFading = false;
+            
+            
+            if (CurrentTutorialParent != null)
+            {
+                if (VideoBackgroundImages != null)
+                {
+                    foreach (Image img in VideoBackgroundImages)
+                    {
+                        Color color = img.color;
+                        color.a = 1f;
+                        img.color = color;
+                    }
+                }
+                
+                // Reset VideoPlayer alpha
+                if (CurrentVideoPlayer != null)
+                {
+                    CurrentVideoPlayer.targetCameraAlpha = 1;
+                }
+
+                // Reset TextMeshPro alphas
+                if (CurrentTextElements != null)
+                {
+                    foreach (var textElement in CurrentTextElements)
+                    {
+                        if (textElement != null)
+                        {
+                            var color = textElement.color;
+                            color.a = 1;
+                            textElement.color = color;
+                        }
+                    }
+                }
+
+            }
         }
     }
 
@@ -100,6 +149,16 @@ public class ATrinityTutorial : MonoBehaviour
     {
         if (CurrentTutorialParent != null)
         {
+            if (VideoBackgroundImages != null)
+            {
+                foreach (Image img in VideoBackgroundImages)
+                {
+                    Color color = img.color;
+                    color.a = 0f;
+                    img.color = color;
+                }
+            }
+            
             // Reset VideoPlayer alpha
             if (CurrentVideoPlayer != null)
             {
