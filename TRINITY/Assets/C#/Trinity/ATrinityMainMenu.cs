@@ -1,20 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-[RequireComponent(typeof(ATrinityGameManager))]
-[RequireComponent(typeof(ATrinityInput))]
 public class ATrinityMainMenu : MonoBehaviour
 {
+    public TextMeshProUGUI TitleText;
+    public float TitleFadeInTime;
+    public AMainMenuCamera MainMenuCamera;
     public float RotationSpeed = 240f;
     public RectTransform ElementTriangle;
     private EMainMenu MainMenuSelection;
     private bool bOptionsMenu = false;
     public GameObject OptionsMenu;
     private bool bRotating = false;
+    public GameObject MainMenuGUI;
     
     // Start is called before the first frame update
     void Start()
@@ -27,10 +30,19 @@ public class ATrinityMainMenu : MonoBehaviour
         ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
         bOptionsMenu = false;
         bRotating = false;
+        
+        TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
+
     }
 
     public void Update()
     {
+        if (TitleText.fontMaterial.GetFloat(ShaderUtilities.ID_FaceDilate) < .85)
+        {
+            float currentDilation = TitleText.fontMaterial.GetFloat(ShaderUtilities.ID_FaceDilate);
+            TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, currentDilation + (Time.deltaTime / TitleFadeInTime));
+        }
+        
         HandleRotation();
     }
 
@@ -83,7 +95,8 @@ public class ATrinityMainMenu : MonoBehaviour
         switch (MainMenuSelection)
         {
             case EMainMenu.EMM_Start:
-                SceneManager.LoadScene("PORTAL");
+                MainMenuGUI.SetActive(false);
+                MainMenuCamera.Animate();
                 break;
             case EMainMenu.EMM_Options:
                 if (!bOptionsMenu)

@@ -58,6 +58,15 @@ public class ATrinityGameManager : MonoBehaviour
         MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
         GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
         MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
+
+        if (SceneManager.GetActiveScene().name == "PORTAL")
+        {
+            SetGameFlowState(EGameFlowState.MAIN_MENU);
+        }
+        else
+        {
+            SetGameFlowState(EGameFlowState.PLAY);
+        }
     }
 
     // Update is called once per frame
@@ -196,6 +205,11 @@ public class ATrinityGameManager : MonoBehaviour
 
     public static void SetGameFlowState(EGameFlowState newGameFlowState)
     {
+        if (newGameFlowState != GetGameFlowState())
+        {
+            Debug.Log(GetGameFlowState() + " -> " + newGameFlowState);
+        }
+        
         GameFlowState = newGameFlowState;
     }
 

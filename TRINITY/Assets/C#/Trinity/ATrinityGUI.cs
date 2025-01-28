@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using ColorUtility = UnityEngine.ColorUtility;
 
@@ -13,6 +14,7 @@ public class ATrinityGUI : MonoBehaviour
     public AEnemyHealthBar[] EnemyHealthBars = new AEnemyHealthBar[3];
     public GameObject OptionsMenu;
     public GameObject GameOver;
+    public GameObject Tutorials;
     
     [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
     
@@ -33,6 +35,11 @@ public class ATrinityGUI : MonoBehaviour
 
     void Start()
     {
+        if (SceneManager.GetActiveScene().name == "PORTAL")
+        {
+            Tutorials.SetActive(true);
+        }
+        
         if (ATrinityGameManager.GetPlayerController() != null)
         {
             ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;

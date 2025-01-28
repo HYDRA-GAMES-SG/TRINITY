@@ -9,6 +9,7 @@ public class ATrinityCamera : MonoBehaviour
 {
     private CameraController CameraController;
     private OverTheShoulder OverTheShoulderCameraComponent;
+    [HideInInspector]
     public UCameraShakeComponent CameraShakeComponent;
     public Camera Camera;
     public GameObject LookAtObject;

@@ -107,7 +107,6 @@ public class ATrinityController : MonoBehaviour
     
     private void LateUpdate()
     {
-        
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
         {
             return;
