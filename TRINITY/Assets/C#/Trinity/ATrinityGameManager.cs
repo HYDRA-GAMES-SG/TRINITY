@@ -16,7 +16,8 @@ public enum EGameFlowState
 {
     PLAY,
     PAUSED,
-    DEAD
+    DEAD,
+    MAIN_MENU
         
 }
 

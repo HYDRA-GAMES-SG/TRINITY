@@ -11,8 +11,6 @@ public class APauseMenu : MonoBehaviour
     public Slider GamepadSensitivity;
     public Slider MouseSensitivity;
     public Slider MasterVolume;
-    public Button ReturnToGameButton;
-    public Button QuitButton;
     
     public Image CrossHair;
     public bool bEnableCrosshair = true;
@@ -130,6 +128,7 @@ public class APauseMenu : MonoBehaviour
                 NavigateCooldownTimer = NavigateCooldown;
             }
         }
+        
         // Optional: Handle horizontal navigation if needed
         else if (Mathf.Abs(moveInput.x) >= InputThreshold)
         {
