@@ -11,6 +11,9 @@ using ColorUtility = UnityEngine.ColorUtility;
 
 public class ATrinityGUI : MonoBehaviour
 {
+    [Header("Duration")] public float FadeInDuration = 1f;
+    
+    [Header("References")]
     public AEnemyHealthBar[] EnemyHealthBars = new AEnemyHealthBar[3];
     public GameObject OptionsMenu;
     public GameObject GameOver;
@@ -28,16 +31,20 @@ public class ATrinityGUI : MonoBehaviour
     public Sprite[] FireSpellImages = new Sprite[3];
     public Sprite[] ColdSpellImages = new Sprite[3];
     public Sprite[] LightningSpellImages = new Sprite[3];
+    public float PlayerDamageDecayRate = 3f;
     
     private float PlayerHealthTarget;
-
-    public float PlayerDamageDecayRate = 3f;
-
+    private GameObject GUICanvas;
+    
     void Start()
     {
+        GUICanvas = transform.Find("Canvas").gameObject;
+        
         if (SceneManager.GetActiveScene().name == "PORTAL")
         {
             Tutorials.SetActive(true);
+            GUICanvas.SetActive(false);
+            AMainMenuCamera.OnSwitchToPlayerCamera += EnableCanvas;
         }
         
         if (ATrinityGameManager.GetPlayerController() != null)
@@ -167,6 +174,30 @@ public class ATrinityGUI : MonoBehaviour
         }
     }
 
+    public void EnableCanvas()
+    {
+        if (GUICanvas.activeSelf)
+        {
+            return;
+        }
+        
+        GUICanvas.SetActive(true);
+        StartCoroutine(FadeInGUI());
+    }
+
+    private IEnumerator FadeInGUI()
+    {
+        float fadeTime = 0f;
+        while (fadeTime < FadeInDuration)
+        {
+            fadeTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(0,1, fadeTime / FadeInDuration);
+            GUICanvas.GetComponent<CanvasGroup>().alpha = alpha;
+
+            yield return null;
+        }
+    }
+    
     void OnDestroy()
     {
         if (ATrinityGameManager.GetPlayerController() != null)

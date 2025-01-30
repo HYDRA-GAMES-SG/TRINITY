@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Animator))]
 public class ATrinityGraphics : MonoBehaviour
@@ -16,11 +17,23 @@ public class ATrinityGraphics : MonoBehaviour
         ATrinityGameManager.GetBrain().OnElementChanged += UpdateMeshColor;
         ATrinityGameManager.GetBrain().OnElementChanged += UpdateStaffAura;
         ClothesMeshes = ClothesParent.GetComponentsInChildren<SkinnedMeshRenderer>();
+
+        if (SceneManager.GetActiveScene().name == "PORTAL")
+        {
+            ATrinityMainMenu.OnMenuElementChanged += UpdateStaffAura;
+            ATrinityMainMenu.OnMenuElementChanged += UpdateMeshColor;
+        }
+    }
+
+    private void Update()
+    {
     }
 
     private void OnDestroy()
     {
         ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
+        ATrinityMainMenu.OnMenuElementChanged -= UpdateStaffAura;
+        ATrinityMainMenu.OnMenuElementChanged -= UpdateMeshColor;
     }
 
     private void UpdateMeshColor(ETrinityElement newElement)

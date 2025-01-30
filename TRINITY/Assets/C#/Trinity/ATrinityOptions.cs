@@ -64,7 +64,11 @@ public class ATrinityOptions : MonoBehaviour
             SelectMenuItem(CurrentMenuElementsIndex);
         }
 
-        CrossHair.gameObject.SetActive(false);
+        if (CrossHair)
+        {
+            CrossHair.gameObject.SetActive(false);
+        }
+            
         NavigateCooldownTimer = 0f;
         
         ATrinityGameManager.GetInput().OnMovePressed += Navigate;
@@ -93,8 +97,11 @@ public class ATrinityOptions : MonoBehaviour
         );
 
         ATrinityGameManager.SerializeSettings(newSettings);
-        
-        CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
+
+        if (CrossHair)
+        {
+            CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
+        }
     }
 
     private void Navigate()

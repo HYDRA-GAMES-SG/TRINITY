@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,20 +19,29 @@ public class ATrinityMainMenu : MonoBehaviour
     public GameObject OptionsMenu;
     private bool bRotating = false;
     public GameObject MainMenuGUI;
+    public List<TextMeshProUGUI> TriangleTexts;
+    
+    static public System.Action<ETrinityElement> OnMenuElementChanged;
+    
     
     // Start is called before the first frame update
     void Start()
     {
+        TriangleTexts = new List<TextMeshProUGUI>();
+        TriangleTexts = ElementTriangle.gameObject.GetComponentsInChildren<TextMeshProUGUI>().ToList();
+        
         ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
         MainMenuSelection = EMainMenu.EMM_Start;
         ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
         ATrinityGameManager.GetInput().OnJumpGlidePressed += Select;
+        ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Select;
         ATrinityGameManager.GetInput().OnNextElementPressed += NavigateForwards;
         ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
         bOptionsMenu = false;
         bRotating = false;
         
         TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
+        MainMenuSelection = EMainMenu.EMM_Start;
 
     }
 
@@ -81,6 +91,7 @@ public class ATrinityMainMenu : MonoBehaviour
         else
         {
             bRotating = false;
+            OnMenuElementChanged((ETrinityElement)MainMenuSelection);
         }
     }
     
@@ -95,15 +106,15 @@ public class ATrinityMainMenu : MonoBehaviour
         switch (MainMenuSelection)
         {
             case EMainMenu.EMM_Start:
-                MainMenuGUI.SetActive(false);
                 MainMenuCamera.Animate();
                 break;
             case EMainMenu.EMM_Options:
                 if (!bOptionsMenu)
                 {
+                    HideTriangleText();
                     OptionsMenu.SetActive(true);
                     bOptionsMenu = true;
-                    ATrinityGameManager.GetInput().OnMovePressed += NavigateOptions;
+                    ATrinityGameManager.GetInput().OnForcefieldPressed += CloseOptions;
                 }
                 break;
             case EMainMenu.EMM_Quit:
@@ -172,10 +183,9 @@ public class ATrinityMainMenu : MonoBehaviour
 
     public void CloseOptions()
     {
+        ShowTriangleText();
         OptionsMenu.SetActive(false);
         bOptionsMenu = false;
-        ATrinityGameManager.GetInput().OnMovePressed -= NavigateOptions;
-
     }
 
     public void OnDestroy()
@@ -184,5 +194,25 @@ public class ATrinityMainMenu : MonoBehaviour
         ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
         ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
         ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
+        ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= Select;
+        ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
+
+    }
+
+    public void HideTriangleText()
+    {
+        foreach (TextMeshProUGUI txt in TriangleTexts)
+        {
+            txt.alpha = 0f;
+        }
+    }
+
+    public void ShowTriangleText()
+    {
+        
+        foreach (TextMeshProUGUI txt in TriangleTexts)
+        {
+            txt.alpha = 1f;
+        }
     }
 }
