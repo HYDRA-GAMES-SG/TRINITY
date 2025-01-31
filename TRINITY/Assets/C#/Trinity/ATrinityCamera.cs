@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using ThirdPersonCamera;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class ATrinityCamera : MonoBehaviour
 {
@@ -26,6 +30,8 @@ public class ATrinityCamera : MonoBehaviour
     public float BulletTimeScale = .5f;
 
     private string PostProcessingLayerName = "PP_Default";
+
+    private ScriptableRendererFeature GlideLines;
     
     void Start()
     {
@@ -55,6 +61,20 @@ public class ATrinityCamera : MonoBehaviour
         ABlink.BlinkCamera += HandleBlink;
 
         SwitchPostProcessing("PP_Default");
+        ScriptableRenderer renderer = (GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset).GetRenderer(0);
+        PropertyInfo property = typeof(ScriptableRenderer).GetProperty("rendererFeatures", BindingFlags.NonPublic | BindingFlags.Instance);
+        List<ScriptableRendererFeature> RenderPipelineFeatures = property.GetValue(renderer) as List<ScriptableRendererFeature>;
+        
+        foreach (ScriptableRendererFeature feature in RenderPipelineFeatures)
+        {
+            if (feature.name == "GlideLines")
+            {
+                GlideLines = feature;
+            }
+        }
+
+
+
     }
 
     private void HandleBulletTime()
@@ -139,6 +159,18 @@ public class ATrinityCamera : MonoBehaviour
             {
                 OverTheShoulderCameraComponent.ReleaseDistance = OriginalCameraDistance;
                 bBlinkLerp = false;
+            }
+        }
+
+        if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement state)
+        {
+            if (state.GetMovementState() == ETrinityMovement.ETM_Gliding)
+            {
+                GlideLines.SetActive(true);
+            }
+            else
+            {
+                GlideLines.SetActive(false);
             }
         }
 
