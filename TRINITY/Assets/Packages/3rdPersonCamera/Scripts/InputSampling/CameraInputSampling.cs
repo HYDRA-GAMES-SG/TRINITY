@@ -74,6 +74,11 @@ namespace ThirdPersonCamera
 
         private void Update()
         {
+            if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.MAIN_MENU)
+            {
+                return;
+            }
+            
             bool interfaceHovered = false;
             ref var freeLookInput = ref cameraInput.InputFreeForm;
             

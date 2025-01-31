@@ -196,7 +196,6 @@ public class ATrinityMainMenu : MonoBehaviour
         ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
         ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= Select;
         ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
-
     }
 
     public void HideTriangleText()

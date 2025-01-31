@@ -331,7 +331,8 @@ namespace ThirdPersonCamera
             }
 
             var currentOffsetLength = state.CurrentCameraOffsetVector.magnitude;
-
+            
+            
             if (state.CameraOffsetMagnitude > 0 || currentOffsetLength > 0)
             {
                 // camera offset probing
@@ -534,6 +535,8 @@ namespace ThirdPersonCamera
 
 
             LerpPresentationDistance();
+            
+            
 
             if (!state.CameraNormalMode)
             {
