@@ -12,8 +12,20 @@ public class UDamageFlashComponent : MonoBehaviour
     [SerializeField] float blinkIntensity = 0.8f;
     [SerializeField] SkinnedMeshRenderer[] skinnedMeshRenderer;
     Material[] materials;
+
+    [SerializeField] Rigidbody[] RigiBd;
     void Start()
     {
+        RigiBd = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in RigiBd)
+        {
+            if (rb ==RigiBd[0])
+            {
+                continue;
+            }
+            rb.isKinematic = true;
+        }
+
         Health = GetComponent<UHealthComponent>();
 
         skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
