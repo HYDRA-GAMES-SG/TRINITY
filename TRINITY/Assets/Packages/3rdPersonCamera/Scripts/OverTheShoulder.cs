@@ -11,6 +11,8 @@ namespace ThirdPersonCamera
     [DefaultExecutionOrder(70)]
     public class OverTheShoulder : MonoBehaviour
     {
+        static public System.Action Aiming;
+        
         [FormerlySerializedAs("aimOffsetLength")]
         [Header("Basic settings")]
         [Tooltip("The distance the camera moves away from its zero position. 0.5 means it'll set the max camera offset vector to (axis * maxValue), so -0.5f to 0.5f")]
@@ -71,6 +73,8 @@ namespace ThirdPersonCamera
 
             if (inputShoulder.Aiming) // aim mode
             {
+                ATrinityGameManager.GetGUI().Crosshair.SetActive(false);
+                
                 float value = (inputShoulder.Left ? -AimOffsetLength : AimOffsetLength);
                 Vector3 newOffset = value * SlideAxis + currentBaseOffset + AdditionalAxisMovement;
 
@@ -83,6 +87,9 @@ namespace ThirdPersonCamera
             }
             else
             {
+                ATrinityGameManager.GetGUI().Crosshair.SetActive(true);//PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false);
+                
+
                 cc.UpdateCameraOffsetVector(currentBaseOffset);
                 
                 if (ReleaseDistance >= 0)

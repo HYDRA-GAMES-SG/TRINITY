@@ -27,6 +27,7 @@ public class ATrinityGameManager : MonoBehaviour
     private static ATrinityInput InputReference;
     private static ATrinityAnimator AnimationReference;
     private static ATrinityCamera CameraReference;
+    private static ATrinityGUI GUIReference;
     
     private static EGameFlowState GameFlowState;
     
@@ -115,6 +116,10 @@ public class ATrinityGameManager : MonoBehaviour
     {
         return InputReference;
     }
+    public static ATrinityGUI GetGUI()
+    {
+        return GUIReference;
+    }
 
     
     public static List<IEnemyController> GetEnemyControllers()
@@ -148,6 +153,18 @@ public class ATrinityGameManager : MonoBehaviour
         
         CameraReference = camera;  
     }
+
+    public static void SetGUI(ATrinityGUI gui)
+    {
+        if (GUIReference != null)
+        {
+            Debug.Log("GUI Ref not null");
+            return;
+        }
+
+        GUIReference = gui;
+    }
+    
     public static void SetPlayerController(ATrinityController player)
     {
         if (PlayerController != null)

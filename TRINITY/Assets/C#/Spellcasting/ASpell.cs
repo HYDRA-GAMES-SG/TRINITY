@@ -62,6 +62,7 @@ public class ASpell : MonoBehaviour
             ATrinityGameManager.GetSpells().ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
             CastUpdate();
         }
+        
         if (this is AUtilityFire) 
         {
             CastUpdate();
@@ -89,11 +90,11 @@ public class ASpell : MonoBehaviour
 
         if (SpellAction != ETrinityAction.ETA_None && BrainReference.GetAction() != ETrinityAction.ETA_None)
         {
-            //print("Cannot cast or channel yet.");
+            Debug.Log("Cannot cast or channel yet.");
             return;
         }
 
-        if (BrainReference.GetCurrentSpell() != null)
+        if (BrainReference.GetCurrentSpell() != null && this is not AForcefield)
         {
             BrainReference.GetCurrentSpell().Release();
         }
@@ -118,8 +119,11 @@ public class ASpell : MonoBehaviour
         }
         else
         {
-            print("non channeled and masked");
-            ATrinityGameManager.GetAnimator().PlayCastAnimation($"Masked Layer.{gameObject.name}");
+            if (this is not AForcefield)
+            {
+                print("non channeled and masked");
+                ATrinityGameManager.GetAnimator().PlayCastAnimation($"Masked Layer.{gameObject.name}");
+            }
         }
 
         ATrinityGameManager.GetSpells().ManaComponent.Modify(-ManaCost);

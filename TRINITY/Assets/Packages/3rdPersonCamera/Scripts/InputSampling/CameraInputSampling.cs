@@ -157,6 +157,8 @@ namespace ThirdPersonCamera
 
                 shoulderInput.Aiming = cameraActions.Aim.IsPressed();
 
+                OverTheShoulder.Aiming?.Invoke();
+
                 if (cameraActions.SwitchAimSide.WasPressedThisFrame())
                 {
                     shoulderInput.Left = !shoulderInput.Left;

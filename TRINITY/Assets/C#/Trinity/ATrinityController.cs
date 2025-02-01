@@ -1,4 +1,5 @@
 using System;
+using ThirdPersonCamera;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -15,6 +16,8 @@ public class ATrinityController : MonoBehaviour
     [SerializeField] 
     public LayerMask GroundLayer;
 
+    [SerializeField] private float AimedRotationLimit = 25f;
+    
     [SerializeField] 
     private float Gravity = 9.81f;
 
@@ -48,7 +51,10 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public float VerticalVelocity => RB.velocity.y;
     [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
 
-    public System.Action<FHitInfo> OnHit; 
+    public float AimedYaw;
+
+    public System.Action<FHitInfo> OnHit;
+    
     
     
 
@@ -81,6 +87,13 @@ public class ATrinityController : MonoBehaviour
             RB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             RB.drag = 1.5f;
         }
+
+        OverTheShoulder.Aiming += SetRotationPoint;
+    }
+
+    private void SetRotationPoint()
+    {
+        AimedYaw = Rotation.y;
     }
 
     private void OnDestroy()

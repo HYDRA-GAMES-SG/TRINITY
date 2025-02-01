@@ -18,6 +18,7 @@ public class ATrinityGUI : MonoBehaviour
     public GameObject OptionsMenu;
     public GameObject GameOver;
     public GameObject Tutorials;
+    public GameObject Crosshair;
     
     [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
 
@@ -43,9 +44,16 @@ public class ATrinityGUI : MonoBehaviour
     private float PlayerHealthTarget;
     private GameObject GUICanvas;
     private Coroutine TriangleScaleCoro;
+
+    void Awake()
+    {
+        ATrinityGameManager.SetGUI(this);
+
+    }
     
     void Start()
     {
+        
         GUICanvas = transform.Find("Canvas").gameObject;
         
         if (SceneManager.GetActiveScene().name == "PORTAL")
@@ -69,6 +77,7 @@ public class ATrinityGUI : MonoBehaviour
 
         if (ATrinityGameManager.GetBrain() != null)
         {
+            ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
             ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
         }
 
@@ -77,7 +86,32 @@ public class ATrinityGUI : MonoBehaviour
         SetupEnemyUI();
     }
 
-    private void StartTriangleScaling(ETrinityElement trinityElement)
+    private void UpdateSpellImages(ETrinityElement newElement)
+    {
+        Sprite[] spellImages = new Sprite [3];
+        
+        switch (newElement)
+        {
+            case ETrinityElement.ETE_Fire:
+                spellImages = FireSpellImages;
+                break;
+            case ETrinityElement.ETE_Cold:
+                spellImages = ColdSpellImages;
+                break;
+            case ETrinityElement.ETE_Lightning:
+                spellImages = LightningSpellImages;
+                break;
+            default:
+                break;
+        }
+
+        for (int i = 0; i < spellImages.Length; i++)
+        {
+            CurrentSpellImages[i].GetComponent<Image>().sprite = spellImages[i];
+        }
+    }
+
+    private void StartTriangleScaling(ETrinityElement newElement)
     {
         if (TriangleScaleCoro != null)
         {

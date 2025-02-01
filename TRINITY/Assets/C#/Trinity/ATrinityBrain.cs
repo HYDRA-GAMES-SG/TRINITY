@@ -16,7 +16,7 @@ public class ATrinityBrain : MonoBehaviour
     [HideInInspector]
     public IAA_TrinityControls Controls;
     public bool bIsStunned => GetAction() == ETrinityAction.ETA_Stunned;
-    public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned || GetAction() != ETrinityAction.ETA_Channeling;
+    public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned && GetAction() != ETrinityAction.ETA_Channeling;
     [HideInInspector]
     public bool bForcefieldActive = false;
     [HideInInspector]
