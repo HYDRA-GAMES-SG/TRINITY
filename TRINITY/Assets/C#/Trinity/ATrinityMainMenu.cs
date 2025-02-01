@@ -9,27 +9,35 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityMainMenu : MonoBehaviour
 {
+    
+    static public System.Action<ETrinityElement> OnMenuElementChanged;
+    
     public TextMeshProUGUI TitleText;
     public float TitleFadeInTime;
     public AMainMenuCamera MainMenuCamera;
     public float RotationSpeed = 240f;
     public RectTransform ElementTriangle;
-    private EMainMenu MainMenuSelection;
-    private bool bOptionsMenu = false;
     public GameObject OptionsMenu;
-    private bool bRotating = false;
     public GameObject MainMenuGUI;
     public List<TextMeshProUGUI> TriangleTexts;
+    public GameObject ArrowParent;
+
+    private bool bStartingGame = false;
+    private bool bRotating = false;
+    private bool bOptionsMenu = false;
+    private EMainMenu MainMenuSelection;
+    private Color InitialColor;
     
-    static public System.Action<ETrinityElement> OnMenuElementChanged;
-    
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
+        
         TriangleTexts = new List<TextMeshProUGUI>();
         TriangleTexts = ElementTriangle.gameObject.GetComponentsInChildren<TextMeshProUGUI>().ToList();
-        
+        InitialColor = TriangleTexts[0].color;
+
         ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
         MainMenuSelection = EMainMenu.EMM_Start;
         ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
@@ -92,9 +100,26 @@ public class ATrinityMainMenu : MonoBehaviour
         {
             bRotating = false;
             OnMenuElementChanged((ETrinityElement)MainMenuSelection);
+            HighlightText();
         }
     }
-    
+
+    private void HighlightText()
+    {
+        for (int i = 0; i < TriangleTexts.Count; i++)
+        {
+            if (i == (int)MainMenuSelection)
+            {
+                TriangleTexts[(int)MainMenuSelection].color = Color.black;
+            }
+            else
+            {
+                TriangleTexts[i].color = InitialColor;
+            }
+        }
+        
+    }
+
     private void Select()
     {
         if (bOptionsMenu || bRotating)
@@ -107,6 +132,9 @@ public class ATrinityMainMenu : MonoBehaviour
         {
             case EMainMenu.EMM_Start:
                 MainMenuCamera.Animate();
+                ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
+                ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
+                ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
                 break;
             case EMainMenu.EMM_Options:
                 if (!bOptionsMenu)
@@ -136,6 +164,12 @@ public class ATrinityMainMenu : MonoBehaviour
         int index = Array.IndexOf(values, MainMenuSelection);
         index = (index + 1) % values.Length;
         MainMenuSelection = values[index];
+        HideArrows();
+    }
+
+    private void HideArrows()
+    {
+        ArrowParent.SetActive(false);
     }
 
     public void NavigateBackwards()
@@ -148,7 +182,8 @@ public class ATrinityMainMenu : MonoBehaviour
         EMainMenu[] values = (EMainMenu[])Enum.GetValues(typeof(EMainMenu));
         int index = Array.IndexOf(values, MainMenuSelection);
         index = (index - 1 + values.Length) % values.Length;
-        MainMenuSelection = values[index]; 
+        MainMenuSelection = values[index];
+        HideArrows();
     }
 
     
@@ -171,6 +206,8 @@ public class ATrinityMainMenu : MonoBehaviour
                 MainMenuSelection = EMainMenu.EMM_Options;
                 break;
         }
+
+        HideArrows();
     }
 
     private void NavigateOptions()

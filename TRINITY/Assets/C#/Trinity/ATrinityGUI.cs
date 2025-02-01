@@ -20,9 +20,10 @@ public class ATrinityGUI : MonoBehaviour
     public GameObject Tutorials;
     
     [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
-    
-    [Header("UI Objects")]
-    public GameObject CurrentElementImage;
+
+    [Header("UI Objects")] 
+    public GameObject TriangleRotater;
+    public GameObject TriangleScaler;
     public GameObject[] CurrentSpellImages = new GameObject[3];
 
     public Image[] CooldownFills = new Image[5];
@@ -33,8 +34,15 @@ public class ATrinityGUI : MonoBehaviour
     public Sprite[] LightningSpellImages = new Sprite[3];
     public float PlayerDamageDecayRate = 3f;
     
+    [Header("Triangle Animation")]
+    public float TriangleRotationRate = 300f;
+    public float TriangleScaleDuration = .3f;
+    public float TriangleStartScale = .78f;
+    public float TriangleFinalScale = .45f;
+    
     private float PlayerHealthTarget;
     private GameObject GUICanvas;
+    private Coroutine TriangleScaleCoro;
     
     void Start()
     {
@@ -58,16 +66,25 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
         }
         
-        CurrentElementImage.GetComponent<Image>().sprite = ElementImages[(int)ATrinityGameManager.GetBrain().GetElement()];
 
         if (ATrinityGameManager.GetBrain() != null)
         {
-            ATrinityGameManager.GetBrain().OnElementChanged += UpdateElementUI;
+            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
         }
 
         ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
         
         SetupEnemyUI();
+    }
+
+    private void StartTriangleScaling(ETrinityElement trinityElement)
+    {
+        if (TriangleScaleCoro != null)
+        {
+            StopCoroutine(TriangleScaleCoro);
+        }
+        
+        StartCoroutine(ShrinkTriangle());
     }
 
     private void DisplayGameOver()
@@ -77,6 +94,12 @@ public class ATrinityGUI : MonoBehaviour
 
     void Update()
     {
+
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.MAIN_MENU)
+        {
+            return;
+        }
+        
         // Lerp DamageSlider to target values
         if (DamageSlider != null)
         {
@@ -84,6 +107,7 @@ public class ATrinityGUI : MonoBehaviour
         }
 
         UpdateCooldowns();
+        HandleTriangleRotation();
     }
 
     private void UpdateCooldowns()
@@ -112,30 +136,6 @@ public class ATrinityGUI : MonoBehaviour
 
 
 
-    }
-
-    public void UpdateElementUI(ETrinityElement newElement)
-    {
-        CurrentElementImage.GetComponent<Image>().sprite = ElementImages[(int)newElement];
-
-        for (int i = 0; i < CurrentSpellImages.Length; i++)
-        {
-            switch (newElement)
-            {
-                case ETrinityElement.ETE_Cold:
-                    CurrentSpellImages[i].GetComponent<Image>().sprite = ColdSpellImages[i];
-                    break;
-                case ETrinityElement.ETE_Lightning:
-                    CurrentSpellImages[i].GetComponent<Image>().sprite = LightningSpellImages[i];
-                    break;
-                case ETrinityElement.ETE_Fire:
-                    CurrentSpellImages[i].GetComponent<Image>().sprite = FireSpellImages[i];
-                    break;
-                default:
-                    break;
-                
-            }
-        }
     }
 
     private void TogglePause()
@@ -198,6 +198,49 @@ public class ATrinityGUI : MonoBehaviour
         }
     }
     
+    private void HandleTriangleRotation()
+    {
+        float targetRotation = ATrinityGameManager.GetBrain().GetElement() switch
+        {
+            ETrinityElement.ETE_Fire => 0f,
+            ETrinityElement.ETE_Cold => 120f,
+            ETrinityElement.ETE_Lightning => 240f,
+            _ => 0f
+        };
+
+        float currentRotation = TriangleRotater.transform.rotation.eulerAngles.z;
+        float rotationDifference = targetRotation - currentRotation;
+
+        if (rotationDifference < 60f)
+        {
+            if (TriangleScaleCoro != null)
+            {
+                StopCoroutine(TriangleScaleCoro);
+            }
+            
+            TriangleScaleCoro = StartCoroutine(GrowTriangle());
+        }
+        
+        // normalize the difference to be between -180 and 180 degrees
+        if (rotationDifference > 180f)
+        {
+            rotationDifference -= 360f;
+        }
+        else if (rotationDifference < -180f)
+        {
+            rotationDifference += 360f;
+        }
+
+        float step = TriangleRotationRate * Time.deltaTime;
+    
+        // chatgpt fix: only rotate if we're not very close to target (to avoid jitter)
+        if (Mathf.Abs(rotationDifference) > 0.1f)
+        {
+            float newRotation = currentRotation + Mathf.Clamp(rotationDifference, -step, step);
+            TriangleRotater.transform.rotation = Quaternion.Euler(0f, 0f, newRotation);
+        }
+    }
+    
     void OnDestroy()
     {
         if (ATrinityGameManager.GetPlayerController() != null)
@@ -205,5 +248,32 @@ public class ATrinityGUI : MonoBehaviour
 
         if (ATrinityGameManager.GetSpells() != null)
             ATrinityGameManager.GetSpells().ManaComponent.OnManaModified -= UpdateManaBar;
+    }
+
+    IEnumerator ShrinkTriangle()
+    {
+        float startScale = TriangleScaler.transform.localScale.x;
+        float growDuration = 0f;
+        
+        while (growDuration < TriangleScaleDuration)
+        {
+            growDuration += Time.deltaTime;
+            float scale = Mathf.Lerp(startScale, TriangleFinalScale, growDuration / TriangleScaleDuration);
+            TriangleScaler.transform.localScale = Vector3.one * scale;
+            yield return null;
+        }
+    }
+
+    IEnumerator GrowTriangle()
+    {
+        float startScale = TriangleScaler.transform.localScale.x;
+        float growDuration = 0f;
+        while (growDuration < TriangleScaleDuration)
+        {
+            growDuration += Time.deltaTime;
+            float scale = Mathf.Lerp(startScale, TriangleStartScale, growDuration / TriangleScaleDuration);
+            TriangleScaler.transform.localScale = Vector3.one * scale;
+            yield return null;
+        }
     }
 }

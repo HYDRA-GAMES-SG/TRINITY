@@ -25,7 +25,7 @@ public class NormalMovement : TrinityState
     [Header("Glide Movement")]
     [SerializeField] private float GlideMoveAcceleration = 40f;
     [SerializeField] private float GlideStrafeAcceleration = 40f;
-    [SerializeField] private float GlideGravityModifier = .4f;
+    [SerializeField] public float GlideGravityModifier = .4f;
     
     [HideInInspector] private int MirrorCounter = 0;
     
@@ -320,6 +320,11 @@ public class NormalMovement : TrinityState
         Animator.AnimComponent.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
         Animator.AnimComponent.SetBool(AnimKeys["Stunned"], ATrinityGameManager.GetBrain().bIsStunned);
         Animator.AnimComponent.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
+
+        if (Animator.AnimComponent.GetBool(AnimKeys["Blink"]) == true)
+        {
+            Animator.AnimComponent.SetBool(AnimKeys["Blink"], false);
+        }
     }
     
     public ETrinityMovement GetMovementState()

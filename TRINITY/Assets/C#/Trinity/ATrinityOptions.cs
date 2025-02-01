@@ -46,6 +46,16 @@ public class ATrinityOptions : MonoBehaviour
             currentToggle.isOn = !currentToggle.isOn;
             NavigateCooldownTimer = NavigateCooldown;
         }
+        
+        if (MenuElements[CurrentMenuElementsIndex] is Button)
+        {
+            Button currentButton = MenuElements[CurrentMenuElementsIndex] as Button;
+
+            currentButton.onClick?.Invoke();
+            NavigateCooldownTimer = NavigateCooldown;
+        }
+        
+        
     }
 
     void OnEnable()
@@ -188,6 +198,7 @@ public class ATrinityOptions : MonoBehaviour
 
     public void OnReturnToGameClicked()
     {
+        print("return to game");
         this.gameObject.SetActive(false);
     }
 

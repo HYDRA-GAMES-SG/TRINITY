@@ -124,8 +124,13 @@ public class ATrinityController : MonoBehaviour
         float glideGravityModifier = 1f;
         float chargeGravityModifier = 1f;
 
-        if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement)
+        if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement nmState)
         {
+            if (nmState.GetMovementState() == ETrinityMovement.ETM_Gliding)
+            {
+                glideGravityModifier = nmState.GlideGravityModifier;
+            }
+            
             if (ATrinityGameManager.GetEnemyControllers().Count > 0)
             {
                 chargeGravityModifier = UAilmentComponent.ChargeGlideGravityModifier;
