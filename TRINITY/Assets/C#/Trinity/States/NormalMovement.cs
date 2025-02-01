@@ -31,6 +31,7 @@ public class NormalMovement : TrinityState
     
     private bool bUnstable = false;
     private bool bCanGlide = false;
+    private bool bJumpConsumed = false;
     private bool bFixedUpdate = false;
     
     private ATrinityController Controller;
@@ -88,6 +89,11 @@ public class NormalMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
+        if (!Input.JumpInput && MovementState == ETrinityMovement.ETM_Grounded)
+        {
+            bJumpConsumed = false;
+        }
+        
         bFixedUpdate = true;
         
         HandleGliding();
@@ -191,12 +197,14 @@ public class NormalMovement : TrinityState
     {  
         if (Input.JumpInput)
         {
-            if (MovementState == ETrinityMovement.ETM_Grounded)
+            
+            if (MovementState == ETrinityMovement.ETM_Grounded && !bJumpConsumed)
             {
                 SetMovementState(ETrinityMovement.ETM_Jumping);
                 
                 if (MovementState == ETrinityMovement.ETM_Jumping) //need to check this
                 {
+                    bJumpConsumed = true;
                     Controller.RB.AddForce(Controller.Up * GetChargedJumpForce() / Controller.RB.mass, ForceMode.Impulse);
                     Animator.AnimComponent.SetBool(AnimKeys["Jump"], true);
                     MirrorCounter++; //increment counter
