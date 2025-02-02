@@ -3124,7 +3124,7 @@ GameObject:
   - component: {fileID: 8391658503952757724}
   - component: {fileID: 6730145643011924496}
   m_Layer: 0
-  m_Name: IceHill
+  m_Name: IceCrystal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3259,8 +3259,8 @@ MonoBehaviour:
   ManaUpkeepCost: 0
   SpellElement: 1
   SpellType: 2
-  SpellAction: 3
-  bUseMaskedLayer: 1
+  SpellAction: 4
+  bUseMaskedLayer: 0
   ColdUtilitySource: {fileID: 0}
   TrinitySpells: {fileID: 0}
   HealAmount: 0
@@ -4297,7 +4297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ENABLE_DEBUG: 0
   AnimComponent: {fileID: 0}
-  MaskedLayerWeight: 0.7
+  MaskedLayerWeight: 0.6
   UnmaskedLayerWeight: 1
 --- !u!114 &4919425070829335012
 MonoBehaviour:
@@ -4374,6 +4374,60 @@ Transform:
   - {fileID: 8179986880051211614}
   m_Father: {fileID: 6630611208424588333}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2670401827004296488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6276474231437040897}
+  - component: {fileID: 499247666004242300}
+  m_Layer: 0
+  m_Name: SFX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6276474231437040897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670401827004296488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7234860868322912901}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &499247666004242300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670401827004296488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 336327ba6d3ae5d4d9ac21444e5b6176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioClipKeys:
+  - OptionsInteract
+  - OptionsNavigate
+  - MenuTriangle
+  - MenuSelection
+  AudioClips:
+  - {fileID: 8300000, guid: 5316433cdb0905e4ebd181c69be763b8, type: 3}
+  - {fileID: 8300000, guid: 245ec041c27bf634ab66e27f10e1eada, type: 3}
+  - {fileID: 8300000, guid: de31c03c0e2c76940abb772734db175e, type: 3}
+  - {fileID: 8300000, guid: 705665daa96e3ab44b7e9df182446b6b, type: 3}
 --- !u!1 &2698512598797552161
 GameObject:
   m_ObjectHideFlags: 0
@@ -5188,7 +5242,7 @@ MonoBehaviour:
   SpellElement: 1
   SpellType: 1
   SpellAction: 4
-  bUseMaskedLayer: 1
+  bUseMaskedLayer: 0
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
@@ -7381,6 +7435,7 @@ Transform:
   - {fileID: 6082099646200123171}
   - {fileID: 8353087024191978930}
   - {fileID: 3419489720902276692}
+  - {fileID: 6276474231437040897}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9114780221709798140
@@ -21258,7 +21313,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
-  MaxChannelTime: 1
+  MaxChannelTime: 2
   TotemSummonDepth: 5
   Range: 7
   SummonVFX: {fileID: 2900534572940629487, guid: c3896d1837507224fb975dc6392f0988,
@@ -23169,7 +23224,7 @@ MonoBehaviour:
     type: 3}
   PillarPrefab: {fileID: 2478320963783506280, guid: b0a5aed8781922e4ba48d003b32b1330,
     type: 3}
-  Channeling: {fileID: 0}
+  Channeling: {fileID: 8300000, guid: 94eab5a1435369f4ea089325bea3ab0d, type: 3}
   Explosion: {fileID: 8300000, guid: 051fcc37559376e4a998bc094a2791b5, type: 3}
   CurrentRadius: 1
 --- !u!82 &6599781360173754770

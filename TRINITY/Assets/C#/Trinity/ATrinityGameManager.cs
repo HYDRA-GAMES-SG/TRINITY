@@ -18,7 +18,8 @@ public class ATrinityGameManager : MonoBehaviour
     public static float GAMEPAD_SENSITIVITY = .5f;
     public static float MASTER_VOLUME = 1f;
     public static bool CROSSHAIR_ENABLED = true;
-    
+
+    private static ATrinitySFX AudioPoolReference;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
     private static ATrinitySpells SpellsReference;
@@ -81,6 +82,11 @@ public class ATrinityGameManager : MonoBehaviour
             }
         }
         
+    }
+
+    public static ATrinitySFX GetSFX()
+    {
+        return AudioPoolReference;
     }
 
     public static EGameFlowState GetGameFlowState()
@@ -154,6 +160,17 @@ public class ATrinityGameManager : MonoBehaviour
         CameraReference = camera;  
     }
 
+    public static void SetSFX(ATrinitySFX sfx)
+    {
+        if (AudioPoolReference != null)
+        {
+            Debug.Log("SFX ref not null");
+            return;
+        }
+
+        AudioPoolReference = sfx;
+    }
+    
     public static void SetGUI(ATrinityGUI gui)
     {
         if (GUIReference != null)
