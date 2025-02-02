@@ -16,6 +16,8 @@ public class AUtilityCold : ASpell
     [Header("VFX")]
     public GameObject SurroundingIce;
     public GameObject IceSpike;
+
+    private float FrozenTimer = 0f;
     public override void Initialize()
     {
         ColdUtilitySource = GetComponent<AudioSource>();
@@ -23,22 +25,7 @@ public class AUtilityCold : ASpell
 
     public override void CastStart()
     {
-        //Frozen pulse that launches you into the air & chills enemies AOE
-        IceHill();
-    }
-
-    public override void CastUpdate()
-    {
-        
-    }
-
-    public override void CastEnd()
-    {
-        print("Spell ended");
-    }
-
-    public void IceHill() 
-    {
+        FrozenTimer = 0f;
         GameObject vfxSpike = Instantiate(IceSpike, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
         GameObject vfxSurroundingIce = Instantiate(SurroundingIce, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
 
@@ -47,5 +34,19 @@ public class AUtilityCold : ASpell
         ATrinityGameManager.GetPlayerController().HealthComponent.Modify(HealAmount);
 
         ATrinityGameManager.GetBrain().SetStunnedState(FrozenTime, true);
+    }
+
+    public override void CastUpdate()
+    {
+        FrozenTimer += Time.deltaTime;
+        if (FrozenTimer > FrozenTime)
+        {
+            Release();
+        }
+    }
+
+    public override void CastEnd()
+    {
+        
     }
 }

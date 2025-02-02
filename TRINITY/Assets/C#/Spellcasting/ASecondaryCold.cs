@@ -19,10 +19,12 @@ public class ASecondaryCold : ASpell
     public AudioClip CastingSFX;
 
     private AudioSource SFXSource;
+    [HideInInspector]
     public GameObject IceCubeInstance;
     private float CurrentScale;
     private float ChannelTime;
 
+    [HideInInspector]
     public BoxCollider IceCubeTrigger;
 
     public override void Initialize()

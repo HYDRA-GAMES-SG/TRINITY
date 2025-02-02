@@ -44,7 +44,7 @@ public class NormalMovement : TrinityState
         { "Move", "Forward" }, { "Strafe", "Strafe" },{ "Vertical", "Vertical" }, { "Jump", "bJump" },
         { "Glide", "bGlide" }, { "Blink", "bBlink" }, { "Mirror", "bMirror" }, { "DeathTrigger", "DeathTrigger" }, 
         { "Stunned", "bStunned" }, { "HitTrigger", "HitTrigger" }, { "HitX", "HitX" }, {"HitY", "HitY" },
-        { "Grounded", "bGrounded" }
+        { "Grounded", "bGrounded" }, {"Release", "bRelease"}
     };
     
     public override bool CheckEnterTransition(IState fromState)
@@ -328,6 +328,7 @@ public class NormalMovement : TrinityState
         Animator.AnimComponent.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
         Animator.AnimComponent.SetBool(AnimKeys["Stunned"], ATrinityGameManager.GetBrain().bIsStunned);
         Animator.AnimComponent.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
+        Animator.AnimComponent.SetBool(AnimKeys["Release"], ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_None);;
 
         if (Animator.AnimComponent.GetBool(AnimKeys["Blink"]) == true)
         {

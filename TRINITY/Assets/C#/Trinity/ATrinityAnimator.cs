@@ -90,6 +90,7 @@ public class ATrinityAnimator : MonoBehaviour
     {
         bMasked = bMask;
         bChanneling = true;
+        
         if (bMask)
         {
             AnimComponent.Play(stateName, MaskedLayerIndex, 0f);

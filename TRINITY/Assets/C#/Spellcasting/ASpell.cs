@@ -104,7 +104,7 @@ public class ASpell : MonoBehaviour
             BrainReference.SetCurrentSpell(this);
         }
         
-        if (SpellAction == ETrinityAction.ETA_Channeling)
+        if (SpellAction == ETrinityAction.ETA_Channeling || this is AUtilityCold)
         {
             bool bShouldMask = bUseMaskedLayer || !ATrinityGameManager.GetPlayerController().CheckGround().transform;
             
