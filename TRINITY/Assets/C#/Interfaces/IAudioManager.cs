@@ -6,8 +6,8 @@ using UnityEngine.Audio;
 
 public class IAudioManager : MonoBehaviour
 {
-    private List<ATrinityAudioClip> AudioClips;
-    private Dictionary<string, ATrinityAudioClip> AudioClipLookup;
+    private List<ATrinityAudioClip> AudioClips = new List<ATrinityAudioClip>();
+    private Dictionary<string, ATrinityAudioClip> AudioClipLookup = new Dictionary<string, ATrinityAudioClip>();
     
     //audio pool
     private AudioSource[] AudioSourcePool;
@@ -22,13 +22,11 @@ public class IAudioManager : MonoBehaviour
 
     private void InitializeAudioClipDictionary()
     {
-        AudioClipLookup = new Dictionary<string, ATrinityAudioClip>();
-
         for (int i = 0; i < AudioClips.Count; i++)
         {
             if (!string.IsNullOrEmpty(AudioClips[i].name) && AudioClips[i] != null)
             {
-                AudioClipLookup[AudioClips[i].name] = AudioClips[i];
+                AudioClipLookup[AudioClips[i].Name] = AudioClips[i];
             }
         }
     }
@@ -87,6 +85,36 @@ public class IAudioManager : MonoBehaviour
         source.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(audio.MixerGroup);
 
         switch(audio.MixerGroup)
+        {
+            case EAudioGroup.EAG_SFX:
+                source.spatialBlend = 1f;
+                break;
+            case EAudioGroup.EAG_UI:
+            case EAudioGroup.EAG_BGM:
+            case EAudioGroup.EAG_AMBIENCE:
+                source.spatialBlend = 0f;
+                break;
+        }
+
+        source.Play();
+    }
+
+    public void PlayWithVolume(string clipName, float clipVolume)
+    {
+        if (!AudioClipLookup.ContainsKey(clipName))
+        {
+            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
+            return;
+        }
+
+        AudioSource source = GetAvailableAudioSource();
+        ATrinityAudioClip audio = AudioClipLookup[clipName];
+        source.clip = audio.Audio;
+        source.volume = Mathf.Clamp(clipVolume, 0f, 1f);
+        source.pitch = Mathf.Clamp(audio.Pitch, 0f, 2f);
+        source.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(audio.MixerGroup);
+
+        switch (audio.MixerGroup)
         {
             case EAudioGroup.EAG_SFX:
                 source.spatialBlend = 1f;

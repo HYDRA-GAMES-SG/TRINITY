@@ -15,14 +15,10 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityGameManager : MonoBehaviour
 {
-    
-    [SerializeField] 
+    static private AudioMixer Mixer;
     static private AudioMixerGroup SFX_MixerGroup;
-    [SerializeField] 
     static private AudioMixerGroup UI_MixerGroup;
-    [SerializeField] 
     static private AudioMixerGroup BGM_MixerGroup;
-    [SerializeField] 
     static private AudioMixerGroup Ambience_MixerGroup;
     
     public static float MOUSE_SENSITIVITY = .5f;
@@ -50,6 +46,7 @@ public class ATrinityGameManager : MonoBehaviour
 
     void Awake()
     {
+        Mixer = FindObjectOfType<AudioMixer>();
         EnemyControllers = new List<IEnemyController>();
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
         
@@ -109,15 +106,31 @@ public class ATrinityGameManager : MonoBehaviour
         switch (group)
         {
             case EAudioGroup.EAG_UI:
+                if(UI_MixerGroup == null)
+                {
+                    UI_MixerGroup = Mixer.FindMatchingGroups("UI")[0];
+                }
                 return UI_MixerGroup;
                 break;
             case EAudioGroup.EAG_BGM:
+                if (BGM_MixerGroup == null)
+                {
+                    BGM_MixerGroup = Mixer.FindMatchingGroups("BGM")[0];
+                }
                 return BGM_MixerGroup;
                 break;
             case EAudioGroup.EAG_SFX:
+                if (SFX_MixerGroup == null)
+                {
+                    SFX_MixerGroup = Mixer.FindMatchingGroups("SFX")[0];
+                }
                 return SFX_MixerGroup;
                 break;
             case EAudioGroup.EAG_AMBIENCE:
+                if (Ambience_MixerGroup == null)
+                {
+                    Ambience_MixerGroup = Mixer.FindMatchingGroups("Ambience")[0];
+                }
                 return Ambience_MixerGroup;
                 break;
             default:

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UAttackColliderComponent : MonoBehaviour
 {
-    public System.Action OnPlayerHit;
+    public static System.Action OnPlayerHit;
+    public static System.Action<float> OnGroundHit;
 
     private IEnemyController Controller;
 
@@ -37,11 +38,18 @@ public class UAttackColliderComponent : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Player") && Controller.bDead)
+        if (Controller.bDead)
         {
-            Debug.Log("Attack Collider : Enemy dead or did not collide with player.");
+            Debug.Log("Attack Collider : Enemy dead.");
             return;
         }
+
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+        {
+            OnGroundHit?.Invoke(collision.GetContact(0).impulse.magnitude);
+            return;
+        }
+
 
         //Debug.Log("Hit player");
         ATrinityController player = collision.gameObject.GetComponent<ATrinityController>();
@@ -67,6 +75,7 @@ public class UAttackColliderComponent : MonoBehaviour
 
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, collision, Controller.GetCurrentAttackDamage());
         player.ApplyHit(hitInfo);
+        OnPlayerHit?.Invoke();
 
     }
 
