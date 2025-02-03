@@ -15,7 +15,6 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityGameManager : MonoBehaviour
 {
-    static private AudioMixer Mixer;
     static private AudioMixerGroup SFX_MixerGroup;
     static private AudioMixerGroup UI_MixerGroup;
     static private AudioMixerGroup BGM_MixerGroup;
@@ -46,7 +45,7 @@ public class ATrinityGameManager : MonoBehaviour
 
     void Awake()
     {
-        Mixer = FindObjectOfType<AudioMixer>();
+        
         EnemyControllers = new List<IEnemyController>();
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
         
@@ -98,7 +97,15 @@ public class ATrinityGameManager : MonoBehaviour
 
     public static ATrinityAudio GetAudio()
     {
-        return AudioReference;
+        if (AudioReference)
+        {
+            return AudioReference;
+        }
+        else
+        {
+            Debug.Log("ATrinityAudio null on Game Manager");
+            return null;
+        }
     }
 
     public static AudioMixerGroup GetAudioMixerGroup(EAudioGroup group)
@@ -108,31 +115,27 @@ public class ATrinityGameManager : MonoBehaviour
             case EAudioGroup.EAG_UI:
                 if(UI_MixerGroup == null)
                 {
-                    UI_MixerGroup = Mixer.FindMatchingGroups("UI")[0];
+                    UI_MixerGroup = GetAudio().Mixer.FindMatchingGroups("UI")[0];
                 }
                 return UI_MixerGroup;
-                break;
             case EAudioGroup.EAG_BGM:
                 if (BGM_MixerGroup == null)
                 {
-                    BGM_MixerGroup = Mixer.FindMatchingGroups("BGM")[0];
+                    BGM_MixerGroup = GetAudio().Mixer.FindMatchingGroups("BGM")[0];
                 }
                 return BGM_MixerGroup;
-                break;
             case EAudioGroup.EAG_SFX:
                 if (SFX_MixerGroup == null)
                 {
-                    SFX_MixerGroup = Mixer.FindMatchingGroups("SFX")[0];
+                    SFX_MixerGroup = GetAudio().Mixer.FindMatchingGroups("SFX")[0];
                 }
                 return SFX_MixerGroup;
-                break;
             case EAudioGroup.EAG_AMBIENCE:
                 if (Ambience_MixerGroup == null)
                 {
-                    Ambience_MixerGroup = Mixer.FindMatchingGroups("Ambience")[0];
+                    Ambience_MixerGroup = GetAudio().Mixer.FindMatchingGroups("AMBIENCE")[0];
                 }
                 return Ambience_MixerGroup;
-                break;
             default:
                 return SFX_MixerGroup;
         }
@@ -208,11 +211,11 @@ public class ATrinityGameManager : MonoBehaviour
         CameraReference = camera;  
     }
 
-    public static void SetSFX(ATrinityAudio audio)
+    public static void SetAudio(ATrinityAudio audio)
     {
         if (AudioReference != null)
         {
-            Debug.Log("SFX ref not null");
+            Debug.Log("Audio ref not null");
             return;
         }
 

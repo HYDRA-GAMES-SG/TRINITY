@@ -23,7 +23,9 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public bool FireElementInput { get; private set; }
     public bool ColdElementInput { get; private set; }
     public bool LightningElementInput { get; private set; }
-    
+
+    private float ElementCooldownTimer = 0f;
+    private float ElementCooldown = .2f;
     // System.Actions for events
     public event Action OnJumpGlidePressed;
     public event Action OnJumpGlideReleased;
@@ -161,6 +163,11 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
         InputActions.PLAYER.Menu.started += OnMenu;
         InputActions.PLAYER.Menu.canceled += OnMenu;
     }
+
+    public void Update()
+    {
+        ElementCooldownTimer -= Time.deltaTime;
+    }
     
     public void OnJumpGlide(InputAction.CallbackContext context)
     {
@@ -252,6 +259,13 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public void OnNextElement(InputAction.CallbackContext context)
     {
+        if (ElementCooldownTimer > 0)
+        {
+            return;
+        }
+
+        ElementCooldownTimer = ElementCooldown;
+        
         NextElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
@@ -267,6 +281,14 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public void OnPreviousElement(InputAction.CallbackContext context)
     {
+        if (ElementCooldownTimer > 0)
+        {
+            return;
+        }
+
+        ElementCooldownTimer = ElementCooldown;
+        
+        
         PreviousElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
@@ -282,6 +304,13 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public void OnFireElement(InputAction.CallbackContext context)
     {
+        if (ElementCooldownTimer > 0)
+        {
+            return;
+        }
+
+        ElementCooldownTimer = ElementCooldown;
+        
         FireElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
@@ -297,6 +326,13 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public void OnColdElement(InputAction.CallbackContext context)
     {
+        if (ElementCooldownTimer > 0)
+        {
+            return;
+        }
+
+        ElementCooldownTimer = ElementCooldown;
+        
         ColdElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {
@@ -312,6 +348,13 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public void OnLightningElement(InputAction.CallbackContext context)
     {
+        if (ElementCooldownTimer > 0)
+        {
+            return;
+        }
+
+        ElementCooldownTimer = ElementCooldown;
+        
         LightningElementInput = context.ReadValue<float>() > 0f;
         if(context.started)
         {

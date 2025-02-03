@@ -73,7 +73,6 @@ public class AMainMenuCamera : MonoBehaviour
         
             elapsedTime += Time.deltaTime;
 
-            print(smoothT);
             yield return null;
         }
 

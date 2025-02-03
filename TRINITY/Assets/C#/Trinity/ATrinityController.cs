@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ThirdPersonCamera;
 using UnityEngine;
 
@@ -48,6 +49,10 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public Vector3 Rotation => transform.rotation.eulerAngles;
     [HideInInspector] public float VerticalVelocity => RB.velocity.y;
     [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
+
+    public bool bTerrainCollision => TerrainCounter > 0;
+    private int TerrainCounter = 0;
+    
     public System.Action<FHitInfo> OnHit;
     
     
@@ -163,21 +168,26 @@ public class ATrinityController : MonoBehaviour
         return hit;
     }
 
-    public RaycastHit FindUnstableGround()
+    public void FindUnstableGround()
     {
-        RaycastHit hit;
-
-        bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance * 10f, GroundLayer);
-        if (isHit)
-        {
-            if(bDebug){Debug.Log($"Ground hit: {hit.collider.name}, Normal: {hit.normal}");}
-        }
-        else
-        {
-            if(bDebug){Debug.Log("No ground detected!");}
-        }
-
-        return hit;
+        // RaycastHit hit;
+        //
+        // bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance * 10f, GroundLayer);
+        // if (isHit)
+        // {
+        //     if(bDebug){Debug.Log($"Ground hit: {hit.collider.name}, Normal: {hit.normal}");}
+        // }
+        // else
+        // {
+        //     if(bDebug){Debug.Log("No ground detected!");}
+        // }
+        //
+        // return hit;
+        
+        // RaycastHit hit;
+        //
+        // bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance * 10f, GroundLayer);
+        //
     }
     
     private void OnDrawGizmos()
@@ -186,9 +196,9 @@ public class ATrinityController : MonoBehaviour
         Vector3 rayOrigin = transform.position;
 
         // Draw the ground-check raycast
-        Gizmos.DrawLine(rayOrigin, rayOrigin + Vector3.down * GroundDistance * 10f);
+        Gizmos.DrawLine(rayOrigin, rayOrigin + Vector3.down * GroundDistance);
         Gizmos.DrawLine(rayOrigin, rayOrigin + Forward * 2f);
-        Gizmos.DrawSphere(rayOrigin + Vector3.down * GroundDistance, 0.01f);
+        //Gizmos.DrawSphere(rayOrigin + Vector3.down * GroundDistance, 0.01f);
     }
 
     void AlignWithCameraYaw()
@@ -227,7 +237,23 @@ public class ATrinityController : MonoBehaviour
             OnHit?.Invoke(hitInfo);
         }
     }
-    
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Default") && !other.gameObject.CompareTag("Ground"))
+        {
+            TerrainCounter++;
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Default") && !other.gameObject.CompareTag("Ground"))
+        {
+            TerrainCounter--;
+        }
+    }
+
     private void HandleDeath()
     {
         if (CheckGround().transform)

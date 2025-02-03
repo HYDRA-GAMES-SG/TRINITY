@@ -47,6 +47,7 @@ public class ATrinityMainMenu : MonoBehaviour
         ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
         bOptionsMenu = false;
         bRotating = false;
+        bStartingGame = false;
         
         TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
         MainMenuSelection = EMainMenu.EMM_Start;
@@ -134,10 +135,15 @@ public class ATrinityMainMenu : MonoBehaviour
         {
             
             case EMainMenu.EMM_Start:
-                MainMenuCamera.Animate();
-                ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
-                ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
-                ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
+                if (!bStartingGame)
+                {
+                    bStartingGame = true;
+                    MainMenuCamera.Animate();
+                    ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
+                    ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
+                    ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
+                }
+
                 break;
             case EMainMenu.EMM_Options:
                 if (!bOptionsMenu)

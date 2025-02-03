@@ -1480,6 +1480,29 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1327787105}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1347930039 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2670401827004296488, guid: 60b124caf32955048a64c10532b1f32f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1866248393}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1347930041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347930039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 0}
+  Name: 
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
 --- !u!1 &1431794015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1996,10 +2019,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9114780221709798140, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: Mixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 0a193b4917b2c1546a8886eb82078189,
+        type: 2}
+    - target: {fileID: 9114780221709798140, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      propertyPath: ExposedMixer
+      value: 
+      objectReference: {fileID: 24100000, guid: 0a193b4917b2c1546a8886eb82078189,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2670401827004296488, guid: 60b124caf32955048a64c10532b1f32f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1347930041}
   m_SourcePrefab: {fileID: 100100000, guid: 60b124caf32955048a64c10532b1f32f, type: 3}
 --- !u!1 &2043960205 stripped
 GameObject:

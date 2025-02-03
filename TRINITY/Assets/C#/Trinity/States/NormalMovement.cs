@@ -94,6 +94,13 @@ public class NormalMovement : TrinityState
             bJumpConsumed = false;
         }
         
+        if (Controller.bTerrainCollision)
+        {
+            bCanGlide = false;
+            SetMovementState(ETrinityMovement.ETM_Falling);
+            Animator.AnimComponent.SetBool(AnimKeys["Glide"], false);
+        }
+        
         bFixedUpdate = true;
         
         HandleGliding();
@@ -290,7 +297,7 @@ public class NormalMovement : TrinityState
 
         if (bCanGlide)
         {
-            if (Input.JumpInput && MovementState == ETrinityMovement.ETM_Falling)
+            if (Input.JumpInput && MovementState == ETrinityMovement.ETM_Falling && !Controller.bTerrainCollision)
             {
                 SetMovementState(ETrinityMovement.ETM_Gliding);
                 Animator.AnimComponent.SetBool(AnimKeys["Glide"], true);
