@@ -8,18 +8,33 @@ using UnityEditor;
 #endif
 
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 
 public class ATrinityGameManager : MonoBehaviour
 {
+    
+    [SerializeField] 
+    static private AudioMixerGroup SFX_MixerGroup;
+    [SerializeField] 
+    static private AudioMixerGroup UI_MixerGroup;
+    [SerializeField] 
+    static private AudioMixerGroup BGM_MixerGroup;
+    [SerializeField] 
+    static private AudioMixerGroup Ambience_MixerGroup;
+    
     public static float MOUSE_SENSITIVITY = .5f;
     public static float GAMEPAD_SENSITIVITY = .5f;
     public static float MASTER_VOLUME = 1f;
+    public static float SFX_VOLUME = 1f;
+    public static float UI_VOLUME = 1f;
+    public static float BGM_VOLUME = 1f;
+    public static float AMBIENCE_VOLUME = 1f;
     public static bool CROSSHAIR_ENABLED = true;
 
-    private static ATrinitySFX AudioPoolReference;
+    private static ATrinityAudio AudioReference;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
     private static ATrinitySpells SpellsReference;
@@ -84,11 +99,31 @@ public class ATrinityGameManager : MonoBehaviour
         
     }
 
-    public static ATrinitySFX GetSFX()
+    public static ATrinityAudio GetAudio()
     {
-        return AudioPoolReference;
+        return AudioReference;
     }
 
+    public static AudioMixerGroup GetAudioMixerGroup(EAudioGroup group)
+    {
+        switch (group)
+        {
+            case EAudioGroup.EAG_UI:
+                return UI_MixerGroup;
+                break;
+            case EAudioGroup.EAG_BGM:
+                return BGM_MixerGroup;
+                break;
+            case EAudioGroup.EAG_SFX:
+                return SFX_MixerGroup;
+                break;
+            case EAudioGroup.EAG_AMBIENCE:
+                return Ambience_MixerGroup;
+                break;
+            default:
+                return SFX_MixerGroup;
+        }
+    }
     public static EGameFlowState GetGameFlowState()
     {
         return GameFlowState;
@@ -160,15 +195,15 @@ public class ATrinityGameManager : MonoBehaviour
         CameraReference = camera;  
     }
 
-    public static void SetSFX(ATrinitySFX sfx)
+    public static void SetSFX(ATrinityAudio audio)
     {
-        if (AudioPoolReference != null)
+        if (AudioReference != null)
         {
             Debug.Log("SFX ref not null");
             return;
         }
 
-        AudioPoolReference = sfx;
+        AudioReference = audio;
     }
     
     public static void SetGUI(ATrinityGUI gui)

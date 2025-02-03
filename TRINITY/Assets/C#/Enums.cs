@@ -1,4 +1,12 @@
 
+public enum EAudioGroup
+{
+    EAG_SFX,
+    EAG_UI,
+    EAG_BGM,
+    EAG_AMBIENCE
+}
+
 public enum EGameFlowState
 {
     PLAY,

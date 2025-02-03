@@ -55,7 +55,7 @@ public class ATrinityOptions : MonoBehaviour
             NavigateCooldownTimer = NavigateCooldown;
         }
         
-        ATrinityGameManager.GetSFX().Play("OptionsInteract", .5f);
+        ATrinityGameManager.GetAudio().Play("OptionsInteract");
 
         
         
@@ -152,7 +152,7 @@ public class ATrinityOptions : MonoBehaviour
             {
                 SelectMenuItem(newIndex);
                 NavigateCooldownTimer = NavigateCooldown;
-                ATrinityGameManager.GetSFX().Play("OptionsNavigate", .5f);
+                ATrinityGameManager.GetAudio().Play("OptionsNavigate");
 
             }
         }

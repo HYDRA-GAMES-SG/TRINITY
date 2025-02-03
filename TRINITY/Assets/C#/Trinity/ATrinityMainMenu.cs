@@ -128,7 +128,7 @@ public class ATrinityMainMenu : MonoBehaviour
             return;
         }
         
-        ATrinityGameManager.GetSFX().Play("MenuSelection", .6f);
+        ATrinityGameManager.GetAudio().Play("MenuSelection");
 
         switch (MainMenuSelection)
         {
@@ -162,7 +162,7 @@ public class ATrinityMainMenu : MonoBehaviour
         {
             return;
         }
-        ATrinityGameManager.GetSFX().Play("MenuTriangle", .3f);
+        ATrinityGameManager.GetAudio().Play("MenuTriangle");
 
         EMainMenu[] values = (EMainMenu[])Enum.GetValues(typeof(EMainMenu));
         int index = Array.IndexOf(values, MainMenuSelection);
@@ -183,7 +183,7 @@ public class ATrinityMainMenu : MonoBehaviour
             return;
         }
     
-        ATrinityGameManager.GetSFX().Play("MenuTriangle", .3f);
+        ATrinityGameManager.GetAudio().Play("MenuTriangle");
 
         EMainMenu[] values = (EMainMenu[])Enum.GetValues(typeof(EMainMenu));
         int index = Array.IndexOf(values, MainMenuSelection);
@@ -213,7 +213,7 @@ public class ATrinityMainMenu : MonoBehaviour
                 MainMenuSelection = EMainMenu.EMM_Options;
                 break;
         }
-        ATrinityGameManager.GetSFX().Play("MenuTriangle", .3f);
+        ATrinityGameManager.GetAudio().Play("MenuTriangle");
 
         HideArrows();
     }
