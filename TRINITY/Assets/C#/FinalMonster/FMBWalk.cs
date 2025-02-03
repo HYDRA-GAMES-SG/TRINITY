@@ -50,23 +50,26 @@ public class FMBWalk : FinalMonsterBossState
             return;
         }
 
-        AI.SetDestination(PlayerController.transform.position);
-        AnimationRotateMove();
-
-        float distance = FMBController.CalculateGroundDistance();
-
-        if (distance <= FMBController.CloseAttackRange)
+        //float distance = FMBController.CalculateGroundDistance();
+        if (FMBController.CalculateGroundDistance() <= FMBController.CloseAttackRange)
         {
+            AI.isStopped = true;
             FinalMonsterBossFSM.EnqueueTransition<FMBCloseAttack>();
-        }
+            return;
+        }/*
         else if (distance <= FMBController.LongAttackRange && distance > FMBController.CloseAttackRange)
         {
             float randomValue = Random.Range(0f, 1f);
             if (randomValue < 0.5f)
             {
+                AI.isStopped = true;
                 FinalMonsterBossFSM.EnqueueTransition<FMBLongRangeAttack>();
+                return;
             }
-        }
+        }*/
+        AI.isStopped = false;
+        AI.SetDestination(PlayerController.transform.position);
+        AnimationRotateMove();
     }
 
     public override void PostUpdateBehaviour(float dt)

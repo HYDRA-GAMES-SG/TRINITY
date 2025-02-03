@@ -37,17 +37,17 @@ public class FMBIdle : FinalMonsterBossState
         float distance = FMBController.CalculateGroundDistance();
 
 
-        if (distance <= FMBController.LongAttackRange && distance > FMBController.CloseAttackRange)
+        if (FMBController.CalculateGroundDistance() <= FMBController.LongAttackRange && FMBController.CalculateGroundDistance() > FMBController.CloseAttackRange)
         {
-            float randomValue = Random.Range(0f, 1f);
-            if (randomValue < 0.5f)
-            {
-                FinalMonsterBossFSM.EnqueueTransition<FMBWalk>();
-            }
-            else
-            {
+            //float randomValue = Random.Range(0f, 1f);
+            //if (randomValue < 0.5f)
+            //{
+            //    FinalMonsterBossFSM.EnqueueTransition<FMBWalk>();
+            //}
+            //else
+            //{
                 FinalMonsterBossFSM.EnqueueTransition<FMBLongRangeAttack>();
-            }
+            //}
         }
     }
     public override void PostUpdateBehaviour(float dt)

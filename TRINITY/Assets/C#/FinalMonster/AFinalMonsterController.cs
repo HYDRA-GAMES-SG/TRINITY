@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class AFinalMonsterController : IEnemyController
 {
     public AFinalMonsterBossFSM FinalMonsterFSM;
+    public LayerMask PlayerLayerMask;
 
     [Header("Particle Effect Prefabs")]
     public GameObject BlackHolePrefab;
@@ -195,5 +196,13 @@ public class AFinalMonsterController : IEnemyController
 
         float distanceToTarget = Vector3.Distance(PlayerPos, FMBPos);
         return distanceToTarget;
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, CloseAttackRange);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, LongAttackRange);
     }
 }

@@ -16,10 +16,12 @@ public class FMBLongRangeAttack : FinalMonsterBossState
 
     public override bool CheckEnterTransition(IState fromState)
     {
-        return (fromState is FMBWalk && !FMBController.bInvokeSnowFall) ||
+        return (fromState is FMBIdle or FMBWalk) &&
+           FMBController.CalculateGroundDistance() <= FMBController.LongAttackRange;
+        /*return (fromState is FMBWalk && !FMBController.bInvokeSnowFall) ||
             (fromState is FMBWalk && !FMBController.bInvokeSpike) ||
             (fromState is FMBWalk && !FMBController.bFrostRay) ||
-            (fromState is FMBWalk && !FMBController.bFrostWave);
+            (fromState is FMBWalk && !FMBController.bFrostWave);*/
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -35,12 +37,12 @@ public class FMBLongRangeAttack : FinalMonsterBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        float randomValue = Random.Range(0f, 1f);
-
         if (FMBController.CalculateGroundDistance() > FMBController.LongAttackRange)
         {
             FinalMonsterBossFSM.EnqueueTransition<FMBWalk>();
         }
+
+        float randomValue = Random.Range(0f, 1f);
 
         if (FMBController.bPhase2)
         {
@@ -159,6 +161,6 @@ public class FMBLongRangeAttack : FinalMonsterBossState
     }
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is FMBWalk;
+        return toState is FMBIdle;
     }
 }
