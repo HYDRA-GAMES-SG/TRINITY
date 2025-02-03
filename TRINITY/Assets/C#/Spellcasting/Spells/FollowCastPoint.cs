@@ -15,5 +15,6 @@ public class FollowCastPoint : MonoBehaviour
     void Update()
     {
         transform.position = CastPoint.transform.position;
+        transform.rotation = CastPoint.transform.rotation;
     }
 }

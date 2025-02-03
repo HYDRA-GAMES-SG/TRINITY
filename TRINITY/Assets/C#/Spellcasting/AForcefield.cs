@@ -13,6 +13,7 @@ public class AForcefield : ASpell
         {
             ForcefieldEffect = Instantiate(SpellPrefab, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
             ForcefieldEffect.transform.parent = ATrinityGameManager.GetPlayerController().transform;
+            ForcefieldEffect.transform.localRotation = Quaternion.Euler(Vector3.zero);
             ForcefieldEffect.SetActive(false);
         }
         ATrinityGameManager.GetSpells().ManaComponent.OnOutOfMana += Release;
