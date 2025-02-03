@@ -6987,7 +6987,6 @@ GameObject:
   - component: {fileID: 1649431300980154410}
   - component: {fileID: 3193520181224347082}
   - component: {fileID: 6460863492557420146}
-  - component: {fileID: 2995291814633435060}
   m_Layer: 0
   m_Name: Anti Lewd Sphere
   m_TagString: Untagged
@@ -7060,27 +7059,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &2995291814633435060
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4945548711279918992}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4999115831106528353
 GameObject:
   m_ObjectHideFlags: 0
@@ -7508,6 +7486,7 @@ MonoBehaviour:
   RB: {fileID: 0}
   MaxStableAngle: 45
   MoveDirection: {x: 0, y: 0, z: 0}
+  bStableGround: 1
 --- !u!54 &1102689777283718273
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -41,6 +41,7 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector]
     public Vector3 MoveDirection;
 
+    [HideInInspector] public bool bUnstable = false; 
     [HideInInspector] public Vector3 Position => transform.position;
     [HideInInspector] public Quaternion RotationQuat => transform.rotation;
     [HideInInspector] public Vector3 Up => transform.up;
@@ -123,6 +124,8 @@ public class ATrinityController : MonoBehaviour
         {
             AlignWithCameraYaw();
         }
+
+        bUnstable = IsUnstableGround();
     }
 
     
@@ -168,26 +171,24 @@ public class ATrinityController : MonoBehaviour
         return hit;
     }
 
-    public void FindUnstableGround()
+    public bool IsUnstableGround()
     {
-        // RaycastHit hit;
-        //
-        // bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance * 10f, GroundLayer);
-        // if (isHit)
-        // {
-        //     if(bDebug){Debug.Log($"Ground hit: {hit.collider.name}, Normal: {hit.normal}");}
-        // }
-        // else
-        // {
-        //     if(bDebug){Debug.Log("No ground detected!");}
-        // }
-        //
-        // return hit;
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer))
+        {
+            float angle = Vector3.Angle(hit.normal, Up);
         
-        // RaycastHit hit;
-        //
-        // bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance * 10f, GroundLayer);
-        //
+            if (bDebug)
+            {
+                Debug.Log($"Ground hit: {hit.collider.name}, Angle: {angle} degrees");
+            }
+        
+            if (angle > MaxStableAngle)
+            {
+                return true;
+            }
+        }
+        return false;
     }
     
     private void OnDrawGizmos()
