@@ -3992,6 +3992,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1248656005762323920}
+  - {fileID: 6135234922106129702}
   m_Father: {fileID: 312712230469605294}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!114 &590067304611633414
@@ -4014,6 +4015,7 @@ MonoBehaviour:
   AI: {fileID: 8615689596737175229}
   NormalAttack: 10
   AttackForce: 50
+  Audio: {fileID: 0}
   CrabFSM: {fileID: 4812435512381346427}
   JumpSmashCooldown: 20
   ChargeMoveFastCooldown: 15
@@ -4095,6 +4097,7 @@ MonoBehaviour:
   blinkDuration: 0.3
   blinkIntensity: 0.8
   skinnedMeshRenderer: []
+  RigiBd: []
 --- !u!95 &8427644227223135767
 Animator:
   serializedVersion: 5
@@ -4886,6 +4889,69 @@ MonoBehaviour:
   AdditionalConstantStrength: 0
   Offset: {x: 0, y: 0, z: 0}
   MeshIntersectionThreshold: 0.25
+--- !u!1 &7523154369632345820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6135234922106129702}
+  - component: {fileID: 2103416987338108888}
+  - component: {fileID: 339484441150223705}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6135234922106129702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7523154369632345820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9144458036026273463}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2103416987338108888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7523154369632345820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Controller: {fileID: 0}
+--- !u!114 &339484441150223705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7523154369632345820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: b274379bd365dc94f9d0bb519130ac13, type: 3}
+  Name: Smash
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
 --- !u!1 &7730679632618582426
 GameObject:
   m_ObjectHideFlags: 0

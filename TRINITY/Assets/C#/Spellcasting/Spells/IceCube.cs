@@ -3,8 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioClip))]
+
 public class IceCube : MonoBehaviour
 {
+    public AudioClip AudioClip;
+    public AudioSource AudioSource;
+
     public MeshRenderer Mesh;
     
     private int InitialChillStacks;
@@ -17,6 +22,7 @@ public class IceCube : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioClip = GetComponent<AudioClip>();  
         ChilledEnemies = new List<IEnemyController>();
         Duration = ATrinityGameManager.GetSpells().SecondaryCold.Duration;
         InitialChillStacks = ATrinityGameManager.GetSpells().SecondaryCold.InitialChillStacks;

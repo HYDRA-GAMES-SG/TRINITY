@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(ATrinityAudioClip))]
 public class Fireball : AProjectile
 {
+    public ATrinityAudioClip SFX;
     public static APrimaryFire PrimaryFire;
     [HideInInspector]
     public ATrinitySpells Spells;
@@ -25,6 +27,7 @@ public class Fireball : AProjectile
     // Start is called before the first frame update
     void Start()
     {
+        SFX = GetComponent<ATrinityAudioClip>();
         Spells = ATrinityGameManager.GetSpells();
         PrimaryFire = Spells.PrimaryFire;
         RB = GetComponent<Rigidbody>();

@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
+[RequireComponent(typeof(AudioClip))]
 public class IceWave : AProjectile
 {
-    
+    public AudioSource ColdSource;
+    public AudioClip AudioClip;
+
     [Header("Ice Wave Properties")]
     public float Damage;
     public float Duration;
@@ -18,7 +21,6 @@ public class IceWave : AProjectile
     private APrimaryCold PrimaryCold;
     [HideInInspector]
     
-    public AudioSource ColdSource;
     [Header("VFX Prefabs")]
     public GameObject ExplosionVFX;
 
@@ -33,6 +35,8 @@ public class IceWave : AProjectile
 
     void Start()
     {
+        AudioClip = GetComponent<AudioClip>();
+
         Rigidbody = GetComponent<Rigidbody>();
         PrimaryCold = ATrinityGameManager.GetSpells().PrimaryCold;
         Direction = ATrinityGameManager.GetSpells().CastDirection;

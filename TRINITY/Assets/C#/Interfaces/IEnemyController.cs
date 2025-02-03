@@ -9,49 +9,61 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class IEnemyController : MonoBehaviour
 {
+
     private Rigidbody[] Rigidbodies;
-    
+
     private static Transform TransformReference;
-    
+
     public Transform CoreCollider;
-    
+
     public string Name = "Default";
-    
+
     [HideInInspector]
     public Rigidbody RB;
 
     [HideInInspector]
     public Animator Animator;
-    
+
     [HideInInspector]
     public UEnemyStatusComponent EnemyStatus;
-    
+
     [HideInInspector]
     public NavMeshAgent AI;
-    
+
     public float NormalAttack;
-    
+
 
     public float AttackForce = 150f;
-    
+
     public bool bDead => EnemyStatus.Health.bDead;
 
     public System.Action OnBulletTime;
-    
+
+    public IAudioManager Audio;
+
     private void Awake()
     {
+        if (!Audio)
+        {
+            Audio = GetComponentInChildren<IAudioManager>();
+            if (!Audio)
+            {
+                Debug.Log($"Audio not find on {gameObject.name}");
+            }
+        }
+
         TransformReference = transform;
-        
+
         AI = GetComponent<NavMeshAgent>();
         RB = GetComponent<Rigidbody>();
         Animator = GetComponent<Animator>();
         EnemyStatus = GetComponent<UEnemyStatusComponent>();
         Rigidbodies = GetComponentsInChildren<Rigidbody>();
     }
-    
+
     public virtual void TriggerGetHit()
     {
-        
+
     }
 
     public virtual float GetCurrentAttackDamage()
@@ -68,36 +80,36 @@ public class IEnemyController : MonoBehaviour
     {
         //if player is not close enough to trigger bullet time  
         ATrinityController playerController = ATrinityGameManager.GetPlayerController();
-        
-        if(Vector3.Distance(transform.position, playerController.Position) > ATrinityGameManager.GetCamera().BulletTimeDistance)
+
+        if (Vector3.Distance(transform.position, playerController.Position) > ATrinityGameManager.GetCamera().BulletTimeDistance)
         {
             return;
         }
 
         Vector3 directionToPlayer = (playerController.Position - transform.position).normalized;
-    
+
         // check if boss and player are facing each other
         float bossToPlayerDot = Vector3.Dot(transform.forward, directionToPlayer);
         float playerToBossDot = Vector3.Dot(playerController.Forward, -directionToPlayer);
 
         // use 0.85f dot product for ~30 degree cone
-        if(bossToPlayerDot < 0.85f || playerToBossDot < 0.85f)
+        if (bossToPlayerDot < 0.85f || playerToBossDot < 0.85f)
         {
             return;
         }
 
         OnBulletTime?.Invoke();
     }
-    
+
     public void LightCameraShake(float duration = .3f)
     {
-        
+
         if (ATrinityGameManager.GetPlayerController().CheckGround().transform)
         {
             return;  //dont send small camera shakes if the player is not on the ground
         }
 
-        
+
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.05f, duration, TransformReference);
     }
 
@@ -110,8 +122,8 @@ public class IEnemyController : MonoBehaviour
     {
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCamera(1f, duration);
     }
-    
-    void AttachColliderComponentsToRB() 
+
+    void AttachColliderComponentsToRB()
     {
         foreach (var r in Rigidbodies)
         {
@@ -121,7 +133,7 @@ public class IEnemyController : MonoBehaviour
             }
         }
     }
-    
+
     public void DeactiveRagdoll()
     {
         foreach (var r in Rigidbodies)
@@ -130,7 +142,7 @@ public class IEnemyController : MonoBehaviour
         }
         Animator.enabled = true;
     }
-    
+
     public void ActivateRagdoll()
     {
         foreach (var r in Rigidbodies)

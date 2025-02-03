@@ -85,6 +85,19 @@ public class IAudioManager : MonoBehaviour
         source.volume = Mathf.Clamp(audio.Volume, 0f, 1f);
         source.pitch = Mathf.Clamp(audio.Pitch, 0f, 2f);
         source.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(audio.MixerGroup);
+
+        switch(audio.MixerGroup)
+        {
+            case EAudioGroup.EAG_SFX:
+                source.spatialBlend = 1f;
+                break;
+            case EAudioGroup.EAG_UI:
+            case EAudioGroup.EAG_BGM:
+            case EAudioGroup.EAG_AMBIENCE:
+                source.spatialBlend = 0f;
+                break;
+        }
+
         source.Play();
     }
 }

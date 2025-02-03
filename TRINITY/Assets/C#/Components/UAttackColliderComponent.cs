@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UAttackColliderComponent : MonoBehaviour
 {
+    public System.Action OnPlayerHit;
+
     private IEnemyController Controller;
 
     [Tooltip("If true, particles will deal damage only once during the lifetime of the particle system.")]
@@ -65,7 +67,6 @@ public class UAttackColliderComponent : MonoBehaviour
 
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, collision, Controller.GetCurrentAttackDamage());
         player.ApplyHit(hitInfo);
-
 
     }
 

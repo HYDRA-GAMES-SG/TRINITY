@@ -21,11 +21,14 @@ public class ASpell : MonoBehaviour
 
     private float CooldownCountdownTimer = 0f;
     private ATrinityBrain BrainReference;
+    private AudioSource AudioSource;
 
     public void Start()
     {
         Initialize();
         BrainReference = ATrinityGameManager.GetBrain();
+        AudioSource = GetComponent<AudioSource>();
+        AudioSource.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(EAudioGroup.EAG_SFX);
     }
 
     public virtual void Initialize()

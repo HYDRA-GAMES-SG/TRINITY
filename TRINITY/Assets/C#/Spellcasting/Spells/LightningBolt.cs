@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioClip))]
 public class LightningBolt : AProjectile
-{    
+{
     public static APrimaryLightning PrimaryLightning;
     [HideInInspector]
     private Vector3 Direction;
@@ -29,6 +30,12 @@ public class LightningBolt : AProjectile
     // Start is called before the first frame update
     void Start()
     {
+        LightningSource = GetComponent<AudioSource>();
+        if (LightningSource != null)
+        {
+            LightningSource.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(EAudioGroup.EAG_SFX);
+        }
+
         BaseRotation = Quaternion.Euler(-90, 0, 0);
         RB = GetComponent<Rigidbody>();
         LightningSource = GetComponent<AudioSource>();

@@ -6,9 +6,10 @@ public class ATrinityAudioClip : MonoBehaviour
 {
     public AudioClip Audio;
     public string Name;
-    public float Volume;
-    public float Pitch;
-    public EAudioGroup MixerGroup;
+    public float Volume = 1f;
+    public float Pitch = 1f;
+    public EAudioGroup MixerGroup = EAudioGroup.EAG_SFX;
+
     
     // Start is called before the first frame update
     void Start()
