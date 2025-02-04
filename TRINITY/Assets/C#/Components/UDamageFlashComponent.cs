@@ -24,6 +24,7 @@ public class UDamageFlashComponent : MonoBehaviour
                 continue;
             }
             rb.isKinematic = true;
+            rb.gameObject.AddComponent<UEnemyColliderComponent>();
         }
 
         Health = GetComponent<UHealthComponent>();
