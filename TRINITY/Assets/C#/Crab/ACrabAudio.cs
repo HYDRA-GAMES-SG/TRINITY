@@ -7,14 +7,8 @@ public class ACrabAudio : IAudioManager
 {
     private void Awake()
     {
-
         UAttackColliderComponent.OnPlayerHit += PlayHitPlayerAudio;
         UAttackColliderComponent.OnGroundHit += PlayHitGroundAudio;
-    }
-
-    void PlayAudioWithPosition(Transform transform)
-    {
-        Play("Whatever");
     }
     void PlayHitGroundAudio(float impulseMagnitude)
     {
@@ -26,24 +20,21 @@ public class ACrabAudio : IAudioManager
         //impulseMagnitude /= maxMagnitude;
         PlayWithVolume("HitGround", Mathf.Clamp01(impulseMagnitude));
     }
-    void PlaySmashAudio()
-    {
-        Play("Smash");
-    }
-
     void PlayHitPlayerAudio()   
     {
         Debug.Log("hit player audio");
         Play("HitPlayer");
     }
 
-    //void PlayAudio()
-    //{
-    //    IState currentState = Controller.CrabFSM.CurrentState;
+    public void PlayAudioWithPosition(Transform transform)
+    {
+        Play("Whatever");
+       // PlayAtPosition("NormalAttackSwing",NormalAttack.OnNormalAttack.)
+    }
+    public void PlaySmashAudio()
+    {
+        Play("Smash");
+    }
 
-    //    if(currentState is Pursue)
-    //    {
-    //         //do whatever
-    //    }
-    //}
+    
 }

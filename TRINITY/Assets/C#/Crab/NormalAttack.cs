@@ -11,7 +11,7 @@ public class NormalAttack : CrabState
     Transform LeftClaw;
     Transform RightClaw;
 
-    public System.Action<Transform> OnNormalAttack;
+    public static System.Action<Transform> OnNormalAttack;
 
     [SerializeField] string[] AnimKeyAttack;
     private string anim;
