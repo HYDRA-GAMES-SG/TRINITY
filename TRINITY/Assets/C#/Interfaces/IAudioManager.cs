@@ -128,4 +128,42 @@ public class IAudioManager : MonoBehaviour
 
         source.Play();
     }
+
+    public void PlayAtPosition(string clipName, Transform transform)
+    {
+        if (!AudioClipLookup.ContainsKey(clipName))
+        {
+            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
+            return;
+        }
+
+        GameObject newAudioSourceObj = new GameObject();
+        newAudioSourceObj.AddComponent<AudioSource>();
+        newAudioSourceObj.transform.position = transform.position;
+        newAudioSourceObj.transform.rotation = transform.rotation;
+        newAudioSourceObj.transform.localScale = transform.localScale;
+
+        AudioSource source = newAudioSourceObj.GetComponent<AudioSource>();
+
+        ATrinityAudioClip audio = AudioClipLookup[clipName];
+        source.clip = audio.Audio;
+        source.volume = Mathf.Clamp(audio.Volume, 0f, 1f);
+        source.pitch = Mathf.Clamp(audio.Pitch, 0f, 2f);
+        source.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(audio.MixerGroup);
+        
+        switch (audio.MixerGroup)
+        {
+            case EAudioGroup.EAG_SFX:
+                source.spatialBlend = 1f;
+                break;
+            case EAudioGroup.EAG_UI:
+            case EAudioGroup.EAG_BGM:
+            case EAudioGroup.EAG_AMBIENCE:
+                source.spatialBlend = 0f;
+                break;
+        }
+
+        source.Play();
+        Destroy(newAudioSourceObj, source.clip.length + .1f);
+    }
 }

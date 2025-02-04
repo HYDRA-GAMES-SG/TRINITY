@@ -39,6 +39,7 @@ public class IEnemyController : MonoBehaviour
 
     public System.Action OnBulletTime;
 
+    [HideInInspector]
     public IAudioManager Audio;
 
     private void Awake()

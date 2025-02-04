@@ -5,6 +5,12 @@ public class ACrabController : IEnemyController
 {
     public ACrabFSM CrabFSM;
 
+    [Header("Transforms")]
+    [SerializeField]
+    public Transform LeftClaw;
+    [SerializeField]
+    public Transform RightClaw;
+
     [Header("Cooldown Time")]
     [SerializeField] float JumpSmashCooldown = 20;
     [SerializeField] float ChargeMoveFastCooldown = 15;

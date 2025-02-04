@@ -4017,6 +4017,8 @@ MonoBehaviour:
   AttackForce: 50
   Audio: {fileID: 0}
   CrabFSM: {fileID: 4812435512381346427}
+  LeftClaw: {fileID: 5848169551067447597}
+  RightClaw: {fileID: 6346969674465272153}
   JumpSmashCooldown: 20
   ChargeMoveFastCooldown: 15
   RoarIceSprayCooldown: 10
@@ -4031,7 +4033,7 @@ MonoBehaviour:
   IceSlashAttack: 25
   SmashFrozenGroundAttack: 10
   JumpSmashFrozenGroundAttack: 30
-  CanJumpSmash: 0
+  CanJumpSmash: 1
   CanRoarStun: 0
   CanComboAttack: 0
   CanCharageMoveFast: 0
@@ -4900,6 +4902,8 @@ GameObject:
   - component: {fileID: 6135234922106129702}
   - component: {fileID: 2103416987338108888}
   - component: {fileID: 339484441150223705}
+  - component: {fileID: 680872315591837675}
+  - component: {fileID: 6606716937380375237}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -4934,7 +4938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Controller: {fileID: 0}
 --- !u!114 &339484441150223705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4949,6 +4952,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 8300000, guid: b274379bd365dc94f9d0bb519130ac13, type: 3}
   Name: Smash
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &680872315591837675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7523154369632345820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: df0015fa6208aee42a617075fc1698a7, type: 3}
+  Name: HitGround
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &6606716937380375237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7523154369632345820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: 72753375d58dc2345ab27ddae19d03b2, type: 3}
+  Name: HitPlayer
   Volume: 1
   Pitch: 1
   MixerGroup: 0

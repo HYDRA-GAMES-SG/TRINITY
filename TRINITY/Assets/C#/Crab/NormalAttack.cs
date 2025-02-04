@@ -8,6 +8,11 @@ using static UnityEngine.GraphicsBuffer;
 
 public class NormalAttack : CrabState
 {
+    Transform LeftClaw;
+    Transform RightClaw;
+
+    public System.Action<Transform> OnNormalAttack;
+
     [SerializeField] string[] AnimKeyAttack;
     private string anim;
 
@@ -25,6 +30,15 @@ public class NormalAttack : CrabState
 
         anim = RandomAttackAnim(AnimKeyAttack);
         CrabFSM.Animator.SetTrigger(anim);
+
+        if (anim.Contains("Left"))
+        {
+            OnNormalAttack?.Invoke(CrabFSM.CrabController.LeftClaw);
+        }
+        if (anim.Contains("Right"))
+        {
+            OnNormalAttack?.Invoke(CrabFSM.CrabController.RightClaw);
+        }
     }
 
     public override void PreUpdateBehaviour(float dt)

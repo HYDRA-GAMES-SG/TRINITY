@@ -12,6 +12,10 @@ public class ACrabAudio : IAudioManager
         UAttackColliderComponent.OnGroundHit += PlayHitGroundAudio;
     }
 
+    void PlayAudioWithPosition(Transform transform)
+    {
+        Play("Whatever");
+    }
     void PlayHitGroundAudio(float impulseMagnitude)
     {
         Debug.Log("Ground Hit Impulse Magnitude:" + impulseMagnitude);
