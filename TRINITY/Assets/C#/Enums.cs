@@ -7,6 +7,31 @@ public enum EAudioGroup
     EAG_AMBIENCE
 }
 
+public enum ETrinityScore
+{
+    ETS_S_PlusPlusPlus = 20,
+    ETS_S_PlusPlus = 19,
+    ETS_S_Plus = 18,
+    ETS_S = 17,
+    ETS_S_Minus = 16,
+    ETS_A_Plus = 15,
+    ETS_A = 14,
+    ETS_A_Minus = 13,
+    ETS_B_Plus = 12,
+    ETS_B =11,
+    ETS_B_Minus = 10,
+    ETS_C_Plus = 9,
+    ETS_C = 8,
+    ETS_C_Minus = 7,
+    ETS_D_Plus = 6,
+    ETS_D = 5,
+    ETS_D_Minus = 4,
+    ETS_F_Plus = 3,
+    ETS_F = 2,
+    ETS_F_Minus = 1,
+    ETS_F_MinusMinus = 0
+}
+
 public enum EGameFlowState
 {
     PLAY,

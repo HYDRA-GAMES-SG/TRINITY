@@ -8,16 +8,16 @@ public class ATrinityAudio : IAudioManager
     private void Awake()
     {
         ATrinityGameManager.SetAudio(this);
-        OnBindEvents(true);
+        BindToEvents(true);
 
     }
 
     void OnDestroy()
     {
-        OnBindEvents(false);
+        BindToEvents(false);
     }
 
-    void OnBindEvents(bool bBind)
+    void BindToEvents(bool bBind)
     {
         if (bBind)
         {

@@ -31,6 +31,11 @@ public class AEnemyHealthBar : MonoBehaviour
     {
         return HealthTarget;
     }
+
+    public IEnemyController GetController()
+    {
+        return EnemyController;
+    }
     
     public void SetEnemyController(IEnemyController enemyController)
     {

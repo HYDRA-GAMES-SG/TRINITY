@@ -55,7 +55,7 @@ public class IAudioManager : MonoBehaviour
             }
         }
         
-        // Don't override looping sounds when looking for the oldest
+        // con't override looping sounds when looking for the oldest
         AudioSource oldestSource = null;
         float oldestStartTime = float.MaxValue;
         
@@ -68,13 +68,13 @@ public class IAudioManager : MonoBehaviour
             }
         }
         
-        // If we found a non-looping source, use it
+        // if we found a non-looping source, use it
         if (oldestSource != null)
         {
             return oldestSource;
         }
         
-        // If all sources are looping, create a new temporary one
+        // if all sources are looping, create a new temporary one
         AudioSource tempSource = gameObject.AddComponent<AudioSource>();
         tempSource.playOnAwake = false;
         return tempSource;
@@ -84,7 +84,7 @@ public class IAudioManager : MonoBehaviour
     {
         if (!AudioClipLookup.ContainsKey(clipName))
         {
-            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
+            Debug.LogWarning($"Audio key '{clipName}' not found in the audio dictionary!");
             return;
         }
 
@@ -93,13 +93,19 @@ public class IAudioManager : MonoBehaviour
         ConfigureAudioSource(source, audio);
         source.loop = false;
         source.Play();
+            
+        // If this was a temporary source (created when pool was full of looping sounds)
+        if (!AudioSourcePool.Contains(source))
+        {
+            Destroy(source);
+        }
     }
 
     public void PlayWithVolume(string clipName, float clipVolume)
     {
         if (!AudioClipLookup.ContainsKey(clipName))
         {
-            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
+            Debug.LogWarning($"Audio key '{clipName}' not found in the audio dictionary!");
             return;
         }
 
@@ -109,19 +115,25 @@ public class IAudioManager : MonoBehaviour
         source.volume = Mathf.Clamp(clipVolume, 0f, 1f);
         source.loop = false;
         source.Play();
+            
+        // If this was a temporary source (created when pool was full of looping sounds)
+        if (!AudioSourcePool.Contains(source))
+        {
+            Destroy(source);
+        }
     }
 
     public void StartLoop(string clipName)
     {
         if (ActiveLoopingSounds.ContainsKey(clipName))
         {
-            Debug.LogWarning($"Sound '{clipName}' is already looping!");
+            Debug.LogWarning($"'{clipName}' is already looping!");
             return;
         }
 
         if (!AudioClipLookup.ContainsKey(clipName))
         {
-            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
+            Debug.LogWarning($"Audio key'{clipName}' not found in the audio dictionary!");
             return;
         }
 

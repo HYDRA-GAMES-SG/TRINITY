@@ -105,12 +105,14 @@ public class IEnemyController : MonoBehaviour
     public void LightCameraShake(float duration = .3f)
     {
 
-        if (ATrinityGameManager.GetPlayerController().CheckGround().transform)
+        if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement normalMovement)
         {
-            return;  //dont send small camera shakes if the player is not on the ground
+            if (normalMovement.GetMovementState() == ETrinityMovement.ETM_Grounded)
+            {
+                return;  //dont send small camera shakes if the player is not on the ground
+            }
         }
-
-
+        
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.05f, duration, TransformReference);
     }
 

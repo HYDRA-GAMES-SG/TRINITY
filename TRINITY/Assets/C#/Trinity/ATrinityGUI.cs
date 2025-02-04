@@ -17,6 +17,7 @@ public class ATrinityGUI : MonoBehaviour
     public AEnemyHealthBar[] EnemyHealthBars = new AEnemyHealthBar[3];
     public GameObject OptionsMenu;
     public GameObject GameOver;
+    public GameObject Victory;
     public GameObject Tutorials;
     public GameObject Crosshair;
     
@@ -82,10 +83,17 @@ public class ATrinityGUI : MonoBehaviour
         }
 
         ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
+
+        ATrinityScore.OnVictory += StartVictory;
         
         SetupEnemyUI();
     }
 
+    private void StartVictory(ETrinityScore score)
+    {
+        Victory.SetActive(true);
+    }
+    
     private void UpdateSpellImages(ETrinityElement newElement)
     {
         Sprite[] spellImages = new Sprite [3];
@@ -167,9 +175,6 @@ public class ATrinityGUI : MonoBehaviour
                 CooldownFills[4].fillAmount = ATrinityGameManager.GetSpells().SecondaryLightning.GetCooldownNormalized();
                 break;
         }
-
-
-
     }
 
     private void TogglePause()

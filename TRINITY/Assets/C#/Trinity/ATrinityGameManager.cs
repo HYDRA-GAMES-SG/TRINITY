@@ -33,6 +33,7 @@ public class ATrinityGameManager : MonoBehaviour
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
     private static ATrinitySpells SpellsReference;
+    private static ATrinityScore ScoreReference;
     private static ATrinityBrain BrainReference;
     private static List<IEnemyController> EnemyControllers;
     private static ATrinityInput InputReference;
@@ -41,6 +42,8 @@ public class ATrinityGameManager : MonoBehaviour
     private static ATrinityGUI GUIReference;
     
     private static EGameFlowState GameFlowState;
+
+    public static System.Action Victory;
     
 
     void Awake()
@@ -90,11 +93,26 @@ public class ATrinityGameManager : MonoBehaviour
             if (PlayerController && PlayerController.HealthComponent.bDead)
             {
                 SetGameFlowState(EGameFlowState.DEAD);
+                return;
             }
         }
-        
+
+
     }
 
+    public static ATrinityScore GetScore()
+    {
+        if (ScoreReference)
+        {
+            return ScoreReference;
+        }
+        else
+        {
+            Debug.Log("ATrinityScore null on Game Manager");
+            return null;
+        }
+    }
+    
     public static ATrinityAudio GetAudio()
     {
         if (AudioReference)
@@ -198,6 +216,17 @@ public class ATrinityGameManager : MonoBehaviour
         }
         
         PlayerFSM = playerFSM;  
+    }
+
+    public static void SetScore(ATrinityScore score)
+    {
+        if (ScoreReference != null)
+        {
+            Debug.Log("Static Score Ref Not Null");
+            return;
+        }
+
+        ScoreReference = score;
     }
     
     public static void SetCamera(ATrinityCamera camera)
