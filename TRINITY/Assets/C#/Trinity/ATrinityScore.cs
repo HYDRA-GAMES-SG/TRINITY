@@ -9,14 +9,20 @@ public class ATrinityScore : MonoBehaviour
     //public float TimeToDamageScoreWeight = .5f;
     
     [Header("Time")]
-    public float BestTime = 120f;
-    public float WorstTime = 240f;
+    [SerializeField]
+    private float BestTime = 120f;
+    [SerializeField]
+    private float WorstTime = 240f;
     private float Timer;
+    public float NormalizedTimeScore = 0f;
 
-    [Header("Damage Taken")] 
-    public float BestDamageTaken = 0f;
-    public float WorstDamageTaken = 100f;
+    [Header("Damage Taken")]
+    [SerializeField]
+    private float BestDamageTaken = 0f;
+    [SerializeField]
+    private float WorstDamageTaken = 100f;
     private float DamageTaken;
+    public float NormalizedDamageTakenScore = 0f;
 
     public void Start()
     {
@@ -66,10 +72,10 @@ public class ATrinityScore : MonoBehaviour
 
     private float CalculateScore()
     {
-        float timeScore = NormalizeTime(ClampTime(Timer));
-        float damageScore = NormalizeDamageTaken(ClampDamageTaken(DamageTaken));
+        NormalizedTimeScore = NormalizeTime(ClampTime(Timer));
+        NormalizedDamageTakenScore = NormalizeDamageTaken(ClampDamageTaken(DamageTaken));
 
-        return (timeScore + damageScore) * 10f; //multiply to map to ETS properly
+        return (NormalizedTimeScore + NormalizedDamageTakenScore) * 10f; //multiply to map to ETS properly
     }
 
     private float NormalizeTime(float clampedTime)

@@ -2,55 +2,114 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ATrinityVictory : MonoBehaviour
 {
-    public float FadeTime = 3.5f;
+    public float ScoreTextSize = 2.3f;
+    public float PauseTime = 3.5f;
     public Slider DamageTakenSlider;
     public Slider TimeSlider;
+    public GameObject ScorePanel;
     public TextMeshProUGUI DamageTakenText;
     public TextMeshProUGUI TimeText;
     public TextMeshProUGUI ScoreText;
+    public Button QuitButton;
+    public CanvasGroup TrinityGUICanvasGroup;
     
-    private bool bCoroComplete;
-    private float FadeTimer;
+    private bool bScoreDisplayComplete;
+    private float PauseTimer;
     
     // Start is called before the first frame update
     void Start()
     {
-        DamageTakenText.alpha = 0f;
-        TimeText.alpha = 0f;
-        ScoreText.alpha = 0f;
+        ScoreText.text = "B+";
+        DamageTakenText.text = "1,594";
+        TimeText.text = "01:93:00";
+        // ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().GetScore());
+        //
+        // float totalTime = ATrinityGameManager.GetScore().GetTimer();
+        // int minutes = (int)(totalTime / 60f);
+        // int seconds = (int)(totalTime % 60f);
+        // int milliseconds = (int)((totalTime * 1000f) % 1000f);
+        //
+        // // Format: mm:ss:millisecond
+        // TimeText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+        //
+        // // Format damage with thousands separator, e.g., 1,234
+        // DamageTakenText.text = ATrinityGameManager.GetScore().GetDamageTaken().ToString("N0");
 
-        TimeText.text = ATrinityGameManager.GetScore().GetTimer().ToString();
-        DamageTakenText.text = ATrinityGameManager.GetScore().GetDamageTaken().ToString();
-        ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().GetScore());
+        //DamageTakenSlider.value = ATrinityGameManager.GetScore().NormalizedDamageTakenScore;
+        //TimeSlider.value = ATrinityGameManager.GetScore().NormalizedTimeScore;
+        
+        ScorePanel.SetActive(false);
+        DamageTakenSlider.gameObject.SetActive(false);
+        TimeSlider.gameObject.SetActive(false);
+        ScoreText.gameObject.SetActive(false);
+        QuitButton.gameObject.SetActive(false);
 
-        StartCoroutine(VictoryCoro());
+        StartCoroutine(ScoreDisplayCoro());
     }
 
     // Update is called once per frame
     void Update()
     {
+        bool bExitScoreDisplay = ATrinityGameManager.GetInput().ForcefieldInput || ATrinityGameManager.GetInput().MenuInput;
         
+        if (bScoreDisplayComplete && bExitScoreDisplay)
+        {
+            Time.timeScale = 1f;
+            ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
+            SceneManager.LoadScene("PORTAL");
+        }
     }
 
-    private IEnumerator VictoryCoro()
+    private IEnumerator ScoreDisplayCoro()
     {
-        FadeTimer = FadeTime;
-        while (FadeTimer > 0f)
+        PauseTimer = PauseTime;
+
+        yield return null;
+        
+        while (PauseTimer > 0f)
         {
-            FadeTimer -= Time.deltaTime;
-            Time.timeScale = FadeTimer / FadeTime;
+            Time.timeScale = PauseTimer / PauseTime;
+            TrinityGUICanvasGroup.alpha = PauseTimer / PauseTime;
+            PauseTimer -= Time.unscaledDeltaTime;
+            
             yield return null;
         }
 
         Time.timeScale = 0f;
         ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
+        ScorePanel.gameObject.SetActive(true);
         
-        ScoreText.alpha = 1f;
-        TimeText.alpha = 1f;
-        DamageTakenText.alpha = 1f;
+        yield return new WaitForSecondsRealtime(1.25f);
+        
+        TimeSlider.gameObject.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(1.25f);
+        
+        DamageTakenSlider.gameObject.SetActive(true);
+        
+        yield return new WaitForSecondsRealtime(1.25f);
+        
+        ScoreText.gameObject.SetActive(true);
+
+        while (ScoreText.transform.localScale.x > ScoreTextSize)
+        {
+            float currentScale = ScoreText.transform.localScale.x;
+            
+            float newScale = Mathf.Lerp(currentScale, ScoreTextSize, Time.unscaledDeltaTime * 24f);
+
+            ScoreText.transform.localScale = new Vector3(newScale, newScale, newScale);
+
+            yield return null;
+        }
+        
+        QuitButton.gameObject.SetActive(true);
+        bScoreDisplayComplete = true;
+        
     }
 }

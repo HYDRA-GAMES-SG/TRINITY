@@ -43,9 +43,6 @@ public class ATrinityGameManager : MonoBehaviour
     
     private static EGameFlowState GameFlowState;
 
-    public static System.Action Victory;
-    
-
     void Awake()
     {
         
