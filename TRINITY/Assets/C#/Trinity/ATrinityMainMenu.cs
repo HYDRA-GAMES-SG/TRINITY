@@ -9,7 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityMainMenu : MonoBehaviour
 {
-    
+
+    public static System.Action OnMainMenuNavigate;
+    public static System.Action OnMainMenuSelection;
     static public System.Action<ETrinityElement> OnMenuElementChanged;
     
     public TextMeshProUGUI TitleText;
@@ -128,8 +130,8 @@ public class ATrinityMainMenu : MonoBehaviour
             //handle options menu
             return;
         }
-        
-        ATrinityGameManager.GetAudio().Play("MenuSelection");
+
+        OnMainMenuSelection?.Invoke();
 
         switch (MainMenuSelection)
         {
@@ -168,7 +170,8 @@ public class ATrinityMainMenu : MonoBehaviour
         {
             return;
         }
-        ATrinityGameManager.GetAudio().Play("MenuTriangle");
+
+        OnMainMenuNavigate?.Invoke();
 
         EMainMenu[] values = (EMainMenu[])Enum.GetValues(typeof(EMainMenu));
         int index = Array.IndexOf(values, MainMenuSelection);
@@ -188,8 +191,8 @@ public class ATrinityMainMenu : MonoBehaviour
         {
             return;
         }
-    
-        ATrinityGameManager.GetAudio().Play("MenuTriangle");
+
+        OnMainMenuNavigate?.Invoke();
 
         EMainMenu[] values = (EMainMenu[])Enum.GetValues(typeof(EMainMenu));
         int index = Array.IndexOf(values, MainMenuSelection);
@@ -219,8 +222,9 @@ public class ATrinityMainMenu : MonoBehaviour
                 MainMenuSelection = EMainMenu.EMM_Options;
                 break;
         }
-        ATrinityGameManager.GetAudio().Play("MenuTriangle");
 
+        OnMainMenuNavigate?.Invoke();
+        
         HideArrows();
     }
 

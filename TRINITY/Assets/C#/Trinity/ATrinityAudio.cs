@@ -12,10 +12,18 @@ public class ATrinityAudio : IAudioManager
     private void Awake()
     {
         ATrinityGameManager.SetAudio(this);
+        
     }
 
     void Start()
-    {        
+    {
+        ATrinityMainMenu.OnMainMenuNavigate += PlayMainMenuNavigate;
+        ATrinityMainMenu.OnMainMenuSelection += PlayMainMenuSelect;
+        
+        ATrinityOptions.OnOptionsMenuSlider += PlayOptionsMenuSlider;
+        ATrinityOptions.OnOptionsMenuToggle += PlayOptionsMenuToggle;
+        ATrinityOptions.OnOptionsMenuButton += PlayOptionsMenuButton;
+        ATrinityOptions.OnOptionsMenuNavigate += PlayOptionsMenuNavigate;
     }
 
     // Update is called once per frame
@@ -23,4 +31,35 @@ public class ATrinityAudio : IAudioManager
     {
         
     }
+
+    void PlayOptionsMenuSlider()
+    {
+        Play("OptionsSlider");
+    }
+    
+    void PlayOptionsMenuToggle()
+    {
+        Play("OptionsToggle");
+    }
+    
+    void PlayOptionsMenuButton()
+    {
+        Play("OptionsButton");
+    }
+
+    void PlayOptionsMenuNavigate()
+    {
+        Play("OptionsNavigate");
+    }
+    
+    void PlayMainMenuNavigate()
+    {
+        Play("MainMenuNavigate");
+    }
+
+    void PlayMainMenuSelect()
+    {
+        Play("MainMenuSelect");
+    }
+
 }

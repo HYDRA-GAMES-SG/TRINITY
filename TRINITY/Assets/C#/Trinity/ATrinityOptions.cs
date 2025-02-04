@@ -7,6 +7,11 @@ using UnityEngine.UI;
 
 public class ATrinityOptions : MonoBehaviour
 {
+    public static System.Action OnOptionsMenuButton;
+    public static System.Action OnOptionsMenuSlider;
+    public static System.Action OnOptionsMenuToggle;
+    public static System.Action OnOptionsMenuNavigate;
+    
     public Toggle CrossHairToggle;
     public Slider GamepadSensitivity;
     public Slider MouseSensitivity;
@@ -45,6 +50,7 @@ public class ATrinityOptions : MonoBehaviour
 
             currentToggle.isOn = !currentToggle.isOn;
             NavigateCooldownTimer = NavigateCooldown;
+            OnOptionsMenuToggle?.Invoke();
         }
         
         if (MenuElements[CurrentMenuElementsIndex] is Button)
@@ -53,9 +59,9 @@ public class ATrinityOptions : MonoBehaviour
 
             currentButton.onClick?.Invoke();
             NavigateCooldownTimer = NavigateCooldown;
+            OnOptionsMenuButton?.Invoke();
         }
-        
-        ATrinityGameManager.GetAudio().Play("OptionsInteract");
+
 
         
         
@@ -152,7 +158,7 @@ public class ATrinityOptions : MonoBehaviour
             {
                 SelectMenuItem(newIndex);
                 NavigateCooldownTimer = NavigateCooldown;
-                ATrinityGameManager.GetAudio().Play("OptionsNavigate");
+                OnOptionsMenuNavigate?.Invoke();
 
             }
         }
@@ -171,6 +177,8 @@ public class ATrinityOptions : MonoBehaviour
                 {
                     currentSlider.value -= .1f;
                 }
+
+                OnOptionsMenuSlider?.Invoke();
             }
             // Add horizontal Snavigation logic here if needed
             NavigateCooldownTimer = NavigateCooldown;
