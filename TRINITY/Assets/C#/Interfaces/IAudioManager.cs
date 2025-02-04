@@ -8,6 +8,7 @@ public class IAudioManager : MonoBehaviour
 {
     private List<ATrinityAudioClip> AudioClips = new List<ATrinityAudioClip>();
     private Dictionary<string, ATrinityAudioClip> AudioClipLookup = new Dictionary<string, ATrinityAudioClip>();
+    private Dictionary<string, AudioSource> ActiveLoopingSounds = new Dictionary<string, AudioSource>();
     
     //audio pool
     private AudioSource[] AudioSourcePool;
@@ -54,19 +55,29 @@ public class IAudioManager : MonoBehaviour
             }
         }
         
-        AudioSource oldestSource = AudioSourcePool[0];
+        // Don't override looping sounds when looking for the oldest
+        AudioSource oldestSource = null;
         float oldestStartTime = float.MaxValue;
         
         foreach (AudioSource source in AudioSourcePool)
         {
-            if (source.time < oldestStartTime)
+            if (!source.loop && source.time < oldestStartTime)
             {
                 oldestStartTime = source.time;
                 oldestSource = source;
             }
         }
         
-        return oldestSource;
+        // If we found a non-looping source, use it
+        if (oldestSource != null)
+        {
+            return oldestSource;
+        }
+        
+        // If all sources are looping, create a new temporary one
+        AudioSource tempSource = gameObject.AddComponent<AudioSource>();
+        tempSource.playOnAwake = false;
+        return tempSource;
     }
     
     public void Play(string clipName)
@@ -79,6 +90,72 @@ public class IAudioManager : MonoBehaviour
 
         AudioSource source = GetAvailableAudioSource();
         ATrinityAudioClip audio = AudioClipLookup[clipName];
+        ConfigureAudioSource(source, audio);
+        source.loop = false;
+        source.Play();
+    }
+
+    public void PlayWithVolume(string clipName, float clipVolume)
+    {
+        if (!AudioClipLookup.ContainsKey(clipName))
+        {
+            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
+            return;
+        }
+
+        AudioSource source = GetAvailableAudioSource();
+        ATrinityAudioClip audio = AudioClipLookup[clipName];
+        ConfigureAudioSource(source, audio);
+        source.volume = Mathf.Clamp(clipVolume, 0f, 1f);
+        source.loop = false;
+        source.Play();
+    }
+
+    public void StartLoop(string clipName)
+    {
+        if (ActiveLoopingSounds.ContainsKey(clipName))
+        {
+            Debug.LogWarning($"Sound '{clipName}' is already looping!");
+            return;
+        }
+
+        if (!AudioClipLookup.ContainsKey(clipName))
+        {
+            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
+            return;
+        }
+
+        AudioSource source = GetAvailableAudioSource();
+        ATrinityAudioClip audio = AudioClipLookup[clipName];
+        ConfigureAudioSource(source, audio);
+        source.loop = true;
+        source.Play();
+
+        ActiveLoopingSounds[clipName] = source;
+    }
+
+    public void StopLoop(string clipName)
+    {
+        if (!ActiveLoopingSounds.ContainsKey(clipName))
+        {
+            Debug.LogWarning($"No looping sound found for '{clipName}'!");
+            return;
+        }
+
+        AudioSource source = ActiveLoopingSounds[clipName];
+        source.Stop();
+        source.loop = false;
+        ActiveLoopingSounds.Remove(clipName);
+
+        // If this was a temporary source (created when pool was full of looping sounds)
+        if (!AudioSourcePool.Contains(source))
+        {
+            Destroy(source);
+        }
+    }
+
+    private void ConfigureAudioSource(AudioSource source, ATrinityAudioClip audio)
+    {
         source.clip = audio.Audio;
         source.volume = Mathf.Clamp(audio.Volume, 0f, 1f);
         source.pitch = Mathf.Clamp(audio.Pitch, 0f, 2f);
@@ -95,40 +172,8 @@ public class IAudioManager : MonoBehaviour
                 source.spatialBlend = 0f;
                 break;
         }
-
-        source.Play();
     }
-
-    public void PlayWithVolume(string clipName, float clipVolume)
-    {
-        if (!AudioClipLookup.ContainsKey(clipName))
-        {
-            Debug.LogWarning($"SFX key '{clipName}' not found in the audio dictionary!");
-            return;
-        }
-
-        AudioSource source = GetAvailableAudioSource();
-        ATrinityAudioClip audio = AudioClipLookup[clipName];
-        source.clip = audio.Audio;
-        source.volume = Mathf.Clamp(clipVolume, 0f, 1f);
-        source.pitch = Mathf.Clamp(audio.Pitch, 0f, 2f);
-        source.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(audio.MixerGroup);
-
-        switch (audio.MixerGroup)
-        {
-            case EAudioGroup.EAG_SFX:
-                source.spatialBlend = 1f;
-                break;
-            case EAudioGroup.EAG_UI:
-            case EAudioGroup.EAG_BGM:
-            case EAudioGroup.EAG_AMBIENCE:
-                source.spatialBlend = 0f;
-                break;
-        }
-
-        source.Play();
-    }
-
+    
     public void PlayAtPosition(string clipName, Transform transform)
     {
         if (!AudioClipLookup.ContainsKey(clipName))
@@ -146,22 +191,8 @@ public class IAudioManager : MonoBehaviour
         AudioSource source = newAudioSourceObj.GetComponent<AudioSource>();
 
         ATrinityAudioClip audio = AudioClipLookup[clipName];
-        source.clip = audio.Audio;
-        source.volume = Mathf.Clamp(audio.Volume, 0f, 1f);
-        source.pitch = Mathf.Clamp(audio.Pitch, 0f, 2f);
-        source.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(audio.MixerGroup);
-        
-        switch (audio.MixerGroup)
-        {
-            case EAudioGroup.EAG_SFX:
-                source.spatialBlend = 1f;
-                break;
-            case EAudioGroup.EAG_UI:
-            case EAudioGroup.EAG_BGM:
-            case EAudioGroup.EAG_AMBIENCE:
-                source.spatialBlend = 0f;
-                break;
-        }
+
+        ConfigureAudioSource(source, audio);
 
         source.Play();
         Destroy(newAudioSourceObj, source.clip.length + .1f);

@@ -8,6 +8,16 @@ using UnityEngine;
 [RequireComponent(typeof(UHealthComponent))]
 public class ATrinityController : MonoBehaviour
 {
+    //events
+    public static System.Action OnBeginFalling;
+    public System.Action<FHitInfo> OnHit;
+    public static System.Action OnJump;
+    public static System.Action<float> OnLand;
+    public static System.Action OnGlideStart;
+    public static System.Action OnGlideEnd;
+    public static System.Action OnTerrainCollision;
+    public static System.Action OnDeath;
+    
     public bool bDebug = false;
     
     [HideInInspector]
@@ -54,10 +64,7 @@ public class ATrinityController : MonoBehaviour
     public bool bTerrainCollision => TerrainCounter > 0;
     private int TerrainCounter = 0;
     
-    public System.Action<FHitInfo> OnHit;
-    
-    
-    
+
 
     private void Awake()
     {
@@ -244,6 +251,7 @@ public class ATrinityController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Default") && !other.gameObject.CompareTag("Ground"))
         {
             TerrainCounter++;
+            OnTerrainCollision?.Invoke();
         }
     }
 

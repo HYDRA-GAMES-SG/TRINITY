@@ -74,6 +74,7 @@ public class NormalMovement : TrinityState
         // if (Controller.CheckGround().transform)
         // {
         Animator.AnimComponent.SetTrigger(AnimKeys["DeathTrigger"]);
+        ATrinityController.OnDeath?.Invoke();
         // }
         // else
         // {
@@ -103,7 +104,7 @@ public class NormalMovement : TrinityState
         
         bFixedUpdate = true;
         
-        HandleGliding();
+        HandleGlideExit();
         HandleFalling();
         HandleUnstableGround();
 
@@ -148,7 +149,7 @@ public class NormalMovement : TrinityState
         return false;
     }
 
-    private void HandleGliding()
+    private void HandleGlideExit()
     {
         if (MovementState != ETrinityMovement.ETM_Gliding)
         {
@@ -214,6 +215,7 @@ public class NormalMovement : TrinityState
                     bJumpConsumed = true;
                     Controller.RB.AddForce(Controller.Up * GetChargedJumpForce() / Controller.RB.mass, ForceMode.Impulse);
                     Animator.AnimComponent.SetBool(AnimKeys["Jump"], true);
+                    ATrinityController.OnJump?.Invoke();
                     MirrorCounter++; //increment counter
                     Animator.AnimComponent.SetBool(AnimKeys["Mirror"], MirrorCounter % 2 == 1); //flip flop counter
                 }
@@ -228,6 +230,7 @@ public class NormalMovement : TrinityState
             if (MovementState == ETrinityMovement.ETM_Jumping && Controller.VerticalVelocity < 0f)
             {
                 SetMovementState(ETrinityMovement.ETM_Falling);
+                ATrinityController.OnBeginFalling?.Invoke();
             }
             
             // Perform raycast to check for ground
@@ -235,12 +238,20 @@ public class NormalMovement : TrinityState
             {
                 if (Controller.CheckGround().transform)
                 {
+                    if (MovementState == ETrinityMovement.ETM_Gliding)
+                    {
+                        ATrinityController.OnGlideEnd?.Invoke();
+
+                    }
+                    ATrinityController.OnLand?.Invoke(Controller.VerticalVelocity);
+                    
                     // Ground detected, ensure movement state remains grounded
                     SetMovementState(ETrinityMovement.ETM_Grounded);
                     bCanGlide = false;
                     Animator.AnimComponent.SetBool(AnimKeys["Jump"], false);
                     Animator.AnimComponent.SetBool(AnimKeys["Blink"], false);
                     Animator.AnimComponent.SetBool(AnimKeys["Glide"], false);
+                    
                 }
             }
         }
@@ -301,6 +312,7 @@ public class NormalMovement : TrinityState
             {
                 SetMovementState(ETrinityMovement.ETM_Gliding);
                 Animator.AnimComponent.SetBool(AnimKeys["Glide"], true);
+                ATrinityController.OnGlideStart?.Invoke();
             }
         }
     }
