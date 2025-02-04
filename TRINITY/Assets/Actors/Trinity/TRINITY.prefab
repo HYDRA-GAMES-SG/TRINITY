@@ -3254,7 +3254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1b2e79c9cba467468627d066a47a3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 0}
+  SpellPrefab: {fileID: 7421522436511824269, guid: c12830469a7fce14482f4f46ad1a6aae,
+    type: 3}
   Cooldown: 0
   ManaCost: 0
   ManaUpkeepCost: 0
@@ -3270,8 +3271,6 @@ MonoBehaviour:
   StacksApplied: 1
   AilmentType: 2
   SurroundingIce: {fileID: 6436957164297628535, guid: be068d0f54e9cc442b5ba6f6561e3952,
-    type: 3}
-  IceSpike: {fileID: 7421522436511824269, guid: c12830469a7fce14482f4f46ad1a6aae,
     type: 3}
 --- !u!1 &971525303187708373
 GameObject:
@@ -5946,7 +5945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017e039715a1f604288929e7ca0af27c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpellPrefab: {fileID: 0}
+  SpellPrefab: {fileID: 3725028543379012564, guid: 22b569c5e7b376d4bb688ef5629c94eb,
+    type: 3}
   Cooldown: 0
   ManaCost: 0
   ManaUpkeepCost: 0
@@ -5959,8 +5959,6 @@ MonoBehaviour:
   BlinkPos: {x: 0, y: 0, z: 0}
   DurationToBlink: 0
   bCanBlink: 0
-  FlashPointVFX: {fileID: 3725028543379012564, guid: 22b569c5e7b376d4bb688ef5629c94eb,
-    type: 3}
   FlashBackVFX: {fileID: 4353032009741809443, guid: 4894878c0c2cd7942ab62ffd1e11329e,
     type: 3}
 --- !u!1 &3446580024079134819
@@ -24662,19 +24660,20 @@ MonoBehaviour:
   SpellPrefab: {fileID: 6639925515291015476, guid: 56f35689e2b9a064c968d222ad2ed512,
     type: 3}
   Cooldown: 0
-  ManaCost: 5
-  ManaUpkeepCost: 1
+  ManaCost: 0
+  ManaUpkeepCost: 5
   SpellElement: 2
   SpellType: 0
   SpellAction: 3
   bUseMaskedLayer: 1
-  StacksApplied: 25
+  StacksApplied: 10
   AilmentType: 1
   LightningSource: {fileID: 0}
   MinScale: 1
-  MaxScale: 5
-  MaxChannelTime: 4
+  MaxScale: 2
+  MaxChannelTime: 1.5
   ChannelTime: 0
+  BoltCreationThreshold: 0.5
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
   ChargeVFX: {fileID: 8913368109206024948, guid: 4ad27ea84d25f5a49a8b6b74606628ed,
     type: 3}

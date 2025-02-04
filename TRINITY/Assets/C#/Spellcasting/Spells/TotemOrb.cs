@@ -11,7 +11,10 @@ public class TotemOrb : AProjectile
     private float ProjectileSpeed;
     private float Range;
     private float Damage;
+
+    [HideInInspector]
     private Transform TargetTransform;
+
     private Vector3 InitialPosition;
     private Vector3 InitialTargetPosition;
     private Vector3 Direction;
@@ -19,6 +22,7 @@ public class TotemOrb : AProjectile
 
     public void SetTarget(Transform newTarget)
     {
+        print("set target");
         TargetTransform = newTarget;
         InitialTargetPosition = TargetTransform.position;
         Direction = (InitialTargetPosition - transform.position).normalized;
@@ -37,49 +41,53 @@ public class TotemOrb : AProjectile
 
     public override void Despawn()
     {
-        
+        Destroy(this.gameObject);
     }
     // Update is called once per frame
     void Update()
     {
         if(TargetTransform != null)
         {
+          
             // Calculate direction to target
             
             // Move towards target
             transform.position += Direction * (ProjectileSpeed * Time.deltaTime);
         }
         
-        if (Vector3.Distance(transform.position, InitialPosition) > Range)
+        if (Vector3.Distance(transform.position, InitialTargetPosition) > Range)
         {
-            Destroy(this);
+            Despawn();
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
         print(other.gameObject.name);
-
-        if (other.gameObject.name.Contains("LightningOrb")) 
+        if (other.gameObject.GetComponent<LightningTotem>()) 
         {
-            Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            return;
+        }
+        if (other.gameObject.GetComponent<TotemOrb>()) 
+        {
+            other.gameObject.GetComponent<TotemOrb>().Despawn();
+            Despawn();
             return;
         }
         
         UEnemyColliderComponent enemyCollider = other.gameObject.GetComponent<UEnemyColliderComponent>();
        
-        if (!enemyCollider) //if null
-        {
-            Destroy(this);
-            return;
-        }
-        if (other.gameObject.tag == "Enemy") 
+        if(enemyCollider)
         {
             UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, EAilmentType.EAT_Charge, ChargeStacks);
             enemyStatus += damageSource;
-            Destroy(this.gameObject);
+            Despawn();
+        }
+        else
+        {
+            //assume we are hitting something default etc
+            Despawn();
         }
     }
 }

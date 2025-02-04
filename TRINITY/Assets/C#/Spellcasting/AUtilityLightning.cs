@@ -16,7 +16,6 @@ public class AUtilityLightning : ASpell
     public bool bCanBlink;
 
     [Header("VFX")]
-    public GameObject FlashPointVFX;
     public GameObject FlashBackVFX;
     public override void Initialize()
     {
@@ -30,7 +29,7 @@ public class AUtilityLightning : ASpell
         if (!bCanBlink)
         {
             BlinkPos = playerController.transform.position;
-            FlashPointObj = Instantiate(FlashPointVFX, playerController.transform.position, Quaternion.identity);
+            FlashPointObj = Instantiate(SpellPrefab, playerController.transform.position, Quaternion.identity);
             bCanBlink = true;
         }
         else

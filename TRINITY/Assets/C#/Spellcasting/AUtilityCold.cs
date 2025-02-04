@@ -15,7 +15,6 @@ public class AUtilityCold : ASpell
     
     [Header("VFX")]
     public GameObject SurroundingIce;
-    public GameObject IceSpike;
 
     private float FrozenTimer = 0f;
     public override void Initialize()
@@ -26,7 +25,7 @@ public class AUtilityCold : ASpell
     public override void CastStart()
     {
         FrozenTimer = 0f;
-        GameObject vfxSpike = Instantiate(IceSpike, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
+        GameObject vfxSpike = Instantiate(SpellPrefab, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
         GameObject vfxSurroundingIce = Instantiate(SurroundingIce, ATrinityGameManager.GetPlayerController().Position, Quaternion.identity);
 
         vfxSpike.transform.parent = ATrinityGameManager.GetPlayerController().transform;

@@ -54,8 +54,8 @@ public class FlameblastZone : MonoBehaviour
 
                 if (enemyCollider != null)
                 {
-                    FDamageInstance damage = new FDamageInstance(-other.GetComponent<Fireball>().Damage 
-                                                                 -flameblast.DamagePerStack * flameblast.CurrentRadius, 
+                    FDamageInstance damage = new FDamageInstance(other.GetComponent<Fireball>().Damage 
+                                                                 + flameblast.DamagePerStack * flameblast.CurrentRadius, 
                                                                 EAilmentType.EAT_Ignite, 
                                                                 ATrinityGameManager.GetSpells().PrimaryFire.StacksApplied);
                     enemyCollider.EnemyStatus += damage;

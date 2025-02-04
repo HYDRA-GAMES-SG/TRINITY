@@ -23,7 +23,7 @@ public class LightningTotem : MonoBehaviour
     
     private Light[] EyeLights;
 
-    
+    public GameObject EnragedOrbPrefab;
     
     // Start is called before the first frame update
     void Start()
@@ -44,6 +44,10 @@ public class LightningTotem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY) 
+        {
+            return;
+        }
         if (Status == ELightningTotemStatus.ELTS_Unsummoned)
         {
             float newY = Mathf.Lerp(transform.position.y, InvokePosition.y - SummonDepth, UnsummonSpeed * Time.deltaTime);
@@ -61,7 +65,7 @@ public class LightningTotem : MonoBehaviour
         Duration -= Time.deltaTime;
         AttackTimer -= Time.deltaTime;
         
-        if (AttackTimer < 0 && Status == ELightningTotemStatus.ELTS_Summoned || Status == ELightningTotemStatus.ELTS_Enraged)
+        if (AttackTimer < 0 && (Status == ELightningTotemStatus.ELTS_Summoned || Status == ELightningTotemStatus.ELTS_Enraged))
         {
             Attack();
             if (Status == ELightningTotemStatus.ELTS_Enraged)
@@ -110,15 +114,33 @@ public class LightningTotem : MonoBehaviour
 
     private void Attack()
     {
-        if (TargetEnemy != null)
+
+        if(TargetEnemy == null)
         {
-            GameObject orbPrefab = Instantiate(ATrinityGameManager.GetSpells().SecondaryLightning.ProjectilePrefab,
-                ProjectileSpawnPoint.position, Quaternion.identity);
-            TotemOrb totemOrb = orbPrefab.GetComponent<TotemOrb>();
-            totemOrb.transform.SetParent(this.transform);
-            totemOrb.SetTarget(TargetEnemy);
-            Destroy(totemOrb.gameObject, ATrinityGameManager.GetSpells().SecondaryLightning.ProjectileDuration);
+            return;
         }
+
+        GameObject orbPrefab = null;
+
+        switch(Status)
+        {
+            case ELightningTotemStatus.ELTS_Summoned:
+                orbPrefab = Instantiate(ATrinityGameManager.GetSpells().SecondaryLightning.ProjectilePrefab,
+                ProjectileSpawnPoint.position, Quaternion.identity);
+                break;
+            case ELightningTotemStatus.ELTS_Enraged:
+                orbPrefab = Instantiate(EnragedOrbPrefab,
+                   ProjectileSpawnPoint.position, Quaternion.identity);
+                break;
+            default:
+               
+                break;
+        }
+        TotemOrb totemOrb = orbPrefab.GetComponent<TotemOrb>();
+        totemOrb.transform.SetParent(this.transform);
+        totemOrb.SetTarget(TargetEnemy);
+        Destroy(totemOrb.gameObject, ATrinityGameManager.GetSpells().SecondaryLightning.ProjectileDuration);
+        
     }
 
     private void LookAtClosestEnemy()
