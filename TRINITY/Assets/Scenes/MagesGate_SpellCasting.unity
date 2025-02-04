@@ -2956,6 +2956,8 @@ MonoBehaviour:
   AttackFrequency: 0
   TotemDuration: 0
   TotemMaxPitchSpawn: 15
+  EnragedAttackFrequency: 1.2
+  EnragedAttackDamage: 150
   CastingSFX: {fileID: 0}
 --- !u!82 &172876606
 AudioSource:
@@ -5989,11 +5991,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed341704974b684fbed3b1c152852ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StaffObjects: []
+  ClothesParent: {fileID: 0}
+  ElementMaterials: []
   AnimatorComponent: {fileID: 0}
-  ColdParent: {fileID: 1828501907}
-  FireParent: {fileID: 386377085}
-  LightningParent: {fileID: 1248450834}
-  BlackParent: {fileID: 1864422801}
 --- !u!114 &345566037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7132,7 +7133,6 @@ MonoBehaviour:
   AuraTimer: 0
   AuraTime: 10
   bAura: 0
-  AuraVFX: {fileID: 201597765812643898, guid: c45d79e9b955108408dd058146184cbd, type: 3}
   ExplosionVFX: {fileID: 5589581968649349843, guid: 359a5c52cd812e742ab07e996214bf6c,
     type: 3}
 --- !u!82 &464930958
@@ -10251,7 +10251,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AilmentDuration: 5
 --- !u!54 &716856922
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -11730,6 +11729,7 @@ MonoBehaviour:
   MaxScale: 0
   MaxChannelTime: 0
   ChannelTime: 0
+  BoltCreationThreshold: 0
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
   ChargeVFX: {fileID: 0}
   FullyChargedVFX: {fileID: 0}
@@ -12406,7 +12406,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AilmentDuration: 5
 --- !u!114 &1007589387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12427,6 +12426,7 @@ MonoBehaviour:
   AI: {fileID: 0}
   NormalAttack: 0
   AttackForce: 150
+  Audio: {fileID: 0}
 --- !u!195 &1007589388
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12499,7 +12499,6 @@ MonoBehaviour:
   MAX: 10000
   Regen: 5
   Current: 0
-  bDead: 0
 --- !u!114 &1007589392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12512,6 +12511,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb0abb598aa0e940ae6f19413a51f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RB: {fileID: 0}
+  Collider: {fileID: 0}
+  Ailments: {fileID: 0}
   Health: {fileID: 1007589391}
   EnemyStatus: {fileID: 1007589390}
   EnemyController: {fileID: 1007589387}
@@ -23080,7 +23082,7 @@ PrefabInstance:
     - target: {fileID: 6157211947469999418, guid: 60b124caf32955048a64c10532b1f32f,
         type: 3}
       propertyPath: MouseHideMode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6443404214027542164, guid: 60b124caf32955048a64c10532b1f32f,
         type: 3}
@@ -23452,8 +23454,6 @@ MonoBehaviour:
   StacksApplied: 1
   AilmentType: 2
   SurroundingIce: {fileID: 6436957164297628535, guid: be068d0f54e9cc442b5ba6f6561e3952,
-    type: 3}
-  IceSpike: {fileID: 7421522436511824269, guid: c12830469a7fce14482f4f46ad1a6aae,
     type: 3}
 --- !u!82 &1549755257
 AudioSource:
@@ -24373,8 +24373,6 @@ MonoBehaviour:
   BlinkPos: {x: 0, y: 0, z: 0}
   DurationToBlink: 0
   bCanBlink: 0
-  FlashPointVFX: {fileID: 3725028543379012564, guid: 22b569c5e7b376d4bb688ef5629c94eb,
-    type: 3}
   FlashBackVFX: {fileID: 4353032009741809443, guid: 4894878c0c2cd7942ab62ffd1e11329e,
     type: 3}
 --- !u!82 &1681354327
@@ -27941,6 +27939,7 @@ MonoBehaviour:
   RB: {fileID: 0}
   MaxStableAngle: 45
   MoveDirection: {x: 0, y: 0, z: 0}
+  bUnstable: 0
 --- !u!114 &1953173488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27956,7 +27955,6 @@ MonoBehaviour:
   MAX: 50
   Regen: 5
   Current: 50
-  bDead: 0
 --- !u!136 &1953173489
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -28120,7 +28118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AilmentDuration: 5
 --- !u!54 &2020426844
 Rigidbody:
   m_ObjectHideFlags: 0
