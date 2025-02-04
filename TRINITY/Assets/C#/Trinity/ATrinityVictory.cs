@@ -25,24 +25,21 @@ public class ATrinityVictory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ScoreText.text = "B+";
-        DamageTakenText.text = "1,594";
-        TimeText.text = "01:93:00";
-        // ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().GetScore());
-        //
-        // float totalTime = ATrinityGameManager.GetScore().GetTimer();
-        // int minutes = (int)(totalTime / 60f);
-        // int seconds = (int)(totalTime % 60f);
-        // int milliseconds = (int)((totalTime * 1000f) % 1000f);
-        //
-        // // Format: mm:ss:millisecond
-        // TimeText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
-        //
-        // // Format damage with thousands separator, e.g., 1,234
-        // DamageTakenText.text = ATrinityGameManager.GetScore().GetDamageTaken().ToString("N0");
+         ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().GetScore());
+        
+         float totalTime = ATrinityGameManager.GetScore().GetTimer();
+         int minutes = (int)(totalTime / 60f);
+         int seconds = (int)(totalTime % 60f);
+         int milliseconds = (int)((totalTime * 1000f) % 1000f);
+        
+         // Format: mm:ss:millisecond
+         TimeText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+        
+         // Format damage with thousands separator, e.g., 1,234
+         DamageTakenText.text = ATrinityGameManager.GetScore().GetDamageTaken().ToString("N0");
 
-        //DamageTakenSlider.value = ATrinityGameManager.GetScore().NormalizedDamageTakenScore;
-        //TimeSlider.value = ATrinityGameManager.GetScore().NormalizedTimeScore;
+        DamageTakenSlider.value = ATrinityGameManager.GetScore().NormalizedDamageTakenScore;
+        TimeSlider.value = ATrinityGameManager.GetScore().NormalizedTimeScore;
         
         ScorePanel.SetActive(false);
         DamageTakenSlider.gameObject.SetActive(false);
