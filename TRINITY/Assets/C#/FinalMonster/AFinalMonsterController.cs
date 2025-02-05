@@ -66,6 +66,7 @@ public class AFinalMonsterController : IEnemyController
 
     public UHealthComponent Health;
     public Rigidbody rb;
+    public Material FinalBossMat;
     public bool bPhase2;
 
     private float TimerInvokeSnowFall = 0f;
@@ -89,13 +90,19 @@ public class AFinalMonsterController : IEnemyController
         if (Health.Current <= (Health.MAX / 2))
         {
             bPhase2 = true;
+            ChangeBossMaterialColor(Color.blue);
         }
-        if (Health.Current <= 0)
+        if (Health.Current <= 0 && !(FinalMonsterFSM.CurrentState is FMBDie))
         {
             FinalMonsterFSM.EnqueueTransition<FMBDie>();
         }
-
-        //Debug.Log(CalculateGroundDistance());
+    }
+    void ChangeBossMaterialColor(Color newColor)
+    {
+        if (FinalBossMat != null)
+        {
+            FinalBossMat.color = newColor;
+        }
     }
     void CheckCoolDown()
     {
@@ -173,7 +180,7 @@ public class AFinalMonsterController : IEnemyController
     {
         if (!instantiatedParticles.ContainsKey(particleKey))
         {
-            instantiatedParticles[particleKey] = Instantiate(prefab, position, rotation);
+            instantiatedParticles[particleKey] = Instantiate(prefab, position, rotation, transform);
         }
         else
         {

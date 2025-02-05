@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class APortal : MonoBehaviour
 {
     [SerializeField] private string sceneName = "BossScene";
+    public Vector3 SpawnPointVector = new Vector3(-75.98f, 0.59f, 55.2f);
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player"))
@@ -30,7 +31,7 @@ public class APortal : MonoBehaviour
     void ResetPlayerToOrigin(ATrinityController playerController)
     {
         Transform playerTransform = playerController.transform;
-        playerTransform.position = new Vector3(-75.98f, 0.59f, 55.2f);
+        playerTransform.position = SpawnPointVector;
     }
 
 }

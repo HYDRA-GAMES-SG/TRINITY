@@ -906,6 +906,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
+  CAtk1: HeavyAttack
+  CAtk2: Dash
+  CAtk3: HitTheGround
 --- !u!114 &6229145874091847117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -945,6 +948,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
+  LRAtk1: InvokeSnowFall
+  LRAtk2: InvokeSpike
+  LRAtk3: FrostRay
+  LRAtk4: FrostWave
 --- !u!114 &552600109479943974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -958,6 +965,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
+  AnimKeyRotation: Rotation
+  AnimKeyMovement: Movement
+  WaitTime: 0.3
+  TurnSmoothTime: 0.2
 --- !u!1 &4771795221944377549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,7 +1087,6 @@ MonoBehaviour:
   MAX: 20000
   Regen: 5
   Current: 0
-  bDead: 0
 --- !u!114 &6256287831675304846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1089,13 +1099,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e61f2249a45bc442bfb9339c2bb5655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX_STACKS: 100
-  IgniteDamagePerStack: 1
-  ChillSlowPercentPerStack: 0.004
-  ChargeMoveModifierPerStack: 0.2
-  ChargeJumpForcePerStack: 0.02
-  ChargeGlideGravityModifierPerStack: 0.001
-  AilmentDuration: 5
 --- !u!114 &7162536629601174630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,6 +1195,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5c5c09ac0d1f1449b153c61877a88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CoreCollider: {fileID: 0}
+  Name: Default
   RB: {fileID: 0}
   Animator: {fileID: 0}
   EnemyStatus: {fileID: 0}
@@ -1199,9 +1204,12 @@ MonoBehaviour:
   NormalAttack: 0
   AttackForce: 150
   FinalMonsterFSM: {fileID: 6742594804183811998}
+  PlayerLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   BlackHolePrefab: {fileID: 8716448969879524474, guid: 5a8a88064c4882844b58ab3b944933d1,
     type: 3}
-  SnowFallPrefab: {fileID: 6628327787710513715, guid: 60e6ee0fdda88b54c8bad7286690a9f7,
+  SnowFallPrefab: {fileID: 3074297362835844793, guid: 60e6ee0fdda88b54c8bad7286690a9f7,
     type: 3}
   PilarFrostPrefab: {fileID: 3368749094469404982, guid: 57450a7698ef2bb4584c49af7674b80e,
     type: 3}

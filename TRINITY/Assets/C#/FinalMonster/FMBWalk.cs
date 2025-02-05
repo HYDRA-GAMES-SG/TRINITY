@@ -50,23 +50,19 @@ public class FMBWalk : FinalMonsterBossState
             return;
         }
 
-        //float distance = FMBController.CalculateGroundDistance();
+        float distance = FMBController.CalculateGroundDistance();
         if (FMBController.CalculateGroundDistance() <= FMBController.CloseAttackRange)
         {
             AI.isStopped = true;
             FinalMonsterBossFSM.EnqueueTransition<FMBCloseAttack>();
             return;
-        }/*
-        else if (distance <= FMBController.LongAttackRange && distance > FMBController.CloseAttackRange)
+        }
+        if (FMBController.CalculateGroundDistance() > FMBController.LongAttackRange)
         {
-            float randomValue = Random.Range(0f, 1f);
-            if (randomValue < 0.5f)
-            {
-                AI.isStopped = true;
-                FinalMonsterBossFSM.EnqueueTransition<FMBLongRangeAttack>();
-                return;
-            }
-        }*/
+            AI.isStopped = true;
+            FinalMonsterBossFSM.EnqueueTransition<FMBIdle>();
+            return;
+        }
         AI.isStopped = false;
         AI.SetDestination(PlayerController.transform.position);
         AnimationRotateMove();
@@ -86,7 +82,7 @@ public class FMBWalk : FinalMonsterBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is FMBWalk || toState is FMBLongRangeAttack;
+        return toState is FMBCloseAttack or FMBIdle or FMBDie;
     }
 
     private void AnimationRotateMove()

@@ -13,15 +13,9 @@ public class FMBLongRangeAttack : FinalMonsterBossState
     AFinalMonsterController FMBController;
     ATrinityController PlayerController;
     NavMeshAgent AI;
-
     public override bool CheckEnterTransition(IState fromState)
     {
-        return (fromState is FMBIdle or FMBWalk) &&
-           FMBController.CalculateGroundDistance() <= FMBController.LongAttackRange;
-        /*return (fromState is FMBWalk && !FMBController.bInvokeSnowFall) ||
-            (fromState is FMBWalk && !FMBController.bInvokeSpike) ||
-            (fromState is FMBWalk && !FMBController.bFrostRay) ||
-            (fromState is FMBWalk && !FMBController.bFrostWave);*/
+        return (fromState is FMBIdle or FMBCloseAttack);
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -37,33 +31,39 @@ public class FMBLongRangeAttack : FinalMonsterBossState
 
     public override void UpdateBehaviour(float dt)
     {
+        FMBController.RotateTowardTarget(PlayerController.Position, 1f);
         if (FMBController.CalculateGroundDistance() > FMBController.LongAttackRange)
         {
-            FinalMonsterBossFSM.EnqueueTransition<FMBWalk>();
+            FinalMonsterBossFSM.EnqueueTransition<FMBIdle>();
         }
-
+        if (FMBController.CalculateGroundDistance() <= FMBController.CloseAttackRange)
+        {
+            FinalMonsterBossFSM.EnqueueTransition<FMBCloseAttack>();
+        }
         float randomValue = Random.Range(0f, 1f);
 
         if (FMBController.bPhase2)
         {
-            if (randomValue < 0.25f && FMBController.bInvokeSnowFall)
+            if (randomValue <= 0.25f && FMBController.bInvokeSnowFall)
             {
+                FMBController.Animator.SetTrigger(LRAtk1);
                 FMBController.PlayParticleSystem(
                     "SnowFall",
                     FMBController.SnowFallPrefab,
-                    FMBController.transform.up,
+                    FMBController.transform.position + FMBController.transform.up * 2,
                     FMBController.transform.rotation
                 );
                 FMBController.PlayParticleSystem(
                     "BlackHole",
                     FMBController.BlackHolePrefab,
-                    FMBController.transform.up,
+                    FMBController.transform.position + FMBController.transform.up * 2,
                     FMBController.transform.rotation
                 );
                 FMBController.bInvokeSnowFall = false;
             }
-            else if (randomValue < 0.5f && FMBController.bInvokeSpike)
+            if (randomValue > 0.25f && randomValue <= 0.5f && FMBController.bInvokeSpike)
             {
+                FMBController.Animator.SetTrigger(LRAtk2);
                 FMBController.PlayParticleSystem(
                     "PilarFrost",
                     FMBController.PilarFrostPrefab,
@@ -73,33 +73,35 @@ public class FMBLongRangeAttack : FinalMonsterBossState
                 FMBController.PlayParticleSystem(
                     "FrostAura",
                     FMBController.FrostAuraPrefab,
-                    FinalMonsterBossFSM.PlayerController.transform.position,
+                    FinalMonsterBossFSM.transform.position,
                     FMBController.transform.rotation
                 );
                 FMBController.bInvokeSpike = false;
             }
-            else if (randomValue < 0.75f && FMBController.bFrostRay)
+            if (randomValue > 0.5f && randomValue <= 0.75f && FMBController.bFrostRay)
             {
+                FMBController.Animator.SetTrigger(LRAtk3);
                 FMBController.PlayParticleSystem(
                     "FrostRay",
                     FMBController.FrostRayPrefab,
-                    FinalMonsterBossFSM.PlayerController.transform.position,
+                    FMBController.transform.position + FMBController.transform.right,
                     FMBController.transform.rotation
                 );
                 FMBController.PlayParticleSystem(
                     "FrostAura",
                     FMBController.FrostAuraPrefab,
-                    FinalMonsterBossFSM.PlayerController.transform.position,
+                    FinalMonsterBossFSM.transform.position,
                     FMBController.transform.rotation
                 );
                 FMBController.bFrostRay = false;
             }
-            else if (randomValue < 1.0f && FMBController.bFrostWave)
+            if (randomValue > 0.75f && FMBController.bFrostWave)
             {
+                FMBController.Animator.SetTrigger(LRAtk4);
                 FMBController.PlayParticleSystem(
                     "WaveFrost",
                     FMBController.WaveFrostPrefab,
-                    FMBController.transform.forward,
+                    -FMBController.transform.position + FMBController.transform.forward * 2,
                     FMBController.transform.rotation
                 );
                 FMBController.bFrostWave = false;
@@ -107,24 +109,26 @@ public class FMBLongRangeAttack : FinalMonsterBossState
         }
         else
         {
-            if (randomValue < 0.5f && FMBController.bInvokeSnowFall)
+            if (randomValue <= 0.5f && FMBController.bInvokeSnowFall)
             {
+                FMBController.Animator.SetTrigger(LRAtk1);
                 FMBController.PlayParticleSystem(
                     "SnowFall",
                     FMBController.SnowFallPrefab,
-                    FMBController.transform.up,
+                    FMBController.transform.position + FMBController.transform.up * 2,
                     FMBController.transform.rotation
                 );
                 FMBController.PlayParticleSystem(
                     "BlackHole",
                     FMBController.BlackHolePrefab,
-                    FMBController.transform.up,
+                    FMBController.transform.position + FMBController.transform.up * 2,
                     FMBController.transform.rotation
                 );
                 FMBController.bInvokeSnowFall = false;
             }
-            else if (randomValue < 1.0f && FMBController.bInvokeSpike)
+            if (randomValue > 0.5f && FMBController.bInvokeSpike)
             {
+                FMBController.Animator.SetTrigger(LRAtk2);
                 FMBController.PlayParticleSystem(
                     "PilarFrost",
                     FMBController.PilarFrostPrefab,
@@ -161,6 +165,6 @@ public class FMBLongRangeAttack : FinalMonsterBossState
     }
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is FMBIdle;
+        return toState is FMBIdle or FMBCloseAttack or FMBDie;
     }
 }

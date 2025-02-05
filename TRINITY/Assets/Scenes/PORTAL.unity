@@ -33,12 +33,12 @@ RenderSettings:
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 128
+  m_DefaultReflectionResolution: 32
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 0.233
+  m_ReflectionIntensity: 0.2
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1661602787}
-  m_IndirectSpecularColor: {r: 0.16996609, g: 0.15252373, b: 0.13505815, a: 0.233}
+  m_IndirectSpecularColor: {r: 0.07451428, g: 0.03365489, b: 0.03289166, a: 0.2}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2650,6 +2650,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: DevourerSentinelBossDungeon
+  SpawnPointVector: {x: 0, y: 0, z: 0}
 --- !u!135 &158901119
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2665,7 +2666,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -17076,6 +17077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: BossScene
+  SpawnPointVector: {x: -75.98, y: 0.59, z: 55.2}
 --- !u!1001 &1122091316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17786,7 +17788,7 @@ Transform:
   m_GameObject: {fileID: 1187827781}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 16.2, z: -134.8}
+  m_LocalPosition: {x: 286.9, y: 18.1, z: -106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18160,7 +18162,7 @@ PrefabInstance:
     - target: {fileID: 108948054752733714, guid: 43963d2c0317f354fbdbc1a54b6fbc38,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.4e-43
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 108948054752733714, guid: 43963d2c0317f354fbdbc1a54b6fbc38,
         type: 3}
@@ -18170,12 +18172,12 @@ PrefabInstance:
     - target: {fileID: 108948054752733714, guid: 43963d2c0317f354fbdbc1a54b6fbc38,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: NaN
+      value: 1.05e-43
       objectReference: {fileID: 0}
     - target: {fileID: 108948054752733714, guid: 43963d2c0317f354fbdbc1a54b6fbc38,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 6.29e-43
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 199408912199119194, guid: 43963d2c0317f354fbdbc1a54b6fbc38,
         type: 3}
@@ -24638,6 +24640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: CrabBossDungeon
+  SpawnPointVector: {x: -75.98, y: 0.59, z: 55.2}
 --- !u!135 &1738712423
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -27068,17 +27071,17 @@ PrefabInstance:
     - target: {fileID: 108130390895625092, guid: b690b09bbb075684cbd53dfcdb3c68bb,
         type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 1.4e-43
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108130390895625092, guid: b690b09bbb075684cbd53dfcdb3c68bb,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: NaN
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 108130390895625092, guid: b690b09bbb075684cbd53dfcdb3c68bb,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 6.29e-43
+      value: 6e-45
       objectReference: {fileID: 0}
     - target: {fileID: 199024856532832456, guid: b690b09bbb075684cbd53dfcdb3c68bb,
         type: 3}
