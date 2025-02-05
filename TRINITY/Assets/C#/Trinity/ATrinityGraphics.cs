@@ -24,6 +24,7 @@ public class ATrinityGraphics : MonoBehaviour
             ATrinityMainMenu.OnMenuElementChanged += UpdateMeshColor;
         }
 
+
         UpdateMeshColor(ETrinityElement.ETE_Fire);
         UpdateStaffAura(ETrinityElement.ETE_Fire);
     }

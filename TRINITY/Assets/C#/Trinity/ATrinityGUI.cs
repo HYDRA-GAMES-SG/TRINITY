@@ -11,6 +11,9 @@ using ColorUtility = UnityEngine.ColorUtility;
 
 public class ATrinityGUI : MonoBehaviour
 {
+
+    static private ATrinityGUI Instance;
+
     [Header("Duration")] public float FadeInDuration = 1f;
     
     [Header("References")]
@@ -48,8 +51,17 @@ public class ATrinityGUI : MonoBehaviour
 
     void Awake()
     {
-        ATrinityGameManager.SetGUI(this);
+        if(!Instance)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
 
+        ATrinityGameManager.SetGUI(this);
+        DontDestroyOnLoad(this.gameObject);
     }
     
     void Start()
@@ -114,7 +126,7 @@ public class ATrinityGUI : MonoBehaviour
         }
 
         for (int i = 0; i < spellImages.Length; i++)
-        {
+        {          
             CurrentSpellImages[i].GetComponent<Image>().sprite = spellImages[i];
         }
     }
