@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class ACrabAudio : IAudioManager
 {
+    public Transform LeftHand;
+    public Transform RightHand;
+    ACrabController Controller;
+
     private void Awake()
     {
         UAttackColliderComponent.OnPlayerHit += PlayHitPlayerAudio;
         UAttackColliderComponent.OnGroundHit += PlayHitGroundAudio;
+
+        Controller = GetComponentInParent<ACrabController>();
     }
     void PlayHitGroundAudio(float impulseMagnitude)
     {
@@ -20,21 +26,81 @@ public class ACrabAudio : IAudioManager
         //impulseMagnitude /= maxMagnitude;
         PlayWithVolume("HitGround", Mathf.Clamp01(impulseMagnitude));
     }
-    void PlayHitPlayerAudio()   
+    void PlayHitPlayerAudio()
     {
         Debug.Log("hit player audio");
         Play("HitPlayer");
     }
 
-    public void PlayAudioWithPosition(Transform transform)
+    public void PlayCrabWalkFootStep()
     {
-        Play("Whatever");
-       // PlayAtPosition("NormalAttackSwing",NormalAttack.OnNormalAttack.)
-    }
-    public void PlaySmashAudio()
-    {
-        Play("Smash");
-    }
 
-    
+    }
+    public void PlayPhase2IceEffectSound()
+    {
+
+    }
+    public void PlayCrawSwing(string craw)//normal/combo
+    {
+        if (craw.Contains("left"))
+        {
+            PlayAtPosition("NormalAttackSwing", LeftHand);
+        }
+        else
+        {
+            PlayAtPosition("NormalAttackSwing", RightHand);
+        }
+    }
+    public void PlayCrawIceSwing()
+    {
+
+    }
+    public void PlaySmashGround(string craw)//normal/combo
+    {
+        if (craw.Contains("left"))
+        {
+            PlayAtPosition("Smash", LeftHand);
+        }
+        else
+        {
+            PlayAtPosition("Smash", RightHand);
+        }
+    }
+    public void PlayIceSmashGround()
+    {
+
+    }
+    public void PlayJump()
+    {
+        Debug.Log("Jump sfx");
+    }
+    public void PlayLand()
+    {
+        Debug.Log("Land sfx");
+
+    }
+    public void PlayJumpSmashGround()
+    {
+        PlayAtPosition("BigSmash", RightHand);
+    }
+    public void PlayIceJumpSmashGround()
+    {
+        
+    }
+    public void PlayIceSpray()
+    {
+        Debug.Log("IceSpray sfx");
+    }
+    public void PlayPhase2Roar()
+    {
+        Debug.Log("Phase 2 Roat sfx");
+    }
+    public void PlayCrabGetHit()
+    {
+        Debug.Log("Get hit sfx");
+    }
+    public void PlayCrabDeath()
+    {
+        Debug.Log("Crab dead sfx");
+    }
 }
