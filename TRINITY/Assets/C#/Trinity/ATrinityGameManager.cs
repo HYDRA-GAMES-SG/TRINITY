@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.SceneManagement;
 
 #if UNITY_EDITOR 
 using UnityEditor;
@@ -15,6 +16,8 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityGameManager : MonoBehaviour
 {
+    static public System.Action OnSceneChanged;
+    
     static private AudioMixerGroup SFX_MixerGroup;
     static private AudioMixerGroup UI_MixerGroup;
     static private AudioMixerGroup BGM_MixerGroup;
@@ -43,8 +46,11 @@ public class ATrinityGameManager : MonoBehaviour
     
     private static EGameFlowState GameFlowState;
 
+    private string CurrentSceneName;
+
     void Awake()
     {
+        CurrentSceneName = SceneManager.GetActiveScene().name;
         
         EnemyControllers = new List<IEnemyController>();
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
@@ -55,8 +61,8 @@ public class ATrinityGameManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
-        
-        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
+        SetEnemyControllers();
+
     }
 
     private void TriggerBulletTime()
@@ -80,7 +86,11 @@ public class ATrinityGameManager : MonoBehaviour
         {
             SetGameFlowState(EGameFlowState.PLAY);
         }
+
+        SceneManager.activeSceneChanged += SetEnemyControllers;
+        EditorSceneManager.activeSceneChangedInEditMode += SetEnemyControllers;
     }
+
 
     // Update is called once per frame
     void Update()
@@ -92,6 +102,11 @@ public class ATrinityGameManager : MonoBehaviour
                 SetGameFlowState(EGameFlowState.DEAD);
                 return;
             }
+        }
+
+        if (SceneManager.GetActiveScene().name != CurrentSceneName)
+        {
+            OnSceneChanged?.Invoke();
         }
 
 
@@ -213,6 +228,25 @@ public class ATrinityGameManager : MonoBehaviour
         }
         
         PlayerFSM = playerFSM;  
+    }
+    
+    
+    
+    //==================================================
+    //SETTERS
+    //=================================================
+    
+    
+    
+    private void SetEnemyControllers()
+    {
+        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
+    }
+    
+    private void SetEnemyControllers(Scene arg0, Scene arg1)
+    {
+        print("setting");
+        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
     }
 
     public static void SetScore(ATrinityScore score)

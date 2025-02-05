@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ATrinityScore : MonoBehaviour
 {
-    public static System.Action<ETrinityScore> OnVictory;
+    public System.Action<ETrinityScore> OnVictory;
     //public float TimeToDamageScoreWeight = .5f;
     
     [Header("Time")]
@@ -14,6 +15,7 @@ public class ATrinityScore : MonoBehaviour
     [SerializeField]
     private float WorstTime = 240f;
     private float Timer;
+    [HideInInspector]
     public float NormalizedTimeScore = 0f;
 
     [Header("Damage Taken")]
@@ -22,16 +24,31 @@ public class ATrinityScore : MonoBehaviour
     [SerializeField]
     private float WorstDamageTaken = 100f;
     private float DamageTaken;
+    [HideInInspector]
     public float NormalizedDamageTakenScore = 0f;
 
-    public void Start()
+    public void Awake()
     {
         ATrinityGameManager.SetScore(this);
+    }
+    public void Start()
+    {
+        ATrinityGameManager.GetPlayerController().OnHit += AddDamageTaken;
     }
 
     public void Update()
     {
+        if (SceneManager.GetActiveScene().name != "PORTAL")
+        {
+            Timer += Time.deltaTime;
+        }
+        
         CheckForVictory();
+    }
+
+    public void AddDamageTaken(FHitInfo hitInfo)
+    {
+        DamageTaken += hitInfo.Damage;
     }
     
     

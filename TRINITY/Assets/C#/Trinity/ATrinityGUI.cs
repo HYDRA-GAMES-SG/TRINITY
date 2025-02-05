@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -96,9 +97,13 @@ public class ATrinityGUI : MonoBehaviour
 
         ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
 
-        ATrinityScore.OnVictory += StartVictory;
-        
+        ATrinityGameManager.GetScore().OnVictory += StartVictory;
+
+        // SceneManager.activeSceneChanged += SetupEnemyUI;
+        // EditorSceneManager.activeSceneChangedInEditMode += SetupEnemyUI;
+        // EditorSceneManager.activeSceneChanged += SetupEnemyUI;
         SetupEnemyUI();
+        ATrinityGameManager.OnSceneChanged += SetupEnemyUI;
     }
 
     private void StartVictory(ETrinityScore score)
@@ -148,10 +153,14 @@ public class ATrinityGUI : MonoBehaviour
 
     void Update()
     {
-
         if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.MAIN_MENU)
         {
             return;
+        }
+
+        if (Tutorials.activeSelf == true && SceneManager.GetActiveScene().name != "PORTAL")
+        {
+            Tutorials.SetActive(false);
         }
         
         // Lerp DamageSlider to target values
@@ -197,8 +206,26 @@ public class ATrinityGUI : MonoBehaviour
         }
     }
     
+    private void SetupEnemyUI(Scene arg0, Scene scene)
+    {
+        if (scene.name == "PORTAL")
+        {
+            return;
+        }
+
+        print("setup");
+        
+        for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
+        {
+            EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
+            EnemyHealthBars[i].EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
+            EnemyHealthBars[i].gameObject.SetActive(true);
+        }
+    }
+    
     private void SetupEnemyUI()
     {
+        
         for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {
             EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);

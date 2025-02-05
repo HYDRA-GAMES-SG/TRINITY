@@ -35,6 +35,7 @@ public class ATrinityGraphics : MonoBehaviour
 
     private void OnDestroy()
     {
+        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateStaffAura;
         ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
         ATrinityMainMenu.OnMenuElementChanged -= UpdateStaffAura;
         ATrinityMainMenu.OnMenuElementChanged -= UpdateMeshColor;
