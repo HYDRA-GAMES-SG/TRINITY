@@ -15,11 +15,10 @@ using UnityEngine.SceneManagement;
 
 
 public class ATrinityGameManager : MonoBehaviour
-{   
-    public static string CurrentScene = "UNINITIALIZED";
-
-    static public System.Action<FScoreLimits> OnGameStart;
-    static public System.Action<FScoreLimits> OnSceneChanged;
+{
+    
+    public static string CurrentScene = "UNINITIALIZED"; 
+    static public System.Action OnSceneChanged;
     
     static private AudioMixerGroup SFX_MixerGroup;
     static private AudioMixerGroup UI_MixerGroup;
@@ -49,7 +48,8 @@ public class ATrinityGameManager : MonoBehaviour
     private static ATrinityGUI GUIReference;
     
     private static EGameFlowState GameFlowState;
-
+    
+    public static bool bCanSkipMainMenu = false;
 
     void Awake()
     {
@@ -63,25 +63,19 @@ public class ATrinityGameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         EnemyControllers = new List<IEnemyController>();
-        SetEnemyControllers();
-        
         CurrentScene = SceneManager.GetActiveScene().name;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        SceneManager.activeSceneChanged += SetEnemyControllers;
-        EditorSceneManager.activeSceneChangedInEditMode += SetEnemyControllers;
-        OnGameStart?.Invoke(GetScoreLimits());
-        OnSceneChanged?.Invoke(GetScoreLimits());
-
         if (CurrentScene == "PORTAL")
         {
             SetGameFlowState(EGameFlowState.MAIN_MENU);
         }
         else
         {
+            ATrinityGameManager.bCanSkipMainMenu = true;
             SetGameFlowState(EGameFlowState.PLAY);
         }
         
@@ -89,7 +83,10 @@ public class ATrinityGameManager : MonoBehaviour
         MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
         GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
         MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
-
+        
+        SetEnemyControllers();
+        
+        OnSceneChanged?.Invoke();
     }
 
 
@@ -105,41 +102,30 @@ public class ATrinityGameManager : MonoBehaviour
             }
         }
 
+        CheckForSceneTransition();
+
+        
+    }
+    
+    private void CheckForSceneTransition()
+    {
         if (SceneManager.GetActiveScene().name != CurrentScene)
         {
+            SetEnemyControllers();
+            print("ATGM => Scene Transition Detected:" + CurrentScene + " => " + SceneManager.GetActiveScene().name);
             CurrentScene = SceneManager.GetActiveScene().name;
-            OnSceneChanged?.Invoke(GetScoreLimits());
+            
+            print("ATGM => OnSceneChanged!");
+            OnSceneChanged?.Invoke();
+
+            Transform spawnPoint = FindObjectOfType<ATrinitySpawn>().transform;
+            Transform player = GetPlayerController().transform;
+            player.position = spawnPoint.position;
+            player.rotation = spawnPoint.rotation;
+            player.localScale = spawnPoint.localScale;
         }
     }
 
-    public static FScoreLimits GetScoreLimits()
-    {
-        FScoreLimits newLimits = new FScoreLimits();
-        newLimits.WorstTime = 999f;
-        
-        switch (CurrentScene)
-        {
-            case "CrabBossDungeon":
-                newLimits.SceneName = CurrentScene;
-                newLimits.BestTime = 120; // seconds
-                newLimits.WorstTime = 240; // seconds
-                newLimits.BestDamageTaken = 0; //percent
-                newLimits.WorstDamageTaken = 100; //percent
-                break;
-            case "DevourerSentinelBossDungeon":
-                newLimits.SceneName = CurrentScene;
-                newLimits.BestTime = 120; // seconds
-                newLimits.WorstTime = 240; // seconds
-                newLimits.BestDamageTaken = 0; //percent
-                newLimits.WorstDamageTaken = 100; //percent
-                break;
-            default:
-                newLimits.SceneName = "";
-                break;
-        }
-
-        return newLimits;
-    }
 
     public static ATrinityScore GetScore()
     {

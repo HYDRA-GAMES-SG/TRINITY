@@ -8,7 +8,8 @@ using UnityEngine.UI;
 
 public class ATrinityVictory : MonoBehaviour
 {
-    public float ScoreTextSize = 2.3f;
+    public float InitialScoreScale = 41f;
+    public float FinalScoreTextScale = 2.3f;
     public float PauseTime = 3.5f;
     public Slider DamageTakenSlider;
     public Slider TimeSlider;
@@ -21,12 +22,15 @@ public class ATrinityVictory : MonoBehaviour
     
     private bool bScoreDisplayComplete;
     private float PauseTimer;
+
+    private bool bCloseVictoryScreenInput => ATrinityGameManager.GetInput().ForcefieldInput ||
+                                             ATrinityGameManager.GetInput().JumpInput ||
+                                             ATrinityGameManager.GetInput().MenuInput ||
+                                             ATrinityGameManager.GetInput().ElementalPrimaryInput;
     
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-         ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().GetETS());
-        
          float totalTime = ATrinityGameManager.GetScore().GetTimer();
          int minutes = (int)(totalTime / 60f);
          int seconds = (int)(totalTime % 60f);
@@ -40,7 +44,8 @@ public class ATrinityVictory : MonoBehaviour
 
         DamageTakenSlider.value = ATrinityGameManager.GetScore().NormalizedDamageTakenScore;
         TimeSlider.value = ATrinityGameManager.GetScore().NormalizedTimeScore;
-        
+
+        ScoreText.transform.localScale = InitialScoreScale * Vector3.one; 
         ScorePanel.SetActive(false);
         DamageTakenSlider.gameObject.SetActive(false);
         TimeSlider.gameObject.SetActive(false);
@@ -55,13 +60,10 @@ public class ATrinityVictory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        bool bExitScoreDisplay = ATrinityGameManager.GetInput().ForcefieldInput || ATrinityGameManager.GetInput().MenuInput;
-        
-        if (bScoreDisplayComplete && bExitScoreDisplay)
+        if (bScoreDisplayComplete && bCloseVictoryScreenInput)
         {
-            Time.timeScale = 1f;
-            ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
-            SceneManager.LoadScene("PORTAL");
+            ATrinityGameManager.GetInput().NullifyInputs();
+            ActivatePortal();
         }
     }
 
@@ -87,9 +89,10 @@ public class ATrinityVictory : MonoBehaviour
 
         Time.timeScale = 0f;
         ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
+        
         ScorePanel.gameObject.SetActive(true);
         
-        yield return new WaitForSecondsRealtime(1.25f);
+        yield return new WaitForSecondsRealtime(.5f);
         
         TimeSlider.gameObject.SetActive(true);
 
@@ -101,24 +104,29 @@ public class ATrinityVictory : MonoBehaviour
         
         ScoreText.gameObject.SetActive(true);
 
-        while (ScoreText.transform.localScale.x > ScoreTextSize)
+        
+        while (ScoreText.transform.localScale.x > (FinalScoreTextScale + .1f))
         {
             float currentScale = ScoreText.transform.localScale.x;
-            
-            float newScale = Mathf.Lerp(currentScale, ScoreTextSize, Time.unscaledDeltaTime * 24f);
-
+    
+            float newScale = Mathf.Lerp(currentScale, FinalScoreTextScale, Time.unscaledDeltaTime * 12f);
+    
             ScoreText.transform.localScale = new Vector3(newScale, newScale, newScale);
-
             yield return null;
         }
         
         PortalButton.gameObject.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(.3f);
+        yield return new WaitForSecondsRealtime(1f);
         
         PortalButton.Select();
-        bScoreDisplayComplete = true;
+        Color blue;
+        ColorBlock newBlock = PortalButton.colors;
+        ColorUtility.TryParseHtmlString("#7598FF", out blue);
+        newBlock.normalColor = blue;
+        PortalButton.colors = newBlock;
         
+        bScoreDisplayComplete = true;
     }
 
     public void ActivatePortal()
@@ -126,9 +134,25 @@ public class ATrinityVictory : MonoBehaviour
         ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
         TrinityGUICanvasGroup.alpha = 1f;
         Time.timeScale = 1f;
-        ScorePanel.gameObject.SetActive(false);
-        GameObject ExitPortal = FindObjectOfType<APortal>().gameObject;
-        ExitPortal.SetActive(true);
+        
+        //find and activate exit portal
+        APortal[] allPortals = Resources.FindObjectsOfTypeAll<APortal>();
+        APortal exitPortal = null;
+        foreach (APortal portal in allPortals)
+        {
+            // Optionally, add further checks to identify the correct portal, for instance by name or tag.
+            exitPortal = portal;
+            break;
+        }
+        if (exitPortal != null)
+        {
+            exitPortal.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("No APortal found.");
+        }
+        
         this.gameObject.SetActive(false);
     }
 }

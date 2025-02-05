@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UDamageFlashComponent : MonoBehaviour
 {
-    [SerializeField] UHealthComponent Health;
+    [HideInInspector]
+    UHealthComponent Health;
 
     [Header("GetHitEffect")]
     [SerializeField] float blinkTimer;

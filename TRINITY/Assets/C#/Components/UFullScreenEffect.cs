@@ -66,8 +66,6 @@ public class UFullScreenEffect : MonoBehaviour
 
                 Material.SetFloat(VoronoiIntensity, lerpedVoronoi);
                 Material.SetFloat(VignetteIntensity, lerpedVignette);
-                print(Material.GetFloat(VoronoiIntensity));
-                print(Material.GetFloat(VignetteIntensity));
             }
         }
         else if (!bEffectActive) 

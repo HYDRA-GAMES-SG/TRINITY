@@ -9,9 +9,8 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityMainMenu : MonoBehaviour
 {
-
-    public static System.Action OnMainMenuNavigate;
-    public static System.Action OnMainMenuSelection;
+    static public System.Action OnMainMenuNavigate;
+    static public System.Action OnMainMenuSelection;
     static public System.Action<ETrinityElement> OnMenuElementChanged;
     
     public TextMeshProUGUI TitleText;
@@ -35,25 +34,36 @@ public class ATrinityMainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (ATrinityGameManager.bCanSkipMainMenu)
+        {
+            this.gameObject.SetActive(false);
+            ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
+            return;
+        }
         
         TriangleTexts = new List<TextMeshProUGUI>();
         TriangleTexts = ElementTriangle.gameObject.GetComponentsInChildren<TextMeshProUGUI>().ToList();
         InitialColor = TriangleTexts[0].color;
 
         ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
-        MainMenuSelection = EMainMenu.EMM_Start;
+        ATrinityGameManager.OnSceneChanged += Initialize;
+        Initialize();
         ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
         ATrinityGameManager.GetInput().OnJumpGlidePressed += Select;
         ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Select;
         ATrinityGameManager.GetInput().OnNextElementPressed += NavigateForwards;
         ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
+        
+        
+        TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
+    }
+
+    void Initialize()
+    {
+        MainMenuSelection = EMainMenu.EMM_Start;
         bOptionsMenu = false;
         bRotating = false;
         bStartingGame = false;
-        
-        TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
-        MainMenuSelection = EMainMenu.EMM_Start;
-
     }
 
     public void Update()
@@ -102,7 +112,7 @@ public class ATrinityMainMenu : MonoBehaviour
         else
         {
             bRotating = false;
-            OnMenuElementChanged((ETrinityElement)MainMenuSelection);
+            OnMenuElementChanged?.Invoke((ETrinityElement)MainMenuSelection);
             HighlightText();
         }
     }
@@ -144,6 +154,7 @@ public class ATrinityMainMenu : MonoBehaviour
                     ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
                     ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
                     ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
+                    ATrinityGameManager.bCanSkipMainMenu = true;
                 }
 
                 break;

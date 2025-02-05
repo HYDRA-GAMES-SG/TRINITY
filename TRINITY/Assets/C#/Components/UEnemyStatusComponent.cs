@@ -11,10 +11,15 @@ public class UEnemyStatusComponent : MonoBehaviour
     [HideInInspector]
     public UAilmentComponent Ailments;
     // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         Health = GetComponent<UHealthComponent>();
         Ailments = GetComponent<UAilmentComponent>();
+    }
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame

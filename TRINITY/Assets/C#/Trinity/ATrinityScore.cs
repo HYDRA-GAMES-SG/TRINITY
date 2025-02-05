@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityScore : MonoBehaviour
 {
-    public FScoreLimits ScoreLimits;
     public System.Action<ETrinityScore> OnVictory;
     //public float TimeToDamageScoreWeight = .5f;
     
@@ -19,6 +18,38 @@ public class ATrinityScore : MonoBehaviour
     [HideInInspector]
     public float NormalizedDamageTakenScore = 0f;
 
+    private bool bInvokedVictoryThisScene = false;
+
+    
+    public static FScoreLimits GetScoreLimits()
+    {
+        FScoreLimits newLimits = new FScoreLimits();
+        
+        switch (ATrinityGameManager.CurrentScene)
+        {
+            case "CrabBossDungeon":
+                newLimits.SceneName = ATrinityGameManager.CurrentScene;
+                newLimits.BestTime = 120; // seconds
+                newLimits.WorstTime = 240; // seconds
+                newLimits.BestDamageTaken = 0; //percent
+                newLimits.WorstDamageTaken = 100; //percent
+                return newLimits;
+            case "DevourerSentinelBossDungeon":
+                newLimits.SceneName = ATrinityGameManager.CurrentScene;
+                newLimits.BestTime = 120; // seconds
+                newLimits.WorstTime = 240; // seconds
+                newLimits.BestDamageTaken = 0; //percent
+                newLimits.WorstDamageTaken = 100; //percent
+                return newLimits;
+            default:
+                newLimits.SceneName = "";
+                print("WARNING:NO SCORE LIMITS!");
+                return newLimits;
+        }
+
+        return newLimits;
+    }
+    
     public void Awake()
     {
         ATrinityGameManager.SetScore(this);
@@ -26,19 +57,9 @@ public class ATrinityScore : MonoBehaviour
     public void Start()
     {
         ATrinityGameManager.GetPlayerController().OnHit += AddDamageTaken;
-        ATrinityGameManager.OnGameStart += SetScoreLimits;
-        ATrinityGameManager.OnSceneChanged += SetScoreLimits;
     }
-
-    private void SetScoreLimits(FScoreLimits newLimits)
-    {
-        if (newLimits.SceneName != "")
-        {
-            ScoreLimits = newLimits;
-            Timer = 0f;
-            DamageTaken = 0f;
-        }
-    }
+    
+    
 
     public void Update()
     {
@@ -69,20 +90,22 @@ public class ATrinityScore : MonoBehaviour
             }
         }
 
-        if (ATrinityGameManager.GetEnemyControllers().Count > 0 && !bBossAlive)
+        if (ATrinityGameManager.GetEnemyControllers().Count > 0 && !bBossAlive && !bInvokedVictoryThisScene)
         {
-            OnVictory?.Invoke(GetETS());
+            FScoreLimits scoreLimits = GetScoreLimits();
+            OnVictory?.Invoke(GetETS(scoreLimits));
+            bInvokedVictoryThisScene = true;
         }
     }
 
-    public ETrinityScore GetETS()
+    public ETrinityScore GetETS(FScoreLimits scoreLimits)
     {
-        float clampedTime = Mathf.Clamp(GetTimer(), ScoreLimits.BestTime, ScoreLimits.WorstTime);
-        float clampedDamageTaken = Mathf.Clamp(GetDamageTaken(), ScoreLimits.BestDamageTaken, ScoreLimits.WorstDamageTaken);
+        float clampedTime = Mathf.Clamp(GetTimer(), scoreLimits.BestTime, scoreLimits.WorstTime);
+        float clampedDamageTaken = Mathf.Clamp(GetDamageTaken(), scoreLimits.BestDamageTaken, scoreLimits.WorstDamageTaken);
 
-        NormalizedTimeScore = Mathf.Clamp01((ScoreLimits.WorstTime - clampedTime) / (clampedTime / Mathf.Clamp(ScoreLimits.BestTime, 0.000001f, 1)));  //ensure no divide by 0
+        NormalizedTimeScore = Mathf.Clamp01((scoreLimits.WorstTime - clampedTime) / (clampedTime / Mathf.Clamp(scoreLimits.BestTime, 0.000001f, 1)));  //ensure no divide by 0
 
-        NormalizedDamageTakenScore = Mathf.Clamp01(1f - (clampedDamageTaken / Mathf.Clamp(ScoreLimits.WorstDamageTaken, 0.00001f, ScoreLimits.WorstDamageTaken)));  //ensure no divide by 0
+        NormalizedDamageTakenScore = Mathf.Clamp01(1f - (clampedDamageTaken / Mathf.Clamp(scoreLimits.WorstDamageTaken, 0.00001f, scoreLimits.WorstDamageTaken)));  //ensure no divide by 0
 
         float etsFloat = Mathf.Clamp((NormalizedTimeScore + NormalizedDamageTakenScore) * 10f, 0, 20); //multiply by 10 and clamp to ETS range to map to ETS properly
         

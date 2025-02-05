@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,6 +25,13 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public bool ColdElementInput { get; private set; }
     public bool LightningElementInput { get; private set; }
 
+    public void NullifyInputs()
+    {
+        JumpInput = false;
+        MenuInput = false;
+        ForcefieldInput = false;
+        ElementalPrimaryInput = false;
+    }
     private float ElementCooldownTimer = 0f;
     private float ElementCooldown = .2f;
     // System.Actions for events

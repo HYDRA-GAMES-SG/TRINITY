@@ -64,11 +64,15 @@ public class ATrinityController : MonoBehaviour
     public bool bTerrainCollision => TerrainCounter > 0;
     private int TerrainCounter = 0;
     
+    
+    
 
 
     private void Awake()
     {
         ATrinityGameManager.SetPlayerController(this);
+
+        ATrinityGameManager.OnSceneChanged += ResetTerrainCounter;
         
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
@@ -215,6 +219,11 @@ public class ATrinityController : MonoBehaviour
         transform.rotation = Quaternion.Euler(cameraYaw);
     }
 
+    public void ResetTerrainCounter()
+    {
+        TerrainCounter = 0;
+    }
+    
     public void ApplyHit(FHitInfo hitInfo)
     {
         ATrinitySpells spellReference = ATrinityGameManager.GetSpells(); 

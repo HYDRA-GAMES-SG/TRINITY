@@ -92,7 +92,7 @@ public struct FDamageInstance
         enemy.Health.Modify(damageSource);
         enemy.Ailments.ModifyStack(damageSource.AilmentType,damageSource.StatusStacks);
         
-        Debug.Log($"Damage Taken : {damageSource.Damage}, Ailment type & stacks applied : {damageSource.AilmentType},{damageSource.StatusStacks}");
+        //Debug.Log($"Damage Taken : {damageSource.Damage}, Ailment type & stacks applied : {damageSource.AilmentType},{damageSource.StatusStacks}");
         return enemy;
     }
        

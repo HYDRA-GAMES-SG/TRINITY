@@ -165,6 +165,11 @@ public class NormalMovement : TrinityState
     
     private void HandleAirStrafing()
     {
+        if (MovementState == ETrinityMovement.ETM_Gliding)
+        {
+            return;
+        }
+        
         Vector3 planarVelocity = Controller.PlanarVelocity;
         if (planarVelocity.magnitude > GlobalSpeedLimit)
         {

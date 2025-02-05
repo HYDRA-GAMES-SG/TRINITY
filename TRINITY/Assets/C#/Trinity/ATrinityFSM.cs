@@ -23,6 +23,11 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         InitializeStates();
     }
 
+    void Start()
+    {
+        ATrinityGameManager.OnSceneChanged += StartStateMachine;
+    }
+
     private void FixedUpdate()
     {
         if (!FSM_RUNNING)

@@ -9,19 +9,40 @@ public class AMainMenuCamera : MonoBehaviour
 {
     public float FadeMainMenuDuration = 1.5f;
     public float AnimateCameraDuration = 3f;
-    public GameObject PlayerCamera;
     public static System.Action OnSwitchToPlayerCamera;
     public GameObject MainMenuParentObject;
     public CanvasGroup MainMenuCanvas;
     
     private GameObject MainMenuCamera;
-    
+    private ATrinityCamera TrinityCamera;
     
     // Start is called before the first frame update
     void Start()
     {
-        PlayerCamera.SetActive(true);
-        PlayerCamera.GetComponent<ATrinityCamera>().Camera.enabled = false;
+
+        if (!TrinityCamera)
+        {
+            ATrinityCamera[] allTrinityCameras = Resources.FindObjectsOfTypeAll<ATrinityCamera>();
+            foreach (ATrinityCamera cam in allTrinityCameras)
+            {
+                TrinityCamera = cam;
+                break;
+            }
+
+            if (TrinityCamera != null)
+            {
+                TrinityCamera.gameObject.SetActive(true);
+            }
+        }
+        
+        if (!ATrinityGameManager.bCanSkipMainMenu)
+        {
+            TrinityCamera.Camera.enabled = false;
+        }
+        else
+        {
+            TrinityCamera.Camera.enabled = true;
+        }
     }
 
     // Update is called once per frame
@@ -59,8 +80,8 @@ public class AMainMenuCamera : MonoBehaviour
         Vector3 startPosition = transform.position;
         Quaternion startRotation = transform.rotation;
         
-        while (Vector3.Distance(transform.position, PlayerCamera.transform.position) > .01f 
-               && Mathf.Abs(Quaternion.Dot(transform.rotation, PlayerCamera.transform.rotation)) > .01f)
+        while (Vector3.Distance(transform.position, TrinityCamera.transform.position) > .01f 
+               && Mathf.Abs(Quaternion.Dot(transform.rotation, TrinityCamera.transform.rotation)) > .01f)
         {
             float t = elapsedTime / AnimateCameraDuration;
         
@@ -68,8 +89,8 @@ public class AMainMenuCamera : MonoBehaviour
             float smoothT = t * t * (3f - 2f * t);
         
             // Interpolate position and rotation
-            transform.position = Vector3.Lerp(startPosition, PlayerCamera.transform.position, smoothT);
-            transform.rotation = Quaternion.Slerp(startRotation, PlayerCamera.transform.rotation, smoothT);
+            transform.position = Vector3.Lerp(startPosition, TrinityCamera.transform.position, smoothT);
+            transform.rotation = Quaternion.Slerp(startRotation, TrinityCamera.transform.rotation, smoothT);
         
             elapsedTime += Time.deltaTime;
 
@@ -77,11 +98,11 @@ public class AMainMenuCamera : MonoBehaviour
         }
 
         // Ensure final position and rotation are exact
-        transform.position = PlayerCamera.transform.position;
-        transform.rotation = PlayerCamera.transform.rotation;
+        transform.position = TrinityCamera.transform.position;
+        transform.rotation = TrinityCamera.transform.rotation;
         
         this.GetComponent<Camera>().enabled = false;
-        PlayerCamera.GetComponent<Camera>().enabled = true;
+        TrinityCamera.Camera.enabled = true;
         OnSwitchToPlayerCamera?.Invoke();
         ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
         Destroy(MainMenuParentObject);

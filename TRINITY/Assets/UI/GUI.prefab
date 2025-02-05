@@ -1765,7 +1765,7 @@ RectTransform:
   m_Father: {fileID: 6428388220571608469}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8308,7 +8308,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c4f4257133bb5e4c86e87887d9d26bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoreTextSize: 2.3
+  InitialScoreScale: 41
+  FinalScoreTextScale: 2.3
   PauseTime: 3.5
   DamageTakenSlider: {fileID: 7444107997905348886}
   TimeSlider: {fileID: 4163037216817448279}
@@ -8316,7 +8317,7 @@ MonoBehaviour:
   DamageTakenText: {fileID: 8286429347527775845}
   TimeText: {fileID: 2765926364866598506}
   ScoreText: {fileID: 2783570303362134549}
-  QuitButton: {fileID: 2293287719499806762}
+  PortalButton: {fileID: 2293287719499806762}
   TrinityGUICanvasGroup: {fileID: 2503390377214695848}
 --- !u!1 &5292703394946630669
 GameObject:
@@ -9816,7 +9817,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -70, y: -10.999985}
+  m_AnchoredPosition: {x: -70, y: -11}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5000002, y: 0.5}
 --- !u!1 &6216086833993248199
@@ -10108,7 +10109,7 @@ GameObject:
   - component: {fileID: 1961162708539520132}
   - component: {fileID: 2293287719499806762}
   m_Layer: 5
-  m_Name: QuitButton
+  m_Name: PortalButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10132,7 +10133,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 3, y: -141}
-  m_SizeDelta: {x: 215.4, y: 38.7793}
+  m_SizeDelta: {x: 295.86, y: 39.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7897619049082326808
 CanvasRenderer:
@@ -10155,7 +10156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21698111, g: 0, b: 0.03059988, a: 1}
+  m_Color: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -10193,13 +10194,13 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
+    m_NormalColor: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.8156863, g: 0.90588236, b: 1, a: 1}
+    m_SelectedColor: {r: 0.45882353, g: 0.59607846, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
+    m_ColorMultiplier: 1.78
+    m_FadeDuration: 0
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
@@ -10212,13 +10213,13 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 432987108146899612}
+  m_TargetGraphic: {fileID: 1961162708539520132}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: APauseMenu, Assembly-CSharp
-        m_MethodName: OnQuitClicked
+      - m_Target: {fileID: 2428947474251968889}
+        m_TargetAssemblyTypeName: ATrinityVictory, Assembly-CSharp
+        m_MethodName: ActivatePortal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12455,8 +12456,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1246736151448942733}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13339,8 +13340,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 2}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_SizeDelta: {x: 68.0452, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9157541325141707049
 CanvasRenderer:
@@ -13370,7 +13371,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit to Mage's Gate
+  m_text: Activate Mage's Gate Portal
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a4db538f76ef1bd4ebdcc0f7a254d11c, type: 2}
   m_sharedMaterial: {fileID: -2284934799766232409, guid: a4db538f76ef1bd4ebdcc0f7a254d11c,
@@ -14036,8 +14037,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8090116658156854543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -15005,7 +15006,7 @@ RectTransform:
   m_Father: {fileID: 5321288717719093210}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

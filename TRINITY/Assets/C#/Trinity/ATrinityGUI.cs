@@ -63,10 +63,12 @@ public class ATrinityGUI : MonoBehaviour
 
         ATrinityGameManager.SetGUI(this);
         DontDestroyOnLoad(this.gameObject);
+
     }
     
     void Start()
     {
+        ATrinityGameManager.OnSceneChanged += SetupEnemyUI;
         
         GUICanvas = transform.Find("Canvas").gameObject;
         
@@ -99,17 +101,17 @@ public class ATrinityGUI : MonoBehaviour
 
         ATrinityGameManager.GetScore().OnVictory += StartVictory;
 
+        SetupEnemyUI();
         // SceneManager.activeSceneChanged += SetupEnemyUI;
         // EditorSceneManager.activeSceneChangedInEditMode += SetupEnemyUI;
         // EditorSceneManager.activeSceneChanged += SetupEnemyUI;
-        ATrinityGameManager.OnGameStart += SetupEnemyUI;
-        ATrinityGameManager.OnSceneChanged += SetupEnemyUI;
     }
 
 
     private void StartVictory(ETrinityScore score)
     {
         Victory.SetActive(true);
+        Victory.GetComponent<ATrinityVictory>().ScoreText.text = ATrinityScore.GetScoreString(score);
     }
     
     private void UpdateSpellImages(ETrinityElement newElement)
@@ -201,7 +203,9 @@ public class ATrinityGUI : MonoBehaviour
 
     private void TogglePause()
     {
-        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD || ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD 
+            || ATrinityGameManager.GetGameFlowState() != EGameFlowState.PAUSED 
+            || ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
         {
             OptionsMenu.SetActive(!OptionsMenu.activeSelf);
         }
@@ -216,20 +220,25 @@ public class ATrinityGUI : MonoBehaviour
         
         for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {
+            EnemyHealthBars[i].gameObject.SetActive(true);
             EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
             EnemyHealthBars[i].EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
-            EnemyHealthBars[i].gameObject.SetActive(true);
+            
         }
     }
     
     private void SetupEnemyUI()
     {
+        if (ATrinityGameManager.CurrentScene == "PORTAL")
+        {
+            return;
+        }
         
         for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {
-            EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
-            EnemyHealthBars[i].EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
             EnemyHealthBars[i].gameObject.SetActive(true);
+            EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
+            
         }
     }
 

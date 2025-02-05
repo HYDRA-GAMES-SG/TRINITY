@@ -40,11 +40,6 @@ public class AEnemyHealthBar : MonoBehaviour
     public void SetEnemyController(IEnemyController enemyController)
     {
         EnemyController = enemyController;
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
         EnemyController.EnemyStatus.Health.OnHealthModified += UpdateEnemyHealthBar;
         EnemyController.EnemyStatus.Health.OnDamageTaken += UpdateDamageText;
         EnemyController.EnemyStatus.Health.OnDeath  += OnEnemyDeath;
@@ -58,6 +53,18 @@ public class AEnemyHealthBar : MonoBehaviour
         HealthTarget = 1f;
         DamageBar.fillAmount = 1f;
         HealthBar.fillAmount = 1f;
+        EnemyName.text = EnemyController.Name;
+    }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    private void OnEnable()
+    {
+        
     }
 
     private void UpdateChillStacks(UAilmentComponent ailmentComponent)
@@ -148,7 +155,7 @@ public class AEnemyHealthBar : MonoBehaviour
         EnemyController.EnemyStatus.Ailments.OnChargeModified -= UpdateChargeStacks;
         EnemyController.EnemyStatus.Ailments.OnChillModified -= UpdateChillStacks;
         EnemyController.EnemyStatus.Ailments.OnIgniteModified -= UpdateIgniteStacks;
-        
-        Destroy(this.gameObject, 10f);
+
+        this.gameObject.SetActive(false);
     }
 }

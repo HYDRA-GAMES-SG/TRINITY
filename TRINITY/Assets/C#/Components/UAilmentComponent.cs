@@ -49,9 +49,10 @@ public class UAilmentComponent : MonoBehaviour
         HandleDuration();
         UpdateEffects();
     }
-    
-    private void Start()
+
+    private void Awake()
     {
+       
         foreach (EAilmentType ailment in Enum.GetValues(typeof(EAilmentType)))
         {
             if (ailment == EAilmentType.EAT_None)
@@ -65,7 +66,11 @@ public class UAilmentComponent : MonoBehaviour
                 Timer = 0f,
                 Duration = AilmentDuration
             };
-        }
+        } 
+    }
+    private void Start()
+    {
+        
     }
 
     public void UpdateEffects()
