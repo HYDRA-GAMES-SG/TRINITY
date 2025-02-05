@@ -15,8 +15,11 @@ using UnityEngine.SceneManagement;
 
 
 public class ATrinityGameManager : MonoBehaviour
-{
-    static public System.Action OnSceneChanged;
+{   
+    public static string CurrentScene = "UNINITIALIZED";
+
+    static public System.Action<FScoreLimits> OnGameStart;
+    static public System.Action<FScoreLimits> OnSceneChanged;
     
     static private AudioMixerGroup SFX_MixerGroup;
     static private AudioMixerGroup UI_MixerGroup;
@@ -32,6 +35,7 @@ public class ATrinityGameManager : MonoBehaviour
     public static float AMBIENCE_VOLUME = 1f;
     public static bool CROSSHAIR_ENABLED = true;
 
+    //singleton references
     private static ATrinityAudio AudioReference;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
@@ -46,13 +50,9 @@ public class ATrinityGameManager : MonoBehaviour
     
     private static EGameFlowState GameFlowState;
 
-    private string CurrentSceneName;
 
     void Awake()
     {
-        CurrentSceneName = SceneManager.GetActiveScene().name;
-        
-        EnemyControllers = new List<IEnemyController>();
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
         
         if (CurrentInstances.Count() > 1)
@@ -61,24 +61,22 @@ public class ATrinityGameManager : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
-        SetEnemyControllers();
-
-    }
-
-    private void TriggerBulletTime()
-    {
         
+        EnemyControllers = new List<IEnemyController>();
+        SetEnemyControllers();
+        
+        CurrentScene = SceneManager.GetActiveScene().name;
     }
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        CROSSHAIR_ENABLED = PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false;
-        MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
-        GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
-        MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
+        SceneManager.activeSceneChanged += SetEnemyControllers;
+        EditorSceneManager.activeSceneChangedInEditMode += SetEnemyControllers;
+        OnGameStart?.Invoke(GetScoreLimits());
+        OnSceneChanged?.Invoke(GetScoreLimits());
 
-        if (SceneManager.GetActiveScene().name == "PORTAL")
+        if (CurrentScene == "PORTAL")
         {
             SetGameFlowState(EGameFlowState.MAIN_MENU);
         }
@@ -86,9 +84,12 @@ public class ATrinityGameManager : MonoBehaviour
         {
             SetGameFlowState(EGameFlowState.PLAY);
         }
+        
+        CROSSHAIR_ENABLED = PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false;
+        MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
+        GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
+        MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
 
-        SceneManager.activeSceneChanged += SetEnemyControllers;
-        EditorSceneManager.activeSceneChangedInEditMode += SetEnemyControllers;
     }
 
 
@@ -104,12 +105,40 @@ public class ATrinityGameManager : MonoBehaviour
             }
         }
 
-        if (SceneManager.GetActiveScene().name != CurrentSceneName)
+        if (SceneManager.GetActiveScene().name != CurrentScene)
         {
-            OnSceneChanged?.Invoke();
+            CurrentScene = SceneManager.GetActiveScene().name;
+            OnSceneChanged?.Invoke(GetScoreLimits());
+        }
+    }
+
+    public static FScoreLimits GetScoreLimits()
+    {
+        FScoreLimits newLimits = new FScoreLimits();
+        newLimits.WorstTime = 999f;
+        
+        switch (CurrentScene)
+        {
+            case "CrabBossDungeon":
+                newLimits.SceneName = CurrentScene;
+                newLimits.BestTime = 120; // seconds
+                newLimits.WorstTime = 240; // seconds
+                newLimits.BestDamageTaken = 0; //percent
+                newLimits.WorstDamageTaken = 100; //percent
+                break;
+            case "DevourerSentinelBossDungeon":
+                newLimits.SceneName = CurrentScene;
+                newLimits.BestTime = 120; // seconds
+                newLimits.WorstTime = 240; // seconds
+                newLimits.BestDamageTaken = 0; //percent
+                newLimits.WorstDamageTaken = 100; //percent
+                break;
+            default:
+                newLimits.SceneName = "";
+                break;
         }
 
-
+        return newLimits;
     }
 
     public static ATrinityScore GetScore()
@@ -245,7 +274,6 @@ public class ATrinityGameManager : MonoBehaviour
     
     private void SetEnemyControllers(Scene arg0, Scene arg1)
     {
-        print("setting");
         EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
     }
 

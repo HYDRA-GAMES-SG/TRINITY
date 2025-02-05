@@ -217,7 +217,7 @@ public class ATrinityOptions : MonoBehaviour
 
     public void OnQuitClicked()
     {
-        if (SceneManager.GetActiveScene().name != "PORTAL")
+        if (ATrinityGameManager.CurrentScene != "PORTAL")
         {
             SceneManager.LoadScene("PORTAL");
         }

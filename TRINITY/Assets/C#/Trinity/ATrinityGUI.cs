@@ -70,7 +70,7 @@ public class ATrinityGUI : MonoBehaviour
         
         GUICanvas = transform.Find("Canvas").gameObject;
         
-        if (SceneManager.GetActiveScene().name == "PORTAL")
+        if (ATrinityGameManager.CurrentScene == "PORTAL")
         {
             Tutorials.SetActive(true);
             GUICanvas.SetActive(false);
@@ -102,9 +102,10 @@ public class ATrinityGUI : MonoBehaviour
         // SceneManager.activeSceneChanged += SetupEnemyUI;
         // EditorSceneManager.activeSceneChangedInEditMode += SetupEnemyUI;
         // EditorSceneManager.activeSceneChanged += SetupEnemyUI;
-        SetupEnemyUI();
+        ATrinityGameManager.OnGameStart += SetupEnemyUI;
         ATrinityGameManager.OnSceneChanged += SetupEnemyUI;
     }
+
 
     private void StartVictory(ETrinityScore score)
     {
@@ -158,7 +159,7 @@ public class ATrinityGUI : MonoBehaviour
             return;
         }
 
-        if (Tutorials.activeSelf == true && SceneManager.GetActiveScene().name != "PORTAL")
+        if (Tutorials.activeSelf == true && ATrinityGameManager.CurrentScene != "PORTAL")
         {
             Tutorials.SetActive(false);
         }
@@ -206,14 +207,12 @@ public class ATrinityGUI : MonoBehaviour
         }
     }
     
-    private void SetupEnemyUI(Scene arg0, Scene scene)
+    private void SetupEnemyUI(FScoreLimits newLimits)
     {
-        if (scene.name == "PORTAL")
+        if (ATrinityGameManager.CurrentScene == "PORTAL")
         {
             return;
         }
-
-        print("setup");
         
         for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {

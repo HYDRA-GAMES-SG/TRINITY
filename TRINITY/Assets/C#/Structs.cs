@@ -4,6 +4,30 @@ using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
+public struct FScoreLimits
+{
+    public string SceneName { get; set; }
+    public float BestTime { get; set; }
+    public float WorstTime { get; set; }
+    public float BestDamageTaken { get; set; }
+    public float WorstDamageTaken { get; set; }
+
+    /* Constructor with default values using optional parameters */
+    public FScoreLimits(
+        string sceneName = "", 
+        float bestTime = 120f, 
+        float worstTime = 240f, 
+        float bestDamageTaken = 0f, 
+        float worstDamageTaken = 100f)
+    {
+        SceneName = sceneName;
+        BestTime = bestTime;
+        WorstTime = worstTime;
+        BestDamageTaken = bestDamageTaken;
+        WorstDamageTaken = worstDamageTaken;
+    }
+}
+
 public struct FGameSettings
 {
     public bool bCrossHairEnabled;

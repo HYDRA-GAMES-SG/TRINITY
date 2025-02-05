@@ -35,7 +35,7 @@ public class ATrinityGameOver : MonoBehaviour
 
             if (ATrinityGameManager.GetInput().JumpInput)
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                SceneManager.LoadScene(ATrinityGameManager.CurrentScene);
             }
 
             if (ATrinityGameManager.GetInput().ForcefieldInput)

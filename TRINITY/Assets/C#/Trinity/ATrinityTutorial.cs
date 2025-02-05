@@ -31,7 +31,7 @@ public class ATrinityTutorial : MonoBehaviour
     void Start()
     {
         
-        if (SceneManager.GetActiveScene().name != "PORTAL")
+        if (ATrinityGameManager.CurrentScene != "PORTAL")
         {
             Destroy(this.gameObject);
             return;

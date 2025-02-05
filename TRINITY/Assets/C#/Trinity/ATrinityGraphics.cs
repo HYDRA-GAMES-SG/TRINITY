@@ -18,7 +18,7 @@ public class ATrinityGraphics : MonoBehaviour
         ATrinityGameManager.GetBrain().OnElementChanged += UpdateStaffAura;
         ClothesMeshes = ClothesParent.GetComponentsInChildren<SkinnedMeshRenderer>();
 
-        if (SceneManager.GetActiveScene().name == "PORTAL")
+        if (ATrinityGameManager.CurrentScene == "PORTAL")
         {
             ATrinityMainMenu.OnMenuElementChanged += UpdateStaffAura;
             ATrinityMainMenu.OnMenuElementChanged += UpdateMeshColor;

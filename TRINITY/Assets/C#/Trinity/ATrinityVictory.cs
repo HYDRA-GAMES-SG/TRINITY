@@ -16,7 +16,7 @@ public class ATrinityVictory : MonoBehaviour
     public TextMeshProUGUI DamageTakenText;
     public TextMeshProUGUI TimeText;
     public TextMeshProUGUI ScoreText;
-    public Button QuitButton;
+    public Button PortalButton;
     public CanvasGroup TrinityGUICanvasGroup;
     
     private bool bScoreDisplayComplete;
@@ -25,15 +25,15 @@ public class ATrinityVictory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-         ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().GetScore());
+         ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().GetETS());
         
          float totalTime = ATrinityGameManager.GetScore().GetTimer();
          int minutes = (int)(totalTime / 60f);
          int seconds = (int)(totalTime % 60f);
-         int milliseconds = (int)((totalTime * 1000f) % 1000f);
+         int milliseconds = (int)((totalTime * 100f) % 100f);
         
          // Format: mm:ss:millisecond
-         TimeText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+         TimeText.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
         
          // Format damage with thousands separator, e.g., 1,234
          DamageTakenText.text = ATrinityGameManager.GetScore().GetDamageTaken().ToString("N0");
@@ -45,9 +45,11 @@ public class ATrinityVictory : MonoBehaviour
         DamageTakenSlider.gameObject.SetActive(false);
         TimeSlider.gameObject.SetActive(false);
         ScoreText.gameObject.SetActive(false);
-        QuitButton.gameObject.SetActive(false);
+        PortalButton.gameObject.SetActive(false);
 
         StartCoroutine(ScoreDisplayCoro());
+        
+        //StartCoroutine(FadeMusic());
     }
 
     // Update is called once per frame
@@ -67,7 +69,12 @@ public class ATrinityVictory : MonoBehaviour
     {
         PauseTimer = PauseTime;
 
-        yield return null;
+        yield return new WaitForSecondsRealtime(2f);
+
+        foreach (AEnemyHealthBar ehb in ATrinityGameManager.GetGUI().EnemyHealthBars)
+        {
+            ehb.gameObject.SetActive(false);
+        }
         
         while (PauseTimer > 0f)
         {
@@ -105,8 +112,23 @@ public class ATrinityVictory : MonoBehaviour
             yield return null;
         }
         
-        QuitButton.gameObject.SetActive(true);
+        PortalButton.gameObject.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(.3f);
+        
+        PortalButton.Select();
         bScoreDisplayComplete = true;
         
+    }
+
+    public void ActivatePortal()
+    {
+        ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
+        TrinityGUICanvasGroup.alpha = 1f;
+        Time.timeScale = 1f;
+        ScorePanel.gameObject.SetActive(false);
+        GameObject ExitPortal = FindObjectOfType<APortal>().gameObject;
+        ExitPortal.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 }

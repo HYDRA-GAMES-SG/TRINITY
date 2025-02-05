@@ -4,26 +4,18 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class ATrinityScore : MonoBehaviour
 {
+    public FScoreLimits ScoreLimits;
     public System.Action<ETrinityScore> OnVictory;
     //public float TimeToDamageScoreWeight = .5f;
     
-    [Header("Time")]
-    [SerializeField]
-    private float BestTime = 120f;
-    [SerializeField]
-    private float WorstTime = 240f;
     private float Timer;
+    private float DamageTaken;
+    
     [HideInInspector]
     public float NormalizedTimeScore = 0f;
-
-    [Header("Damage Taken")]
-    [SerializeField]
-    private float BestDamageTaken = 0f;
-    [SerializeField]
-    private float WorstDamageTaken = 100f;
-    private float DamageTaken;
     [HideInInspector]
     public float NormalizedDamageTakenScore = 0f;
 
@@ -34,11 +26,23 @@ public class ATrinityScore : MonoBehaviour
     public void Start()
     {
         ATrinityGameManager.GetPlayerController().OnHit += AddDamageTaken;
+        ATrinityGameManager.OnGameStart += SetScoreLimits;
+        ATrinityGameManager.OnSceneChanged += SetScoreLimits;
+    }
+
+    private void SetScoreLimits(FScoreLimits newLimits)
+    {
+        if (newLimits.SceneName != "")
+        {
+            ScoreLimits = newLimits;
+            Timer = 0f;
+            DamageTaken = 0f;
+        }
     }
 
     public void Update()
     {
-        if (SceneManager.GetActiveScene().name != "PORTAL")
+        if (ATrinityGameManager.CurrentScene != "PORTAL")
         {
             Timer += Time.deltaTime;
         }
@@ -48,73 +52,43 @@ public class ATrinityScore : MonoBehaviour
 
     public void AddDamageTaken(FHitInfo hitInfo)
     {
-        DamageTaken += hitInfo.Damage;
+        DamageTaken += (hitInfo.Damage / ATrinityGameManager.GetPlayerController().HealthComponent.MAX);
     }
-    
-    
-    
+
+
+
     private void CheckForVictory()
     {
-        bool bBossExists = false;
         bool bBossAlive = false;
         
         foreach (IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
         {
-            if (ec)
+            if (ec.EnemyStatus.Health.Current > 0f)
             {
-                bBossExists = true;
-                
-                if (ec.EnemyStatus.Health.Current > 0f)
-                {
-                    bBossAlive = true;
-                }
+                bBossAlive = true;
             }
         }
 
-        if (bBossExists && !bBossAlive)
+        if (ATrinityGameManager.GetEnemyControllers().Count > 0 && !bBossAlive)
         {
-            OnVictory?.Invoke(GetScore());
+            OnVictory?.Invoke(GetETS());
         }
     }
-    
-    public ETrinityScore GetScore()
-    {
-        return MapScoreToETS(CalculateScore());
-    }
-    
-    private ETrinityScore MapScoreToETS(float score)
-    {
-        return (ETrinityScore)Mathf.CeilToInt(score);
-    }
 
-    private float CalculateScore()
+    public ETrinityScore GetETS()
     {
-        NormalizedTimeScore = NormalizeTime(ClampTime(Timer));
-        NormalizedDamageTakenScore = NormalizeDamageTaken(ClampDamageTaken(DamageTaken));
+        float clampedTime = Mathf.Clamp(GetTimer(), ScoreLimits.BestTime, ScoreLimits.WorstTime);
+        float clampedDamageTaken = Mathf.Clamp(GetDamageTaken(), ScoreLimits.BestDamageTaken, ScoreLimits.WorstDamageTaken);
 
-        return (NormalizedTimeScore + NormalizedDamageTakenScore) * 10f; //multiply to map to ETS properly
-    }
+        NormalizedTimeScore = Mathf.Clamp01((ScoreLimits.WorstTime - clampedTime) / (clampedTime / Mathf.Clamp(ScoreLimits.BestTime, 0.000001f, 1)));  //ensure no divide by 0
 
-    private float NormalizeTime(float clampedTime)
-    {
-        return Mathf.Clamp01(1f - (clampedTime - BestTime) / BestTime);
+        NormalizedDamageTakenScore = Mathf.Clamp01(1f - (clampedDamageTaken / Mathf.Clamp(ScoreLimits.WorstDamageTaken, 0.00001f, ScoreLimits.WorstDamageTaken)));  //ensure no divide by 0
+
+        float etsFloat = Mathf.Clamp((NormalizedTimeScore + NormalizedDamageTakenScore) * 10f, 0, 20); //multiply by 10 and clamp to ETS range to map to ETS properly
+        
+        return (ETrinityScore)Mathf.CeilToInt(etsFloat);
     }
     
-    private float NormalizeDamageTaken(float clampedDamageTaken)
-    {
-        return Mathf.Clamp01(1f - (clampedDamageTaken - BestDamageTaken) / BestDamageTaken);
-    }
-    
-    private float ClampTime(float timer)
-    {
-        return Mathf.Clamp(timer, BestTime, WorstTime);
-    }
-
-    private float ClampDamageTaken(float damageTaken)
-    {
-        return Mathf.Clamp(damageTaken, BestDamageTaken, WorstDamageTaken);
-    }
-
     public float GetTimer()
     {
         return Timer;
