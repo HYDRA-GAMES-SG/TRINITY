@@ -15,17 +15,20 @@ public class ATrinityFSM : MonoBehaviour, IFSM
     public TrinityState PreviousState { get; private set; }
 
     public event Action<TrinityState, TrinityState> OnStateChange;
+    
+    [HideInInspector]
     public Animator Animator;
     private bool FSM_RUNNING = false;
 
     private void Awake()
     {
         InitializeStates();
+        ATrinityGameManager.SetPlayerFSM(this);
     }
 
     void Start()
     {
-        ATrinityGameManager.OnSceneChanged += StartStateMachine;
+        Animator = ATrinityGameManager.GetPlayerController().transform.Find("Graphics").GetComponent<Animator>();
     }
 
     private void FixedUpdate()
@@ -64,14 +67,12 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         }
     }
 
-    private void StartStateMachine()
+    public void StartStateMachine()
     {
         FSM_RUNNING = true;
         CurrentState = InitialState;
         CurrentState.EnterBehaviour(Time.deltaTime, null);
-        Debug.Log("PLAYER: " + CurrentState);
-        ATrinityGameManager.SetPlayerFSM(this);
-
+        //Debug.Log("PLAYER: " + CurrentState);
     }
 
     private void ProcessTransitions()

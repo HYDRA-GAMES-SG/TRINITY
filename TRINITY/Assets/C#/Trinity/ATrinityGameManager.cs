@@ -34,6 +34,7 @@ public class ATrinityGameManager : MonoBehaviour
     public static bool CROSSHAIR_ENABLED = true;
 
     //singleton references
+    private static ATrinityGraphics GraphicsReference;
     private static ATrinityAudio AudioReference;
     private static ATrinityFSM PlayerFSM;
     private static ATrinityController PlayerController;
@@ -50,6 +51,26 @@ public class ATrinityGameManager : MonoBehaviour
     
     public static bool bCanSkipMainMenu = false;
 
+    void ResetGame()
+    {
+        CheckForNullReferences();
+        CurrentScene = SceneManager.GetActiveScene().name;
+        SetEnemyControllers();
+        GetPlayerController().ResetPlayer();
+        GetGUI().ResetGUI();
+        GetPlayerFSM().StartStateMachine();
+        
+        if (CurrentScene == "PORTAL")
+        {
+            SetGameFlowState(EGameFlowState.MAIN_MENU);
+        }
+        else
+        {
+            ATrinityGameManager.bCanSkipMainMenu = true;
+            SetGameFlowState(EGameFlowState.PLAY);
+        }
+    }
+    
     void Awake()
     {
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
@@ -63,27 +84,17 @@ public class ATrinityGameManager : MonoBehaviour
         
         EnemyControllers = new List<IEnemyController>();
         CurrentScene = SceneManager.GetActiveScene().name;
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (CurrentScene == "PORTAL")
-        {
-            SetGameFlowState(EGameFlowState.MAIN_MENU);
-        }
-        else
-        {
-            ATrinityGameManager.bCanSkipMainMenu = true;
-            SetGameFlowState(EGameFlowState.PLAY);
-        }
+        OnSceneChanged += ResetGame;
         
         CROSSHAIR_ENABLED = PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false;
         MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
         GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
         MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
-        
-        SetEnemyControllers();
+    }
+    
+    // Start is called before the first frame update
+    void Start()
+    {
         
         OnSceneChanged?.Invoke();
     }
@@ -110,18 +121,8 @@ public class ATrinityGameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != CurrentScene)
         {
-            SetEnemyControllers();
-            print("ATGM => Scene Transition Detected:" + CurrentScene + " => " + SceneManager.GetActiveScene().name);
-            CurrentScene = SceneManager.GetActiveScene().name;
-            
-            print("ATGM => OnSceneChanged!");
+            //print("ATGM => OnSceneChanged!");
             OnSceneChanged?.Invoke();
-
-            Transform spawnPoint = FindObjectOfType<ATrinitySpawn>().transform;
-            Transform player = GetPlayerController().transform;
-            player.position = spawnPoint.position;
-            player.rotation = spawnPoint.rotation;
-            player.localScale = spawnPoint.localScale;
         }
     }
 
@@ -148,6 +149,19 @@ public class ATrinityGameManager : MonoBehaviour
         else
         {
             Debug.Log("ATrinityAudio null on Game Manager");
+            return null;
+        }
+    }
+    
+    public static ATrinityGraphics GetGraphics()
+    {
+        if (GraphicsReference)
+        {
+            return GraphicsReference;
+        }
+        else
+        {
+            Debug.Log("ATrinityGraphics null on Game Manager");
             return null;
         }
     }
@@ -184,6 +198,7 @@ public class ATrinityGameManager : MonoBehaviour
                 return SFX_MixerGroup;
         }
     }
+    
     public static EGameFlowState GetGameFlowState()
     {
         return GameFlowState;
@@ -249,8 +264,7 @@ public class ATrinityGameManager : MonoBehaviour
     //==================================================
     //SETTERS
     //=================================================
-    
-    
+
     
     private void SetEnemyControllers()
     {
@@ -261,15 +275,21 @@ public class ATrinityGameManager : MonoBehaviour
     {
         EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
     }
-
-    public static void SetScore(ATrinityScore score)
+    
+    public static void SetGraphics(ATrinityGraphics graphics)
     {
-        if (ScoreReference != null)
+        
+        if (GraphicsReference != null)
         {
-            Debug.Log("Static Score Ref Not Null");
+            Debug.Log("Static Graphics Ref Not Null");
             return;
         }
 
+        GraphicsReference = graphics;
+    }
+    
+    public static void SetScore(ATrinityScore score)
+    {
         ScoreReference = score;
     }
     
@@ -297,12 +317,6 @@ public class ATrinityGameManager : MonoBehaviour
     
     public static void SetGUI(ATrinityGUI gui)
     {
-        if (GUIReference != null)
-        {
-            Debug.Log("GUI Ref not null");
-            return;
-        }
-
         GUIReference = gui;
     }
     
@@ -382,5 +396,53 @@ public class ATrinityGameManager : MonoBehaviour
         PlayerPrefs.SetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
         PlayerPrefs.SetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
         PlayerPrefs.SetFloat("MasterVolume", MASTER_VOLUME);
+    }
+    
+    private static void CheckForNullReferences()
+    {
+        if(!GraphicsReference)
+        {
+            print("`GraphicsReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!AudioReference)
+        {
+            print("`AudioReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!PlayerFSM)
+        {
+            print("`PlayerFSM' StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!PlayerController)
+        {
+            print("`PlayerController` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!SpellsReference)
+        {
+            print("`SpellsReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!ScoreReference)
+        {
+            print("`ScoreReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!BrainReference)
+        {
+            print("`BrainReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!InputReference)
+        {
+            print("`InputReference` StaticRef is Null on ATrinityGameManager!");
+        }
+        if(!AnimationReference)
+        {
+            print("`AnimationReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!CameraReference)
+        {
+            print("`CameraReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
+        if(!GUIReference)
+        {
+            print("`GUIReference` StaticRef is Null on ATrinityGameManager!"); 
+        }
     }
 }

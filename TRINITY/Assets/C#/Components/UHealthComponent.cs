@@ -18,6 +18,7 @@ public class UHealthComponent : MonoBehaviour
 
     public bool bInvulnerable = false;
     private bool bDeathFrame = false;
+    private float InitialRegen;
 
     public System.Action<float> OnDamageTaken;
     public System.Action<float> OnHealthModified;
@@ -26,11 +27,11 @@ public class UHealthComponent : MonoBehaviour
 
     public void Awake()
     {
-        
     }
 
     void Start()
     {
+        InitialRegen = Regen;
         Current = MAX;
     }
 
@@ -111,5 +112,13 @@ public class UHealthComponent : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void Reset()
+    {
+        bInvulnerable = false;
+        Current = MAX;
+        Regen = InitialRegen;
+
     }
 }

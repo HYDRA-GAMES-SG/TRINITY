@@ -18,12 +18,18 @@ public class ATrinityGUI : MonoBehaviour
     
     [Header("References")]
     public AEnemyHealthBar[] EnemyHealthBars = new AEnemyHealthBar[3];
+
+    [SerializeField]
+    private ATrinityMainMenu MainMenu;
     public GameObject OptionsMenu;
     public GameObject GameOver;
     public GameObject Victory;
     public GameObject Tutorials;
     public GameObject Crosshair;
+    [SerializeField]
+    private GameObject HUDCanvas;
     
+    [Header("Sliders")]
     [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
 
     [Header("UI Objects")] 
@@ -46,37 +52,28 @@ public class ATrinityGUI : MonoBehaviour
     public float TriangleFinalScale = .45f;
     
     private float PlayerHealthTarget;
-    private GameObject GUICanvas;
     private Coroutine TriangleScaleCoro;
 
     void Awake()
     {
-        if(!Instance)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-
         ATrinityGameManager.SetGUI(this);
-        DontDestroyOnLoad(this.gameObject);
+        
+        List<ATrinityGUI> CurrentInstances = FindObjectsOfType<ATrinityGUI>().ToList();
+        
+        if (CurrentInstances.Count() > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+        
+        ATrinityGameManager.SetGUI(this);
 
     }
     
     void Start()
     {
-        ATrinityGameManager.OnSceneChanged += SetupEnemyUI;
-        
-        GUICanvas = transform.Find("Canvas").gameObject;
-        
-        if (ATrinityGameManager.CurrentScene == "PORTAL")
-        {
-            Tutorials.SetActive(true);
-            GUICanvas.SetActive(false);
-            AMainMenuCamera.OnSwitchToPlayerCamera += EnableCanvas;
-        }
+        HUDCanvas = transform.Find("HUDCanvas").gameObject;
         
         if (ATrinityGameManager.GetPlayerController() != null)
         {
@@ -159,12 +156,6 @@ public class ATrinityGUI : MonoBehaviour
         {
             return;
         }
-
-        if (Tutorials.activeSelf == true && ATrinityGameManager.CurrentScene != "PORTAL")
-        {
-            Tutorials.SetActive(false);
-        }
-        
         // Lerp DamageSlider to target values
         if (DamageSlider != null)
         {
@@ -210,34 +201,17 @@ public class ATrinityGUI : MonoBehaviour
         }
     }
     
-    private void SetupEnemyUI(FScoreLimits newLimits)
+    public void SetupEnemyUI()
     {
-        if (ATrinityGameManager.CurrentScene == "PORTAL")
+        for (int i = 0; i < EnemyHealthBars.Length; i++)
         {
-            return;
+            EnemyHealthBars[i].gameObject.SetActive(false);
         }
         
         for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {
             EnemyHealthBars[i].gameObject.SetActive(true);
             EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
-            EnemyHealthBars[i].EnemyName.text = ATrinityGameManager.GetEnemyControllers()[i].Name;
-            
-        }
-    }
-    
-    private void SetupEnemyUI()
-    {
-        if (ATrinityGameManager.CurrentScene == "PORTAL")
-        {
-            return;
-        }
-        
-        for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
-        {
-            EnemyHealthBars[i].gameObject.SetActive(true);
-            EnemyHealthBars[i].SetEnemyController(ATrinityGameManager.GetEnemyControllers()[i]);
-            
         }
     }
 
@@ -261,12 +235,12 @@ public class ATrinityGUI : MonoBehaviour
 
     public void EnableCanvas()
     {
-        if (GUICanvas.activeSelf)
+        if (HUDCanvas.activeSelf)
         {
             return;
         }
         
-        GUICanvas.SetActive(true);
+        HUDCanvas.SetActive(true);
         StartCoroutine(FadeInGUI());
     }
 
@@ -277,7 +251,7 @@ public class ATrinityGUI : MonoBehaviour
         {
             fadeTime += Time.deltaTime;
             float alpha = Mathf.Lerp(0,1, fadeTime / FadeInDuration);
-            GUICanvas.GetComponent<CanvasGroup>().alpha = alpha;
+            HUDCanvas.GetComponent<CanvasGroup>().alpha = alpha;
 
             yield return null;
         }
@@ -360,5 +334,34 @@ public class ATrinityGUI : MonoBehaviour
             TriangleScaler.transform.localScale = Vector3.one * scale;
             yield return null;
         }
+    }
+
+    public void ResetGUI()
+    {
+        AMainMenuCamera.OnSwitchToPlayerCamera -= EnableCanvas;
+        
+        if (ATrinityGameManager.CurrentScene == "PORTAL")
+        {
+            GetMainMenu().gameObject.SetActive(true);
+            GetMainMenu().MainMenuCamera.enabled = true;
+            GetMainMenu().Initialize();
+            Tutorials.SetActive(true);
+            HUDCanvas.SetActive(false);
+            AMainMenuCamera.OnSwitchToPlayerCamera += EnableCanvas;
+        }
+        else
+        {
+            GetMainMenu().MainMenuCamera.enabled = false;
+            GetMainMenu().gameObject.SetActive(false);
+            ATrinityGameManager.GetGUI().Tutorials.SetActive(false);
+            HUDCanvas.SetActive(true);
+        }
+
+        SetupEnemyUI();
+    }
+
+    public ATrinityMainMenu GetMainMenu()
+    {
+        return MainMenu;
     }
 }

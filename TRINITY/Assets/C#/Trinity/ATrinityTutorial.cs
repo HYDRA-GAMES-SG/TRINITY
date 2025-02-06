@@ -30,13 +30,6 @@ public class ATrinityTutorial : MonoBehaviour
     
     void Start()
     {
-        
-        if (ATrinityGameManager.CurrentScene != "PORTAL")
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        
         InputReference = ATrinityGameManager.GetInput();
         BindToInputEvents(true);
     }

@@ -42,7 +42,7 @@ public class AUtilityCold : ASpell
         FrozenTimer += Time.deltaTime;
         if (FrozenTimer > FrozenTime)
         {
-            Release();
+            //Release();
             ATrinityGameManager.GetPlayerController().HealthComponent.bInvulnerable = false;
         }
     }

@@ -56,11 +56,10 @@ public class NormalMovement : TrinityState
     {
         Controller = ATrinityGameManager.GetPlayerController();
         Input = ATrinityGameManager.GetInput();
-        Animator = ATrinityGameManager.GetAnimator();
         
         SetMovementState(ETrinityMovement.ETM_Grounded);
-        Animator.AnimComponent.SetBool(AnimKeys["Jump"], false);
-        Animator.AnimComponent.SetBool(AnimKeys["Glide"], false);
+        TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
+        TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
@@ -73,7 +72,7 @@ public class NormalMovement : TrinityState
     {
         // if (Controller.CheckGround().transform)
         // {
-        Animator.AnimComponent.SetTrigger(AnimKeys["DeathTrigger"]);
+        TrinityFSM.Animator.SetTrigger(AnimKeys["DeathTrigger"]);
         ATrinityController.OnDeath?.Invoke();
         // }
         // else
@@ -99,7 +98,7 @@ public class NormalMovement : TrinityState
         {
             bCanGlide = false;
             SetMovementState(ETrinityMovement.ETM_Falling);
-            Animator.AnimComponent.SetBool(AnimKeys["Glide"], false);
+            TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
         }
         
         bFixedUpdate = true;
@@ -219,10 +218,10 @@ public class NormalMovement : TrinityState
                 {
                     bJumpConsumed = true;
                     Controller.RB.AddForce(Controller.Up * GetChargedJumpForce() / Controller.RB.mass, ForceMode.Impulse);
-                    Animator.AnimComponent.SetBool(AnimKeys["Jump"], true);
+                    TrinityFSM.Animator.SetBool(AnimKeys["Jump"], true);
                     ATrinityController.OnJump?.Invoke();
                     MirrorCounter++; //increment counter
-                    Animator.AnimComponent.SetBool(AnimKeys["Mirror"], MirrorCounter % 2 == 1); //flip flop counter
+                    TrinityFSM.Animator.SetBool(AnimKeys["Mirror"], MirrorCounter % 2 == 1); //flip flop counter
                 }
             }
         }
@@ -253,9 +252,9 @@ public class NormalMovement : TrinityState
                     // Ground detected, ensure movement state remains grounded
                     SetMovementState(ETrinityMovement.ETM_Grounded);
                     bCanGlide = false;
-                    Animator.AnimComponent.SetBool(AnimKeys["Jump"], false);
-                    Animator.AnimComponent.SetBool(AnimKeys["Blink"], false);
-                    Animator.AnimComponent.SetBool(AnimKeys["Glide"], false);
+                    TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
+                    TrinityFSM.Animator.SetBool(AnimKeys["Blink"], false);
+                    TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
                     
                 }
             }
@@ -265,13 +264,13 @@ public class NormalMovement : TrinityState
     
     private void HandleBlink()
     {
-        if (Animator.AnimComponent.GetBool(AnimKeys["Blink"]) && Controller.CheckGround().transform)
+        if (TrinityFSM.Animator.GetBool(AnimKeys["Blink"]) && Controller.CheckGround().transform)
         {
             // Ground detected, ensure movement state remains grounded
             SetMovementState(ETrinityMovement.ETM_Grounded);
             bCanGlide = false;
-            Animator.AnimComponent.SetBool(AnimKeys["Jump"], false);
-            Animator.AnimComponent.SetBool(AnimKeys["Blink"], false);
+            TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
+            TrinityFSM.Animator.SetBool(AnimKeys["Blink"], false);
         }
     }
     
@@ -316,7 +315,7 @@ public class NormalMovement : TrinityState
             if (Input.JumpInput && MovementState == ETrinityMovement.ETM_Falling && !Controller.bTerrainCollision)
             {
                 SetMovementState(ETrinityMovement.ETM_Gliding);
-                Animator.AnimComponent.SetBool(AnimKeys["Glide"], true);
+                TrinityFSM.Animator.SetBool(AnimKeys["Glide"], true);
                 ATrinityController.OnGlideStart?.Invoke();
             }
         }
@@ -347,16 +346,16 @@ public class NormalMovement : TrinityState
         float maxSpeedThreshold = MaxSpeed * .6f;
         Vector3 playerSpaceVelocity = Controller.transform.InverseTransformVector(Controller.RB.velocity) / maxSpeedThreshold;
         
-        Animator.AnimComponent.SetFloat(AnimKeys["Move"], playerSpaceVelocity.z, .05f, Time.deltaTime);
-        Animator.AnimComponent.SetFloat(AnimKeys["Strafe"], playerSpaceVelocity.x, .05f, Time.deltaTime);
-        Animator.AnimComponent.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
-        Animator.AnimComponent.SetBool(AnimKeys["Stunned"], ATrinityGameManager.GetBrain().bIsStunned);
-        Animator.AnimComponent.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
-        Animator.AnimComponent.SetBool(AnimKeys["Release"], ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_None);;
+        TrinityFSM.Animator.SetFloat(AnimKeys["Move"], playerSpaceVelocity.z, .05f, Time.deltaTime);
+        TrinityFSM.Animator.SetFloat(AnimKeys["Strafe"], playerSpaceVelocity.x, .05f, Time.deltaTime);
+        TrinityFSM.Animator.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
+        TrinityFSM.Animator.SetBool(AnimKeys["Stunned"], ATrinityGameManager.GetBrain().bIsStunned);
+        TrinityFSM.Animator.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
+        TrinityFSM.Animator.SetBool(AnimKeys["Release"], ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_None);;
 
-        if (Animator.AnimComponent.GetBool(AnimKeys["Blink"]) == true)
+        if (TrinityFSM.Animator.GetBool(AnimKeys["Blink"]) == true)
         {
-            Animator.AnimComponent.SetBool(AnimKeys["Blink"], false);
+            TrinityFSM.Animator.SetBool(AnimKeys["Blink"], false);
         }
     }
     
@@ -368,7 +367,7 @@ public class NormalMovement : TrinityState
     
     private void OnBlink()
     {
-        Animator.AnimComponent.SetBool(AnimKeys["Blink"], true);
+        TrinityFSM.Animator.SetBool(AnimKeys["Blink"], true);
     }
 
     private void HandleHit(FHitInfo hitInfo)
@@ -386,16 +385,16 @@ public class NormalMovement : TrinityState
         Vector3 playerSpaceEnemyCollider = Controller.transform.InverseTransformPoint(hitInfo.CollidingObject.transform.position);
         Vector2 playerSpacePlanarEnemyColliderNormalized = new Vector2(playerSpaceEnemyCollider.x, playerSpaceEnemyCollider.z).normalized;
         
-        Animator.AnimComponent.SetFloat(AnimKeys["HitX"], playerSpacePlanarEnemyColliderNormalized.x);
-        Animator.AnimComponent.SetFloat(AnimKeys["HitY"], playerSpacePlanarEnemyColliderNormalized.y);
+        TrinityFSM.Animator.SetFloat(AnimKeys["HitX"], playerSpacePlanarEnemyColliderNormalized.x);
+        TrinityFSM.Animator.SetFloat(AnimKeys["HitY"], playerSpacePlanarEnemyColliderNormalized.y);
         
         if (MovementState != ETrinityMovement.ETM_Grounded)
         {
-            Animator.AnimComponent.Play("Aerial Hit Blend", 0, 0f);
+            TrinityFSM.Animator.Play("Aerial Hit Blend", 0, 0f);
         }
         else
         {
-            Animator.AnimComponent.Play("Hit Blend", 0, 0f);
+            TrinityFSM.Animator.Play("Hit Blend", 0, 0f);
         }
     }
 
@@ -432,5 +431,12 @@ public class NormalMovement : TrinityState
             default:
                 return new Vector3(chargedX * AirMoveModifier, Controller.VerticalVelocity, chargedZ * AirStrafeModifier);
         }
+    }
+
+    public void OnDestroy()
+    {
+        ABlink.OnBlink -= OnBlink;
+        Controller.HealthComponent.OnDeath -= HandleDeath;
+        Controller.OnHit -= HandleHit;
     }
 }

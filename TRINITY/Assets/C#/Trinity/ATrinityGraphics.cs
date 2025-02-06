@@ -11,19 +11,17 @@ public class ATrinityGraphics : MonoBehaviour
     private SkinnedMeshRenderer[] ClothesMeshes;
     public Material[] ElementMaterials;
     [HideInInspector] public Animator AnimatorComponent;
+
+    private void Awake()
+    {
+        ATrinityGameManager.SetGraphics(this);
+    }
     
     private void Start()
     {
         ATrinityGameManager.GetBrain().OnElementChanged += UpdateMeshColor;
         ATrinityGameManager.GetBrain().OnElementChanged += UpdateStaffAura;
         ClothesMeshes = ClothesParent.GetComponentsInChildren<SkinnedMeshRenderer>();
-
-        if (ATrinityGameManager.CurrentScene == "PORTAL")
-        {
-            ATrinityMainMenu.OnMenuElementChanged += UpdateStaffAura;
-            ATrinityMainMenu.OnMenuElementChanged += UpdateMeshColor;
-        }
-
 
         UpdateMeshColor(ETrinityElement.ETE_Fire);
         UpdateStaffAura(ETrinityElement.ETE_Fire);
@@ -33,20 +31,13 @@ public class ATrinityGraphics : MonoBehaviour
     {
     }
 
-    private void OnDestroy()
-    {
-        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateStaffAura;
-        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
-        ATrinityMainMenu.OnMenuElementChanged -= UpdateStaffAura;
-        ATrinityMainMenu.OnMenuElementChanged -= UpdateMeshColor;
-    }
 
-    private void UpdateMeshColor(ETrinityElement newElement)
+    public void UpdateMeshColor(ETrinityElement newElement)
     {
         SetClothesMaterials((int)newElement);
     }
 
-    private void UpdateStaffAura(ETrinityElement newElement)
+    public void UpdateStaffAura(ETrinityElement newElement)
     {
         for (int i = 0; i < StaffObjects.Length; i++)
         {
@@ -68,6 +59,14 @@ public class ATrinityGraphics : MonoBehaviour
         {
             mesh.material = ElementMaterials[elementMaterialIndex];
         }
+    }
+    
+    private void OnDestroy()
+    {
+        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateStaffAura;
+        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
+        ATrinityMainMenu.OnMenuElementChanged -= UpdateStaffAura;
+        ATrinityMainMenu.OnMenuElementChanged -= UpdateMeshColor;
     }
 
 }

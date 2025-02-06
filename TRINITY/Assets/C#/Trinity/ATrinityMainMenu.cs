@@ -46,19 +46,20 @@ public class ATrinityMainMenu : MonoBehaviour
         InitialColor = TriangleTexts[0].color;
 
         ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
-        ATrinityGameManager.OnSceneChanged += Initialize;
         Initialize();
         ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
         ATrinityGameManager.GetInput().OnJumpGlidePressed += Select;
         ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Select;
         ATrinityGameManager.GetInput().OnNextElementPressed += NavigateForwards;
         ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
+        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
+        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
         
         
         TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
     }
 
-    void Initialize()
+    public void Initialize()
     {
         MainMenuSelection = EMainMenu.EMM_Start;
         bOptionsMenu = false;
@@ -245,6 +246,8 @@ public class ATrinityMainMenu : MonoBehaviour
         ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
         ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= Select;
         ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
+        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
+        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
     }
 
     public void HideTriangleText()

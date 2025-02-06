@@ -55,6 +55,16 @@ public class UFullScreenEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!ATrinityGameManager.GetBrain().bForcefieldActive)
+        {
+            Material.SetVector("_VignetteColor", new Vector4(1f, 0, 0, 1f));
+        }
+        else
+        {
+            Material.SetVector("_VignetteColor", new Vector4(0, 0, 1f, 1f));
+            
+        }
+        
         if (bEffectActive)
         {
             EffectTimer += Time.deltaTime;

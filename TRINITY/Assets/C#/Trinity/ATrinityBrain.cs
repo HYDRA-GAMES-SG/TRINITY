@@ -19,7 +19,6 @@ public class ATrinityBrain : MonoBehaviour
     public bool bCanRotatePlayer => GetAction() != ETrinityAction.ETA_Stunned && GetAction() != ETrinityAction.ETA_Channeling;
     [HideInInspector]
     public bool bForcefieldActive = false;
-    [HideInInspector]
     
     private ASpell CurrentSpell;
     private ETrinityElement CurrentElement;
@@ -149,6 +148,7 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
+        
         switch (GetElement())
         {
             case ETrinityElement.ETE_Cold:
@@ -335,7 +335,7 @@ public class ATrinityBrain : MonoBehaviour
         {
             return;
         }
-        
+
         CurrentSpell = newSpell;
 
         if (newSpell != null)

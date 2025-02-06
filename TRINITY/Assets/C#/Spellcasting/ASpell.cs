@@ -129,7 +129,7 @@ public class ASpell : MonoBehaviour
         {
             if (this is not AForcefield)
             {
-                print("non channeled and masked");
+                Debug.Log("non channeled and masked");
                 ATrinityGameManager.GetAnimator().PlayCastAnimation($"Masked Layer.{gameObject.name}");
             }
         }
@@ -154,6 +154,7 @@ public class ASpell : MonoBehaviour
     
     public virtual void Release()
     {
+        
         if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
             ATrinityGameManager.GetAnimator().ReleaseAnimation();

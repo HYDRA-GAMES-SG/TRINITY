@@ -71,8 +71,6 @@ public class ATrinityController : MonoBehaviour
     private void Awake()
     {
         ATrinityGameManager.SetPlayerController(this);
-
-        ATrinityGameManager.OnSceneChanged += ResetTerrainCounter;
         
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
@@ -283,7 +281,12 @@ public class ATrinityController : MonoBehaviour
         {
             RB.isKinematic = true;
         }
-            
+    }
+
+    public void ResetPlayer()
+    {
+        ResetTerrainCounter();
+        HealthComponent.Reset();
     }
     
     // public void EnableRagdoll()

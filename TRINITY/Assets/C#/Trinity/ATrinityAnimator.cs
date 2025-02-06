@@ -23,10 +23,13 @@ public class ATrinityAnimator : MonoBehaviour
         AnimComponent.GetCurrentAnimatorStateInfo(MaskedLayerIndex).normalizedTime >= 1f ||
         AnimComponent.GetCurrentAnimatorStateInfo(MaskedLayerIndex).IsName("Null");
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         ATrinityGameManager.SetAnimator(this);
-        
+    }
+    
+    void Start()
+    {
         AnimComponent = GetComponent<Animator>();
         AnimComponent.SetLayerWeight(MaskedLayerIndex, 0f);
         AnimComponent.SetLayerWeight(UnmaskedLayerIndex, 0f);
