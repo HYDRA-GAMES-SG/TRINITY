@@ -70,6 +70,11 @@ public class ASpell : MonoBehaviour
         {
             CastUpdate();
         }
+
+        if (this is AUtilityCold) 
+        {
+            CastUpdate();
+        }
     }
 
     protected void UpdateCooldown()

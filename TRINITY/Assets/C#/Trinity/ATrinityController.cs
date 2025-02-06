@@ -226,6 +226,10 @@ public class ATrinityController : MonoBehaviour
     
     public void ApplyHit(FHitInfo hitInfo)
     {
+        if (ATrinityGameManager.GetPlayerController().HealthComponent.bInvulnerable == true)
+        {
+            return;
+        }
         ATrinitySpells spellReference = ATrinityGameManager.GetSpells(); 
         float remainingDamage = hitInfo.Damage;
         float remainingMana = spellReference.ManaComponent.Current;

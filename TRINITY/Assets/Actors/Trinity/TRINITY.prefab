@@ -3257,7 +3257,7 @@ MonoBehaviour:
   SpellPrefab: {fileID: 7421522436511824269, guid: c12830469a7fce14482f4f46ad1a6aae,
     type: 3}
   Cooldown: 0
-  ManaCost: 0
+  ManaCost: 30
   ManaUpkeepCost: 0
   SpellElement: 1
   SpellType: 2
@@ -3265,7 +3265,7 @@ MonoBehaviour:
   bUseMaskedLayer: 0
   ColdUtilitySource: {fileID: 0}
   TrinitySpells: {fileID: 0}
-  HealAmount: 0
+  HealAmount: 20
   FrozenTime: 3
   LiftForce: 20
   StacksApplied: 1
@@ -5528,7 +5528,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   Range: 10
-  InitialChillStacks: 25
+  InitialChillStacks: 50
   MaxScale: 25
   MinScale: 1
   MaxChannelTime: 6
@@ -7702,8 +7702,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7234860868322912901}
-  - component: {fileID: 9114780221709798140}
-  - component: {fileID: 5506253234776969778}
   m_Layer: 0
   m_Name: TRINITY
   m_TagString: Untagged
@@ -7730,32 +7728,6 @@ Transform:
   - {fileID: 3419489720902276692}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9114780221709798140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5356537904899141138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6eae787af34ba924ba7b1eef6c2a4330, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5506253234776969778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5356537904899141138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3c3784ee40c2c64f8640ed75e0c39b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NormalizedTimeScore: 0
-  NormalizedDamageTakenScore: 0
 --- !u!1 &5483592535279311092
 GameObject:
   m_ObjectHideFlags: 0
@@ -7883,9 +7855,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d871bb7c46b1d74f80abcf47d1ba0b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MAX: 50
-  Regen: 3
+  MAX: 100
+  Regen: 1.5
   Current: 50
+  bInvulnerable: 0
 --- !u!135 &3909618758566824843
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24772,9 +24745,9 @@ MonoBehaviour:
   StacksApplied: 10
   AilmentType: 1
   LightningSource: {fileID: 0}
-  MinScale: 1
-  MaxScale: 2
-  MaxChannelTime: 1.5
+  MinScale: 0
+  MaxScale: 1
+  MaxChannelTime: 1
   ChannelTime: 0
   BoltCreationThreshold: 0.5
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
@@ -25258,7 +25231,7 @@ MonoBehaviour:
   SpellType: 0
   SpellAction: 0
   bUseMaskedLayer: 1
-  StacksApplied: 100
+  StacksApplied: 5
   AilmentType: 0
   FireSource: {fileID: 0}
   FireAttack:
@@ -25956,7 +25929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpellPrefab: {fileID: 904328815561062564, guid: 9269c405172bbe845971ab6f79b927e5,
     type: 3}
-  Cooldown: 6
+  Cooldown: 2.5
   ManaCost: 10
   ManaUpkeepCost: 0
   SpellElement: 0

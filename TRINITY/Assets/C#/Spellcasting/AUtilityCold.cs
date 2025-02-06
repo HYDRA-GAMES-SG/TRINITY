@@ -32,6 +32,8 @@ public class AUtilityCold : ASpell
 
         ATrinityGameManager.GetPlayerController().HealthComponent.Modify(HealAmount);
 
+        ATrinityGameManager.GetPlayerController().HealthComponent.bInvulnerable = true;
+
         ATrinityGameManager.GetBrain().SetStunnedState(FrozenTime, true);
     }
 
@@ -41,11 +43,12 @@ public class AUtilityCold : ASpell
         if (FrozenTimer > FrozenTime)
         {
             Release();
+            ATrinityGameManager.GetPlayerController().HealthComponent.bInvulnerable = false;
         }
     }
 
     public override void CastEnd()
     {
-        
+       
     }
 }

@@ -16,6 +16,7 @@ public class UHealthComponent : MonoBehaviour
     
     [HideInInspector] public bool bDead => Current <= 0f;
 
+    public bool bInvulnerable = false;
     private bool bDeathFrame = false;
 
     public System.Action<float> OnDamageTaken;
@@ -45,7 +46,7 @@ public class UHealthComponent : MonoBehaviour
     
     public float Modify(FDamageInstance damageSource)
     {
-        if (bDead)
+        if (bDead || bInvulnerable)
         {
             return Current;
         }
