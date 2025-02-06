@@ -113,24 +113,7 @@ public class ATrinityMainMenu : MonoBehaviour
         {
             bRotating = false;
             OnMenuElementChanged?.Invoke((ETrinityElement)MainMenuSelection);
-            HighlightText();
         }
-    }
-
-    private void HighlightText()
-    {
-        for (int i = 0; i < TriangleTexts.Count; i++)
-        {
-            if (i == (int)MainMenuSelection)
-            {
-                TriangleTexts[(int)MainMenuSelection].color = Color.black;
-            }
-            else
-            {
-                TriangleTexts[i].color = InitialColor;
-            }
-        }
-        
     }
 
     private void Select()

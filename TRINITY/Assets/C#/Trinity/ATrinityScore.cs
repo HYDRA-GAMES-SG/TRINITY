@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityScore : MonoBehaviour
 {
+    private static ATrinityScore Instance;
+    
     public System.Action<ETrinityScore> OnVictory;
     //public float TimeToDamageScoreWeight = .5f;
     
@@ -53,6 +56,16 @@ public class ATrinityScore : MonoBehaviour
     public void Awake()
     {
         ATrinityGameManager.SetScore(this);
+        
+        List<ATrinityScore> CurrentInstances = FindObjectsOfType<ATrinityScore>().ToList();
+        
+        if (CurrentInstances.Count() > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+        
     }
     public void Start()
     {

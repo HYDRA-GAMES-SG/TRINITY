@@ -104,6 +104,7 @@ public class ATrinityController : MonoBehaviour
 
     private void OnDestroy()
     {
+        
     }
 
     private void Update()
