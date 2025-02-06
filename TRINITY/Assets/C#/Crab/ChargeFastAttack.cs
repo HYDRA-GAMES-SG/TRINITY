@@ -28,7 +28,7 @@ public class ChargeFastAttack : CrabState
     bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
-        return fromState is Pursue && CrabFSM.CrabController.CanCharageMoveFast && CrabFSM.CrabController.FacingTarget();
+        return fromState is Pursue && CrabFSM.CrabController.CanCharageMoveFast && CrabFSM.CrabController.FacingTarget() && !ATrinityGameManager.GetCamera().IsPointInBoxCollider(CrabFSM.CrabController.transform.position, ATrinityGameManager.GetSpells().SecondaryCold.IceCubeTrigger, .08f);
     }
 
     public override void EnterBehaviour(float dt, IState fromState)

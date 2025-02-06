@@ -107,7 +107,7 @@ public class IEnemyController : MonoBehaviour
 
         if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement normalMovement)
         {
-            if (normalMovement.GetMovementState() == ETrinityMovement.ETM_Grounded)
+            if (normalMovement.GetMovementState() != ETrinityMovement.ETM_Grounded)
             {
                 return;  //dont send small camera shakes if the player is not on the ground
             }

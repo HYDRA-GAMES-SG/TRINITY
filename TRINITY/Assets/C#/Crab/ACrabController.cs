@@ -204,9 +204,9 @@ public class ACrabController : IEnemyController
 
     void OnAnimatorMove()
     {
+        float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, transform.position);
         if (CrabFSM.CurrentState is NormalAttack || CrabFSM.CurrentState is ComboAttack)
         {
-            float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, transform.position);
             if (distanceToTarget > AI.stoppingDistance)
             {
                 transform.position += Animator.deltaPosition;
@@ -217,7 +217,18 @@ public class ACrabController : IEnemyController
             }
             transform.rotation *= Animator.deltaRotation;
         }
-        else if (CrabFSM.CurrentState is JumpSmash || CrabFSM.CurrentState is ChargeFastAttack)
+        else if (CrabFSM.CurrentState is JumpSmash)
+        {
+            if (distanceToTarget > AI.stoppingDistance)
+            {
+                transform.position += Animator.deltaPosition;
+            }
+            else
+            {
+                transform.position -= Animator.deltaPosition * 0.3f;
+            }
+        }
+        else if (CrabFSM.CurrentState is ChargeFastAttack)
         {
             transform.position += Animator.deltaPosition;
         }

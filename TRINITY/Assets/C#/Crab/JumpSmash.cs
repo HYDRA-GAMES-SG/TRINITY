@@ -10,7 +10,7 @@ public class JumpSmash : CrabState
     bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
-        return fromState is Pursue && CrabFSM.CrabController.CanJumpSmash && CrabFSM.CrabController.FacingTarget();
+        return fromState is Pursue && CrabFSM.CrabController.CanJumpSmash && CrabFSM.CrabController.FacingTarget() && !ATrinityGameManager.GetCamera().IsPointInBoxCollider(CrabFSM.CrabController.transform.position, ATrinityGameManager.GetSpells().SecondaryCold.IceCubeTrigger, .08f);
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -37,7 +37,7 @@ public class JumpSmash : CrabState
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("3JumpSmashAttack_RM") && stateInfo.normalizedTime >= 0.95f)
         {
-            AnimFinish=true;
+            AnimFinish = true;
             CrabFSM.EnqueueTransition<Pursue>();
         }
     }
