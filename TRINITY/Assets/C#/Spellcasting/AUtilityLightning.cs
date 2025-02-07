@@ -41,6 +41,7 @@ public class AUtilityLightning : ASpell
             playerController.transform.position = BlinkPos;
             GameObject flashBackVFX = Instantiate(FlashBackVFX, playerController.transform.position, Quaternion.identity);
             bCanBlink = false;
+            StartCooldown();
         }
     }
 

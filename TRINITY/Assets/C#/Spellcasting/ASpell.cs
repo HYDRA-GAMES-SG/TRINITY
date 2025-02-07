@@ -84,6 +84,14 @@ public class ASpell : MonoBehaviour
 
     public void StartCooldown()
     {
+        if (this is AUtilityLightning) 
+        {
+            AUtilityLightning aUtilityLightning = (AUtilityLightning)this;
+            if (aUtilityLightning.bCanBlink)
+            {
+                return;
+            }
+        }
         CooldownCountdownTimer = Cooldown;
     }
     
