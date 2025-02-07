@@ -55,16 +55,16 @@ public class ATrinityGUI : MonoBehaviour
     private Coroutine TriangleScaleCoro;
 
     void Awake()
-    {
-        ATrinityGameManager.SetGUI(this);
-        
+    {     
         List<ATrinityGUI> CurrentInstances = FindObjectsOfType<ATrinityGUI>().ToList();
-        
         if (CurrentInstances.Count() > 1)
         {
             Destroy(gameObject);
             return;
         }
+
+        ATrinityGameManager.SetGUI(this);
+        
         DontDestroyOnLoad(gameObject);
         
         ATrinityGameManager.SetGUI(this);
