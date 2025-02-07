@@ -29,8 +29,9 @@ public class ATrinityMainMenu : MonoBehaviour
     private EMainMenu MainMenuSelection;
     private Color InitialColor;
     
-
-
+    public bool bCanSkipMainMenu = false;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -40,18 +41,18 @@ public class ATrinityMainMenu : MonoBehaviour
 
         Initialize();
         
-        ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed += Select;
-        ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Select;
-        ATrinityGameManager.GetInput().OnNextElementPressed += NavigateForwards;
-        ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
-        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
-        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
-        
-        
         TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
     }
+
+    void OnEnable()
+    {
+        BindToEvents(true);
+    }
     
+    void OnDisable()
+    {
+        BindToEvents(false);
+    }
 
     public void Initialize()
     {
@@ -60,6 +61,7 @@ public class ATrinityMainMenu : MonoBehaviour
         bRotating = false;
         bStartingGame = false;
     }
+    
 
     public void Update()
     {
@@ -71,6 +73,8 @@ public class ATrinityMainMenu : MonoBehaviour
         
         HandleRotation();
     }
+
+    public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
 
     private void HandleRotation()
     {
@@ -123,16 +127,13 @@ public class ATrinityMainMenu : MonoBehaviour
 
         switch (MainMenuSelection)
         {
-            
             case EMainMenu.EMM_Start:
                 if (!bStartingGame)
                 {
                     bStartingGame = true;
                     MainMenuCamera.Animate();
-                    ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
-                    ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
-                    ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
-                    ATrinityGameManager.bCanSkipMainMenu = true;
+                    BindToEvents(false);
+                    bCanSkipMainMenu = true;
                 }
 
                 break;
@@ -143,13 +144,12 @@ public class ATrinityMainMenu : MonoBehaviour
                     OptionsMenu.SetActive(true);
                     bOptionsMenu = true;
                     ATrinityGameManager.GetInput().OnForcefieldPressed += CloseOptions;
+                    BindToEvents(false);
                 }
                 break;
             case EMainMenu.EMM_Quit:
                 Application.Quit();
                 break;
-            
-            
         }
     }
 
@@ -230,18 +230,13 @@ public class ATrinityMainMenu : MonoBehaviour
         ShowTriangleText();
         OptionsMenu.SetActive(false);
         bOptionsMenu = false;
+        ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
+        BindToEvents(true);
     }
 
     public void OnDestroy()
     {
-        ATrinityGameManager.GetInput().OnJumpGlidePressed -= Select;
-        ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
-        ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
-        ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
-        ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= Select;
-        ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
-        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
-        OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
+        BindToEvents(false);
     }
 
     public void HideTriangleText()
@@ -258,6 +253,40 @@ public class ATrinityMainMenu : MonoBehaviour
         foreach (TextMeshProUGUI txt in TriangleTexts)
         {
             txt.alpha = 1f;
+        }
+    }
+
+    public void BindToEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            //input events
+            ATrinityGameManager.GetInput().OnJumpGlidePressed += Select;
+            ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
+            ATrinityGameManager.GetInput().OnNextElementPressed += NavigateForwards;
+            ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Select;
+            ATrinityGameManager.GetInput().OnForcefieldPressed += CloseOptions;
+            OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
+            OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
+            
+            //audio events
+            OnMainMenuNavigate += ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
+            OnMainMenuSelection += ATrinityGameManager.GetAudio().PlayMainMenuSelect;
+        }
+        else
+        {
+            //input events
+            ATrinityGameManager.GetInput().OnJumpGlidePressed -= Select;
+            ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
+            ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
+            ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= Select;
+            ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
+            
+            //audio events
+            OnMainMenuNavigate -= ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
+            OnMainMenuSelection -= ATrinityGameManager.GetAudio().PlayMainMenuSelect;
         }
     }
 }

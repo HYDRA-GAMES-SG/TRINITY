@@ -869,6 +869,7 @@ MonoBehaviour:
       - {fileID: 4957911591571561854}
       - {fileID: 5045348263570011692}
       - {fileID: 8048729708736605222}
+      - {fileID: 1240434044061216011}
       collisionBones: []
       limitDistance:
         value: 0.05
@@ -3746,8 +3747,7 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1649431300980154410}
+  m_Children: []
   m_Father: {fileID: 5658761304345186366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &913004547864503624
@@ -4274,6 +4274,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1061594364656900779}
   - {fileID: 6002897969726315340}
   - {fileID: 2775180530986070746}
   - {fileID: 7516432980743653059}
@@ -6394,6 +6395,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 131662191304268069}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4022792273900288735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1061594364656900779}
+  - component: {fileID: 1240434044061216011}
+  m_Layer: 0
+  m_Name: Magica Sphere Collider (Graphics)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1061594364656900779
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022792273900288735}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0102212615, y: -0.9388962, z: 0.011451954, w: -0.3438581}
+  m_LocalPosition: {x: 0.23462582, y: -0.017031752, z: 0.12629624}
+  m_LocalScale: {x: 0.86806726, y: 0.87839735, z: 0.86806715}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1633827851099317257}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1240434044061216011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4022792273900288735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b68b2c7953ebb479b78627f19a6ccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  center: {x: 0, y: 0.34, z: 0}
+  size: {x: 0.5, y: 0, z: 0}
 --- !u!1 &4068950044565022686
 GameObject:
   m_ObjectHideFlags: 0
@@ -7264,89 +7311,6 @@ MonoBehaviour:
   bAura: 0
   ExplosionVFX: {fileID: 5589581968649349843, guid: 359a5c52cd812e742ab07e996214bf6c,
     type: 3}
---- !u!1 &4945548711279918992
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1649431300980154410}
-  - component: {fileID: 3193520181224347082}
-  - component: {fileID: 6460863492557420146}
-  m_Layer: 0
-  m_Name: Anti Lewd Sphere
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1649431300980154410
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4945548711279918992}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.08, z: 0.9886}
-  m_LocalScale: {x: 0.06968446, y: 0.06968446, z: 0.06968446}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 128911723482394317}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3193520181224347082
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4945548711279918992}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &6460863492557420146
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4945548711279918992}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: de33c678e709d934aa9514c291641d4e, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4999115831106528353
 GameObject:
   m_ObjectHideFlags: 0
@@ -21623,7 +21587,7 @@ MonoBehaviour:
   ProjectileChargeStacks: 1
   AttackFrequency: 1.5
   TotemDuration: 27
-  TotemMaxPitchSpawn: 15
+  TotemMaxPitchSpawn: 10
   EnragedAttackFrequency: 1.2
   EnragedAttackDamage: 150
   CastingSFX: {fileID: 0}

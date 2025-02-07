@@ -53,6 +53,10 @@ public class ATrinityGUI : MonoBehaviour
     
     private float PlayerHealthTarget;
     private Coroutine TriangleScaleCoro;
+    
+    public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
+    public bool IsGameOverOpen() => GameOver.activeSelf;
+    public bool IsVictoryOpen() => Victory.activeSelf;
 
     void Awake()
     {     
@@ -72,12 +76,7 @@ public class ATrinityGUI : MonoBehaviour
     void Start()
     {
         HUDCanvas = transform.Find("HUDCanvas").gameObject;
-       
         ATrinityGameManager.GetScore().OnVictory += StartVictory;
-
-        // SceneManager.activeSceneChanged += SetupEnemyUI;
-        // EditorSceneManager.activeSceneChangedInEditMode += SetupEnemyUI;
-        // EditorSceneManager.activeSceneChanged += SetupEnemyUI;
 
         ResetGUI();
     }
@@ -126,6 +125,7 @@ public class ATrinityGUI : MonoBehaviour
 
     private void DisplayGameOver()
     {
+        GameOver.SetActive(true);
         GameOver.GetComponent<ATrinityGameOver>().Display();
     }
 
@@ -169,6 +169,7 @@ public class ATrinityGUI : MonoBehaviour
                 break;
         }
     }
+
 
     private void TogglePause()
     {
@@ -281,13 +282,7 @@ public class ATrinityGUI : MonoBehaviour
     
     void OnDestroy()
     {
-        if (ATrinityGameManager.GetPlayerController() != null)
-            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified -= UpdateHealthBar;
-
-        if (ATrinityGameManager.GetSpells() != null)
-        {
-            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified -= UpdateManaBar;
-        }
+        BindToEvents(false);
     }
 
     IEnumerator ShrinkTriangle()
@@ -320,6 +315,7 @@ public class ATrinityGUI : MonoBehaviour
     public void ResetGUI()
     {
         AMainMenuCamera.OnSwitchToPlayerCamera -= EnableCanvas;
+        GameOver.SetActive(false);
         
         if (ATrinityGameManager.CurrentScene == "PORTAL")
         {
@@ -330,7 +326,7 @@ public class ATrinityGUI : MonoBehaviour
             HUDCanvas.SetActive(false);
             AMainMenuCamera.OnSwitchToPlayerCamera += EnableCanvas;
             
-            if (ATrinityGameManager.bCanSkipMainMenu)
+            if (GetMainMenu().bCanSkipMainMenu)
             {
                 GetMainMenu().gameObject.SetActive(false);
                 ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
@@ -347,27 +343,8 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetGUI().Tutorials.SetActive(false);
             HUDCanvas.SetActive(true);
         }
-        
-         
-        if (ATrinityGameManager.GetPlayerController() != null)
-        {
-            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;
-            ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath += DisplayGameOver;
-        }
 
-        if (ATrinityGameManager.GetSpells() != null)
-        {
-            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
-        }
-        
-
-        if (ATrinityGameManager.GetBrain() != null)
-        {
-            ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
-            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
-        }
-
-        ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
+        BindToEvents(true);
         
         SetupEnemyUI();
     }
@@ -375,5 +352,36 @@ public class ATrinityGUI : MonoBehaviour
     public ATrinityMainMenu GetMainMenu()
     {
         return MainMenu;
+    }
+
+    public void BindToEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            //game events
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath += DisplayGameOver;
+            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
+            
+            //input events
+            ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
+            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
+            ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;   
+            
+            //audio events
+        }
+        else
+        {
+            
+            //game events
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified -= UpdateHealthBar;
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath -= DisplayGameOver;
+            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified -= UpdateManaBar;
+            
+            //input events
+            ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
+            ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
+            ATrinityGameManager.GetInput().OnMenuPressed -= TogglePause;   
+        }
     }
 }

@@ -10,7 +10,6 @@ public class ATrinityGraphics : MonoBehaviour
     public GameObject ClothesParent;
     private SkinnedMeshRenderer[] ClothesMeshes;
     public Material[] ElementMaterials;
-    [HideInInspector] public Animator AnimatorComponent;
 
     private void Awake()
     {
@@ -19,10 +18,10 @@ public class ATrinityGraphics : MonoBehaviour
     
     private void Start()
     {
-        ATrinityGameManager.GetBrain().OnElementChanged += UpdateMeshColor;
-        ATrinityGameManager.GetBrain().OnElementChanged += UpdateStaffAura;
         ClothesMeshes = ClothesParent.GetComponentsInChildren<SkinnedMeshRenderer>();
 
+        BindtoEvents(true);
+        
         UpdateMeshColor(ETrinityElement.ETE_Fire);
         UpdateStaffAura(ETrinityElement.ETE_Fire);
     }
@@ -63,10 +62,23 @@ public class ATrinityGraphics : MonoBehaviour
     
     private void OnDestroy()
     {
-        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateStaffAura;
-        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
-        ATrinityMainMenu.OnMenuElementChanged -= UpdateStaffAura;
-        ATrinityMainMenu.OnMenuElementChanged -= UpdateMeshColor;
+        BindtoEvents(false);
+    }
+
+    public void BindtoEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            ATrinityGameManager.GetBrain().OnElementChanged += UpdateMeshColor;
+            ATrinityGameManager.GetBrain().OnElementChanged += UpdateStaffAura;
+        }
+        else
+        {
+            ATrinityGameManager.GetBrain().OnElementChanged -= UpdateStaffAura;
+            ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
+            ATrinityMainMenu.OnMenuElementChanged -= UpdateStaffAura;
+            ATrinityMainMenu.OnMenuElementChanged -= UpdateMeshColor;
+        }
     }
 
 }

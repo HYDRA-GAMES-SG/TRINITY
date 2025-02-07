@@ -12,11 +12,12 @@ using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-
 public class ATrinityGameManager : MonoBehaviour
 {
     
-    public static string CurrentScene = "UNINITIALIZED"; 
+    public static string CurrentScene = "UNINITIALIZED";
+    
+    static public System.Action<EGameFlowState> OnGameFlowStateChanged;
     static public System.Action OnSceneChanged;
     
     static private AudioMixerGroup SFX_MixerGroup;
@@ -49,25 +50,27 @@ public class ATrinityGameManager : MonoBehaviour
     
     private static EGameFlowState GameFlowState;
     
-    public static bool bCanSkipMainMenu = false;
-
     void ResetGame()
     {
         CheckForNullReferences();
+        
         CurrentScene = SceneManager.GetActiveScene().name;
-        SetEnemyControllers();
+        
+        FindAndSetEnemyControllers();
+        
         GetPlayerController().ResetPlayer();
         GetGUI().ResetGUI();
-        GetPlayerFSM().StartStateMachine();
+        GetPlayerFSM().RestartStateMachine();
         
-        if (CurrentScene == "PORTAL")
+        switch(CurrentScene)
         {
-            SetGameFlowState(EGameFlowState.MAIN_MENU);
-        }
-        else
-        {
-            ATrinityGameManager.bCanSkipMainMenu = true;
-            SetGameFlowState(EGameFlowState.PLAY);
+            case "PORTAL":
+                SetGameFlowState(EGameFlowState.MAIN_MENU);
+                break;
+            default:
+                GetGUI().GetMainMenu().bCanSkipMainMenu = true; //allow the player to bypass the main menu when they head back to the Portal Scene
+                SetGameFlowState(EGameFlowState.PLAY);
+                break;
         }
     }
     
@@ -248,6 +251,18 @@ public class ATrinityGameManager : MonoBehaviour
         return AnimationReference;
     }
 
+    
+    //==================================================
+    //SETTERS
+    //=================================================
+
+    
+    private void FindAndSetEnemyControllers()
+    {
+        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
+    }
+    
+
     public static void SetPlayerFSM(ATrinityFSM playerFSM)
     {
         if (PlayerFSM != null)
@@ -257,23 +272,6 @@ public class ATrinityGameManager : MonoBehaviour
         }
         
         PlayerFSM = playerFSM;  
-    }
-    
-    
-    
-    //==================================================
-    //SETTERS
-    //=================================================
-
-    
-    private void SetEnemyControllers()
-    {
-        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
-    }
-    
-    private void SetEnemyControllers(Scene arg0, Scene arg1)
-    {
-        EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
     }
     
     public static void SetGraphics(ATrinityGraphics graphics)
@@ -379,10 +377,11 @@ public class ATrinityGameManager : MonoBehaviour
     {
         if (newGameFlowState != GetGameFlowState())
         {
-            Debug.Log(GetGameFlowState() + " -> " + newGameFlowState);
+            Debug.Log("EGameFlowState: " + GetGameFlowState() + " -> " + newGameFlowState);
         }
         
         GameFlowState = newGameFlowState;
+        OnGameFlowStateChanged?.Invoke(newGameFlowState);
     }
 
     public static void SerializeSettings(FGameSettings newSettings)
@@ -396,8 +395,15 @@ public class ATrinityGameManager : MonoBehaviour
         PlayerPrefs.SetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
         PlayerPrefs.SetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
         PlayerPrefs.SetFloat("MasterVolume", MASTER_VOLUME);
+
+        UpdateSettings();
     }
-    
+
+    private static void UpdateSettings()
+    {
+        
+    }
+
     private static void CheckForNullReferences()
     {
         if(!GraphicsReference)
@@ -438,7 +444,10 @@ public class ATrinityGameManager : MonoBehaviour
         }
         if(!CameraReference)
         {
-            print("`CameraReference` StaticRef is Null on ATrinityGameManager!"); 
+            if (CurrentScene != "PORTAL")
+            {
+                print("`CameraReference` StaticRef is Null on ATrinityGameManager!"); 
+            }
         }
         if(!GUIReference)
         {

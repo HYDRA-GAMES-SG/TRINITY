@@ -137,7 +137,7 @@ public class ASpell : MonoBehaviour
         {
             if (this is not AForcefield)
             {
-                Debug.Log("non channeled and masked");
+                //Debug.Log("non channeled and masked");
                 ATrinityGameManager.GetAnimator().PlayCastAnimation($"Masked Layer.{gameObject.name}");
             }
         }

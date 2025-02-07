@@ -89,9 +89,8 @@ public class ATrinityOptions : MonoBehaviour
         }
             
         NavigateCooldownTimer = 0f;
-        
-        ATrinityGameManager.GetInput().OnMovePressed += Navigate;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed += PressInteractable;
+
+        BindToEvents(true);
     }
     
     
@@ -103,10 +102,6 @@ public class ATrinityOptions : MonoBehaviour
             Time.timeScale = 1f;
             ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
         }
-        //ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
-        
-        ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed -= PressInteractable;
 
         FGameSettings newSettings = new FGameSettings(
             CrossHairToggle.isOn,
@@ -121,6 +116,8 @@ public class ATrinityOptions : MonoBehaviour
         {
             CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
         }
+
+        BindToEvents(false);
     }
 
     private void Navigate()
@@ -211,7 +208,6 @@ public class ATrinityOptions : MonoBehaviour
 
     public void OnReturnToGameClicked()
     {
-        print("return to game");
         this.gameObject.SetActive(false);
     }
 
@@ -224,6 +220,34 @@ public class ATrinityOptions : MonoBehaviour
         else
         {
             Application.Quit();
+        }
+    }
+
+    public void BindToEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            //input events
+            ATrinityGameManager.GetInput().OnMovePressed += Navigate;
+            ATrinityGameManager.GetInput().OnJumpGlidePressed -= PressInteractable;
+            
+            //audio events
+            OnOptionsMenuSlider += ATrinityGameManager.GetAudio().PlayOptionsMenuSlider;
+            OnOptionsMenuToggle += ATrinityGameManager.GetAudio().PlayOptionsMenuToggle;
+            OnOptionsMenuButton += ATrinityGameManager.GetAudio().PlayOptionsMenuButton;
+            OnOptionsMenuNavigate += ATrinityGameManager.GetAudio().PlayOptionsMenuNavigate;
+        }
+        else
+        {
+            //input events
+            ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
+            ATrinityGameManager.GetInput().OnJumpGlidePressed -= PressInteractable;
+            
+            //audio events
+            OnOptionsMenuSlider -= ATrinityGameManager.GetAudio().PlayOptionsMenuSlider;
+            OnOptionsMenuToggle -= ATrinityGameManager.GetAudio().PlayOptionsMenuToggle;
+            OnOptionsMenuButton -= ATrinityGameManager.GetAudio().PlayOptionsMenuButton;
+            OnOptionsMenuNavigate -= ATrinityGameManager.GetAudio().PlayOptionsMenuNavigate;
         }
     }
 }

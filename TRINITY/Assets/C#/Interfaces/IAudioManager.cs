@@ -10,19 +10,26 @@ public class IAudioManager : MonoBehaviour
     private Dictionary<string, ATrinityAudioClip> AudioClipLookup = new Dictionary<string, ATrinityAudioClip>();
     private Dictionary<string, AudioSource> ActiveLoopingSounds = new Dictionary<string, AudioSource>();
     
-    //audio pool
     private AudioSource[] AudioSourcePool;
     private const int POOL_SIZE = 4;
     
-    void Start()
+    void Awake()
     {
+        // Move initialization to Awake to ensure it happens before any audio plays
         AudioClips = GetComponents<ATrinityAudioClip>().ToList();
         InitializeAudioClipDictionary();
         InitializeAudioPool();
     }
 
+    public void OnEnable()
+    {
+        // Reinitialize pool when object is enabled (e.g., after scene load)
+        InitializeAudioPool();
+    }
+
     private void InitializeAudioClipDictionary()
     {
+        AudioClipLookup.Clear(); // Clear existing entries
         for (int i = 0; i < AudioClips.Count; i++)
         {
             if (!string.IsNullOrEmpty(AudioClips[i].name) && AudioClips[i] != null)
@@ -34,6 +41,18 @@ public class IAudioManager : MonoBehaviour
 
     private void InitializeAudioPool()
     {
+        // Clean up existing pool if it exists
+        if (AudioSourcePool != null)
+        {
+            foreach (var source in AudioSourcePool)
+            {
+                if (source != null)
+                {
+                    Destroy(source);
+                }
+            }
+        }
+        
         AudioSourcePool = new AudioSource[POOL_SIZE];
         
         // Create audio sources
@@ -47,6 +66,17 @@ public class IAudioManager : MonoBehaviour
 
     private AudioSource GetAvailableAudioSource()
     {
+        // First, validate all sources in the pool
+        for (int i = 0; i < AudioSourcePool.Length; i++)
+        {
+            if (AudioSourcePool[i] == null)
+            {
+                AudioSourcePool[i] = gameObject.AddComponent<AudioSource>();
+                AudioSourcePool[i].playOnAwake = false;
+            }
+        }
+
+        // Look for non-playing source
         foreach (AudioSource source in AudioSourcePool)
         {
             if (!source.isPlaying)
@@ -55,7 +85,7 @@ public class IAudioManager : MonoBehaviour
             }
         }
         
-        // con't override looping sounds when looking for the oldest
+        // Look for oldest non-looping source
         AudioSource oldestSource = null;
         float oldestStartTime = float.MaxValue;
         
@@ -68,13 +98,12 @@ public class IAudioManager : MonoBehaviour
             }
         }
         
-        // if we found a non-looping source, use it
         if (oldestSource != null)
         {
             return oldestSource;
         }
         
-        // if all sources are looping, create a new temporary one
+        // Create temporary source if needed
         AudioSource tempSource = gameObject.AddComponent<AudioSource>();
         tempSource.playOnAwake = false;
         return tempSource;

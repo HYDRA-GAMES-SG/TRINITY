@@ -158,6 +158,7 @@ public class NormalMovement : TrinityState
         if (!Input.JumpInput || Controller.CheckGround().transform || ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD) // let HandleFalling() handle groundedness
         {
             SetMovementState(ETrinityMovement.ETM_Falling);
+            TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
             return;
         }
     }

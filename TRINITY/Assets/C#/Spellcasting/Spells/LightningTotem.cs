@@ -100,8 +100,8 @@ public class LightningTotem : MonoBehaviour
 
             AttackTimer = attackProgress * EnragedAttackFrequency;
             EnrageFX.SetActive(true);
-            
-            transform.Find("Totem").gameObject.GetComponent<MeshRenderer>().material.SetVector("_BaseColor", new Vector4(.6f, .76f, .58f, 1f));
+
+            transform.Find("Totem").gameObject.GetComponent<MeshRenderer>().material.SetVector("_EmissionColor", new Vector4(.34f, .94f, .96f, 1f));
             
             foreach (Light light in EyeLights)
             {

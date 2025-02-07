@@ -209,6 +209,11 @@ public class ACrabController : IEnemyController
 
     void OnAnimatorMove()
     {
+        if (CrabFSM.PlayerController == null)
+        {
+            return;
+        }
+        
         float distanceToTarget = Vector3.Distance(CrabFSM.PlayerController.transform.position, transform.position);
         if (CrabFSM.CurrentState is NormalAttack || CrabFSM.CurrentState is ComboAttack)
         {

@@ -42,7 +42,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
                 return;
             }
 
-            StartStateMachine();
+            RestartStateMachine();
         }
 
         if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
@@ -67,7 +67,7 @@ public class ATrinityFSM : MonoBehaviour, IFSM
         }
     }
 
-    public void StartStateMachine()
+    public void RestartStateMachine()
     {
         FSM_RUNNING = true;
         CurrentState = InitialState;

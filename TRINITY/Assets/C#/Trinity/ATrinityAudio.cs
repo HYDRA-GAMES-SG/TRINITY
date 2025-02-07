@@ -3,71 +3,92 @@ using UnityEngine.Audio;
 
 public class ATrinityAudio : IAudioManager
 {
+    private ATrinityInput Input;
     public AudioMixer Mixer;
-
+    
     private void Awake()
     {
         ATrinityGameManager.SetAudio(this);
-        BindToEvents(true);
+        Input = ATrinityGameManager.GetInput();
+        ATrinityGameManager.OnGameFlowStateChanged += BindPlayerAudio;
+    }
 
+    private void BindPlayerAudio(EGameFlowState newGameFlowState)
+    {
+        if (newGameFlowState == EGameFlowState.PLAY)
+        {
+            Bind();
+        }
+        else
+        {
+            Unbind();
+        }
+    }
+
+    
+    private void OnEnable()
+    {
+        // Call base class OnEnable
+        base.OnEnable();
+        
+        // Rebind if needed based on current game state
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PLAY)
+        {
+            Bind();
+        }
+    }
+
+    private void OnDisable()
+    {
+        Unbind();
+    }
+    
+    void Update()
+    {
+        
     }
 
     void OnDestroy()
     {
-        BindToEvents(false);
+        ATrinityGameManager.OnGameFlowStateChanged -= BindPlayerAudio;
+        Unbind();
     }
 
-    void BindToEvents(bool bBind)
+    public void Unbind()
     {
-        if (bBind)
-        {
-            ATrinityMainMenu.OnMainMenuNavigate += PlayMainMenuNavigate;
-            ATrinityMainMenu.OnMainMenuSelection += PlayMainMenuSelect;
         
-            ATrinityOptions.OnOptionsMenuSlider += PlayOptionsMenuSlider;
-            ATrinityOptions.OnOptionsMenuToggle += PlayOptionsMenuToggle;
-            ATrinityOptions.OnOptionsMenuButton += PlayOptionsMenuButton;
-            ATrinityOptions.OnOptionsMenuNavigate += PlayOptionsMenuNavigate;
+        ATrinityController.OnJump -= PlayJump;
+        ATrinityController.OnLand -= PlayLand;
+        ATrinityController.OnGlideEnd -= EndGlideLoop;
+        ATrinityController.OnGlideStart -= PlayGlideLoop;
+        ATrinityController.OnTerrainCollision -= PlayTerrainCollision;
+        ATrinityController.OnDeath -= PlayDeath;
+        ATrinityController.OnJump -= PlayJumpGrunt;
+        ATrinityController.OnDeath -= PlayGameOver;
+        ATrinityController.OnBeginFalling -= PlayBeginFalling;
+    }
 
-            ATrinityController.OnJump += PlayJump;
-            ATrinityController.OnLand += PlayLand;
-            ATrinityController.OnGlideEnd += EndGlideLoop;
-            ATrinityController.OnGlideStart += PlayGlideLoop;
-            ATrinityController.OnTerrainCollision += PlayTerrainCollision;
-            ATrinityController.OnDeath += PlayDeath;
-            ATrinityController.OnJump += PlayJumpGrunt;
-            ATrinityController.OnDeath += PlayGameOver;
-            ATrinityController.OnBeginFalling += PlayBeginFalling;
-        }
-        else
-        {
-            ATrinityMainMenu.OnMainMenuNavigate -= PlayMainMenuNavigate;
-            ATrinityMainMenu.OnMainMenuSelection -= PlayMainMenuSelect;
+    public void Bind()
+    {
         
-            ATrinityOptions.OnOptionsMenuSlider -= PlayOptionsMenuSlider;
-            ATrinityOptions.OnOptionsMenuToggle -= PlayOptionsMenuToggle;
-            ATrinityOptions.OnOptionsMenuButton -= PlayOptionsMenuButton;
-            ATrinityOptions.OnOptionsMenuNavigate -= PlayOptionsMenuNavigate;
-
-            ATrinityController.OnJump -= PlayJump;
-            ATrinityController.OnLand -= PlayLand;
-            ATrinityController.OnGlideEnd -= EndGlideLoop;
-            ATrinityController.OnGlideStart -= PlayGlideLoop;
-            ATrinityController.OnTerrainCollision -= PlayTerrainCollision;
-            ATrinityController.OnDeath -= PlayDeath;
-            ATrinityController.OnJump -= PlayJumpGrunt;
-            ATrinityController.OnDeath -= PlayGameOver;
-            ATrinityController.OnBeginFalling -= PlayBeginFalling;
-        }
+        ATrinityController.OnJump += PlayJump;
+        ATrinityController.OnLand += PlayLand;
+        ATrinityController.OnGlideEnd += EndGlideLoop;
+        ATrinityController.OnGlideStart += PlayGlideLoop;
+        ATrinityController.OnTerrainCollision += PlayTerrainCollision;
+        ATrinityController.OnDeath += PlayDeath;
+        ATrinityController.OnJump += PlayJumpGrunt;
+        ATrinityController.OnDeath += PlayGameOver;
+        ATrinityController.OnBeginFalling += PlayBeginFalling;
     }
 
     // ui
-    void PlayOptionsMenuSlider() => Play("OptionsSlider");
-    void PlayOptionsMenuToggle() => Play("OptionsToggle");
-    void PlayOptionsMenuButton() => Play("OptionsButton");
-    void PlayOptionsMenuNavigate() => Play("OptionsNavigate");
-    void PlayMainMenuNavigate() => Play("MainMenuNavigate");
-    void PlayMainMenuSelect() => Play("MainMenuSelect");
+    public void PlayOptionsMenuSlider() => Play("OptionsSlider");
+    public void PlayOptionsMenuToggle() => Play("OptionsToggle");
+    public void PlayOptionsMenuButton() => Play("OptionsButton");
+    public void PlayOptionsMenuNavigate() => Play("OptionsNavigate");
+    public void PlayMainMenuNavigate() => Play("MainMenuNavigate");
+    public void PlayMainMenuSelect() => Play("MainMenuSelect");
 
     // sfx
     void PlayJump() => Play("Jump");

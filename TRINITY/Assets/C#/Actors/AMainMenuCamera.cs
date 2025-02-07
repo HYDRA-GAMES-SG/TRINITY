@@ -35,7 +35,7 @@ public class AMainMenuCamera : MonoBehaviour
             }
         }
         
-        if (!ATrinityGameManager.bCanSkipMainMenu)
+        if (!MainMenuParentObject.GetComponent<ATrinityMainMenu>().bCanSkipMainMenu)
         {
             TrinityCamera.Camera.enabled = false;
         }
