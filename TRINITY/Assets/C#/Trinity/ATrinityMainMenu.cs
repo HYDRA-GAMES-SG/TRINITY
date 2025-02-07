@@ -34,18 +34,10 @@ public class ATrinityMainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (ATrinityGameManager.bCanSkipMainMenu)
-        {
-            this.gameObject.SetActive(false);
-            ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
-            return;
-        }
-        
         TriangleTexts = new List<TextMeshProUGUI>();
         TriangleTexts = ElementTriangle.gameObject.GetComponentsInChildren<TextMeshProUGUI>().ToList();
         InitialColor = TriangleTexts[0].color;
 
-        ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
         Initialize();
         
         ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;

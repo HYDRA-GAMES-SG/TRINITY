@@ -105,7 +105,5 @@ public class AMainMenuCamera : MonoBehaviour
         TrinityCamera.Camera.enabled = true;
         OnSwitchToPlayerCamera?.Invoke();
         ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
-        Destroy(MainMenuParentObject);
-        
     }
 }

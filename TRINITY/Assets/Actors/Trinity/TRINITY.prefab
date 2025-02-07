@@ -3896,6 +3896,8 @@ MonoBehaviour:
   SpellType: 1
   SpellAction: 0
   bUseMaskedLayer: 1
+  ImpactFX: {fileID: 5773043792457465958, guid: 9d48d9b194d1eed46b30bef7c2ff1079,
+    type: 3}
   DamageAbsorbedPerMana: 1
 --- !u!82 &6820771389114598615
 AudioSource:
@@ -23502,7 +23504,7 @@ MonoBehaviour:
   bUseMaskedLayer: 0
   ENABLE_DEBUG: 0
   AilmentType: 0
-  StacksPerRadius: 15
+  StacksPerRadius: 12
   DamagePerStack: 50
   ZoneDuration: 25
   GroundLayer:
@@ -26266,6 +26268,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1502863491280122186}
     m_Modifications:
+    - target: {fileID: 6601001205737122830, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6601001205737122830, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
+        type: 3}
+      propertyPath: lengthInSec
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8484195336820361178, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
         type: 3}
       propertyPath: m_Name
@@ -26274,7 +26286,7 @@ PrefabInstance:
     - target: {fileID: 8484195336820361178, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8730378218161278679, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
         type: 3}
@@ -26430,6 +26442,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Orb_Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 8967329722192075220, guid: 2b1a3ec1eeeda904dab2d38685589e45,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

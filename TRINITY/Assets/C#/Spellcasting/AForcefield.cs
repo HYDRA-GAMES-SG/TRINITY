@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AForcefield : ASpell
 {
+    public GameObject ImpactFX;
     public float DamageAbsorbedPerMana = 1f;
     private GameObject ForcefieldEffect;
     
@@ -17,6 +18,7 @@ public class AForcefield : ASpell
             ForcefieldEffect.SetActive(false);
         }
         ATrinityGameManager.GetSpells().ManaComponent.OnOutOfMana += Release;
+        ATrinityGameManager.GetPlayerController().OnForcefieldHit += SpawnSparks;
     }
     
     public override void CastStart()
@@ -40,5 +42,14 @@ public class AForcefield : ASpell
         ATrinityGameManager.GetAnimator().AnimComponent.Play("Null", 1, 0f);
         ATrinityGameManager.GetBrain().bForcefieldActive = false;
         ForcefieldEffect.SetActive(false);
+    }
+
+    public void SpawnSparks(FHitInfo hitInfo)
+    {
+        if (ATrinityGameManager.GetBrain().bForcefieldActive)
+        {
+            GameObject sparks = Instantiate(ImpactFX, hitInfo.CollisionData.GetContact(0).point, Quaternion.identity);
+            Destroy(sparks, 2f);
+        }
     }
 }

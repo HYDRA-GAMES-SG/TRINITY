@@ -11,6 +11,7 @@ public class ATrinityController : MonoBehaviour
     //events
     public static System.Action OnBeginFalling;
     public System.Action<FHitInfo> OnHit;
+    public System.Action<FHitInfo> OnForcefieldHit;
     public static System.Action OnJump;
     public static System.Action<float> OnLand;
     public static System.Action OnGlideStart;
@@ -248,6 +249,8 @@ public class ATrinityController : MonoBehaviour
                 spellReference.ManaComponent.Modify(-remainingMana / spellReference.Forcefield.DamageAbsorbedPerMana);
                 remainingDamage -= remainingMana;
             }
+
+            OnForcefieldHit?.Invoke(hitInfo);
         }
 
         if (remainingDamage > 0)

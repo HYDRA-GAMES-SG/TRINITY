@@ -324,15 +324,25 @@ public class ATrinityGUI : MonoBehaviour
         if (ATrinityGameManager.CurrentScene == "PORTAL")
         {
             GetMainMenu().gameObject.SetActive(true);
-            GetMainMenu().MainMenuCamera.enabled = true;
+            GetMainMenu().MainMenuCamera.gameObject.SetActive(true);
             GetMainMenu().Initialize();
             Tutorials.SetActive(true);
             HUDCanvas.SetActive(false);
             AMainMenuCamera.OnSwitchToPlayerCamera += EnableCanvas;
+            
+            if (ATrinityGameManager.bCanSkipMainMenu)
+            {
+                GetMainMenu().gameObject.SetActive(false);
+                ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
+            }
+            else
+            {
+                ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
+            }
         }
         else
         {
-            GetMainMenu().MainMenuCamera.enabled = false;
+            GetMainMenu().MainMenuCamera.gameObject.SetActive(false);
             GetMainMenu().gameObject.SetActive(false);
             ATrinityGameManager.GetGUI().Tutorials.SetActive(false);
             HUDCanvas.SetActive(true);
