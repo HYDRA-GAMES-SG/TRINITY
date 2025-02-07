@@ -49,14 +49,10 @@ public class ATrinityScore : MonoBehaviour
                 print("WARNING:NO SCORE LIMITS!");
                 return newLimits;
         }
-
-        return newLimits;
     }
     
     public void Awake()
     {
-        ATrinityGameManager.SetScore(this);
-        
         List<ATrinityScore> CurrentInstances = FindObjectsOfType<ATrinityScore>().ToList();
         
         if (CurrentInstances.Count() > 1)
@@ -65,6 +61,9 @@ public class ATrinityScore : MonoBehaviour
             return;
         }
         DontDestroyOnLoad(gameObject);
+        
+        ATrinityGameManager.SetScore(this);
+
         
     }
     public void Start()

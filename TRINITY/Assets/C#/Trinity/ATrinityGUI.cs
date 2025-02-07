@@ -62,8 +62,6 @@ public class ATrinityGUI : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
-        ATrinityGameManager.SetGUI(this);
         
         DontDestroyOnLoad(gameObject);
         
@@ -74,33 +72,14 @@ public class ATrinityGUI : MonoBehaviour
     void Start()
     {
         HUDCanvas = transform.Find("HUDCanvas").gameObject;
-        
-        if (ATrinityGameManager.GetPlayerController() != null)
-        {
-            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;
-            ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath += DisplayGameOver;
-        }
-
-        if (ATrinityGameManager.GetSpells() != null)
-        {
-            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
-        }
-        
-
-        if (ATrinityGameManager.GetBrain() != null)
-        {
-            ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
-            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
-        }
-
-        ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
-
+       
         ATrinityGameManager.GetScore().OnVictory += StartVictory;
 
-        SetupEnemyUI();
         // SceneManager.activeSceneChanged += SetupEnemyUI;
         // EditorSceneManager.activeSceneChangedInEditMode += SetupEnemyUI;
         // EditorSceneManager.activeSceneChanged += SetupEnemyUI;
+
+        ResetGUI();
     }
 
 
@@ -306,7 +285,9 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified -= UpdateHealthBar;
 
         if (ATrinityGameManager.GetSpells() != null)
+        {
             ATrinityGameManager.GetSpells().ManaComponent.OnManaModified -= UpdateManaBar;
+        }
     }
 
     IEnumerator ShrinkTriangle()
@@ -356,7 +337,28 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetGUI().Tutorials.SetActive(false);
             HUDCanvas.SetActive(true);
         }
+        
+         
+        if (ATrinityGameManager.GetPlayerController() != null)
+        {
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;
+            ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath += DisplayGameOver;
+        }
 
+        if (ATrinityGameManager.GetSpells() != null)
+        {
+            ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
+        }
+        
+
+        if (ATrinityGameManager.GetBrain() != null)
+        {
+            ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
+            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
+        }
+
+        ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;
+        
         SetupEnemyUI();
     }
 

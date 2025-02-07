@@ -47,6 +47,7 @@ public class ATrinityMainMenu : MonoBehaviour
 
         ATrinityGameManager.SetGameFlowState(EGameFlowState.MAIN_MENU);
         Initialize();
+        
         ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
         ATrinityGameManager.GetInput().OnJumpGlidePressed += Select;
         ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Select;
@@ -58,6 +59,7 @@ public class ATrinityMainMenu : MonoBehaviour
         
         TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
     }
+    
 
     public void Initialize()
     {

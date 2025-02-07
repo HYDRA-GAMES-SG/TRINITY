@@ -33,19 +33,16 @@ public class ATrinitySpells : MonoBehaviour
     [HideInInspector] 
     public ABlink Blink;
     
-    [HideInInspector]
     public UManaComponent ManaComponent;
 
     void Awake()
     {
         ATrinityGameManager.SetSpells(this);
-
     }
     // Start is called before the first frame update
     void Start()
     {
         
-        ManaComponent = GetComponent<UManaComponent>();
         SecondaryFire = GetComponentInChildren<ASecondaryFire>();
         SecondaryCold = GetComponentInChildren<ASecondaryCold>();
         SecondaryLightning = GetComponentInChildren<ASecondaryLightning>();
