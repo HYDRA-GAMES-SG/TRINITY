@@ -16,24 +16,20 @@ public class UAttackColliderComponent : MonoBehaviour
 
     private void Start()
     {
-        // Get the root object of the current GameObject
-        var rootTransform = transform.root;
-
-        // Check if the root itself has IEnemyController
-        if (rootTransform.TryGetComponent<IEnemyController>(out var enemyController))
+        IEnemyController enemyController;
+        if ((enemyController = transform.root.GetComponentInChildren<IEnemyController>()) != null)
         {
             Controller = enemyController;
-            //Debug.Log("IEnemyController found on the root object.");
             return;
         }
+        //var controllerTransform = transform.root.Find("Controller");
+        //if (controllerTransform != null && controllerTransform.TryGetComponent<IEnemyController>(out enemyController))
+        //{
+        //    Debug.Log("B");
+        //    Controller = enemyController;
+        //    //Debug.Log("IEnemyController found on the 'Controller' child object.");
+        //}
 
-        // Check if the root has a child named "Controller" with IEnemyController
-        var controllerTransform = rootTransform.Find("Controller");
-        if (controllerTransform != null && controllerTransform.TryGetComponent<IEnemyController>(out enemyController))
-        {
-            Controller = enemyController;
-            //Debug.Log("IEnemyController found on the 'Controller' child object.");
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -79,7 +75,7 @@ public class UAttackColliderComponent : MonoBehaviour
 
     }
 
-    private void OnParticleCollision(GameObject other)
+    private void OnParticleCollision(GameObject other)//only use for Ice spray
     {
         //Debug.Log($"Particles Hit player ");
         if (DealDamageOnlyOnce && hasDealtDamage)
@@ -94,10 +90,10 @@ public class UAttackColliderComponent : MonoBehaviour
             return;
         }
 
-        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, null, Controller.GetParticleAttack());
+        FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, null, Controller.GetParticleAttack());  
         player.ApplyHit(hitInfo);
         hasDealtDamage = true;
-        //Debug.Log($"Particles Hit player " + Controller.GetParticleAttack());
+        Debug.Log($"Particles Hit player " + Controller.GetParticleAttack());
     }
 
     public void SetController(IEnemyController enemyController)

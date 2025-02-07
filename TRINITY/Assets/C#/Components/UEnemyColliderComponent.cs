@@ -15,12 +15,12 @@ public class UEnemyColliderComponent : MonoBehaviour
     public UHealthComponent Health;
     [HideInInspector]
     public UEnemyStatusComponent EnemyStatus;
-    [HideInInspector]
+    //[HideInInspector]
     public IEnemyController EnemyController;
 
     public void Start()
     {
-        EnemyController = transform.root.Find("Controller").GetComponent<IEnemyController>();
+        EnemyController = transform.root.GetComponentInChildren<IEnemyController>();
         EnemyStatus = EnemyController.EnemyStatus;
         Ailments = EnemyController.EnemyStatus.Ailments;
         Health = EnemyStatus.Health;

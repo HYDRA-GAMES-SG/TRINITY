@@ -2264,11 +2264,6 @@ MonoBehaviour:
     type: 3}
   ShockDelay: 3
   ShockSpeed: 150
-  Indicator: {fileID: 8956044275466665215}
-  targetScale: {x: 1, y: 1, z: 30}
-  initialScale: {x: 0, y: 0, z: 0}
-  scaleSpeed: 10
-  isScaling: 0
 --- !u!114 &738381375954640131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3810,6 +3805,7 @@ MonoBehaviour:
   MAX: 15000
   Regen: 0
   Current: 5000
+  bInvulnerable: 0
 --- !u!114 &6137848236821162757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3848,10 +3844,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd44f7748e50be1479457ca361f179a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: {fileID: 0}
   blinkTimer: 0
-  blinkDuration: 0.3
-  blinkIntensity: 0.8
+  blinkDuration: 0.2
+  blinkIntensity: 0.5
   skinnedMeshRenderer: []
   RigiBd: []
 --- !u!114 &467305873257569148

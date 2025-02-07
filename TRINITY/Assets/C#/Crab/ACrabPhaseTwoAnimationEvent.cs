@@ -14,16 +14,6 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
     ACrabController Controller;
 
-    [SerializeField] AudioMixerGroup AttackMixer;
-
-    [SerializeField] AudioSource CrabAttackSource;
-
-    [SerializeField] AudioClip ClawSound;
-    [SerializeField] AudioClip SmashSound;
-    [SerializeField] AudioClip IceClawSound;
-    [SerializeField] AudioClip IceSmashSound;
-
-
     private void Start()
     {
         Controller = GetComponent<ACrabController>();
@@ -34,6 +24,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, RightClaw.position, RightClaw.rotation);
+
             UAttackColliderComponent projectileController = iceClawSwingAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
@@ -43,6 +34,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem iceClawSwingAttack = Instantiate(IceClawSwingAttack, LeftClaw.position, LeftClaw.rotation);
+
             UAttackColliderComponent projectileController = iceClawSwingAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
 
@@ -55,6 +47,8 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
+
+
             UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
@@ -64,6 +58,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, LeftClaw.position, LeftClaw.rotation);
+
             UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
@@ -75,39 +70,9 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         if (Controller.bElementPhase)
         {
             ParticleSystem jumpSmashFrozenGroundAttack = Instantiate(JumpSmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
+
             UAttackColliderComponent projectileController = jumpSmashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
         }
-    }
-
-    public void LeftClawAttackSound()
-    {
-        AudioSource source = Instantiate(CrabAttackSource, LeftClaw.transform);
-        PlayAttackSound(source, ClawSound);
-        Destroy(source, ClawSound.length);
-    }
-    public void RightClawAttackSound()
-    {
-        AudioSource source = Instantiate(CrabAttackSource, RightClaw.transform);
-        PlayAttackSound(source, ClawSound);
-        Destroy(source, ClawSound.length);
-    }
-    public void LeftSmashAttackSound()
-    {
-        AudioSource source = Instantiate(CrabAttackSource, LeftClaw.transform);
-        PlayAttackSound(source, SmashSound);
-        Destroy(source, SmashSound.length);
-    }
-    public void RightSmashAttackSound()
-    {
-        AudioSource source = Instantiate(CrabAttackSource, RightClaw.transform);
-        PlayAttackSound(source, SmashSound);
-        Destroy(source, SmashSound.length);
-    }
-
-    public void PlayAttackSound(AudioSource source, AudioClip attackSound)
-    {
-        source.outputAudioMixerGroup = AttackMixer;
-        source.PlayOneShot(attackSound);
     }
 }

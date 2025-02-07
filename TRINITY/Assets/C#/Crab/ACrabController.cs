@@ -43,7 +43,6 @@ public class ACrabController : IEnemyController
     public bool CanCharageMoveFast = false;
     public bool CanGetHit = true;
 
-
     /*[HideInInspector] */
     public bool bElementPhase = false;
     [HideInInspector] public bool bCanChill = true;
@@ -112,15 +111,22 @@ public class ACrabController : IEnemyController
         }
         else if (CrabFSM.CurrentState is ComboAttack comboAttack)
         {
-            if (comboAttack.AnimKey == "2HitComboClawsAttack_RM")
+            float attackDMG;
+            switch (comboAttack.AnimKey)
             {
-                return IceSlashAttack;
+                case "2HitComboClawsAttack_RM_End":
+                    attackDMG = IceSlashAttack;
+                    break;
+
+                case "2HitComboSmashAttack_RM_End":
+                    attackDMG = SmashFrozenGroundAttack;
+                    break;
+                default:
+                    Debug.LogError("No damage");
+                    attackDMG = 0;
+                    break;
             }
-            else if (comboAttack.AnimKey == "2HitComboSmashAttack_RM")
-            {
-                return SmashFrozenGroundAttack;
-            }
-            return 0;
+            return attackDMG;
         }
         else if (CrabFSM.CurrentState is RoarIceSpray)
         {
@@ -128,7 +134,6 @@ public class ACrabController : IEnemyController
         }
         else
         {
-
             return 0;
         }
     }
