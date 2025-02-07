@@ -27,22 +27,23 @@ public class UHealthComponent : MonoBehaviour
 
     public void Awake()
     {
-    }
-
-    void Start()
-    {
         InitialRegen = Regen;
         Current = MAX;
     }
 
+    void Start()
+    {
+        
+    }
+
     public void LateUpdate()
     {
-        ApplyRegen();
-
         if (CheckForDeath())
         {
             return;
         }       
+
+        ApplyRegen();
     }
     
     public float Modify(FDamageInstance damageSource)
