@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Reflection;
 using ThirdPersonCamera;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -30,6 +31,10 @@ public class ATrinityCamera : MonoBehaviour
     public float BulletTimeScale = .5f;
 
     private string PostProcessingLayerName = "PP_Default";
+    private MotionBlur PP_BlinkBlur;
+    private ChromaticAberration PP_BlinkCA;
+    private LensDistortion PP_BlinkWarp;
+
 
     private ScriptableRendererFeature GlideLines;
     
@@ -37,12 +42,28 @@ public class ATrinityCamera : MonoBehaviour
     {
         CameraShakeComponent = LookAtObject.GetComponent<UCameraShakeComponent>();
         
+        transform.Find("PP_Blink").gameObject.GetComponent<Volume>().profile.TryGet(out PP_BlinkBlur);
+        transform.Find("PP_Blink").gameObject.GetComponent<Volume>().profile.TryGet(out PP_BlinkCA);
+        transform.Find("PP_Blink").gameObject.GetComponent<Volume>().profile.TryGet(out PP_BlinkWarp);
+
+        PP_BlinkWarp.intensity.overrideState = true;
+        PP_BlinkWarp.intensity.value = 0f;
+        
+
+        PP_BlinkCA.intensity.overrideState = true;
+        PP_BlinkCA.intensity.value = 0f;
+        
+        PP_BlinkBlur.intensity.overrideState = true;
+        PP_BlinkBlur.intensity.value = 0f;
+        
+        
         ATrinityGameManager.SetCamera(this);
         
         Cursor.visible = false;
         Camera = GetComponent<Camera>();
 
         CameraController = GetComponent<CameraController>();
+        
         OverTheShoulderCameraComponent = GetComponent<OverTheShoulder>();
         if (OverTheShoulderCameraComponent != null)
         {
@@ -153,14 +174,22 @@ public class ATrinityCamera : MonoBehaviour
 
             // Lerp the ReleaseDistance value back to its original value
             OverTheShoulderCameraComponent.ReleaseDistance = Mathf.Lerp(BlinkCameraDistance, OriginalCameraDistance, t);
+            
+            PP_BlinkBlur.intensity.value = Mathf.Lerp(.6f, .1f, t);
+            PP_BlinkCA.intensity.value = Mathf.Lerp(.25f, 0f, t);
+            PP_BlinkWarp.intensity.value = Mathf.Lerp(.65f, 0f, t);
 
             // Stop lerping once the time is exceeded
             if (CurrentLerpTime >= BlinkCameraLerpTime)
             {
                 OverTheShoulderCameraComponent.ReleaseDistance = OriginalCameraDistance;
                 bBlinkLerp = false;
+                PP_BlinkBlur.intensity.value = 0.0f;
+                PP_BlinkCA.intensity.value = 0.0f;
+                PP_BlinkWarp.intensity.value = 0.0f;
             }
         }
+
 
         if (ATrinityGameManager.GetPlayerFSM().CurrentState is NormalMovement state)
         {
@@ -181,6 +210,12 @@ public class ATrinityCamera : MonoBehaviour
 
     private void HandlePostProcessing()
     {
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
+        {
+            SwitchPostProcessing("PP_PAUSE");
+            return;
+        }
+        
         if (ATrinityGameManager.GetSpells().SecondaryCold.IceCubeInstance.GetComponent<IceCube>().Mesh.enabled)
         {
             if (IsPointInBoxCollider(transform.position, ATrinityGameManager.GetSpells().SecondaryCold.IceCubeTrigger, .08f))
@@ -188,23 +223,16 @@ public class ATrinityCamera : MonoBehaviour
                 SwitchPostProcessing("PP_IceCube");
                 return;
             }
-            else if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
-            {
-                SwitchPostProcessing("PP_Pause");
-            }
-            else
-            {
-                SwitchPostProcessing("PP_Default");
-            }
+            
         }
-        else if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
+        else if (ATrinityGameManager.GetSpells().UtilityCold.bActive)
         {
-            SwitchPostProcessing("PP_Pause");
+            //SwitchPostProcessing("PP_IceCube");
+            return;
         }
-        else
-        {
-            SwitchPostProcessing("PP_Default");
-        }
+        
+        SwitchPostProcessing("PP_Default");
+        
     }
 
     void LateUpdate()

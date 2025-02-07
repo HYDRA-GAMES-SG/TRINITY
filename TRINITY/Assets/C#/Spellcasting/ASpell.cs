@@ -71,7 +71,7 @@ public class ASpell : MonoBehaviour
             CastUpdate();
         }
 
-        if (this is AUtilityCold) 
+        if (this is AUtilityCold && ATrinityGameManager.GetSpells().UtilityCold.bActive == true) 
         {
             CastUpdate();
         }

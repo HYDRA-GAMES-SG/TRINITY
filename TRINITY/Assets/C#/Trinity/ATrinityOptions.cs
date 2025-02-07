@@ -38,7 +38,6 @@ public class ATrinityOptions : MonoBehaviour
 
     private void PressInteractable()
     {
-        
         if (NavigateCooldownTimer > 0f)
         {
             return;
@@ -61,10 +60,6 @@ public class ATrinityOptions : MonoBehaviour
             NavigateCooldownTimer = NavigateCooldown;
             OnOptionsMenuButton?.Invoke();
         }
-
-
-        
-        
     }
 
     void OnEnable()
@@ -74,8 +69,6 @@ public class ATrinityOptions : MonoBehaviour
             Time.timeScale = 0f;
             ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
         }
-
-        //ATrinityGameManager.GetInput().OnMovePressed += Navigate;
         
         // Ensure proper initial selection when menu is enabled
         if (MenuElements != null && MenuElements.Length > 0)
@@ -116,7 +109,7 @@ public class ATrinityOptions : MonoBehaviour
         {
             CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
         }
-
+        
         BindToEvents(false);
     }
 
@@ -229,7 +222,7 @@ public class ATrinityOptions : MonoBehaviour
         {
             //input events
             ATrinityGameManager.GetInput().OnMovePressed += Navigate;
-            ATrinityGameManager.GetInput().OnJumpGlidePressed -= PressInteractable;
+            ATrinityGameManager.GetInput().OnJumpGlidePressed += PressInteractable;
             
             //audio events
             OnOptionsMenuSlider += ATrinityGameManager.GetAudio().PlayOptionsMenuSlider;

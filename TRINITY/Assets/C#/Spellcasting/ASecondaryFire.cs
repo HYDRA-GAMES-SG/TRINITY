@@ -176,7 +176,7 @@ public class ASecondaryFire : ASpell
 
         if (Explosion != null)
         {
-            SFX.PlayOneShot(Explosion); 
+            SFX.PlayOneShot(Explosion, Mathf.Lerp(.1f, 1f,CurrentRadius / MaxRadius)); 
         }
     }
 

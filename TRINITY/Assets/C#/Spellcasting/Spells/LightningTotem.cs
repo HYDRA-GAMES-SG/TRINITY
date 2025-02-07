@@ -24,6 +24,8 @@ public class LightningTotem : MonoBehaviour
     private Light[] EyeLights;
 
     public GameObject EnragedOrbPrefab;
+
+    public GameObject NormalVFX;
     
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,7 @@ public class LightningTotem : MonoBehaviour
         EnrageFX = transform.Find("EnrageFX").gameObject;
         AttackTimer = AttackFrequency;
         EyeLights = GetComponentsInChildren<Light>();
+        NormalVFX.SetActive(false);
     }
 
     // Update is called once per frame
@@ -100,7 +103,7 @@ public class LightningTotem : MonoBehaviour
 
             AttackTimer = attackProgress * EnragedAttackFrequency;
             EnrageFX.SetActive(true);
-
+            NormalVFX.SetActive(false);
             transform.Find("Totem").gameObject.GetComponent<MeshRenderer>().material.SetVector("_EmissionColor", new Vector4(.34f, .94f, .96f, 1f));
             
             foreach (Light light in EyeLights)
@@ -175,6 +178,8 @@ public class LightningTotem : MonoBehaviour
     public void Unsummon()
     {
         Status = ELightningTotemStatus.ELTS_Unsummoned;
+        NormalVFX.SetActive(false);
+        EnrageFX.SetActive(false);
     }
 
     public void OnCollisionEnter(Collision other)
@@ -188,5 +193,6 @@ public class LightningTotem : MonoBehaviour
     public void Summoned()
     {
         Status = ELightningTotemStatus.ELTS_Summoned;
+        NormalVFX.SetActive(true);
     }
 }

@@ -46,6 +46,11 @@ public class AForcefield : ASpell
 
     public void SpawnSparks(FHitInfo hitInfo)
     {
+        if (hitInfo.CollisionData == null)
+        {
+            return;
+        }
+        
         if (ATrinityGameManager.GetBrain().bForcefieldActive)
         {
             GameObject sparks = Instantiate(ImpactFX, hitInfo.CollisionData.GetContact(0).point, Quaternion.identity);

@@ -58,6 +58,9 @@ public class ATrinityGUI : MonoBehaviour
     public bool IsGameOverOpen() => GameOver.activeSelf;
     public bool IsVictoryOpen() => Victory.activeSelf;
 
+    private float ToggleDelay = .1f;
+    private float ToggleCountdown = 0f;
+
     void Awake()
     {     
         List<ATrinityGUI> CurrentInstances = FindObjectsOfType<ATrinityGUI>().ToList();
@@ -131,6 +134,8 @@ public class ATrinityGUI : MonoBehaviour
 
     void Update()
     {
+        ToggleCountdown -= Time.unscaledDeltaTime;
+        
         if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.MAIN_MENU)
         {
             return;
@@ -143,6 +148,7 @@ public class ATrinityGUI : MonoBehaviour
 
         UpdateCooldowns();
         HandleTriangleRotation();
+        
     }
 
     private void UpdateCooldowns()
@@ -171,13 +177,12 @@ public class ATrinityGUI : MonoBehaviour
     }
 
 
-    private void TogglePause()
+    public void ToggleOptions()
     {
-        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD 
-            || ATrinityGameManager.GetGameFlowState() != EGameFlowState.PAUSED 
-            || ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
+        if (ToggleCountdown <= 0)
         {
             OptionsMenu.SetActive(!OptionsMenu.activeSelf);
+            ToggleCountdown = ToggleDelay;
         }
     }
     
@@ -316,6 +321,7 @@ public class ATrinityGUI : MonoBehaviour
     {
         AMainMenuCamera.OnSwitchToPlayerCamera -= EnableCanvas;
         GameOver.SetActive(false);
+        ToggleCountdown = 0f;
         
         if (ATrinityGameManager.CurrentScene == "PORTAL")
         {
@@ -362,11 +368,11 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetPlayerController().HealthComponent.OnHealthModified += UpdateHealthBar;
             ATrinityGameManager.GetPlayerController().HealthComponent.OnDeath += DisplayGameOver;
             ATrinityGameManager.GetSpells().ManaComponent.OnManaModified += UpdateManaBar;
+            ATrinityGameManager.GetInput().OnMenuPressed += ToggleOptions;
             
             //input events
             ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
             ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
-            ATrinityGameManager.GetInput().OnMenuPressed += TogglePause;   
             
             //audio events
         }
@@ -380,8 +386,7 @@ public class ATrinityGUI : MonoBehaviour
             
             //input events
             ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
-            ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
-            ATrinityGameManager.GetInput().OnMenuPressed -= TogglePause;   
+            ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling; 
         }
     }
 }

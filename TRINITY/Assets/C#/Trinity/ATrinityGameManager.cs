@@ -65,7 +65,14 @@ public class ATrinityGameManager : MonoBehaviour
         switch(CurrentScene)
         {
             case "PORTAL":
-                SetGameFlowState(EGameFlowState.MAIN_MENU);
+                if (GetGUI().GetMainMenu().bCanSkipMainMenu)
+                {
+                    SetGameFlowState(EGameFlowState.PLAY);
+                }
+                else
+                {
+                    SetGameFlowState(EGameFlowState.MAIN_MENU);
+                }
                 break;
             default:
                 GetGUI().GetMainMenu().bCanSkipMainMenu = true; //allow the player to bypass the main menu when they head back to the Portal Scene

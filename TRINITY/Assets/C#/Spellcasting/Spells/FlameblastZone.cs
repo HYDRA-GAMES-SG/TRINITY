@@ -3,16 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class FlameblastZone : MonoBehaviour
 {
     public GameObject FireballExplosion;
+    public Volume FlameblastZone_PP;
+    
     private float Duration;
     void Start()
     {
+        
         // Start a coroutine to pause particles after 1 second
         StartCoroutine(PauseParticlesAfterDelay());
         Duration = ATrinityGameManager.GetSpells().SecondaryFire.ZoneDuration;
+        FlameblastZone_PP = ATrinityGameManager.GetCamera().gameObject.transform.Find("PP_Flameblast").GetComponent<Volume>();
     }
 
     void Update()
@@ -24,7 +29,17 @@ public class FlameblastZone : MonoBehaviour
             Destroy(this.gameObject, 4f);
         }
 
+        float distanceToPlayer = Vector3.Distance(transform.position, ATrinityGameManager.GetPlayerController().Position);
+        float ppRatio = Mathf.Clamp01(distanceToPlayer / 20f);
+        
+        FlameblastZone_PP.weight = Mathf.Lerp(.5f, 0, ppRatio);
     }
+
+    void OnDestroy()
+    {
+        FlameblastZone_PP.weight = 0f;
+    }
+
 
     public void OnTriggerEnter(Collider other)
     {
