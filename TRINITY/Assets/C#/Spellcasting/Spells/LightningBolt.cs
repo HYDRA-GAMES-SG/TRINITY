@@ -91,5 +91,8 @@ public class LightningBolt : AProjectile
 
         Despawn();
     }
-
+    public void SetChanneledDamage(float channelPercentage) 
+    {
+        Damage = Damage * channelPercentage;
+    }
 }

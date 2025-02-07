@@ -45,7 +45,7 @@ public class AUtilityFire : ASpell
         }
         else
         {
-            ATrinityGameManager.GetPlayerController().HealthComponent.Modify((HealAmount / AuraTimer) * Time.deltaTime );
+            ATrinityGameManager.GetPlayerController().HealthComponent.Modify((HealAmount / AuraTime) * Time.deltaTime );
         }
     }
 

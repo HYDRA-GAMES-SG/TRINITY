@@ -63,9 +63,9 @@ public class APrimaryLightning : ASpell
 
     public override void CastEnd()
     {
-        float t = Mathf.Clamp01(ChannelTime / MaxChannelTime);
+        float channelPercentage = Mathf.Clamp01(ChannelTime / MaxChannelTime);
 
-        if (ChargeVFXObj != null && t > BoltCreationThreshold)
+        if (ChargeVFXObj != null && channelPercentage > BoltCreationThreshold)
         {
 
             ATrinityController playerController = ATrinityGameManager.GetPlayerController();
@@ -75,6 +75,7 @@ public class APrimaryLightning : ASpell
             Quaternion spellRot = Quaternion.Euler(-90f, 0f, 0f);
 
             LightningBolt lightningBolt = Instantiate(SpellPrefab.gameObject, castPoint, spellRot).GetComponent<LightningBolt>();
+            lightningBolt.SetChanneledDamage(channelPercentage);
             //lightningBolt.gameObject.transform.parent = this.transform;
             //lightningBolt.transform.localScale = Vector3.one * Mathf.Lerp(MinScale, MaxScale, t);
 

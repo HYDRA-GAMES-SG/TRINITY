@@ -9,7 +9,7 @@ public class UHealthComponent : MonoBehaviour
 
     public float Regen = 5f;
     
-    [HideInInspector]
+    //[HideInInspector]
     public float Current = 0f;
 
     public float Percent => Current / MAX;
@@ -37,12 +37,12 @@ public class UHealthComponent : MonoBehaviour
 
     public void LateUpdate()
     {
+        ApplyRegen();
+
         if (CheckForDeath())
         {
             return;
-        }
-        
-        ApplyRegen();
+        }       
     }
     
     public float Modify(FDamageInstance damageSource)

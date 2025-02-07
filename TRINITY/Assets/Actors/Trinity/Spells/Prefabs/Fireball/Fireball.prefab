@@ -9933,6 +9933,7 @@ GameObject:
   - component: {fileID: 5270567620185725986}
   - component: {fileID: 5538739391846466263}
   - component: {fileID: 2957412739226427558}
+  - component: {fileID: 7956582357200627859}
   m_Layer: 7
   m_Name: Fireball
   m_TagString: Untagged
@@ -9973,8 +9974,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a638ac14f6fe33b4d9b1246b0fefd44d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SFX: {fileID: 0}
   Spells: {fileID: 0}
-  Damage: 5
+  Damage: 30
   Duration: 5
   Speed: 20
   RB: {fileID: 0}
@@ -14941,6 +14943,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7956582357200627859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3852721855287756135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 0}
+  Name: 
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
 --- !u!1 &3852721855359025203
 GameObject:
   m_ObjectHideFlags: 0
