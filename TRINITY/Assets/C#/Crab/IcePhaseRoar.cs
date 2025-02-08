@@ -30,7 +30,7 @@ public class IcePhaseRoar : CrabState
         AnimatorStateInfo stateInfo = CrabFSM.Animator.GetCurrentAnimatorStateInfo(0);
         if (stateInfo.IsName("Roar2") && stateInfo.normalizedTime >= 0.95f)
         {
-            Debug.Log("Straight go pursue");
+            //Debug.Log("Straight go pursue");
             CrabFSM.EnqueueTransition<Pursue>();
         }
     }

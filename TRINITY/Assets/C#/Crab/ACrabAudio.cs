@@ -11,11 +11,13 @@ public class ACrabAudio : IAudioManager
 
     private void Awake()
     {
+        base.Awake();
         UAttackColliderComponent.OnPlayerHit += PlayHitPlayerAudio;
         UAttackColliderComponent.OnGroundHit += PlayHitGroundAudio;
 
         Controller = GetComponentInParent<ACrabController>();
     }
+   
     void PlayHitGroundAudio(float impulseMagnitude)
     {
         Debug.Log("Ground Hit Impulse Magnitude:" + impulseMagnitude);
@@ -34,7 +36,8 @@ public class ACrabAudio : IAudioManager
 
     public void PlayCrabWalkFootStep()
     {
-
+        //.Debug.Log("Crab walk sound");
+        Play("Walk");
     }
     public void PlayPhase2IceEffectSound()
     {

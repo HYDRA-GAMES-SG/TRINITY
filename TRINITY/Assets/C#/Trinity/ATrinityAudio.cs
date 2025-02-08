@@ -10,6 +10,7 @@ public class ATrinityAudio : IAudioManager
     {
         ATrinityGameManager.SetAudio(this);
         Input = ATrinityGameManager.GetInput();
+        base.Awake();
         ATrinityGameManager.OnGameFlowStateChanged += BindPlayerAudio;
     }
 

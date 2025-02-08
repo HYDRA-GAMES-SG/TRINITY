@@ -3971,6 +3971,7 @@ GameObject:
   - component: {fileID: 1643759408695698379}
   - component: {fileID: 9161646929861514682}
   - component: {fileID: 492054999584268895}
+  - component: {fileID: 2126014352394501763}
   m_Layer: 3
   m_Name: Controller
   m_TagString: Enemy
@@ -4081,7 +4082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX: 10000
   Regen: 0
-  Current: 15000
+  Current: 10000
   bInvulnerable: 0
 --- !u!114 &1729161967968059190
 MonoBehaviour:
@@ -4141,14 +4142,6 @@ MonoBehaviour:
     type: 3}
   LeftClaw: {fileID: 5848169551067447597}
   RightClaw: {fileID: 6346969674465272153}
-  AttackMixer: {fileID: 392872586645900479, guid: 8601dfef411a3754b9ecd1dfed4508bb,
-    type: 2}
-  CrabAttackSource: {fileID: 4718642061185292164, guid: 5417a9607d92300469601a69a9652f0f,
-    type: 3}
-  ClawSound: {fileID: 8300000, guid: df0015fa6208aee42a617075fc1698a7, type: 3}
-  SmashSound: {fileID: 8300000, guid: b274379bd365dc94f9d0bb519130ac13, type: 3}
-  IceClawSound: {fileID: 0}
-  IceSmashSound: {fileID: 0}
 --- !u!195 &8615689596737175229
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4234,6 +4227,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DealDamageOnlyOnce: 1
+--- !u!114 &2126014352394501763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6244054646282926487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioClipPos: {fileID: 7523154369632345820}
+  LeftHand: {fileID: 5848169551067447597}
+  RightHand: {fileID: 6346969674465272153}
 --- !u!1 &6536274583074091750
 GameObject:
   m_ObjectHideFlags: 0
@@ -4900,7 +4908,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6135234922106129702}
-  - component: {fileID: 2103416987338108888}
   - component: {fileID: 339484441150223705}
   - component: {fileID: 680872315591837675}
   - component: {fileID: 6606716937380375237}
@@ -4938,20 +4945,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9144458036026273463}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2103416987338108888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7523154369632345820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LeftHand: {fileID: 5848169551067447597}
-  RightHand: {fileID: 6346969674465272153}
 --- !u!114 &339484441150223705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4964,7 +4957,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: ee18e8f2ebfe8bc4f91a86ad57c91baf, type: 3}
   Name: Walk
   Volume: 1
   Pitch: 1

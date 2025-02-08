@@ -9,14 +9,16 @@ public class IAudioManager : MonoBehaviour
     private List<ATrinityAudioClip> AudioClips = new List<ATrinityAudioClip>();
     private Dictionary<string, ATrinityAudioClip> AudioClipLookup = new Dictionary<string, ATrinityAudioClip>();
     private Dictionary<string, AudioSource> ActiveLoopingSounds = new Dictionary<string, AudioSource>();
-    
+
     private AudioSource[] AudioSourcePool;
     private const int POOL_SIZE = 4;
-    
-    void Awake()
+
+    public GameObject AudioClipPos;
+    protected void Awake()
     {
         // Move initialization to Awake to ensure it happens before any audio plays
-        AudioClips = GetComponents<ATrinityAudioClip>().ToList();
+        AudioClips = (AudioClipPos != null ? AudioClipPos : gameObject).GetComponents<ATrinityAudioClip>().ToList();
+
         InitializeAudioClipDictionary();
         InitializeAudioPool();
     }
@@ -52,9 +54,9 @@ public class IAudioManager : MonoBehaviour
                 }
             }
         }
-        
+
         AudioSourcePool = new AudioSource[POOL_SIZE];
-        
+
         // Create audio sources
         for (int i = 0; i < POOL_SIZE; i++)
         {
@@ -84,11 +86,11 @@ public class IAudioManager : MonoBehaviour
                 return source;
             }
         }
-        
+
         // Look for oldest non-looping source
         AudioSource oldestSource = null;
         float oldestStartTime = float.MaxValue;
-        
+
         foreach (AudioSource source in AudioSourcePool)
         {
             if (!source.loop && source.time < oldestStartTime)
@@ -97,18 +99,18 @@ public class IAudioManager : MonoBehaviour
                 oldestSource = source;
             }
         }
-        
+
         if (oldestSource != null)
         {
             return oldestSource;
         }
-        
+
         // Create temporary source if needed
         AudioSource tempSource = gameObject.AddComponent<AudioSource>();
         tempSource.playOnAwake = false;
         return tempSource;
     }
-    
+
     public void Play(string clipName)
     {
         if (!AudioClipLookup.ContainsKey(clipName))
@@ -122,7 +124,7 @@ public class IAudioManager : MonoBehaviour
         ConfigureAudioSource(source, audio);
         source.loop = false;
         source.Play();
-            
+
         // If this was a temporary source (created when pool was full of looping sounds)
         if (!AudioSourcePool.Contains(source))
         {
@@ -144,7 +146,7 @@ public class IAudioManager : MonoBehaviour
         source.volume = Mathf.Clamp(clipVolume, 0f, 1f);
         source.loop = false;
         source.Play();
-            
+
         // If this was a temporary source (created when pool was full of looping sounds)
         if (!AudioSourcePool.Contains(source))
         {
@@ -202,7 +204,7 @@ public class IAudioManager : MonoBehaviour
         source.pitch = Mathf.Clamp(audio.Pitch, 0f, 2f);
         source.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(audio.MixerGroup);
 
-        switch(audio.MixerGroup)
+        switch (audio.MixerGroup)
         {
             case EAudioGroup.EAG_SFX:
                 source.spatialBlend = 1f;
@@ -214,7 +216,7 @@ public class IAudioManager : MonoBehaviour
                 break;
         }
     }
-    
+
     public void PlayAtPosition(string clipName, Transform transform)
     {
         if (!AudioClipLookup.ContainsKey(clipName))
