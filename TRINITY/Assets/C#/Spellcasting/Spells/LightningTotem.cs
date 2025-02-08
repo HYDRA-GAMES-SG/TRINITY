@@ -26,10 +26,16 @@ public class LightningTotem : MonoBehaviour
     public GameObject EnragedOrbPrefab;
 
     public GameObject NormalVFX;
+
+    private AudioSource TotemSource;
+    public AudioClip UnsummonSFX;
+    public AudioClip[] FireSFX;
     
     // Start is called before the first frame update
     void Start()
     {
+        TotemSource = GetComponent<AudioSource>();
+        TotemSource.clip = UnsummonSFX;
         Status = ELightningTotemStatus.ELTS_Summoning;
         Vector3 toPlayer = ATrinityGameManager.GetPlayerController().Position - transform.position;
         toPlayer.y = 0; //flatten
@@ -53,6 +59,7 @@ public class LightningTotem : MonoBehaviour
         }
         if (Status == ELightningTotemStatus.ELTS_Unsummoned)
         {
+            TotemSource.Play();
             float newY = Mathf.Lerp(transform.position.y, InvokePosition.y - SummonDepth, UnsummonSpeed * Time.deltaTime);
             Vector3 newPos = new Vector3(InvokePosition.x, newY, InvokePosition.z);
             transform.localPosition = newPos;
@@ -143,6 +150,9 @@ public class LightningTotem : MonoBehaviour
         totemOrb.transform.SetParent(this.transform);
         totemOrb.SetTarget(TargetEnemy);
         Destroy(totemOrb.gameObject, ATrinityGameManager.GetSpells().SecondaryLightning.ProjectileDuration);
+
+        //int rng = UnityEngine.Random.Range(0, FireSFX.Length);
+        //TotemSource.PlayOneShot(FireSFX[rng]);
         
     }
 

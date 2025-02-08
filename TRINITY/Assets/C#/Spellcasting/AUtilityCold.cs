@@ -12,6 +12,8 @@ public class AUtilityCold : ASpell
     public float LiftForce;
     public int StacksApplied;
     public EAilmentType AilmentType;
+
+    public AudioClip[] IceCrystal;
     
     [Header("VFX")]
     public GameObject SurroundingIce;
@@ -36,6 +38,8 @@ public class AUtilityCold : ASpell
 
         vfxSpike.transform.parent = ATrinityGameManager.GetPlayerController().transform;
 
+        int rng = Random.Range(0,IceCrystal.Length);
+        ColdUtilitySource.PlayOneShot(IceCrystal[rng]);
 
         Destroy(vfxSpike, 6);
         Destroy(vfxSurroundingIce, 6);

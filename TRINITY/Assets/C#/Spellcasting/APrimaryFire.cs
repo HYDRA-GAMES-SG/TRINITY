@@ -22,7 +22,7 @@ public class APrimaryFire : ASpell
         Fireball fireball = go.GetComponent<Fireball>();
         fireball.FireSource = FireSource;
         
-        int i = Random.Range(0, FireAttack.Length - 1);
+        int i = Random.Range(0, FireAttack.Length);
         FireSource.PlayOneShot(FireAttack[i]);
 
     }

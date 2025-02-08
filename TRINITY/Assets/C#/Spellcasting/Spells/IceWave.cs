@@ -7,8 +7,8 @@ using UnityEngine.Animations.Rigging;
 [RequireComponent(typeof(AudioClip))]
 public class IceWave : AProjectile
 {
-    public AudioSource ColdSource;
-    public AudioClip AudioClip;
+    private AudioSource IceWaveSource;
+    public AudioClip[] BounceSFX;
 
     [Header("Ice Wave Properties")]
     public float Damage;
@@ -35,7 +35,7 @@ public class IceWave : AProjectile
 
     void Start()
     {
-        AudioClip = GetComponent<AudioClip>();
+        IceWaveSource = GetComponent<AudioSource>();
 
         Rigidbody = GetComponent<Rigidbody>();
         PrimaryCold = ATrinityGameManager.GetSpells().PrimaryCold;
@@ -140,6 +140,9 @@ public class IceWave : AProjectile
             enemyStatus +=  new FDamageInstance(Damage, EAilmentType.EAT_Chill, PrimaryCold.StacksOfChillApplied);
 
             bCanDealDamage = false;
+
+            int rng = UnityEngine.Random.Range(0, BounceSFX.Length);         
+            IceWaveSource.PlayOneShot(BounceSFX[rng]);
         }
     }
 
@@ -182,6 +185,8 @@ public class IceWave : AProjectile
             }
             
             bCanDealDamage = true;
+            int rng = UnityEngine.Random.Range(0, BounceSFX.Length);
+            IceWaveSource.PlayOneShot(BounceSFX[rng]);
             BouncesLeft--;
             return;
         } 

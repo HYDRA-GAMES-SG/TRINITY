@@ -16,7 +16,7 @@ public class ASecondaryCold : ASpell
 
     
     [Header("Audio")]
-    public AudioClip CastingSFX;
+    public AudioClip[] CastingSFX;
 
     private AudioSource SFXSource;
     [HideInInspector]
@@ -66,7 +66,8 @@ public class ASecondaryCold : ASpell
         
             if (CastingSFX != null)
             {
-                SFXSource.clip = CastingSFX;
+                int rng = Random.Range(0, CastingSFX.Length);
+                SFXSource.clip = CastingSFX[rng];
                 SFXSource.Play();
             }
         }
@@ -102,14 +103,11 @@ public class ASecondaryCold : ASpell
     }
     public override void CastEnd()
     {
-        if (CastingSFX != null)
-        {
-            SFXSource.Stop();
-        }
-
-        if (ChannelTime / MaxChannelTime < IceCreationPercentThreshold)
+       
+        if (ChannelTime / MaxChannelTime < IceCreationPercentThreshold && CastingSFX != null)
         {
             IceCubeInstance.GetComponent<IceCube>().Melt();
+            SFXSource.Stop();
         }
         
         if (IceCubeInstance == null || !IceCubeInstance.activeSelf)

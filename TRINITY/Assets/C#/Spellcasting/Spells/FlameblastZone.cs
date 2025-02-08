@@ -9,11 +9,16 @@ public class FlameblastZone : MonoBehaviour
 {
     public GameObject FireballExplosion;
     public Volume FlameblastZone_PP;
-    
+
+    private AudioSource ZoneSource;
+
+    public AudioClip BurstSFX;
+
     private float Duration;
+ 
     void Start()
     {
-        
+        ZoneSource = GetComponent<AudioSource>();
         // Start a coroutine to pause particles after 1 second
         StartCoroutine(PauseParticlesAfterDelay());
         Duration = ATrinityGameManager.GetSpells().SecondaryFire.ZoneDuration;
@@ -45,6 +50,7 @@ public class FlameblastZone : MonoBehaviour
     {
         if (other.GetComponent<Fireball>())
         {
+            ZoneSource.PlayOneShot(BurstSFX);
             GameObject fireballExplosion = Instantiate(FireballExplosion, transform.position, Quaternion.identity);
             fireballExplosion.transform.localScale = Vector3.one * ATrinityGameManager.GetSpells().SecondaryFire.CurrentRadius / 3f;
 

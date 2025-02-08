@@ -15,7 +15,8 @@ public class APrimaryCold : ASpell
     public int CastNumber;
 
     [Header("Audio")] 
-    public AudioClip CastingSFX;
+    public AudioClip[] CastingSFX;
+    private AudioSource PrimaryColdSource;
     
     [Header("VFX Prefabs")]
     public GameObject CastingVFX;
@@ -24,6 +25,7 @@ public class APrimaryCold : ASpell
     public override void Initialize()
     {
         SpellRot = Quaternion.Euler(0,180,45);
+        PrimaryColdSource = GetComponent<AudioSource>();
     }
     
     public override void CastStart()
@@ -42,7 +44,10 @@ public class APrimaryCold : ASpell
         IceWave iceWave = go.GetComponent<IceWave>();
 
         iceWave.Controller = playerController;
-        
+
+        int rng = Random.Range(0, CastingSFX.Length);
+        PrimaryColdSource.PlayOneShot(CastingSFX[rng]);
+
         Release();
     }
 

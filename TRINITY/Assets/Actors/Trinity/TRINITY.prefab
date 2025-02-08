@@ -3273,6 +3273,9 @@ MonoBehaviour:
   LiftForce: 20
   StacksApplied: 1
   AilmentType: 2
+  IceCrystal:
+  - {fileID: 8300000, guid: 867e0178883c0fc4b8abf8bae612e9e2, type: 3}
+  - {fileID: 8300000, guid: 89cf43b03d419c74f98332dc3b142ced, type: 3}
   SurroundingIce: {fileID: 6436957164297628535, guid: be068d0f54e9cc442b5ba6f6561e3952,
     type: 3}
   bActive: 0
@@ -4440,6 +4443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b7922bc78129b42baf9e4c629e13ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AudioClipPos: {fileID: 0}
   Mixer: {fileID: 24100000, guid: 0a193b4917b2c1546a8886eb82078189, type: 2}
 --- !u!114 &825961454320704835
 MonoBehaviour:
@@ -5375,7 +5379,11 @@ MonoBehaviour:
   StacksOfChillApplied: 3
   SpellRot: {x: 0, y: 0, z: 0, w: 0}
   CastNumber: 0
-  CastingSFX: {fileID: 0}
+  CastingSFX:
+  - {fileID: 8300000, guid: 961533110feffcf46bef63d1b87ef5d5, type: 3}
+  - {fileID: 8300000, guid: f9cce778bc6537542b3e389c0ab72000, type: 3}
+  - {fileID: 8300000, guid: 334e41a4fbd9efc4891765cd37ab4635, type: 3}
+  - {fileID: 8300000, guid: 1fe4f066dd6f27d4a84711ba67640173, type: 3}
   CastingVFX: {fileID: 6631954114883094723, guid: 16292c23524a51c4cbf691a48b9d4ef9,
     type: 3}
 --- !u!82 &4539639285837369700
@@ -5539,7 +5547,9 @@ MonoBehaviour:
   MaxChannelTime: 6
   Duration: 20
   IceCreationPercentThreshold: 0.66
-  CastingSFX: {fileID: 0}
+  CastingSFX:
+  - {fileID: 8300000, guid: ab50e5f4df44fef429661ec16c467cae, type: 3}
+  - {fileID: 8300000, guid: 947c570c99b335947a81a76c90b60c99, type: 3}
   IceCubeInstance: {fileID: 0}
   IceCubeTrigger: {fileID: 0}
 --- !u!82 &531074706720849890
@@ -7248,7 +7258,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: -7797505636420618594, guid: 0a193b4917b2c1546a8886eb82078189,
     type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -7354,7 +7364,6 @@ MonoBehaviour:
   SpellType: 2
   SpellAction: 3
   bUseMaskedLayer: 1
-  FireUtilitySource: {fileID: 7556514550003406162}
   HealAmount: 10
   LoweredCooldown: 0.5
   AuraTimer: 0
@@ -7362,6 +7371,8 @@ MonoBehaviour:
   bAura: 0
   ExplosionVFX: {fileID: 5589581968649349843, guid: 359a5c52cd812e742ab07e996214bf6c,
     type: 3}
+  CastSFX: {fileID: 8300000, guid: cb1067f5f985d94458e4322a62cf53dc, type: 3}
+  SustainSFX: {fileID: 8300000, guid: 4fae46db41afcaa469eb09e2c2851bc0, type: 3}
 --- !u!1 &4999115831106528353
 GameObject:
   m_ObjectHideFlags: 0
@@ -21646,7 +21657,7 @@ MonoBehaviour:
   TotemMaxPitchSpawn: 10
   EnragedAttackFrequency: 1.2
   EnragedAttackDamage: 150
-  CastingSFX: {fileID: 0}
+  CastingSFX: {fileID: 8300000, guid: 653a0d57dd447a644b4de5571daeb9c7, type: 3}
 --- !u!82 &4387279059668304295
 AudioSource:
   m_ObjectHideFlags: 0
@@ -24783,7 +24794,6 @@ MonoBehaviour:
   bUseMaskedLayer: 1
   StacksApplied: 10
   AilmentType: 1
-  LightningSource: {fileID: 0}
   MinScale: 0
   MaxScale: 1
   MaxChannelTime: 1
@@ -24794,6 +24804,8 @@ MonoBehaviour:
     type: 3}
   FullyChargedVFX: {fileID: 5773043792457465958, guid: 76ece3d8d4a67b7418d2fed7ff70126d,
     type: 3}
+  ChargeSFX: {fileID: 8300000, guid: d34e8d327d9cc9441aeab1d2d8cdbcec, type: 3}
+  ReleaseSFX: {fileID: 8300000, guid: 6ef64d11e4c5b4c4b86fa81f00cab862, type: 3}
 --- !u!82 &5231305642204913684
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25281,6 +25293,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 096884652d51a1542aad969ce7c0915d, type: 3}
   - {fileID: 8300000, guid: e74e570c701a42e49bf131afaf5ee283, type: 3}
   - {fileID: 8300000, guid: fbd28f4c2b432e44b96c31125696756b, type: 3}
+  - {fileID: 8300000, guid: de0dff718d98c2943aafb11d9a94d7dd, type: 3}
+  - {fileID: 8300000, guid: 9f50081f2fa6b744ab612c903badb50c, type: 3}
+  - {fileID: 8300000, guid: 20a8de195cb351b43ac06212bfd54ed4, type: 3}
 --- !u!82 &8170504602972103166
 AudioSource:
   m_ObjectHideFlags: 0

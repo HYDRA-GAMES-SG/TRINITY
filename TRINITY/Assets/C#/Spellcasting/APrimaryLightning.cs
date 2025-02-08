@@ -6,7 +6,8 @@ public class APrimaryLightning : ASpell
 {
     public int StacksApplied;
     public EAilmentType AilmentType;
-    public AudioSource LightningSource;
+
+    private AudioSource LightningSource;
 
     public float MinScale;
     public float MaxScale;
@@ -23,10 +24,15 @@ public class APrimaryLightning : ASpell
     private GameObject ChargeVFXObj;
     private GameObject FullyChargedVFXObj;
 
+    [Header("SFX")]
+    public AudioClip ChargeSFX;
+    public AudioClip ReleaseSFX;
+
     public override void Initialize()
     {
         LightningSource = GetComponent<AudioSource>();
         SpellRot = Quaternion.Euler(-90, 0, 0);
+        LightningSource.clip = ChargeSFX;
     }
 
     public override void CastStart()
@@ -37,6 +43,7 @@ public class APrimaryLightning : ASpell
             GameObject chargeVFX = Instantiate(ChargeVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             ChargeVFXObj = chargeVFX;
+            LightningSource.Play();
         }
 
     }
@@ -53,7 +60,7 @@ public class APrimaryLightning : ASpell
         }
 
 
-        if (t > BoltCreationThreshold  && FullyChargedVFXObj == null)
+        if (t > BoltCreationThreshold && FullyChargedVFXObj == null)
         {
             GameObject chargeVFX = Instantiate(FullyChargedVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
@@ -65,9 +72,11 @@ public class APrimaryLightning : ASpell
     {
         float channelPercentage = Mathf.Clamp01(ChannelTime / MaxChannelTime);
 
-        if (ChargeVFXObj != null && channelPercentage > BoltCreationThreshold)
-        {
+        LightningSource.Stop();
 
+        if (ChargeVFXObj != null && channelPercentage >= BoltCreationThreshold)
+        {
+            LightningSource.PlayOneShot(ReleaseSFX);
             ATrinityController playerController = ATrinityGameManager.GetPlayerController();
 
             Vector3 castPoint = playerController.transform.position + Vector3.up * playerController.Height + playerController.Forward * 1.5f;
@@ -90,5 +99,6 @@ public class APrimaryLightning : ASpell
             FullyChargedVFXObj = null;
         }
         Destroy(ChargeVFXObj);
+
     }
 }

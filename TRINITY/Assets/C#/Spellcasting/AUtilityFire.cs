@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AUtilityFire : ASpell
 {
-    public AudioSource FireUtilitySource;
+    private AudioSource FireUtilitySource;
 
     private ETrinityAction Cleanse;
 
@@ -22,12 +22,17 @@ public class AUtilityFire : ASpell
 
     [Header("VFX")]
     public GameObject ExplosionVFX;
-    
+
+    [Header("SFX")]
+    public AudioClip CastSFX;
+    public AudioClip SustainSFX;
+
     public override void Initialize()
     {
         Cleanse = ETrinityAction.ETA_None;
         OriginalCooldown = ATrinityGameManager.GetSpells().PrimaryFire.Cooldown;
         FireUtilitySource = GetComponent<AudioSource>();
+        FireUtilitySource.clip = SustainSFX;
     }
 
     public override void CastStart()
@@ -42,6 +47,7 @@ public class AUtilityFire : ASpell
         {
             ATrinityGameManager.GetSpells().PrimaryFire.Cooldown = OriginalCooldown;
             bAura = false;
+            FireUtilitySource.Stop();
         }
         else
         {
@@ -68,5 +74,8 @@ public class AUtilityFire : ASpell
         //Apply heal, set aura timer where Primary attacks are faster, if aura is on and used with other primary, apply ignite as well
         ATrinityGameManager.GetSpells().PrimaryFire.Cooldown = LoweredCooldown;
         AuraTimer = AuraTime;
+
+        FireUtilitySource.PlayOneShot(CastSFX);
+        FireUtilitySource.Play();
     }
 }

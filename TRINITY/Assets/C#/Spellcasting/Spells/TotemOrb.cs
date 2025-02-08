@@ -19,7 +19,8 @@ public class TotemOrb : AProjectile
     private Vector3 InitialTargetPosition;
     private Vector3 Direction;
 
-
+    private AudioSource OrbSource;
+    public GameObject HitSFX;
     public void SetTarget(Transform newTarget)
     {
         print("set target");
@@ -27,7 +28,11 @@ public class TotemOrb : AProjectile
         InitialTargetPosition = TargetTransform.position;
         Direction = (InitialTargetPosition - transform.position).normalized;
     }
-    
+
+    private void Awake()
+    {
+        OrbSource = GetComponent<AudioSource>();
+    }
     // Start is called before the first frame update
     void Start()
     {
@@ -89,5 +94,10 @@ public class TotemOrb : AProjectile
             //assume we are hitting something default etc
             Despawn();
         }
+
+        GameObject hitSFX = Instantiate(HitSFX, other.transform.position, Quaternion.identity);
+        AudioSource hitSource = hitSFX.GetComponent<AudioSource>();
+        Destroy(hitSFX, hitSource.clip.length);
+
     }
 }

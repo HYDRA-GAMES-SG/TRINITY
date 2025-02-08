@@ -251,6 +251,7 @@ public class ATrinityController : MonoBehaviour
             }
 
             OnForcefieldHit?.Invoke(hitInfo);
+            print("sparks");
         }
 
         if (remainingDamage > 0)
