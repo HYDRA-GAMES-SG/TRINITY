@@ -106,9 +106,8 @@ public class ATrinityGameManager : MonoBehaviour
         }
         OnSceneChanged?.Invoke();
         
-        GetGUI().ResetGUI();
-        
         FindAndSetEnemyControllers();
+        GetGUI().ResetGUI();
         GetPlayerController().ResetPlayer();
         GetPlayerFSM().RestartStateMachine();
     }
