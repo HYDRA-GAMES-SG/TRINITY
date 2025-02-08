@@ -19,7 +19,7 @@ public class APortal : MonoBehaviour
     {
         ATrinityController playerController = ATrinityGameManager.GetPlayerController();
         
-        SceneManager.LoadScene(sceneName);
+        ATrinityGameManager.LoadScene(sceneName);
     }
 
 }

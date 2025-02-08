@@ -177,7 +177,7 @@ public class ATrinityCamera : MonoBehaviour
             
             PP_BlinkBlur.intensity.value = Mathf.Lerp(.6f, .1f, t);
             PP_BlinkCA.intensity.value = Mathf.Lerp(.25f, 0f, t);
-            PP_BlinkWarp.intensity.value = Mathf.Lerp(.65f, 0f, t);
+            PP_BlinkWarp.intensity.value = Mathf.Lerp(.60f, 0f, t);
 
             // Stop lerping once the time is exceeded
             if (CurrentLerpTime >= BlinkCameraLerpTime)

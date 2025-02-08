@@ -32,17 +32,18 @@ public class ATrinitySpells : MonoBehaviour
     public AForcefield Forcefield;
     [HideInInspector] 
     public ABlink Blink;
-    
+    [HideInInspector]
     public UManaComponent ManaComponent;
 
     void Awake()
     {
         ATrinityGameManager.SetSpells(this);
     }
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        ManaComponent = GetComponent<UManaComponent>();
         SecondaryFire = GetComponentInChildren<ASecondaryFire>();
         SecondaryCold = GetComponentInChildren<ASecondaryCold>();
         SecondaryLightning = GetComponentInChildren<ASecondaryLightning>();
@@ -54,7 +55,8 @@ public class ATrinitySpells : MonoBehaviour
         UtilityLightning = GetComponentInChildren<AUtilityLightning>();   
         Blink = GetComponentInChildren<ABlink>();
         Forcefield = GetComponentInChildren<AForcefield>();
-        
+        ManaComponent.OnManaModified += ATrinityGameManager.GetGUI().UpdateManaBar;
+
         // need to get component in children for every spell we add
         //have a game object for every spell
     }
@@ -62,5 +64,10 @@ public class ATrinitySpells : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    }
+
+    void OnDestroy()
+    {
+        ManaComponent.OnManaModified -= ATrinityGameManager.GetGUI().UpdateManaBar;
     }
 }

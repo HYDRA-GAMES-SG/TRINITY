@@ -30,7 +30,6 @@ public class ACrabAudio : IAudioManager
     }
     void PlayHitPlayerAudio()
     {
-        Debug.Log("hit player audio");
         Play("HitPlayer");
     }
 

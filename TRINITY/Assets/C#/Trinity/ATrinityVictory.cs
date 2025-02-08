@@ -22,11 +22,6 @@ public class ATrinityVictory : MonoBehaviour
     
     private bool bScoreDisplayComplete;
     private float PauseTimer;
-
-    private bool bCloseVictoryScreenInput => ATrinityGameManager.GetInput().ForcefieldInput ||
-                                             ATrinityGameManager.GetInput().JumpInput ||
-                                             ATrinityGameManager.GetInput().MenuInput ||
-                                             ATrinityGameManager.GetInput().ElementalPrimaryInput;
     
     // Start is called before the first frame update
     void OnEnable()
@@ -60,11 +55,17 @@ public class ATrinityVictory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (bScoreDisplayComplete && bCloseVictoryScreenInput)
+        
+    }
+
+    public void Close()
+    {
+        if (bScoreDisplayComplete)
         {
             ATrinityGameManager.GetInput().NullifyInputs();
             ActivatePortal();
         }
+        
     }
 
     private IEnumerator ScoreDisplayCoro()
@@ -88,7 +89,7 @@ public class ATrinityVictory : MonoBehaviour
         }
 
         Time.timeScale = 0f;
-        ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
+        ATrinityGameManager.SetGameFlowState(EGameFlowState.VICTORY);
         
         ScorePanel.gameObject.SetActive(true);
         

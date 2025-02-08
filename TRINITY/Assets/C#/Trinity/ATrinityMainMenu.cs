@@ -38,14 +38,13 @@ public class ATrinityMainMenu : MonoBehaviour
         TriangleTexts = new List<TextMeshProUGUI>();
         TriangleTexts = ElementTriangle.gameObject.GetComponentsInChildren<TextMeshProUGUI>().ToList();
         InitialColor = TriangleTexts[0].color;
-
-        Initialize();
         
         TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
     }
 
     void OnEnable()
     {
+        Initialize();
         BindToEvents(true);
     }
     

@@ -14,13 +14,15 @@ public class IAudioManager : MonoBehaviour
     private const int POOL_SIZE = 4;
 
     public GameObject AudioClipPos;
+
     protected void Awake()
     {
+        print("audio awake");
         // Move initialization to Awake to ensure it happens before any audio plays
         AudioClips = (AudioClipPos != null ? AudioClipPos : gameObject).GetComponents<ATrinityAudioClip>().ToList();
 
         InitializeAudioClipDictionary();
-        InitializeAudioPool();
+
     }
 
     public void OnEnable()
@@ -41,8 +43,9 @@ public class IAudioManager : MonoBehaviour
         }
     }
 
-    private void InitializeAudioPool()
+    void InitializeAudioPool()
     {
+        
         // Clean up existing pool if it exists
         if (AudioSourcePool != null)
         {
@@ -68,6 +71,11 @@ public class IAudioManager : MonoBehaviour
 
     private AudioSource GetAvailableAudioSource()
     {
+        if (AudioSourcePool == null)
+        {
+            InitializeAudioPool();
+        }
+        
         // First, validate all sources in the pool
         for (int i = 0; i < AudioSourcePool.Length; i++)
         {
@@ -239,5 +247,10 @@ public class IAudioManager : MonoBehaviour
 
         source.Play();
         Destroy(newAudioSourceObj, source.clip.length + .1f);
+    }
+
+    protected void OnDestroy()
+    {
+        print("audio destroyed");
     }
 }

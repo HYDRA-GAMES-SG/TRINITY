@@ -24,6 +24,16 @@ public class ATrinityGameOver : MonoBehaviour
         GameOverSource = GetComponent<AudioSource>();
     }
 
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
     private void Update()
     {
         if (bFadeComplete)
@@ -32,18 +42,25 @@ public class ATrinityGameOver : MonoBehaviour
             {
                 ContinueParent.SetActive(true);
             }
-
-            if (ATrinityGameManager.GetInput().JumpInput)
-            {
-                SceneManager.LoadScene(ATrinityGameManager.CurrentScene);
-            }
-
-            if (ATrinityGameManager.GetInput().ForcefieldInput)
-            {
-                SceneManager.LoadScene(PortalScene);
-            }
         }
     }
+
+    public void Return()
+    {
+        if (bFadeComplete)
+        {
+            ATrinityGameManager.LoadScene(PortalScene);
+        }
+    }
+
+    public void Restart()
+    {
+        if(bFadeComplete)
+        {
+            ATrinityGameManager.LoadScene(ATrinityGameManager.CurrentScene);
+        }
+    }
+    
 
     public void Display()
     {
@@ -53,7 +70,11 @@ public class ATrinityGameOver : MonoBehaviour
         
         StartCoroutine(FadeIn());
         StartCoroutine(AnimateText());
-        StartCoroutine(FadeMusic());
+        
+        if (BGMReference != null)
+        {
+            StartCoroutine(FadeMusic());
+        }
     }
 
     private IEnumerator FadeMusic()

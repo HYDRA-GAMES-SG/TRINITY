@@ -5,84 +5,14 @@ public class ATrinityAudio : IAudioManager
 {
     private ATrinityInput Input;
     public AudioMixer Mixer;
-    
-    private void Awake()
+
+    void Awake()
     {
         ATrinityGameManager.SetAudio(this);
-        Input = ATrinityGameManager.GetInput();
+        print("new audio set");
         base.Awake();
-        ATrinityGameManager.OnGameFlowStateChanged += BindPlayerAudio;
-    }
-
-    private void BindPlayerAudio(EGameFlowState newGameFlowState)
-    {
-        if (newGameFlowState == EGameFlowState.PLAY)
-        {
-            Bind();
-        }
-        else
-        {
-            Unbind();
-        }
-    }
-
-    
-    private void OnEnable()
-    {
-        // Call base class OnEnable
-        base.OnEnable();
-        
-        // Rebind if needed based on current game state
-        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PLAY)
-        {
-            Bind();
-        }
-    }
-
-    private void OnDisable()
-    {
-        Unbind();
     }
     
-    void Update()
-    {
-        
-    }
-
-    void OnDestroy()
-    {
-        ATrinityGameManager.OnGameFlowStateChanged -= BindPlayerAudio;
-        Unbind();
-    }
-
-    public void Unbind()
-    {
-        
-        ATrinityController.OnJump -= PlayJump;
-        ATrinityController.OnLand -= PlayLand;
-        ATrinityController.OnGlideEnd -= EndGlideLoop;
-        ATrinityController.OnGlideStart -= PlayGlideLoop;
-        ATrinityController.OnTerrainCollision -= PlayTerrainCollision;
-        ATrinityController.OnDeath -= PlayDeath;
-        ATrinityController.OnJump -= PlayJumpGrunt;
-        ATrinityController.OnDeath -= PlayGameOver;
-        ATrinityController.OnBeginFalling -= PlayBeginFalling;
-    }
-
-    public void Bind()
-    {
-        
-        ATrinityController.OnJump += PlayJump;
-        ATrinityController.OnLand += PlayLand;
-        ATrinityController.OnGlideEnd += EndGlideLoop;
-        ATrinityController.OnGlideStart += PlayGlideLoop;
-        ATrinityController.OnTerrainCollision += PlayTerrainCollision;
-        ATrinityController.OnDeath += PlayDeath;
-        ATrinityController.OnJump += PlayJumpGrunt;
-        ATrinityController.OnDeath += PlayGameOver;
-        ATrinityController.OnBeginFalling += PlayBeginFalling;
-    }
-
     // ui
     public void PlayOptionsMenuSlider() => Play("OptionsSlider");
     public void PlayOptionsMenuToggle() => Play("OptionsToggle");
@@ -92,13 +22,85 @@ public class ATrinityAudio : IAudioManager
     public void PlayMainMenuSelect() => Play("MainMenuSelect");
 
     // sfx
-    void PlayJump() => Play("Jump");
-    void PlayLand(float verticalVelocity) => PlayWithVolume("Land", Mathf.Clamp01(verticalVelocity / 14f));
-    void PlayGlideLoop() => StartLoop("GlideLoop");
-    void EndGlideLoop() => StopLoop("GlideLoop");
-    void PlayTerrainCollision() => Play("TerrainCollision");
-    void PlayDeath() => Play("Death");
-    void PlayJumpGrunt() => Play("JumpGrunt");
-    void PlayGameOver() => Play("GameOver");
-    void PlayBeginFalling() => Play("BeginFalling");
+    public void PlayJump()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        Play("Jump");
+    }
+    public void PlayLand(float verticalVelocity)
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        PlayWithVolume("Land", Mathf.Clamp01(verticalVelocity / 14f));
+    }
+    public void PlayGlideLoop()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        StartLoop("GlideLoop");
+    }
+    public void EndGlideLoop()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        StopLoop("GlideLoop");
+    }
+    public void PlayTerrainCollision()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        Play("TerrainCollision");
+    }
+    public void PlayDeath()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        Play("Death");
+    }
+    public void PlayJumpGrunt()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        Play("JumpGrunt");
+    }
+    public void PlayGameOver()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        Play("GameOver");
+    }
+    public void PlayBeginFalling()
+    {
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        {
+            return;
+        }
+        
+        Play("BeginFalling");
+    }
 }

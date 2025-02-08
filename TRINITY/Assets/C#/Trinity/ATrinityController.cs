@@ -11,6 +11,7 @@ public class ATrinityController : MonoBehaviour
     //events
     public static System.Action OnBeginFalling;
     public System.Action<FHitInfo> OnHit;
+    public System.Action<float> OnHealthHit;
     public System.Action<FHitInfo> OnForcefieldHit;
     public static System.Action OnJump;
     public static System.Action<float> OnLand;
@@ -100,10 +101,18 @@ public class ATrinityController : MonoBehaviour
         }
     }
 
-
-    private void OnDestroy()
+    private void Start()
     {
-        
+        //audio events
+        OnJump += ATrinityGameManager.GetAudio().PlayJump;
+        OnLand += ATrinityGameManager.GetAudio().PlayLand;
+        OnGlideEnd += ATrinityGameManager.GetAudio().EndGlideLoop;
+        OnGlideStart += ATrinityGameManager.GetAudio().PlayGlideLoop;
+        OnTerrainCollision += ATrinityGameManager.GetAudio().PlayTerrainCollision;
+        OnDeath += ATrinityGameManager.GetAudio().PlayDeath;
+        OnJump += ATrinityGameManager.GetAudio().PlayJumpGrunt;
+        OnDeath += ATrinityGameManager.GetAudio().PlayGameOver;
+        OnBeginFalling += ATrinityGameManager.GetAudio().PlayBeginFalling;
     }
 
     private void Update()
@@ -154,7 +163,7 @@ public class ATrinityController : MonoBehaviour
             
             if (ATrinityGameManager.GetEnemyControllers().Count > 0)
             {
-                chargeGravityModifier = UAilmentComponent.ChargeGlideGravityModifier;
+                chargeGravityModifier = UAilmentComponent.GetChargeGlideGravityModifier();
             }
         }
 
@@ -259,6 +268,7 @@ public class ATrinityController : MonoBehaviour
             // Apply any remaining damage to health
             HealthComponent.Modify(-remainingDamage);
             OnHit?.Invoke(hitInfo);
+            OnHealthHit?.Invoke(remainingDamage);
         }
     }
 
@@ -291,7 +301,31 @@ public class ATrinityController : MonoBehaviour
     {
         ResetTerrainCounter();
         HealthComponent.Reset();
+        OnHealthHit += ATrinityGameManager.GetScore().AddDamageTaken;
+        HealthComponent.OnHealthModified += ATrinityGameManager.GetGUI().UpdateHealthBar;
+        HealthComponent.OnDeath += ATrinityGameManager.GetGUI().DisplayGameOver;
     }
+    
+    private void OnDestroy()
+    {
+        HealthComponent.OnHealthModified -= ATrinityGameManager.GetGUI().UpdateHealthBar;
+        HealthComponent.OnDeath -= ATrinityGameManager.GetGUI().DisplayGameOver;
+        OnHealthHit -= ATrinityGameManager.GetScore().AddDamageTaken;
+        
+        //audio events
+        OnJump -= ATrinityGameManager.GetAudio().PlayJump;
+        OnLand -= ATrinityGameManager.GetAudio().PlayLand;
+        OnGlideEnd -= ATrinityGameManager.GetAudio().EndGlideLoop;
+        OnGlideStart -= ATrinityGameManager.GetAudio().PlayGlideLoop;
+        OnTerrainCollision -= ATrinityGameManager.GetAudio().PlayTerrainCollision;
+        OnDeath -= ATrinityGameManager.GetAudio().PlayDeath;
+        OnJump -= ATrinityGameManager.GetAudio().PlayJumpGrunt;
+        OnDeath -= ATrinityGameManager.GetAudio().PlayGameOver;
+        OnBeginFalling -= ATrinityGameManager.GetAudio().PlayBeginFalling;
+        
+    }
+    
+    
     
     // public void EnableRagdoll()
     // {

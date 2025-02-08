@@ -37,6 +37,7 @@ public enum EGameFlowState
     PLAY,
     PAUSED,
     DEAD,
+    VICTORY,
     MAIN_MENU
 }
 

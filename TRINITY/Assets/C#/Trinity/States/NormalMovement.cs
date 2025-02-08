@@ -121,7 +121,7 @@ public class NormalMovement : TrinityState
         Controller.MoveDirection = GetChargedMovement();
         
         // if speed in the direction of the movedirection is not faster than max speed
-        if (Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude < MaxSpeed) 
+        if (Vector3.Project(Controller.RB.velocity, Controller.MoveDirection).magnitude < GetChargedMaxSpeed()) 
         {
             Controller.RB.AddForce(Controller.MoveDirection);
         }
@@ -368,7 +368,10 @@ public class NormalMovement : TrinityState
     
     private void OnBlink()
     {
-        TrinityFSM.Animator.SetBool(AnimKeys["Blink"], true);
+        if (TrinityFSM.Animator != null)
+        {
+            TrinityFSM.Animator.SetBool(AnimKeys["Blink"], true);
+        }
     }
 
     private void HandleHit(FHitInfo hitInfo)
@@ -404,7 +407,7 @@ public class NormalMovement : TrinityState
         float additionalJumpForce = 0f;
         if (ATrinityGameManager.GetEnemyControllers().Count > 0)
         {
-            additionalJumpForce = UAilmentComponent.ChargeAdditionalJumpForce;
+            additionalJumpForce = UAilmentComponent.GetChargeAdditionalJumpForce();
         }
         
         return JumpForce + additionalJumpForce;
@@ -417,7 +420,7 @@ public class NormalMovement : TrinityState
         
         if (ATrinityGameManager.GetEnemyControllers().Count > 0)
         {
-            chargeMoveModifier = UAilmentComponent.ChargeMoveModifier;
+            chargeMoveModifier = UAilmentComponent.GetChargeMoveModifier();
         }
 
         float chargedX = Controller.MoveDirection.x * chargeMoveModifier;
@@ -434,6 +437,17 @@ public class NormalMovement : TrinityState
         }
     }
 
+    public float GetChargedMaxSpeed()
+    {
+        float chargeMaxSpeedModifier = 1f;
+        
+        if (ATrinityGameManager.GetEnemyControllers().Count > 0)
+        {
+            chargeMaxSpeedModifier = UAilmentComponent.GetChargeMoveModifier();
+        }
+
+        return MaxSpeed * chargeMaxSpeedModifier;
+    }
     public void OnDestroy()
     {
         ABlink.OnBlink -= OnBlink;

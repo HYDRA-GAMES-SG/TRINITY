@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,7 @@ public class ATrinityOptions : MonoBehaviour
     public Slider GamepadSensitivity;
     public Slider MouseSensitivity;
     public Slider MasterVolume;
+    public Button QuitButton;
     
     public Image CrossHair;
     public bool bEnableCrosshair = true;
@@ -27,6 +29,7 @@ public class ATrinityOptions : MonoBehaviour
     public Selectable[] MenuElements;  // Array of UI elements (buttons, etc.)
     private int CurrentMenuElementsIndex = 0;
 
+
     void Start()
     {
         // Set initial selection
@@ -36,7 +39,7 @@ public class ATrinityOptions : MonoBehaviour
         }
     }
 
-    private void PressInteractable()
+    public void PressInteractable()
     {
         if (NavigateCooldownTimer > 0f)
         {
@@ -50,6 +53,7 @@ public class ATrinityOptions : MonoBehaviour
             currentToggle.isOn = !currentToggle.isOn;
             NavigateCooldownTimer = NavigateCooldown;
             OnOptionsMenuToggle?.Invoke();
+            ATrinityGameManager.SerializeSettings(MakeGameSettings());
         }
         
         if (MenuElements[CurrentMenuElementsIndex] is Button)
@@ -59,6 +63,7 @@ public class ATrinityOptions : MonoBehaviour
             currentButton.onClick?.Invoke();
             NavigateCooldownTimer = NavigateCooldown;
             OnOptionsMenuButton?.Invoke();
+            ATrinityGameManager.SerializeSettings(MakeGameSettings());
         }
     }
 
@@ -76,6 +81,15 @@ public class ATrinityOptions : MonoBehaviour
             SelectMenuItem(CurrentMenuElementsIndex);
         }
 
+        if (ATrinityGameManager.CurrentScene == "PORTAL" && QuitButton != null)
+        {
+            QuitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit";
+        }
+        else if(QuitButton != null)
+        {
+            QuitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit To Mage's Gate";
+        }
+
         if (CrossHair)
         {
             CrossHair.gameObject.SetActive(false);
@@ -83,10 +97,21 @@ public class ATrinityOptions : MonoBehaviour
             
         NavigateCooldownTimer = 0f;
 
-        BindToEvents(true);
+        BindAudioEvents(true);
     }
-    
-    
+
+    private FGameSettings MakeGameSettings()
+    {
+        FGameSettings newSettings = new FGameSettings(
+            CrossHairToggle.isOn,
+            GamepadSensitivity.value,
+            MouseSensitivity.value,
+            MasterVolume.value
+        );
+        
+        return newSettings;
+    }
+
 
     void OnDisable()
     {
@@ -96,24 +121,15 @@ public class ATrinityOptions : MonoBehaviour
             ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
         }
 
-        FGameSettings newSettings = new FGameSettings(
-            CrossHairToggle.isOn,
-            GamepadSensitivity.value,
-            MouseSensitivity.value,
-            MasterVolume.value
-        );
-
-        ATrinityGameManager.SerializeSettings(newSettings);
-
         if (CrossHair)
         {
             CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
         }
         
-        BindToEvents(false);
+        BindAudioEvents(false);
     }
 
-    private void Navigate()
+    public void Navigate()
     {
         if (NavigateCooldownTimer > 0f)
         {
@@ -162,10 +178,12 @@ public class ATrinityOptions : MonoBehaviour
                 if (moveInput.x > 0)
                 {
                     currentSlider.value += .1f;
+                    ATrinityGameManager.SerializeSettings(MakeGameSettings());
                 }
                 else
                 {
                     currentSlider.value -= .1f;
+                    ATrinityGameManager.SerializeSettings(MakeGameSettings());
                 }
 
                 OnOptionsMenuSlider?.Invoke();
@@ -206,9 +224,10 @@ public class ATrinityOptions : MonoBehaviour
 
     public void OnQuitClicked()
     {
+        BindAudioEvents(false);
         if (ATrinityGameManager.CurrentScene != "PORTAL")
         {
-            SceneManager.LoadScene("PORTAL");
+            ATrinityGameManager.LoadScene("PORTAL");
         }
         else
         {
@@ -216,26 +235,18 @@ public class ATrinityOptions : MonoBehaviour
         }
     }
 
-    public void BindToEvents(bool bBind)
+    public void BindAudioEvents(bool bBind)
     {
         if (bBind)
         {
-            //input events
-            ATrinityGameManager.GetInput().OnMovePressed += Navigate;
-            ATrinityGameManager.GetInput().OnJumpGlidePressed += PressInteractable;
-            
             //audio events
-            OnOptionsMenuSlider += ATrinityGameManager.GetAudio().PlayOptionsMenuSlider;
-            OnOptionsMenuToggle += ATrinityGameManager.GetAudio().PlayOptionsMenuToggle;
-            OnOptionsMenuButton += ATrinityGameManager.GetAudio().PlayOptionsMenuButton;
-            OnOptionsMenuNavigate += ATrinityGameManager.GetAudio().PlayOptionsMenuNavigate;
+            ATrinityOptions.OnOptionsMenuSlider += ATrinityGameManager.GetAudio().PlayOptionsMenuSlider;
+            ATrinityOptions.OnOptionsMenuToggle += ATrinityGameManager.GetAudio().PlayOptionsMenuToggle;
+            ATrinityOptions.OnOptionsMenuButton += ATrinityGameManager.GetAudio().PlayOptionsMenuButton;
+            ATrinityOptions.OnOptionsMenuNavigate += ATrinityGameManager.GetAudio().PlayOptionsMenuNavigate;
         }
         else
         {
-            //input events
-            ATrinityGameManager.GetInput().OnMovePressed -= Navigate;
-            ATrinityGameManager.GetInput().OnJumpGlidePressed -= PressInteractable;
-            
             //audio events
             OnOptionsMenuSlider -= ATrinityGameManager.GetAudio().PlayOptionsMenuSlider;
             OnOptionsMenuToggle -= ATrinityGameManager.GetAudio().PlayOptionsMenuToggle;

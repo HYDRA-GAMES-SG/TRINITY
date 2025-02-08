@@ -45,6 +45,7 @@ public class LightningTotem : MonoBehaviour
         float spawnPitch = ((float)RNG.NextDouble() - .5f) * 2f * MaxPitchSpawn;
         transform.Find("Totem").transform.localRotation *= Quaternion.AngleAxis(spawnPitch, transform.forward); //makes no sense
         EnrageFX = transform.Find("EnrageFX").gameObject;
+        EnrageFX.SetActive(false);
         AttackTimer = AttackFrequency;
         EyeLights = GetComponentsInChildren<Light>();
         NormalVFX.SetActive(false);
@@ -66,7 +67,7 @@ public class LightningTotem : MonoBehaviour
 
             if (Mathf.Abs(newY - InvokePosition.y - SummonDepth) < .05f)
             {
-                Destroy(this);
+                Destroy(this.gameObject);
             }
 
             return;
@@ -188,8 +189,18 @@ public class LightningTotem : MonoBehaviour
     public void Unsummon()
     {
         Status = ELightningTotemStatus.ELTS_Unsummoned;
-        NormalVFX.SetActive(false);
-        EnrageFX.SetActive(false);
+
+        if (NormalVFX != null)
+        {
+            NormalVFX.SetActive(false);
+        }
+
+        if (EnrageFX != null)
+        {
+            EnrageFX.SetActive(false);
+        }
+
+        Destroy(this.gameObject, 1f);
     }
 
     public void OnCollisionEnter(Collision other)

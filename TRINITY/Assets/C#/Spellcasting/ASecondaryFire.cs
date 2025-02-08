@@ -205,7 +205,7 @@ public class ASecondaryFire : ASpell
             //if we don't get a valid ground hit we just find ground at the max range in the forward vector
             Vector3 searchOrigin = ATrinityGameManager.GetSpells().CastPoint.position + ATrinityGameManager.GetPlayerController().Forward * Range;
             
-            if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range * 2f, GroundLayer))
+            if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range * 4f, GroundLayer))
             {
                 return groundHit.point + Vector3.up * .1f;
             }

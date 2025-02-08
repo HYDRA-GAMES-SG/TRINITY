@@ -65,14 +65,14 @@ public class ABlink : ASpell
             {
                 if(DEBUG_ENABLE){print("no input blink");}
                 rotatedDirection = ATrinityGameManager.GetPlayerController().Forward; //blink forward
-                BlinkCamera?.Invoke();
+                //BlinkCamera?.Invoke();
             }
         }
         else if(Mathf.Abs(input.x) < float.Epsilon || input.y < 0f)
         {
             if(DEBUG_ENABLE){print("forward or backwards blink");}
             rotatedDirection = direction; //if the lateral input is zero or we are moving backwards, blink in teh direction of the movement vector
-            BlinkCamera?.Invoke();
+            //BlinkCamera?.Invoke();
         }
         else if (Mathf.Abs(input.x) > float.Epsilon && playerMovement != null)
         {
@@ -166,6 +166,7 @@ public class ABlink : ASpell
             SmokeCloudDeparting.transform.SetParent(this.gameObject.transform);
             
             OnBlink?.Invoke();
+            BlinkCamera?.Invoke();
 
             ATrinityController playerController = ATrinityGameManager.GetPlayerController();
             

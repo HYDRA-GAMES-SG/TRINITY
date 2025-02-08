@@ -6,27 +6,25 @@ using UnityEngine;
 
 public class UAilmentComponent : MonoBehaviour
 {
-    
     public static float AilmentDuration = 5f;
-    
-    [HideInInspector]
-    public static int ChargeStacks = 0;
-    
+
+
     public float IgniteDamage => IgniteDamagePerStack * AilmentKeys[EAilmentType.EAT_Ignite].Stacks;
     public float ChillSpeedModifier => 1 - ChillSlowPercentPerStack * AilmentKeys[EAilmentType.EAT_Chill].Stacks;
-    
-    public static float ChargeMoveModifier => 1 + ChargeMoveModifierPerStack * ChargeStacks;
-    public static float ChargeAdditionalJumpForce => ChargeJumpForcePerStack * ChargeStacks;
-    public static float ChargeGlideGravityModifier => 1 - ChargeGlideGravityModifierPerStack * ChargeStacks;
-    
+
+    public static float GetChargeMoveModifier() => 1 + MaxChargeMoveModifier * ((float)GetChargeStacks() / MAX_STACKS);
+    public static float GetChargeAdditionalJumpForce() => MaxJumpModifier * ((float)GetChargeStacks() / MAX_STACKS);
+    public static float GetChargeGlideGravityModifier() => 1 - MaxChargeGlideGravityModifier * ((float)GetChargeStacks() / MAX_STACKS);
+
     public static int MAX_STACKS = 100;
 
-    private static float IgniteDamagePerStack = 1f;
-    private static float ChillSlowPercentPerStack = .004f;
-    private static float ChargeMoveModifierPerStack = .2f;
-    private static float ChargeJumpForcePerStack = .02f;
-    private static float ChargeGlideGravityModifierPerStack = .001f;
-    
+    private static float IgniteDamagePerStack = 1f; //per stack
+    private static float ChillSlowPercentPerStack = .004f; //per stack
+
+    private static float MaxChargeMoveModifier = .5f;
+    private static float MaxJumpModifier = 22f;
+    private static float MaxChargeGlideGravityModifier = .15f;
+
     public class Ailment
     {
         public int Stacks { get; set; }
@@ -52,27 +50,27 @@ public class UAilmentComponent : MonoBehaviour
 
     private void Awake()
     {
-       
+
         foreach (EAilmentType ailment in Enum.GetValues(typeof(EAilmentType)))
         {
             if (ailment == EAilmentType.EAT_None)
             {
                 continue;
             }
-            
+
             AilmentKeys[ailment] = new Ailment
             {
                 Stacks = 0,
                 Timer = 0f,
                 Duration = AilmentDuration
             };
-        } 
-    }
-    private void Start()
-    {
-        
+        }
     }
 
+    private void Start()
+    {
+
+    }
     public void UpdateEffects()
     {
         
@@ -137,7 +135,6 @@ public class UAilmentComponent : MonoBehaviour
                     OnIgniteModified?.Invoke(this);
                     break;
                 case EAilmentType.EAT_Charge:
-                    ChargeStacks = Mathf.Clamp(ChargeStacks + stackModifier, 0, MAX_STACKS);
                     OnChargeModified?.Invoke(this);
                     break;
             }
@@ -147,6 +144,18 @@ public class UAilmentComponent : MonoBehaviour
         {
             modifiedAilment.Timer = 0f;
         }
+    }
+
+    public static int GetChargeStacks()
+    {
+        int chargeStacks = 0;
+        
+        foreach (IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
+        {
+            chargeStacks += ec.EnemyStatus.Ailments.AilmentKeys[EAilmentType.EAT_Charge].Stacks;
+        }
+
+        return chargeStacks;
     }
 
     public void RemoveStacks(EAilmentType ailmentType)

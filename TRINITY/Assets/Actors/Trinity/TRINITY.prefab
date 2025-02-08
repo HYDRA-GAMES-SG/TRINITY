@@ -6374,7 +6374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MAX: 75
-  Regen: 8
+  Regen: 6
   Current: 75
 --- !u!1 &3933746715101313446
 GameObject:
@@ -7853,7 +7853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX: 100
   Regen: 1.5
-  Current: 50
+  Current: 100
   bInvulnerable: 0
 --- !u!135 &3909618758566824843
 SphereCollider:
@@ -21629,8 +21629,8 @@ MonoBehaviour:
   SpellPrefab: {fileID: 4260736446530102828, guid: 831e2da0456db8c4abe6b18edf94e783,
     type: 3}
   Cooldown: 0
-  ManaCost: 5
-  ManaUpkeepCost: 2
+  ManaCost: 4
+  ManaUpkeepCost: 1
   SpellElement: 2
   SpellType: 1
   SpellAction: 4
@@ -21638,7 +21638,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 1
-  MaxChannelTime: 2
+  MaxChannelTime: 1.8
   TotemSummonDepth: 5
   Range: 7
   SummonVFX: {fileID: 2900534572940629487, guid: c3896d1837507224fb975dc6392f0988,
@@ -21646,18 +21646,18 @@ MonoBehaviour:
   SummonVFXObj: {fileID: 0}
   ProjectileDuration: 4.5
   ProjectileRange: 60
-  ProjectileSpeed: 6
+  ProjectileSpeed: 8
   AggroRange: 40
-  ProjectileDamage: 100
+  ProjectileDamage: 60
   ProjectilePrefab: {fileID: 6741734988720072826, guid: 1c6bc75f5be9e8040b860a229b154bc5,
     type: 3}
-  ProjectileChargeStacks: 1
-  AttackFrequency: 1.5
+  ProjectileChargeStacks: 4
+  AttackFrequency: 1.6
   TotemDuration: 27
   TotemMaxPitchSpawn: 10
-  EnragedAttackFrequency: 1.2
-  EnragedAttackDamage: 150
-  CastingSFX: {fileID: 8300000, guid: 653a0d57dd447a644b4de5571daeb9c7, type: 3}
+  EnragedAttackFrequency: 1
+  EnragedAttackDamage: 120
+  CastingSFX: {fileID: 0}
 --- !u!82 &4387279059668304295
 AudioSource:
   m_ObjectHideFlags: 0
@@ -25665,10 +25665,10 @@ MonoBehaviour:
   MoveAcceleration: 40
   StrafeAcceleration: 40
   MaxSpeed: 7
-  GlobalSpeedLimit: 9
+  GlobalSpeedLimit: 40
   JumpForce: 17
-  GlideMoveAcceleration: 180
-  GlideStrafeAcceleration: 180
+  GlideMoveAcceleration: 90
+  GlideStrafeAcceleration: 90
   GlideGravityModifier: 0.5
 --- !u!1 &8366007609529375152
 GameObject:

@@ -35,14 +35,14 @@ public class ATrinityScore : MonoBehaviour
                 newLimits.BestTime = 120; // seconds
                 newLimits.WorstTime = 240; // seconds
                 newLimits.BestDamageTaken = 0; //percent
-                newLimits.WorstDamageTaken = 100; //percent
+                newLimits.WorstDamageTaken = 120; //percent
                 return newLimits;
             case "DevourerSentinelBossDungeon":
                 newLimits.SceneName = ATrinityGameManager.CurrentScene;
                 newLimits.BestTime = 120; // seconds
                 newLimits.WorstTime = 240; // seconds
                 newLimits.BestDamageTaken = 0; //percent
-                newLimits.WorstDamageTaken = 100; //percent
+                newLimits.WorstDamageTaken = 120; //percent
                 return newLimits;
             default:
                 newLimits.SceneName = "";
@@ -63,12 +63,10 @@ public class ATrinityScore : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         ATrinityGameManager.SetScore(this);
-
-        
     }
     public void Start()
     {
-        ATrinityGameManager.GetPlayerController().OnHit += AddDamageTaken;
+        
     }
     
     
@@ -83,9 +81,9 @@ public class ATrinityScore : MonoBehaviour
         CheckForVictory();
     }
 
-    public void AddDamageTaken(FHitInfo hitInfo)
+    public void AddDamageTaken(float healthDamage)
     {
-        DamageTaken += (hitInfo.Damage / ATrinityGameManager.GetPlayerController().HealthComponent.MAX);
+        DamageTaken += healthDamage;
     }
 
 
@@ -121,7 +119,7 @@ public class ATrinityScore : MonoBehaviour
 
         float etsFloat = Mathf.Clamp((NormalizedTimeScore + NormalizedDamageTakenScore) * 10f, 0, 20); //multiply by 10 and clamp to ETS range to map to ETS properly
         
-        return (ETrinityScore)Mathf.CeilToInt(etsFloat);
+        return (ETrinityScore)Mathf.FloorToInt(etsFloat);
     }
     
     public float GetTimer()

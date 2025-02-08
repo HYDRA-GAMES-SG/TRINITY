@@ -2,6 +2,8 @@
 // Copyright © 2015-2024 Thomas Enzenebner. All rights reserved.
 // </copyright>
 
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -69,6 +71,7 @@ namespace ThirdPersonCamera
 
         private void Update()
         {
+            
             var currentBaseOffset = (inputShoulder.Left ? -BaseOffset : BaseOffset);
 
             if (inputShoulder.Aiming) // aim mode

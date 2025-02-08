@@ -50,17 +50,42 @@ public class ATrinityGameManager : MonoBehaviour
     
     private static EGameFlowState GameFlowState;
     
-    void ResetGame()
+    void Awake()
     {
-        CheckForNullReferences();
+        List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
         
+        if (CurrentInstances.Count() > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += ResetGame;
+        
+        EnemyControllers = new List<IEnemyController>();
         CurrentScene = SceneManager.GetActiveScene().name;
         
-        FindAndSetEnemyControllers();
+        CROSSHAIR_ENABLED = PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false;
+        MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
+        GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
+        MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
+    }
+
+    public static void LoadScene(string sceneName)
+    {
+        GetGUI().UnbindEvents();
+
+        SceneManager.LoadScene(sceneName);
+
+    }
+
+    private void ResetGame(Scene newScene, LoadSceneMode arg1)
+    {
+        CheckForNullReferences();
+        CurrentScene = SceneManager.GetActiveScene().name;
         
-        GetPlayerController().ResetPlayer();
-        GetGUI().ResetGUI();
-        GetPlayerFSM().RestartStateMachine();
+        
         
         switch(CurrentScene)
         {
@@ -79,29 +104,15 @@ public class ATrinityGameManager : MonoBehaviour
                 SetGameFlowState(EGameFlowState.PLAY);
                 break;
         }
+        OnSceneChanged?.Invoke();
+        
+        GetGUI().ResetGUI();
+        
+        FindAndSetEnemyControllers();
+        GetPlayerController().ResetPlayer();
+        GetPlayerFSM().RestartStateMachine();
     }
-    
-    void Awake()
-    {
-        List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
-        
-        if (CurrentInstances.Count() > 1)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
-        
-        EnemyControllers = new List<IEnemyController>();
-        CurrentScene = SceneManager.GetActiveScene().name;
-        OnSceneChanged += ResetGame;
-        
-        CROSSHAIR_ENABLED = PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false;
-        MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
-        GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
-        MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
-    }
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -120,19 +131,6 @@ public class ATrinityGameManager : MonoBehaviour
                 SetGameFlowState(EGameFlowState.DEAD);
                 return;
             }
-        }
-
-        CheckForSceneTransition();
-
-        
-    }
-    
-    private void CheckForSceneTransition()
-    {
-        if (SceneManager.GetActiveScene().name != CurrentScene)
-        {
-            //print("ATGM => OnSceneChanged!");
-            OnSceneChanged?.Invoke();
         }
     }
 
