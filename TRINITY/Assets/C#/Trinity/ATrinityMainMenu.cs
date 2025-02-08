@@ -31,7 +31,8 @@ public class ATrinityMainMenu : MonoBehaviour
     
     public bool bCanSkipMainMenu = false;
     
-    
+    public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,9 +73,7 @@ public class ATrinityMainMenu : MonoBehaviour
         
         HandleRotation();
     }
-
-    public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
-
+    
     private void HandleRotation()
     {
         float targetRotation = MainMenuSelection switch

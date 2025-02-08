@@ -21,27 +21,26 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TransparentRed
-  m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: b6ed5119c0d091d4eb9eac27d8db55e6,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ALPHAPREMULTIPLY_ON
-  - _EMISSION
-  - _SURFACE_TYPE_TRANSPARENT
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
-  disabledShaderPasses:
-  - DepthOnly
-  - SHADOWCASTER
+  stringTagMap: {}
+  disabledShaderPasses: []
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AlphaOverride:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -51,6 +50,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ClearCoatMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -74,7 +77,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _KWSAPIDecalShared_9517219426604339801c0821a677b136_MetallicGlossMap_2098051971_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _KWSAPIDecalShared_9517219426604339801c0821a677b136_NormalMap_744806461_Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
+        m_Texture: {fileID: 2800000, guid: f141b8796e304904db5fb99e4aa01bea, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -94,6 +109,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -108,22 +127,29 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ANTI_TAILING: 0
     - _AlphaClip: 0
     - _AlphaCutoff: 0.5
     - _AlphaToMask: 0
+    - _BandingBias: 2
+    - _BaseBottomOffset: 5
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
+    - _BlendOp: 0
     - _BumpScale: 1
+    - _ClearCoat: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Culling: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0
     - _Desaturate: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _Dimming: 0.75
     - _DisableErosion: 0
     - _DistortionIntensity: 2
+    - _DistortionStrenght: 0
     - _DstBlend: 10
     - _DstBlendAlpha: 10
     - _EnvironmentReflections: 1
@@ -142,7 +168,9 @@ Material:
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
+    - _RimOffset: 0.24
+    - _RimShadow: 0
     - _Shininess: 0
     - _Smoothness: 0.5
     - _SmoothnessSource: 0
@@ -154,18 +182,28 @@ Material:
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 1
+    - _SurfaceDisplacement: 1
+    - _TintNoiseTile: 10
+    - _TransmissionShadow: 0.5
+    - _TransmissionStrenght: 2
+    - _USE_MASK: 0
     - _UseAlphaOverride: 0
     - _UsePixelation: 0
     - _UseRamp: 1
     - _UseSoftAlpha: 0
     - _UseUVOffset: 0
+    - _WindAmplitude: 1
+    - _WindGrassStiffness: 1
+    - _WindScale: 10
+    - _WindSpeed: 5
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
     - _AlphaOverrideChannel: {r: 0, g: 0, b: 0, a: 1}
     - _AlphaOverridePanning: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseBottomColor: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 0, b: 0, a: 0.2784314}
-    - _Color: {r: 1, g: 0, b: 0, a: 0.2784314}
+    - _Color: {r: 0.9245283, g: 0, b: 0, a: 0.105882354}
     - _DetailAdditiveChannel: {r: 0, g: 0, b: 0, a: 0}
     - _DetailDisolveChannel: {r: 1, g: 0, b: 0, a: 0}
     - _DetailDistortionChannel: {r: 0, g: 0, b: 0, a: 0}
@@ -173,13 +211,22 @@ Material:
     - _DetailNoisePanning: {r: 0, g: 0, b: 0, a: 0}
     - _DetailVertexOffsetChannel: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0.25, g: 0, b: 0, a: 1}
+    - _FlipbooksColumsRows: {r: 1, g: 1, b: 0, a: 0}
     - _FresnelColor: {r: 1, g: 1, b: 1, a: 1}
     - _LastColor: {r: 1, g: 0, b: 0, a: 0}
     - _MainAlphaChannel: {r: 0, g: 0, b: 0, a: 1}
+    - _MainAlphaPanning: {r: 0, g: 0, b: 0, a: 0}
     - _MainTextureChannel: {r: 1, g: 1, b: 1, a: 0}
     - _MainTexturePanning: {r: 0, g: 0, b: 0, a: 0}
+    - _Mask_Remap: {r: 1, g: 1, b: 0, a: 0}
     - _MidColor: {r: 1, g: 0.4447915, b: 0, a: 0}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
     - _Resolution: {r: 64, g: 64, b: 0, a: 0}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _RimColor: {r: 0, g: 0.5549643, b: 1, a: 0}
+    - _RimFalloff: {r: 0, g: 0, b: 0, a: 0}
+    - _SpecColor: {r: 0.19999993, g: 0.19999993, b: 0.19999993, a: 0.5}
+    - _Tiling: {r: 1, g: 1, b: 0, a: 0}
+    - _TintColor1: {r: 1, g: 1, b: 1, a: 0}
+    - _TintColor2: {r: 1, g: 1, b: 1, a: 0}
     - _WhiteColor: {r: 1, g: 0.023867305, b: 0, a: 0}
   m_BuildTextureStacks: []

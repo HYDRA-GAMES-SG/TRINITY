@@ -69,6 +69,7 @@ public class ATrinityOptions : MonoBehaviour
 
     void OnEnable()
     {
+        
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
         {
             Time.timeScale = 0f;
@@ -115,12 +116,13 @@ public class ATrinityOptions : MonoBehaviour
 
     void OnDisable()
     {
+
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
         {
             Time.timeScale = 1f;
             ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
         }
-
+        
         if (CrossHair)
         {
             CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);

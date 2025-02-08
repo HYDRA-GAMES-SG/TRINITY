@@ -57,6 +57,13 @@ public class ATrinityGUI : MonoBehaviour
     public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
     public bool IsGameOverOpen() => GameOver.activeSelf;
     public bool IsVictoryOpen() => Victory.activeSelf;
+    
+    public ATrinityMainMenu GetMainMenu() => MainMenu;
+    public ATrinityGameOver GetGameOver() => GameOver.GetComponent<ATrinityGameOver>();
+    public ATrinityVictory GetVictory() => Victory.GetComponent<ATrinityVictory>();
+    public ATrinityOptions GetOptions() => OptionsMenu.GetComponent<ATrinityOptions>();
+
+    private EGameFlowState CurrentGameFlowState;
 
     void Awake()
     {     
@@ -131,6 +138,11 @@ public class ATrinityGUI : MonoBehaviour
 
     void Update()
     {
+        if (ATrinityGameManager.GetInput().MenuInput)
+        {
+            ToggleOptions();
+        }
+        
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
         {
             return;
@@ -175,13 +187,8 @@ public class ATrinityGUI : MonoBehaviour
 
     public void ToggleOptions()
     {
-        if (OptionsMenu == null)
-        {
-            Debug.Log("Options Menu object is null!!!");
-        }
-        
-        OptionsMenu.SetActive(!OptionsMenu.activeSelf);
         ATrinityGameManager.GetInput().NullifyInputs();
+        OptionsMenu.SetActive(!IsOptionsMenuOpen());
 
     }
     
@@ -286,7 +293,7 @@ public class ATrinityGUI : MonoBehaviour
     
     void OnDestroy()
     {
-        UnbindEvents();
+        
     }
 
     IEnumerator ShrinkTriangle()
@@ -354,90 +361,113 @@ public class ATrinityGUI : MonoBehaviour
         SetupEnemyUI();
     }
 
-    public ATrinityMainMenu GetMainMenu()
+    public void BindToEvents(EGameFlowState newGFS)
     {
-        return MainMenu;
-    }
-
-    public ATrinityGameOver GetGameOver()
-    {
-        return GameOver.GetComponent<ATrinityGameOver>();
-    }
-
-    public ATrinityVictory GetVictory()
-    {
-        return Victory.GetComponent<ATrinityVictory>();
-    }
-
-    public ATrinityOptions GetOptions()
-    {
-        return OptionsMenu.GetComponent<ATrinityOptions>();
-    }
-    
-    public void BindToEvents(EGameFlowState newGameFlowState)
-    {
+        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
+        ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
         ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetGameOver().Restart;
         ATrinityGameManager.GetInput().OnForcefieldPressed -= GetGameOver().Return;
-        ATrinityGameManager.GetInput().OnMenuPressed -= ToggleOptions;
-        
-        //input events
         ATrinityGameManager.GetInput().OnMovePressed -= GetOptions().Navigate;
         ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetOptions().PressInteractable;
-
-        switch (newGameFlowState)
+        
+        switch (CurrentGameFlowState)
         {
             case EGameFlowState.MAIN_MENU:
                 break;
             case EGameFlowState.PLAY:
-                //game events
-                ATrinityGameManager.GetInput().OnMenuPressed -= GetVictory().Close;
-                ATrinityGameManager.GetInput().OnMenuPressed += ToggleOptions;
-
-                //input events
-                ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
-                ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
-
-                //unsub from victory
-                ATrinityGameManager.GetInput().OnMenuPressed -= GetVictory().Close;
-                ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= GetVictory().Close;
-                ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetVictory().Close;
-                ATrinityGameManager.GetInput().OnForcefieldPressed -= GetVictory().Close;
+                BindPlayEvents(false);
                 break;
             case EGameFlowState.PAUSED:
-                //input events
-                ATrinityGameManager.GetInput().OnMovePressed += GetOptions().Navigate;
-                ATrinityGameManager.GetInput().OnJumpGlidePressed += GetOptions().PressInteractable;
-                
-                ATrinityGameManager.GetInput().OnMenuPressed += ToggleOptions;
-                ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
-                ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
-                break;
-            case EGameFlowState.DEAD:
-                ATrinityGameManager.GetInput().OnJumpGlidePressed += GetGameOver().Restart;
-                ATrinityGameManager.GetInput().OnForcefieldPressed += GetGameOver().Return;
+                BindOptionsEvents(false);
                 break;
             case EGameFlowState.VICTORY:
-                ATrinityGameManager.GetInput().OnMenuPressed += GetVictory().Close;
-                ATrinityGameManager.GetInput().OnElementalPrimaryPressed += GetVictory().Close;
-                ATrinityGameManager.GetInput().OnJumpGlidePressed += GetVictory().Close;
-                ATrinityGameManager.GetInput().OnForcefieldPressed += GetVictory().Close;
+                BindVictoryEvents(false);
                 break;
+            case EGameFlowState.DEAD:
+                BindGameOverEvents(false);
+                break;
+        }
+
+        switch (newGFS)
+        {
+            case EGameFlowState.MAIN_MENU:
+                break;
+            case EGameFlowState.PLAY:
+                BindPlayEvents(true);
+                break;
+            case EGameFlowState.PAUSED:
+                BindOptionsEvents(true);
+                break;
+            case EGameFlowState.VICTORY:
+                BindVictoryEvents(true);
+                break;
+            case EGameFlowState.DEAD:
+                BindGameOverEvents(true);
+                break;
+        }
+
+        CurrentGameFlowState = newGFS;
+    }
+    
+    public void BindPlayEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
+            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;   
+        }
+        else
+        {
+            ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
+            ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
+        }
+    }
+    
+    public void BindOptionsEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            ATrinityGameManager.GetInput().OnMovePressed += GetOptions().Navigate;
+            ATrinityGameManager.GetInput().OnJumpGlidePressed += GetOptions().PressInteractable;
+            ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
+            ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
+        }
+        else
+        {
+            ATrinityGameManager.GetInput().OnMovePressed -= GetOptions().Navigate;
+            ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetOptions().PressInteractable;
         }
     }
 
-    public void UnbindEvents()
+    public void BindGameOverEvents(bool bBind)
     {
-        ATrinityGameManager.GetInput().OnMenuPressed -= ToggleOptions;
-        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
-        ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
-        ATrinityGameManager.GetInput().OnMovePressed -= GetOptions().Navigate;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetOptions().PressInteractable;
-        ATrinityGameManager.GetInput().OnMenuPressed -= ToggleOptions;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetGameOver().Restart;
-        ATrinityGameManager.GetInput().OnForcefieldPressed -= GetGameOver().Return;
-        ATrinityGameManager.GetInput().OnMenuPressed -= GetVictory().Close;
-        ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= GetVictory().Close;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetVictory().Close;
-        ATrinityGameManager.GetInput().OnForcefieldPressed -= GetVictory().Close;
+        if (bBind)
+        {
+            ATrinityGameManager.GetInput().OnJumpGlidePressed += GetGameOver().Restart;
+            ATrinityGameManager.GetInput().OnForcefieldPressed += GetGameOver().Return;
+        }
+        else
+        {
+            ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetGameOver().Restart;
+            ATrinityGameManager.GetInput().OnForcefieldPressed -= GetGameOver().Return;
+        }
+    }
+
+    public void BindVictoryEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            ATrinityGameManager.GetInput().OnMenuPressed += GetVictory().Close;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed += GetVictory().Close;
+            ATrinityGameManager.GetInput().OnJumpGlidePressed += GetVictory().Close;
+            ATrinityGameManager.GetInput().OnForcefieldPressed += GetVictory().Close;
+        }
+        else
+        {
+            ATrinityGameManager.GetInput().OnMenuPressed -= GetVictory().Close;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= GetVictory().Close;
+            ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetVictory().Close;
+            ATrinityGameManager.GetInput().OnForcefieldPressed -= GetVictory().Close; 
+        }
     }
 }

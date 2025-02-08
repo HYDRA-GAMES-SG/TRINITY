@@ -50,6 +50,10 @@ public class ATrinityGameManager : MonoBehaviour
     
     private static EGameFlowState GameFlowState;
     
+    public static EGameFlowState SCENE_LOAD_EGFS => CurrentScene == "PORTAL" && !GetGUI().GetMainMenu().bCanSkipMainMenu
+        ? EGameFlowState.MAIN_MENU
+        : EGameFlowState.PLAY;
+    
     void Awake()
     {
         List<ATrinityGameManager> CurrentInstances = FindObjectsOfType<ATrinityGameManager>().ToList();
@@ -70,11 +74,20 @@ public class ATrinityGameManager : MonoBehaviour
         MOUSE_SENSITIVITY = PlayerPrefs.GetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
         GAMEPAD_SENSITIVITY = PlayerPrefs.GetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
         MASTER_VOLUME = PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME);
+
     }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        OnSceneChanged?.Invoke();
+    }
+
 
     public static void LoadScene(string sceneName)
     {
-        GetGUI().UnbindEvents();
+        CurrentScene = sceneName;
+        GetGUI().BindToEvents(SCENE_LOAD_EGFS);
 
         SceneManager.LoadScene(sceneName);
 
@@ -83,27 +96,14 @@ public class ATrinityGameManager : MonoBehaviour
     private void ResetGame(Scene newScene, LoadSceneMode arg1)
     {
         CheckForNullReferences();
-        CurrentScene = SceneManager.GetActiveScene().name;
         
-        
-        
-        switch(CurrentScene)
+        if (CurrentScene != "PORTAL")
         {
-            case "PORTAL":
-                if (GetGUI().GetMainMenu().bCanSkipMainMenu)
-                {
-                    SetGameFlowState(EGameFlowState.PLAY);
-                }
-                else
-                {
-                    SetGameFlowState(EGameFlowState.MAIN_MENU);
-                }
-                break;
-            default:
-                GetGUI().GetMainMenu().bCanSkipMainMenu = true; //allow the player to bypass the main menu when they head back to the Portal Scene
-                SetGameFlowState(EGameFlowState.PLAY);
-                break;
+            GetGUI().GetMainMenu().bCanSkipMainMenu = true;
         }
+        
+        SetGameFlowState(SCENE_LOAD_EGFS);
+
         OnSceneChanged?.Invoke();
         
         FindAndSetEnemyControllers();
@@ -111,14 +111,6 @@ public class ATrinityGameManager : MonoBehaviour
         GetPlayerController().ResetPlayer();
         GetPlayerFSM().RestartStateMachine();
     }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        OnSceneChanged?.Invoke();
-    }
-
 
     // Update is called once per frame
     void Update()
