@@ -24,7 +24,7 @@ public class ATrinityGUI : MonoBehaviour
     public GameObject OptionsMenu;
     public GameObject GameOver;
     public GameObject Victory;
-    public GameObject Tutorials;
+    public GameObject Videos;
     public GameObject Crosshair;
     [SerializeField]
     private GameObject HUDCanvas;
@@ -62,6 +62,7 @@ public class ATrinityGUI : MonoBehaviour
     public ATrinityGameOver GetGameOver() => GameOver.GetComponent<ATrinityGameOver>();
     public ATrinityVictory GetVictory() => Victory.GetComponent<ATrinityVictory>();
     public ATrinityOptions GetOptions() => OptionsMenu.GetComponent<ATrinityOptions>();
+    public ATrinityVideos GetVideos() => Videos.GetComponent<ATrinityVideos>();
 
     private EGameFlowState CurrentGameFlowState;
 
@@ -335,7 +336,7 @@ public class ATrinityGUI : MonoBehaviour
         {
             GetMainMenu().gameObject.SetActive(!GetMainMenu().bCanSkipMainMenu);
             GetMainMenu().MainMenuCamera.gameObject.SetActive(!GetMainMenu().bCanSkipMainMenu);
-            Tutorials.SetActive(true);
+            Videos.SetActive(true);
             AMainMenuCamera.OnSwitchToPlayerCamera += EnableCanvas;
             
             if (GetMainMenu().bCanSkipMainMenu)
@@ -352,7 +353,7 @@ public class ATrinityGUI : MonoBehaviour
         {
             GetMainMenu().MainMenuCamera.gameObject.SetActive(false);
             GetMainMenu().gameObject.SetActive(false);
-            ATrinityGameManager.GetGUI().Tutorials.SetActive(false);
+            ATrinityGameManager.GetGUI().Videos.SetActive(false);
             HUDCanvas.SetActive(true);
         }
 

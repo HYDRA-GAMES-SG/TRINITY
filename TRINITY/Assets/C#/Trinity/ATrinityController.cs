@@ -274,6 +274,11 @@ public class ATrinityController : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.GetComponent<UTutorialTriggerComponent>())
+        {
+            return;
+        }
+        
         if (other.gameObject.layer == LayerMask.NameToLayer("Default") && !other.gameObject.CompareTag("Ground"))
         {
             TerrainCounter++;
@@ -283,6 +288,11 @@ public class ATrinityController : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.GetComponent<UTutorialTriggerComponent>())
+        {
+            return;
+        }
+        
         if (other.gameObject.layer == LayerMask.NameToLayer("Default") && !other.gameObject.CompareTag("Ground"))
         {
             TerrainCounter--;

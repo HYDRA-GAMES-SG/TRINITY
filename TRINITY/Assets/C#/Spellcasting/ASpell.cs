@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class ASpell : MonoBehaviour
 {
+    public static bool bTutorialComplete = false;
+    
     public GameObject SpellPrefab;
     public float Cooldown;
     public float ManaCost = 0f;
