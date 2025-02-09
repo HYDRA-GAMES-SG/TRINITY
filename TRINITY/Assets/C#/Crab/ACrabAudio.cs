@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class ACrabAudio : IAudioManager
@@ -17,8 +18,8 @@ public class ACrabAudio : IAudioManager
 
         Controller = GetComponentInParent<ACrabController>();
     }
-   
-    void PlayHitGroundAudio(float impulseMagnitude)
+
+    void PlayHitGroundAudio(float impulseMagnitude)//useless now
     {
         Debug.Log("Ground Hit Impulse Magnitude:" + impulseMagnitude);
         //need to test impulseMagnitude to find a reasonable max and min
@@ -30,6 +31,7 @@ public class ACrabAudio : IAudioManager
     }
     void PlayHitPlayerAudio()
     {
+        Debug.Log("HitPlayer");
         Play("HitPlayer");
     }
 
@@ -38,24 +40,35 @@ public class ACrabAudio : IAudioManager
         //.Debug.Log("Crab walk sound");
         Play("Walk");
     }
-    public void PlayPhase2IceEffectSound()
+    public void PlayPhase2IceEffectSound()//walk with ice sound bec ice came out when phase 2
     {
-
+        Play("Phase2IceMove");
     }
     public void PlayCrawSwing(string craw)//normal/combo
     {
         if (craw.Contains("left"))
         {
+            //Debug.Log("LeftClawAttack");
             PlayAtPosition("NormalAttackSwing", LeftHand);
         }
         else
         {
+            //Debug.Log("RightClawAttack");
             PlayAtPosition("NormalAttackSwing", RightHand);
         }
     }
-    public void PlayCrawIceSwing()
+    public void PlayCrawIceSwing(string craw)
     {
-
+        if (craw.Contains("left"))
+        {
+            //Debug.Log("LeftClawAttack");
+            PlayAtPosition("IceSwing", LeftHand);
+        }
+        else
+        {
+            //Debug.Log("RightClawAttack");
+            PlayAtPosition("IceSwing", RightHand);
+        }
     }
     public void PlaySmashGround(string craw)//normal/combo
     {
@@ -68,18 +81,26 @@ public class ACrabAudio : IAudioManager
             PlayAtPosition("Smash", RightHand);
         }
     }
-    public void PlayIceSmashGround()
+    public void PlayIceSmashGround(string craw)
     {
-
+        if (craw.Contains("left"))
+        {
+            PlayAtPosition("IceSmash", LeftHand);
+        }
+        else
+        {
+            PlayAtPosition("IceSmash", RightHand);
+        }
     }
     public void PlayJump()
     {
         Debug.Log("Jump sfx");
+        Play("Jump");
     }
     public void PlayLand()
     {
         Debug.Log("Land sfx");
-
+        Play("Land");
     }
     public void PlayJumpSmashGround()
     {
@@ -87,22 +108,36 @@ public class ACrabAudio : IAudioManager
     }
     public void PlayIceJumpSmashGround()
     {
-        
+        PlayAtPosition("IceBigSmash", RightHand);
     }
     public void PlayIceSpray()
     {
         Debug.Log("IceSpray sfx");
+        StartLoop("IceSpray");
     }
-    public void PlayPhase2Roar()
+    public void StopIceSpray()
     {
-        Debug.Log("Phase 2 Roat sfx");
+        Debug.Log("IceSpray sfx");
+        StopLoop("IceSpray");
+    }
+    public void PlayChargeAttackRoar()
+    {
+        Debug.Log("Chrage attack Roar sfx");
+        Play("ChargeAttackRoar");
     }
     public void PlayCrabGetHit()
     {
         Debug.Log("Get hit sfx");
+        Play("GetHit");
     }
     public void PlayCrabDeath()
     {
         Debug.Log("Crab dead sfx");
+        Play("Death");
+    }
+    public void PlayPhase2Roar()
+    {
+        Debug.Log("Phase 2 Roar sfx");
+        Play("Phase2IceSound");
     }
 }

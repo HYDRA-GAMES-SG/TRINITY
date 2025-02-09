@@ -11,6 +11,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
     [SerializeField] Transform LeftClaw;
     [SerializeField] Transform RightClaw;
+    [SerializeField] ACrabAudio Crabaudio;
 
     ACrabController Controller;
 
@@ -27,6 +28,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
             UAttackColliderComponent projectileController = iceClawSwingAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
+            Crabaudio.PlayCrawIceSwing("right");
         }
     }
     public void LPhaseTwoComboClawAttack()
@@ -37,6 +39,7 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
             UAttackColliderComponent projectileController = iceClawSwingAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
+            Crabaudio.PlayCrawIceSwing("left");
 
         }
     }
@@ -51,6 +54,11 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
             UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
+            Crabaudio.PlayIceSmashGround("right");
+        }
+        else
+        {
+            Crabaudio.PlaySmashGround("right");
         }
     }
     public void LPhaseTwoComboSmashAttack()
@@ -61,6 +69,11 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
             UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
+            Crabaudio.PlayIceSmashGround("left");
+        }
+        else
+        {
+            Crabaudio.PlaySmashGround("left");
         }
     }
 
@@ -73,6 +86,11 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
             UAttackColliderComponent projectileController = jumpSmashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
             projectileController.SetController(Controller);
+            Crabaudio.PlayIceJumpSmashGround();
+        }
+        else
+        {
+            Crabaudio.PlayJumpSmashGround();
         }
     }
 

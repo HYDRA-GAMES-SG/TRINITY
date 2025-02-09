@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 791215fd03e993e46b8ff1f6ee92d9ad
+guid: f0e207b0b827c1747841f5192079d565
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: SmashAttackLeftForward_RM
+    second: Roar1
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -36,22 +36,22 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: SmashAttackLeftForward_RM
+      name: Roar1
       takeName: Take 001
       internalID: 0
       firstFrame: 0
-      lastFrame: 35
+      lastFrame: 90
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
@@ -60,49 +60,25 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.3087362
-        functionName: PlayCrawSwing
-        data: left
-        objectReferenceParameter: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.40735155
-        functionName: PlayCrabWalkFootStep
-        data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.42735043
+      - time: 0.14529915
         functionName: LightCameraShake
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 0d5882fe542c4a91860fddbcdf6a470e,
           type: 3}
-        floatParameter: 0.2
+        floatParameter: 1
         intParameter: 0
         messageOptions: 0
-      - time: 0.5230053
-        functionName: PlayCrabWalkFootStep
+      - time: 0.10655738
+        functionName: PlayChargeAttackRoar
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1,
           type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.81340116
-        functionName: PlayCrabWalkFootStep
+      - time: 0.80655736
+        functionName: StopIceSpray
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1,
-          type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.431221
-        functionName: PlaySmashGround
-        data: left
         objectReferenceParameter: {fileID: 11500000, guid: 71a94362d53ab3a4ebea6423bc9f1ac1,
           type: 3}
         floatParameter: 0
