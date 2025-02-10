@@ -19,7 +19,7 @@ public class UFlameblastGateComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Gate.bShouldOpen && ATrinityGameManager.GetSpells().UtilityFire.bAura)
+        if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
         {
             Gate.Open();
         }
@@ -34,24 +34,28 @@ public class UFlameblastGateComponent : MonoBehaviour
 
                 return;
             }
+
+            return;
         }
         
         if (bCastFlameblast)
         {
             if (ATrinityGameManager.GetInput().ElementalPrimaryInput 
-                && ATrinityGameManager.GetBrain().GetElement() == ETrinityElement.ETE_Fire)
+                && ATrinityGameManager.GetBrain().GetElement() == ETrinityElement.ETE_Fire
+                && ATrinityGameManager.GetGameFlowState() == EGameFlowState.PLAY)
             {
                 ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
                 Trigger.TutorialVideoIndex = 17;
                 ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
                 return;
             }
+
+            return;
         }
         
         if (ATrinityGameManager.GetBrain().GetCurrentSpell() is ASecondaryFire)
         {
             bChanneling = true;
-            return;
         }
 
         if (bChanneling)
@@ -59,12 +63,15 @@ public class UFlameblastGateComponent : MonoBehaviour
             if (ATrinityGameManager.GetBrain().GetCurrentSpell() == null)
             {
                 bCastFlameblast = true;
+                FindObjectOfType<FlameblastZone>().bTutorial = true;
                 
                 ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
                 Trigger.TutorialVideoIndex = 9;
                 ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
                 return;
             }
+
+            return;
         }
     }
 }

@@ -7,6 +7,7 @@ public class AGate : MonoBehaviour
     public float OpenDuration = 3f;
     public float OpenTimer = 0f;
     
+    [HideInInspector]
     public bool bShouldOpen = false;
 
     private Vector3 OpenPosition;

@@ -117,7 +117,6 @@ public class ASecondaryFire : ASpell
 
     public override void CastEnd()
     {
-
         if (Channeling != null)
         {
             SFX.Stop();
@@ -125,32 +124,34 @@ public class ASecondaryFire : ASpell
 
         if (!Rune.activeSelf)
         {
+            print("deleting rune");
             return; //do nothing if rune does not exist since no valid placement found
         }
 
-        if (Rune == null || !Rune.activeSelf) return;
+        if (Rune == null || !Rune.activeSelf)
+        {
+            print("no rune or rune inactive");
+            return;
+        }
 
-        Rune.SetActive(false); // Disable the rune
+        //Rune.SetActive(false); // Disable the rune
 
+        LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
+        Ray ray = new Ray(Rune.transform.position + Vector3.down * 10f, Vector3.up);
+        Physics.SphereCast(ray, CurrentRadius * 1.35f, out RaycastHit hitInfo, 40f, enemyMask);
 
-        Ray ray = new Ray(Rune.transform.position, Vector3.up);
-        Physics.SphereCast(ray, CurrentRadius, out RaycastHit hitInfo, 5f);
+        print(hitInfo.collider.gameObject);
 
         UEnemyColliderComponent enemyCollider;
         if (hitInfo.collider != null)
         {
-            //print("Spherecast collider not null)");
             hitInfo.collider.TryGetComponent<UEnemyColliderComponent>(out enemyCollider);
 
             if (enemyCollider != null)
             {
-                enemyCollider.EnemyStatus.Ailments.ModifyStack(AilmentType, Mathf.RoundToInt(StacksPerRadius * CurrentRadius));
+                int stacks = Mathf.RoundToInt(StacksPerRadius * CurrentRadius);
+                enemyCollider.EnemyStatus.Ailments.ModifyStack(AilmentType, stacks);
                 enemyCollider.EnemyStatus.Health.Modify(-DamagePerStack * CurrentRadius);
-                
-                if (ENABLE_DEBUG)
-                {
-                    Debug.Log($"Applying : {Mathf.RoundToInt(StacksPerRadius * CurrentRadius)} of {AilmentType}");
-                }
             }
         }
         
@@ -178,13 +179,19 @@ public class ASecondaryFire : ASpell
         {
             SFX.PlayOneShot(Explosion, Mathf.Lerp(.1f, 1f,CurrentRadius / MaxRadius)); 
         }
+
     }
 
     private void OnDrawGizmos()
     {
+        // if (Rune == null)
+        // {
+        //     return;
+        // }
+        //
         // if (!Rune.activeSelf)
         // {
-        //     Gizmos.DrawSphere(Rune.transform.position, CurrentRadius);
+        //     Gizmos.DrawSphere(Rune.transform.position, CurrentRadius * 1.35f);
         // }
     }
 

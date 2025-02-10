@@ -48,7 +48,7 @@ public class ULightningTotemGateComponent : MonoBehaviour
                 {
                     bTotemEnraged = true;
                     ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
-                    Trigger.TutorialVideoIndex = 12;
+                    Trigger.TutorialVideoIndex = 14;
                     ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
                 }
             }
@@ -65,7 +65,7 @@ public class ULightningTotemGateComponent : MonoBehaviour
                 {
                     bTotemSummoned = true;
                     ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
-                    Trigger.TutorialVideoIndex = 11;
+                    Trigger.TutorialVideoIndex = 12;
                     ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
                 }
             }

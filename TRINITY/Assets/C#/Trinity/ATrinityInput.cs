@@ -34,6 +34,7 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     }
     private float ElementCooldownTimer = 0f;
     private float ElementCooldown = .2f;
+    
     // System.Actions for events
     public event Action OnJumpGlidePressed;
     public event Action OnJumpGlideReleased;
@@ -46,10 +47,10 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
 
     public event Action OnElementalUtiltiyPressed;
     public event Action OnElementalUtilityReleased;
-
+    
     public event Action OnElementalPrimaryPressed;
     public event Action OnElementalPrimaryReleased;
-
+    
     public event Action OnElementalSecondaryPressed;
     public event Action OnElementalSecondaryReleased;
 
@@ -180,6 +181,8 @@ public class ATrinityInput : MonoBehaviour, IAA_TrinityControls.IPLAYERActions
     public void OnJumpGlide(InputAction.CallbackContext context)
     {
         JumpInput = context.ReadValue<float>() > 0f;
+        
+        
         if (context.started)
         {
             OnJumpGlidePressed?.Invoke();

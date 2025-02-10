@@ -20,6 +20,8 @@ public class FlameblastZone : MonoBehaviour
     public Vector3 Centre;
 
     public GameObject FireballExplosionInstance;
+
+    public bool bTutorial = false;
  
     void Start()
     {
@@ -50,7 +52,10 @@ public class FlameblastZone : MonoBehaviour
         
         FlameblastZone_PP.weight = Mathf.Lerp(.5f, 0, ppRatio);
 
-        Duration -= Time.deltaTime;
+        if (!bTutorial)
+        {
+            Duration -= Time.deltaTime;
+        }
         
         if (Duration < 0f)
         {
