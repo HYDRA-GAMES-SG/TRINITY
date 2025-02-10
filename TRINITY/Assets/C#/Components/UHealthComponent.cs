@@ -29,8 +29,12 @@ public class UHealthComponent : MonoBehaviour
     {
         InitialRegen = Regen;
         Current = MAX;
+        if (this.gameObject.GetComponent<AInvincibleBossController>()) 
+        {
+            bInvulnerable = true;
+        }
     }
-
+    
     void Start()
     {
         

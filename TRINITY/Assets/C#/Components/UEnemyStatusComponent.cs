@@ -19,12 +19,15 @@ public class UEnemyStatusComponent : MonoBehaviour
     }
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Health.Modify(-Ailments.IgniteDamage * Time.deltaTime);
+        if (!Health.bInvulnerable)
+        {
+            Health.Modify(-Ailments.IgniteDamage * Time.deltaTime);
+        }
     }
 }
