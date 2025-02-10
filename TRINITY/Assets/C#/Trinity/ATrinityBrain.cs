@@ -138,6 +138,7 @@ public class ATrinityBrain : MonoBehaviour
                 break;
         }
     }
+    
     public void PrimaryRelease()
     {
         if (!CanAct() || GetCurrentSpell() == null)

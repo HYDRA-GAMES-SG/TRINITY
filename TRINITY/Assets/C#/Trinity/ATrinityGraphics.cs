@@ -76,8 +76,8 @@ public class ATrinityGraphics : MonoBehaviour
         {
             ATrinityGameManager.GetBrain().OnElementChanged -= UpdateStaffAura;
             ATrinityGameManager.GetBrain().OnElementChanged -= UpdateMeshColor;
-            ATrinityMainMenu.OnMenuElementChanged -= UpdateStaffAura;
-            ATrinityMainMenu.OnMenuElementChanged -= UpdateMeshColor;
+            ATrinityGameManager.GetGUI().GetMainMenu().OnMenuElementChanged -= UpdateStaffAura;
+            ATrinityGameManager.GetGUI().GetMainMenu().OnMenuElementChanged -= UpdateMeshColor;
         }
     }
 

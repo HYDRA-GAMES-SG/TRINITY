@@ -9,7 +9,6 @@ public class ATrinityAudio : IAudioManager
     void Awake()
     {
         ATrinityGameManager.SetAudio(this);
-        print("new audio set");
         base.Awake();
     }
     

@@ -17,7 +17,6 @@ public class IAudioManager : MonoBehaviour
 
     protected void Awake()
     {
-        print("audio awake");
         // Move initialization to Awake to ensure it happens before any audio plays
         AudioClips = (AudioClipPos != null ? AudioClipPos : gameObject).GetComponents<ATrinityAudioClip>().ToList();
 
@@ -247,10 +246,5 @@ public class IAudioManager : MonoBehaviour
 
         source.Play();
         Destroy(newAudioSourceObj, source.clip.length + .1f);
-    }
-
-    protected void OnDestroy()
-    {
-        print("audio destroyed");
     }
 }

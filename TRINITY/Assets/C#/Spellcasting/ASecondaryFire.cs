@@ -139,9 +139,7 @@ public class ASecondaryFire : ASpell
         LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
         Ray ray = new Ray(Rune.transform.position + Vector3.down * 10f, Vector3.up);
         Physics.SphereCast(ray, CurrentRadius * 1.35f, out RaycastHit hitInfo, 40f, enemyMask);
-
-        print(hitInfo.collider.gameObject);
-
+        
         UEnemyColliderComponent enemyCollider;
         if (hitInfo.collider != null)
         {

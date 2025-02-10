@@ -9,9 +9,9 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityMainMenu : MonoBehaviour
 {
-    static public System.Action OnMainMenuNavigate;
-    static public System.Action OnMainMenuSelection;
-    static public System.Action<ETrinityElement> OnMenuElementChanged;
+    public event Action OnMainMenuNavigate;
+    public event Action OnMainMenuSelection;
+    public event Action<ETrinityElement> OnMenuElementChanged;
     
     public TextMeshProUGUI TitleText;
     public float TitleFadeInTime;
@@ -46,12 +46,6 @@ public class ATrinityMainMenu : MonoBehaviour
     void OnEnable()
     {
         Initialize();
-        BindToEvents(true);
-    }
-    
-    void OnDisable()
-    {
-        BindToEvents(false);
     }
 
     public void Initialize()
@@ -113,7 +107,7 @@ public class ATrinityMainMenu : MonoBehaviour
         }
     }
 
-    private void Select()
+    public void Select()
     {
         if (bOptionsMenu || bRotating)
         {
@@ -130,7 +124,6 @@ public class ATrinityMainMenu : MonoBehaviour
                 {
                     bStartingGame = true;
                     MainMenuCamera.Animate();
-                    BindToEvents(false);
                     bCanSkipMainMenu = true;
                 }
 
@@ -142,7 +135,6 @@ public class ATrinityMainMenu : MonoBehaviour
                     OptionsMenu.SetActive(true);
                     bOptionsMenu = true;
                     ATrinityGameManager.GetInput().OnForcefieldPressed += CloseOptions;
-                    BindToEvents(false);
                 }
                 break;
             case EMainMenu.EMM_Quit:
@@ -189,8 +181,8 @@ public class ATrinityMainMenu : MonoBehaviour
         
     }
 
-    
-    private void NavigateByElement(ETrinityElement newElement)
+
+    public void NavigateByElement(ETrinityElement newElement)
     {
         if (bOptionsMenu || bRotating)
         {
@@ -229,12 +221,6 @@ public class ATrinityMainMenu : MonoBehaviour
         OptionsMenu.SetActive(false);
         bOptionsMenu = false;
         ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
-        BindToEvents(true);
-    }
-
-    public void OnDestroy()
-    {
-        BindToEvents(false);
     }
 
     public void HideTriangleText()
@@ -254,37 +240,5 @@ public class ATrinityMainMenu : MonoBehaviour
         }
     }
 
-    public void BindToEvents(bool bBind)
-    {
-        if (bBind)
-        {
-            //input events
-            ATrinityGameManager.GetInput().OnJumpGlidePressed += Select;
-            ATrinityGameManager.GetInput().OnElementPressed += NavigateByElement;
-            ATrinityGameManager.GetInput().OnNextElementPressed += NavigateForwards;
-            ATrinityGameManager.GetInput().OnPreviousElementPressed += NavigateBackwards;
-            ATrinityGameManager.GetInput().OnElementalPrimaryPressed += Select;
-            ATrinityGameManager.GetInput().OnForcefieldPressed += CloseOptions;
-            OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
-            OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
-            
-            //audio events
-            OnMainMenuNavigate += ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
-            OnMainMenuSelection += ATrinityGameManager.GetAudio().PlayMainMenuSelect;
-        }
-        else
-        {
-            //input events
-            ATrinityGameManager.GetInput().OnJumpGlidePressed -= Select;
-            ATrinityGameManager.GetInput().OnElementPressed -= NavigateByElement;
-            ATrinityGameManager.GetInput().OnNextElementPressed -= NavigateForwards;
-            ATrinityGameManager.GetInput().OnPreviousElementPressed -= NavigateBackwards;
-            ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= Select;
-            ATrinityGameManager.GetInput().OnForcefieldPressed -= CloseOptions;
-            
-            //audio events
-            OnMainMenuNavigate -= ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
-            OnMainMenuSelection -= ATrinityGameManager.GetAudio().PlayMainMenuSelect;
-        }
-    }
+    
 }

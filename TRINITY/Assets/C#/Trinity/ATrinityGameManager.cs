@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ThirdPersonCamera;
 
 #if UNITY_EDITOR 
 using UnityEditor;
@@ -374,10 +375,9 @@ public class ATrinityGameManager : MonoBehaviour
         if (newGameFlowState != GetGameFlowState())
         {
             Debug.Log("EGameFlowState: " + GetGameFlowState() + " -> " + newGameFlowState);
+            GameFlowState = newGameFlowState;
+            OnGameFlowStateChanged?.Invoke(newGameFlowState);
         }
-        
-        GameFlowState = newGameFlowState;
-        OnGameFlowStateChanged?.Invoke(newGameFlowState);
     }
 
     public static void SerializeSettings(FGameSettings newSettings)
@@ -391,13 +391,14 @@ public class ATrinityGameManager : MonoBehaviour
         PlayerPrefs.SetFloat("MouseSensitivity", MOUSE_SENSITIVITY);
         PlayerPrefs.SetFloat("GamepadSensitivity", GAMEPAD_SENSITIVITY);
         PlayerPrefs.SetFloat("MasterVolume", MASTER_VOLUME);
-
-        UpdateSettings();
     }
 
-    private static void UpdateSettings()
+    public static void DeserializeSettings()
     {
-        
+        GetGUI().Crosshair.SetActive(PlayerPrefs.GetInt("bCrossHairEnabled") > 0 ? true : false);
+        GetCamera().GetComponent<CameraInputSampling>().ControllerSensitivity = new Vector2(4f, 3f) * PlayerPrefs.GetFloat("MouseSensitivity");
+        GetCamera().GetComponent<CameraInputSampling>().ControllerSensitivity = new Vector2(4f, 3f) * PlayerPrefs.GetFloat("GamepadSensitivity");
+        GetAudio().Mixer.FindMatchingGroups("Master")[0].audioMixer.SetFloat("Volume", PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME));
     }
 
     private static void CheckForNullReferences()

@@ -54,6 +54,7 @@ public class ATrinityOptions : MonoBehaviour
             NavigateCooldownTimer = NavigateCooldown;
             OnOptionsMenuToggle?.Invoke();
             ATrinityGameManager.SerializeSettings(MakeGameSettings());
+            ATrinityGameManager.DeserializeSettings();
         }
         
         if (MenuElements[CurrentMenuElementsIndex] is Button)
@@ -64,6 +65,8 @@ public class ATrinityOptions : MonoBehaviour
             NavigateCooldownTimer = NavigateCooldown;
             OnOptionsMenuButton?.Invoke();
             ATrinityGameManager.SerializeSettings(MakeGameSettings());
+            ATrinityGameManager.DeserializeSettings();
+
         }
     }
 
@@ -181,11 +184,13 @@ public class ATrinityOptions : MonoBehaviour
                 {
                     currentSlider.value += .1f;
                     ATrinityGameManager.SerializeSettings(MakeGameSettings());
+                    ATrinityGameManager.DeserializeSettings();
                 }
                 else
                 {
                     currentSlider.value -= .1f;
                     ATrinityGameManager.SerializeSettings(MakeGameSettings());
+                    ATrinityGameManager.DeserializeSettings();
                 }
 
                 OnOptionsMenuSlider?.Invoke();

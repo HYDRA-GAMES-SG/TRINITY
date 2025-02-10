@@ -63,9 +63,7 @@ public class ATrinityGUI : MonoBehaviour
     public ATrinityVictory GetVictory() => Victory.GetComponent<ATrinityVictory>();
     public ATrinityOptions GetOptions() => OptionsMenu.GetComponent<ATrinityOptions>();
     public ATrinityVideos GetVideos() => Videos.GetComponent<ATrinityVideos>();
-
-    private EGameFlowState CurrentGameFlowState;
-
+    
     void Awake()
     {     
         List<ATrinityGUI> CurrentInstances = FindObjectsOfType<ATrinityGUI>().ToList();
@@ -364,34 +362,13 @@ public class ATrinityGUI : MonoBehaviour
 
     public void BindToEvents(EGameFlowState newGFS)
     {
-        ATrinityGameManager.GetBrain().OnElementChanged -= UpdateSpellImages;
-        ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetGameOver().Restart;
-        ATrinityGameManager.GetInput().OnForcefieldPressed -= GetGameOver().Return;
-        ATrinityGameManager.GetInput().OnMovePressed -= GetOptions().Navigate;
-        ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetOptions().PressInteractable;
-        
-        switch (CurrentGameFlowState)
-        {
-            case EGameFlowState.MAIN_MENU:
-                break;
-            case EGameFlowState.PLAY:
-                BindPlayEvents(false);
-                break;
-            case EGameFlowState.PAUSED:
-                BindOptionsEvents(false);
-                break;
-            case EGameFlowState.VICTORY:
-                BindVictoryEvents(false);
-                break;
-            case EGameFlowState.DEAD:
-                BindGameOverEvents(false);
-                break;
-        }
 
+        UnbindAll();
+        
         switch (newGFS)
         {
             case EGameFlowState.MAIN_MENU:
+                BindMainMenuEvents(true);
                 break;
             case EGameFlowState.PLAY:
                 BindPlayEvents(true);
@@ -406,8 +383,49 @@ public class ATrinityGUI : MonoBehaviour
                 BindGameOverEvents(true);
                 break;
         }
+    }
 
-        CurrentGameFlowState = newGFS;
+    public void UnbindAll()
+    {
+        BindMainMenuEvents(false);
+        BindPlayEvents(false);
+        BindOptionsEvents(false);
+        BindVictoryEvents(false);
+        BindGameOverEvents(false);
+    }
+    
+    public void BindMainMenuEvents(bool bBind)
+    {
+        if (bBind)
+        {
+            //input events
+            ATrinityGameManager.GetInput().OnJumpGlidePressed += GetMainMenu().Select;
+            ATrinityGameManager.GetInput().OnElementPressed += GetMainMenu().NavigateByElement;
+            ATrinityGameManager.GetInput().OnNextElementPressed += GetMainMenu().NavigateForwards;
+            ATrinityGameManager.GetInput().OnPreviousElementPressed += GetMainMenu().NavigateBackwards;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed += GetMainMenu().Select;
+            ATrinityGameManager.GetInput().OnForcefieldPressed += GetMainMenu().CloseOptions;
+            GetMainMenu().OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
+            GetMainMenu().OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
+            
+            //audio events
+            GetMainMenu().OnMainMenuNavigate += ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
+            GetMainMenu().OnMainMenuSelection += ATrinityGameManager.GetAudio().PlayMainMenuSelect;
+        }
+        else
+        {
+            //input events
+            ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetMainMenu().Select;
+            ATrinityGameManager.GetInput().OnElementPressed -= GetMainMenu().NavigateByElement;
+            ATrinityGameManager.GetInput().OnNextElementPressed -= GetMainMenu().NavigateForwards;
+            ATrinityGameManager.GetInput().OnPreviousElementPressed -= GetMainMenu().NavigateBackwards;
+            ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= GetMainMenu().Select;
+            ATrinityGameManager.GetInput().OnForcefieldPressed -= GetMainMenu().CloseOptions;
+            
+            //audio events
+            GetMainMenu().OnMainMenuNavigate -= ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
+            GetMainMenu().OnMainMenuSelection -= ATrinityGameManager.GetAudio().PlayMainMenuSelect;
+        }
     }
     
     public void BindPlayEvents(bool bBind)
