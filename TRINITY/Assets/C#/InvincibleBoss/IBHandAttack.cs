@@ -24,8 +24,15 @@ public class IBHandAttack : InvincibleBossState
 
         InvincibleBossFSM.InvincibleBossController.Animator.applyRootMotion = true;
 
-        int index = Random.Range(0, AnimKeyTriggerATK.Length);
-        AnimKey = AnimKeyTriggerATK[index];
+        if (fromState is IBTaunt)
+        {
+            AnimKey = "2HandsSmashAttack_RM";
+        }
+        else
+        {
+            int index = Random.Range(0, AnimKeyTriggerATK.Length);
+            AnimKey = AnimKeyTriggerATK[index];
+        }
         InvincibleBossFSM.InvincibleBossController.Animator.SetTrigger(AnimKey);
     }
 

@@ -24,7 +24,7 @@ public class IBTaunt : InvincibleBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
-        AnimFinish=false;
+        AnimFinish = false;
         bOnTaunt = false;
         DelayTimer = 0;
         DurationTimer = 0;
@@ -64,14 +64,14 @@ public class IBTaunt : InvincibleBossState
                 InvincibleBossFSM.EnqueueTransition<IBPursue>();
             }
         }
-        if (InvincibleBossFSM.InvincibleBossController.CalculateGroundDistance() <= InvincibleBossFSM.InvincibleBossController.CloseAttack)
+        if (InvincibleBossFSM.InvincibleBossController.CalculateGroundDistance() <= 15f)
         {
-                AnimFinish = true;
+            AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBHandAttack>();
         }
-        else if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
-        {
-        }
+        //else if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
+        //{
+        //}
 
     }
     public override void PostUpdateBehaviour(float dt)
@@ -87,6 +87,6 @@ public class IBTaunt : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return toState is IBPursue || toState is IBDead || (toState is IBIdle && AnimFinish);
+        return toState is IBPursue || toState is IBDead || toState is IBIdle || toState is IBHandAttack && AnimFinish;
     }
 }

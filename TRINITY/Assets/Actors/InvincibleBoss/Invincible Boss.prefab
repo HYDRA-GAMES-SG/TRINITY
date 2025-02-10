@@ -174,7 +174,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2401014532265541969}
-  - component: {fileID: 881581368582859436}
   - component: {fileID: 8101302674642283820}
   - component: {fileID: 3796263542911680719}
   - component: {fileID: 1203796707720380781}
@@ -183,6 +182,11 @@ GameObject:
   - component: {fileID: 1387817484879313190}
   - component: {fileID: 6853958437616104024}
   - component: {fileID: 6956739884993821291}
+  - component: {fileID: 3324113171006002634}
+  - component: {fileID: 6049761862468476122}
+  - component: {fileID: 5069465592965967324}
+  - component: {fileID: 491358328948801159}
+  - component: {fileID: 7692719696976901255}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -205,18 +209,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2413264554699481805}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &881581368582859436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 196294604132324631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6b14e6eb4a60404f910543bd018af64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8101302674642283820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: HitGround
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -247,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: HitPlayer
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -264,7 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: FootStep
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -281,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: HandSwing
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -298,7 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: Smash
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -315,7 +307,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: StompAndEffect
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -332,7 +324,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: ShockCharge
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -349,7 +341,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Audio: {fileID: 0}
-  Name: 
+  Name: ShockRelease
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &3324113171006002634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196294604132324631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 0}
+  Name: OrbCharge
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &6049761862468476122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196294604132324631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 0}
+  Name: OrbRelease
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &5069465592965967324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196294604132324631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 0}
+  Name: OrbExplode
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &491358328948801159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196294604132324631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 0}
+  Name: Taunt
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &7692719696976901255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196294604132324631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 0}
+  Name: Dead
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -3764,6 +3841,7 @@ GameObject:
   - component: {fileID: 4272189337561987710}
   - component: {fileID: 540573650521017946}
   - component: {fileID: 7374840061857136208}
+  - component: {fileID: 6882751474779659533}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -3977,6 +4055,19 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6882751474779659533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6077654753602250217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6b14e6eb4a60404f910543bd018af64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioClipPos: {fileID: 196294604132324631}
 --- !u!1 &6362442862167170075
 GameObject:
   m_ObjectHideFlags: 0
