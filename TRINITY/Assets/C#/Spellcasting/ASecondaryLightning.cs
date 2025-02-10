@@ -72,7 +72,7 @@ public class ASecondaryLightning : ASpell
             lightningTotem.MaxPitchSpawn = TotemMaxPitchSpawn;
      
             Totem.transform.position = InvokePosition + Vector3.down * TotemSummonDepth;
-            Vector3 vfxPos = new(Totem.transform.position.x, Totem.transform.position.y + 2.4f, Totem.transform.position.z);
+            Vector3 vfxPos = new(Totem.transform.position.x, Totem.transform.position.y + 4.9f, Totem.transform.position.z);
             SummonVFXObj = Instantiate(SummonVFX, vfxPos, Quaternion.identity);
 
             ChannelTime = 0f;

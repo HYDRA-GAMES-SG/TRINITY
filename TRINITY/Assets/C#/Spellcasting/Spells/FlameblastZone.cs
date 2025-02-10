@@ -15,7 +15,8 @@ public class FlameblastZone : MonoBehaviour
     public AudioClip BurstSFX;
 
     private float Duration;
- 
+
+    public Vector3 Centre;
     void Start()
     {
         ZoneSource = GetComponent<AudioSource>();

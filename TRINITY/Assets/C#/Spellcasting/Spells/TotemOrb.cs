@@ -11,6 +11,7 @@ public class TotemOrb : AProjectile
     private float ProjectileSpeed;
     private float Range;
     private float Damage;
+    public bool bEnraged;
 
     [HideInInspector]
     private Transform TargetTransform;

@@ -14,6 +14,7 @@ public class LightningBolt : AProjectile
     public float Damage;
     public float Duration;
     public float Speed;
+    public bool bHasDamaged;
     [HideInInspector]
     public Rigidbody RB;
 
@@ -75,17 +76,23 @@ public class LightningBolt : AProjectile
         {
             UEnemyColliderComponent enemyCollider = collision.gameObject.GetComponent<UEnemyColliderComponent>();
 
-            if (!enemyCollider)
+            if (!enemyCollider  || bHasDamaged)
             {
                 return;
             }
-
+    
             enemyCollider.EnemyController.TriggerGetHit();
 
 
             UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
+            if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
+            {
+                print("Ignite from overheat");
+                enemyStatus += new FDamageInstance(0f, EAilmentType.EAT_Ignite, PrimaryLightning.StacksApplied);
+            }
             FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryLightning.AilmentType, PrimaryLightning.StacksApplied);
             enemyStatus += damageSource;
+            bHasDamaged = true;
             print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryLightning.AilmentType} + {PrimaryLightning.StacksApplied}");
         }
 

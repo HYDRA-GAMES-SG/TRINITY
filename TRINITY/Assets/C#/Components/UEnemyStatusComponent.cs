@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UAilmentComponent;
 
 [RequireComponent(typeof(UHealthComponent))]
 [RequireComponent(typeof(UAilmentComponent))]
@@ -28,6 +29,14 @@ public class UEnemyStatusComponent : MonoBehaviour
         if (!Health.bInvulnerable)
         {
             Health.Modify(-Ailments.IgniteDamage * Time.deltaTime);
+        }
+        if (Health.bInvulnerable)
+        {
+            foreach (EAilmentType ailmentType in Ailments.AilmentKeys.Keys)
+            {
+                Ailment modifiedAilment = Ailments.AilmentKeys[ailmentType];
+                Ailments.ModifyStack(ailmentType, -modifiedAilment.Stacks);
+            }
         }
     }
 }

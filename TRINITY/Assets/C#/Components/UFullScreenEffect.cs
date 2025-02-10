@@ -40,6 +40,7 @@ public class UFullScreenEffect : MonoBehaviour
     void Start()
     {
         ATrinityGameManager.GetPlayerController().OnHit += StartEffect;
+        ATrinityGameManager.GetPlayerController().OnForcefieldHit += StartEffect;
         FullScreenDamage.SetActive(false);
         EffectTimer = EffectDuration;
     }
@@ -50,21 +51,21 @@ public class UFullScreenEffect : MonoBehaviour
         FullScreenDamage.SetActive(true);
         Material.SetFloat(VoronoiIntensity, VoronoiIntensityStat);
         Material.SetFloat(VignetteIntensity, VignetteIntensityStat);
+
+        if (!ATrinityGameManager.GetBrain().bForcefieldActive)
+        {
+            Material.SetColor("_VignetteColor", Color.red);
+        }
+        else 
+        {
+            Color forcefieldColor = new Color(0, 0.35f, 1, 1);
+            Material.SetColor("_VignetteColor", forcefieldColor);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!ATrinityGameManager.GetBrain().bForcefieldActive)
-        {
-            Material.SetVector("_VignetteColor", new Vector4(1f, 0, 0, 1f));
-        }
-        else
-        {
-            Material.SetVector("_VignetteColor", new Vector4(0, 0, 1f, 1f));
-            
-        }
-        
         if (bEffectActive)
         {
             EffectTimer += Time.deltaTime;
@@ -78,9 +79,15 @@ public class UFullScreenEffect : MonoBehaviour
                 Material.SetFloat(VignetteIntensity, lerpedVignette);
             }
         }
-        else if (!bEffectActive) 
+        else if (!bEffectActive)
         {
             FullScreenDamage.SetActive(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        Material.SetFloat(VoronoiIntensity, VoronoiIntensityStat);
+        Material.SetFloat(VignetteIntensity, VignetteIntensityStat);
     }
 }

@@ -20,6 +20,8 @@ public class LightningTotem : MonoBehaviour
     private float AttackTimer;
     private Transform TargetEnemy;
     private GameObject EnrageFX;
+    public bool bCanFire;
+    public bool bTutorial = false;
     
     private Light[] EyeLights;
 
@@ -30,7 +32,8 @@ public class LightningTotem : MonoBehaviour
     private AudioSource TotemSource;
     public AudioClip UnsummonSFX;
     public AudioClip[] FireSFX;
-    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +59,11 @@ public class LightningTotem : MonoBehaviour
     {
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY) 
         {
+            return;
+        }
+        if (bTutorial) 
+        {
+            Status = ELightningTotemStatus.ELTS_Summoned;
             return;
         }
         if (Status == ELightningTotemStatus.ELTS_Unsummoned)
@@ -131,6 +139,10 @@ public class LightningTotem : MonoBehaviour
             return;
         }
 
+        if (!bCanFire) 
+        {
+            return;
+        }
         GameObject orbPrefab = null;
 
         switch(Status)
@@ -182,6 +194,15 @@ public class LightningTotem : MonoBehaviour
                 totem.localRotation = Quaternion.Lerp(totem.localRotation, 
                     Quaternion.LookRotation(toEnemy, Vector3.up), 
                     2f * Time.deltaTime);
+            }
+
+            if (closestEnemy.gameObject.GetComponent<UHealthComponent>().bInvulnerable)
+            {
+                bCanFire = false;
+            }
+            else 
+            {
+                bCanFire = true;
             }
         }
     }
