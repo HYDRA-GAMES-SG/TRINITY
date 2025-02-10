@@ -13,7 +13,8 @@ public class ATrinityVideos : MonoBehaviour
     
     private Image[] VideoBackgroundImages;
     private GameObject CurrentTutorialParent;
-    private VideoPlayer CurrentVideoPlayer;
+    [HideInInspector]
+    public VideoPlayer CurrentVideoPlayer;
     private TextMeshProUGUI[] CurrentTextElements;
     
     void Awake()

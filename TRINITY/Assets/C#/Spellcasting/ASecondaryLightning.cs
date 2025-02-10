@@ -44,7 +44,11 @@ public class ASecondaryLightning : ASpell
     private float ChannelTime;
     private float CurrentPosition;
     private Vector3 InvokePosition;
-
+    
+    public List<GameObject> GetTotems()
+    {
+        return Totems;
+    }
     
     public override void Initialize()
     {

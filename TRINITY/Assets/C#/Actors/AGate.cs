@@ -9,8 +9,8 @@ public class AGate : MonoBehaviour
     
     public bool bShouldOpen = false;
 
-    public Vector3 OpenPosition;
-    public Vector3 ClosedPosition;
+    private Vector3 OpenPosition;
+    private Vector3 ClosedPosition;
     
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,7 @@ public class AGate : MonoBehaviour
         if (bShouldOpen)
         {
             OpenTimer += Time.deltaTime;
-            transform.position = Vector3.Lerp(OpenPosition, ClosedPosition, OpenTimer / OpenDuration);
+            transform.position = Vector3.Lerp(ClosedPosition, OpenPosition, OpenTimer / OpenDuration);
         }
     }
 

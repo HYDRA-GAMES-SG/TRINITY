@@ -1,10 +1,13 @@
+using System;
 using UnityEngine;
 
 public class UTutorialTriggerComponent : MonoBehaviour
 {
     public int TutorialVideoIndex;
     
-    private ATrinityVideos TrinityVideos; 
+    private ATrinityVideos TrinityVideos;
+    [HideInInspector]
+    public bool bPlayerInside;
     
     void Start()
     {
@@ -17,9 +20,15 @@ public class UTutorialTriggerComponent : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             TrinityVideos.PlayTutorial(TutorialVideoIndex);
+            bPlayerInside = true;
         }
     }
-    
+
+    private void OnTriggerStay(Collider other)
+    {
+        
+    }
+
     void OnTriggerExit(Collider other)
     {
         /* ------------------------------------------------------------------
@@ -31,6 +40,7 @@ public class UTutorialTriggerComponent : MonoBehaviour
                Stop the tutorial video.
                ------------------------------------------------------------------ */
             TrinityVideos.StopTutorial();
+            bPlayerInside = false;
         }
     }
 }

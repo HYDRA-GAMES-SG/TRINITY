@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -17,28 +18,45 @@ public class FlameblastZone : MonoBehaviour
     private float Duration;
 
     public Vector3 Centre;
+
+    public GameObject FireballExplosionInstance;
+ 
     void Start()
     {
         ZoneSource = GetComponent<AudioSource>();
         // Start a coroutine to pause particles after 1 second
         StartCoroutine(PauseParticlesAfterDelay());
         Duration = ATrinityGameManager.GetSpells().SecondaryFire.ZoneDuration;
-        FlameblastZone_PP = ATrinityGameManager.GetCamera().gameObject.transform.Find("PP_Flameblast").GetComponent<Volume>();
+        
+        if (ATrinityGameManager.GetCamera())
+        {
+            FlameblastZone_PP = ATrinityGameManager.GetCamera().gameObject.transform.Find("PP_Flameblast").GetComponent<Volume>();
+        }
     }
 
     void Update()
     {
+        if (ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu && ATrinityGameManager.GetCamera())
+        {
+            FlameblastZone_PP = ATrinityGameManager.GetCamera().gameObject.transform.Find("PP_Flameblast").GetComponent<Volume>();
+        }
+        else
+        {
+            return;
+        }
+        
+        float distanceToPlayer = Vector3.Distance(transform.position, ATrinityGameManager.GetPlayerController().Position);
+        float ppRatio = Mathf.Clamp01(distanceToPlayer / 20f);
+        
+        FlameblastZone_PP.weight = Mathf.Lerp(.5f, 0, ppRatio);
+
         Duration -= Time.deltaTime;
+        
         if (Duration < 0f)
         {
             UnpauseParticles();
             Destroy(this.gameObject, 4f);
         }
-
-        float distanceToPlayer = Vector3.Distance(transform.position, ATrinityGameManager.GetPlayerController().Position);
-        float ppRatio = Mathf.Clamp01(distanceToPlayer / 20f);
-        
-        FlameblastZone_PP.weight = Mathf.Lerp(.5f, 0, ppRatio);
     }
 
     void OnDestroy()
@@ -52,15 +70,15 @@ public class FlameblastZone : MonoBehaviour
         if (other.GetComponent<Fireball>())
         {
             ZoneSource.PlayOneShot(BurstSFX);
-            GameObject fireballExplosion = Instantiate(FireballExplosion, transform.position, Quaternion.identity);
-            fireballExplosion.transform.localScale = Vector3.one * ATrinityGameManager.GetSpells().SecondaryFire.CurrentRadius / 3f;
+            FireballExplosionInstance = Instantiate(FireballExplosion, transform.position, Quaternion.identity);
+            FireballExplosionInstance.transform.localScale = Vector3.one * ATrinityGameManager.GetSpells().SecondaryFire.CurrentRadius / 3f;
 
-            foreach (ParticleSystem ps in fireballExplosion.GetComponentsInChildren<ParticleSystem>().ToList())
+            foreach (ParticleSystem ps in FireballExplosionInstance.GetComponentsInChildren<ParticleSystem>().ToList())
             {
                 ps.Play();
             }
             
-            Destroy(fireballExplosion, 2f);
+            Destroy(FireballExplosionInstance, 2f);
             
             ASecondaryFire flameblast = ATrinityGameManager.GetSpells().SecondaryFire;
             Ray ray = new Ray(transform.position, Vector3.up);
