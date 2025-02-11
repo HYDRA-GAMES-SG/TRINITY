@@ -31,7 +31,14 @@ public class UIceCubeGateComponent : MonoBehaviour
 
         if (bIceWaveCast)
         {
-            if (FindObjectOfType<IceCube>().Mesh.enabled == true)
+            IceCube ic = FindObjectOfType<IceCube>();
+
+            if (ic == null)
+            {
+                return;
+            }
+            
+            if (ic.Mesh.enabled == true)
             {
                 if (ATrinityGameManager.GetBrain().GetCurrentSpell() == null)
                 {

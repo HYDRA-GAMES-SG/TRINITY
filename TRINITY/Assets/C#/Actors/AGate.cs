@@ -5,6 +5,7 @@ using UnityEngine;
 public class AGate : MonoBehaviour
 {
     public float OpenDuration = 3f;
+    [HideInInspector]
     public float OpenTimer = 0f;
     
     [HideInInspector]
@@ -17,7 +18,7 @@ public class AGate : MonoBehaviour
     void Start()
     {
         ClosedPosition = transform.position;
-        OpenPosition = ClosedPosition + Vector3.up * 8f;
+        OpenPosition = ClosedPosition + Vector3.up * 10.5f;
     }
 
     // Update is called once per frame
