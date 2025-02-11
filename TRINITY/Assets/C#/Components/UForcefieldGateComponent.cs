@@ -17,9 +17,7 @@ public class UForcefieldGateComponent : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        print(ManaShieldDamageTakenByPlayer);
-        
+    {      
         if (ManaShieldDamageTakenByPlayer > 9f)
         {
             Gate.Open();

@@ -125,7 +125,8 @@ public class ATrinityController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED)
+        if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PAUSED ||
+            ATrinityGameManager.GetGameFlowState() == EGameFlowState.VICTORY)
         {
             return;
         }
@@ -135,11 +136,11 @@ public class ATrinityController : MonoBehaviour
     
     private void LateUpdate()
     {
-        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
+        if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)        
         {
             return;
         }
-        
+
         if (ATrinityGameManager.GetBrain().bCanRotatePlayer)
         {
             AlignWithCameraYaw();
