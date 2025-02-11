@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 1f0aa4a039c882e478161d07084bb7ab, type: 3}
   Name: FootStep
   Volume: 1
   Pitch: 1
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 1da2c47522eb46342b0f4a8db7a98a71, type: 3}
   Name: HandSwing
   Volume: 1
   Pitch: 1
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: da16782371e804741a6b337c0dce54fb, type: 3}
   Name: Smash
   Volume: 1
   Pitch: 1
@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 87c8a3a86cef11940bead4257f2356ae, type: 3}
   Name: StompAndEffect
   Volume: 1
   Pitch: 1
@@ -323,11 +323,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 21500e651f3f16d45a27b1d31b6d1789, type: 3}
   Name: ShockCharge
   Volume: 1
   Pitch: 1
-  MixerGroup: 0
+  MixerGroup: 1
 --- !u!114 &6956739884993821291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,12 +335,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 196294604132324631}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 21500e651f3f16d45a27b1d31b6d1789, type: 3}
   Name: ShockRelease
   Volume: 1
   Pitch: 1
@@ -357,11 +357,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: fa65c716ad5d75d4aa559f935cb7a403, type: 3}
   Name: OrbCharge
   Volume: 1
   Pitch: 1
-  MixerGroup: 0
+  MixerGroup: 1
 --- !u!114 &6049761862468476122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: e9f6e48ae4f9b784c93101bb954e07b1, type: 3}
   Name: Taunt
   Volume: 1
   Pitch: 1
@@ -2284,7 +2284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RotateSpeed: 0
-  AnimKeyRotation: Rotation
   AnimKeyMovement: Movement
   WaitTime: 0.3
   TurnSmoothTime: 0.2
@@ -3966,6 +3965,7 @@ MonoBehaviour:
   ShotShockDMG: 25
   ThrowOrbDMG: 30
   OrbExplosionDMG: 35
+  InvincibleAudio: {fileID: 0}
 --- !u!54 &6919812670851993522
 Rigidbody:
   m_ObjectHideFlags: 0

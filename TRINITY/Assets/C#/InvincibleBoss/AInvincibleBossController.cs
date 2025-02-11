@@ -50,11 +50,12 @@ public class AInvincibleBossController : IEnemyController
     //[SerializeField]SkinnedMeshRenderer[] skinnedMeshRenderer;
     //Material[] materials;
 
-
+    public AInvincibleAudio InvincibleAudio;
     void Start()
     {
         AI.stoppingDistance = CloseAttack;
         InitialSpeed = AI.speed;
+        InvincibleAudio= GetComponentInChildren<AInvincibleAudio>();
 
         //skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
         //materials = new Material[skinnedMeshRenderer.Length];

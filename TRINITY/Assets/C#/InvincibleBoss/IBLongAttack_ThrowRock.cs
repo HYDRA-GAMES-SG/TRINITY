@@ -27,6 +27,8 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
     [SerializeField] float OrbTimeToTarget = 0.5f;
 
     bool AnimFinish = false;
+
+
     public override bool CheckEnterTransition(IState fromState)
     {
         return InvincibleBossFSM.InvincibleBossController.bCanThrow && fromState is IBPursue;
@@ -54,6 +56,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
 
             if (!hasSpawned)
             {
+                InvincibleBossFSM.InvincibleBossController.InvincibleAudio.PlayIBOrbCharge();
                 orbObj = Instantiate(OrbParticle, bothHandCnetrelPos, Quaternion.identity);
                 Orb orb = orbObj.GetComponent<Orb>();
                 orb.GetController(InvincibleBossFSM.InvincibleBossController);
