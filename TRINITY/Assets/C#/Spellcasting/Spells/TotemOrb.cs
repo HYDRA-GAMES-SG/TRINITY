@@ -6,7 +6,7 @@ using UnityEngine;
 public class TotemOrb : AProjectile
 {
 
-    [Header("Projectile Properties")] 
+    [Header("Projectile Properties")]
     private int ChargeStacks;
     private float ProjectileSpeed;
     private float Range;
@@ -41,7 +41,14 @@ public class TotemOrb : AProjectile
         ChargeStacks = secondaryLightning.ProjectileChargeStacks;
         Range = secondaryLightning.ProjectileRange;
         ProjectileSpeed = secondaryLightning.ProjectileSpeed;
-        Damage = secondaryLightning.ProjectileDamage;
+        if (!bEnraged)
+        {
+            Damage = secondaryLightning.ProjectileDamage;
+        }
+        else
+        {
+            Damage = secondaryLightning.EnragedAttackDamage;
+        }
         InitialPosition = transform.position;
     }
 
@@ -52,15 +59,15 @@ public class TotemOrb : AProjectile
     // Update is called once per frame
     void Update()
     {
-        if(TargetTransform != null)
+        if (TargetTransform != null)
         {
-          
+
             // Calculate direction to target
-            
+
             // Move towards target
             transform.position += Direction * (ProjectileSpeed * Time.deltaTime);
         }
-        
+
         if (Vector3.Distance(transform.position, InitialTargetPosition) > Range)
         {
             Despawn();
@@ -70,20 +77,20 @@ public class TotemOrb : AProjectile
     private void OnCollisionEnter(Collision other)
     {
         print(other.gameObject.name);
-        if (other.gameObject.GetComponent<LightningTotem>()) 
+        if (other.gameObject.GetComponent<LightningTotem>())
         {
             return;
         }
-        if (other.gameObject.GetComponent<TotemOrb>()) 
+        if (other.gameObject.GetComponent<TotemOrb>())
         {
             other.gameObject.GetComponent<TotemOrb>().Despawn();
             Despawn();
             return;
         }
-        
+
         UEnemyColliderComponent enemyCollider = other.gameObject.GetComponent<UEnemyColliderComponent>();
-       
-        if(enemyCollider)
+
+        if (enemyCollider)
         {
             UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, EAilmentType.EAT_Charge, ChargeStacks);

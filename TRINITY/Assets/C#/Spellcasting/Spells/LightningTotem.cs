@@ -154,6 +154,7 @@ public class LightningTotem : MonoBehaviour
             case ELightningTotemStatus.ELTS_Enraged:
                 orbPrefab = Instantiate(EnragedOrbPrefab,
                    ProjectileSpawnPoint.position, Quaternion.identity);
+                orbPrefab.GetComponent<TotemOrb>().bEnraged = true;
                 break;
             default:
                
@@ -177,6 +178,10 @@ public class LightningTotem : MonoBehaviour
             IEnemyController closestEnemy = null;
             foreach (IEnemyController ec in ATrinityGameManager.GetEnemyControllers())
             {
+                if (ec.EnemyStatus.Health.bInvulnerable || ec.EnemyStatus.Health.bDead)
+                {
+                    continue;
+                }
                 float distance = Vector3.Distance(transform.position, ec.transform.position);
                 if (distance < distanceToClosestEnemy)
                 {

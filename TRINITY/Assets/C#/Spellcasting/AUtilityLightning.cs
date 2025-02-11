@@ -6,7 +6,7 @@ using UnityEngine;
 public class AUtilityLightning : ASpell
 {
     public AudioSource UtilityLightningSource;
-    
+
     [HideInInspector]
     public GameObject FlashPointObj;
 
@@ -17,6 +17,10 @@ public class AUtilityLightning : ASpell
 
     [Header("VFX")]
     public GameObject FlashBackVFX;
+
+    [Header("SFX")]
+    public AudioClip FlashBackSFX;
+    public AudioClip SetFlashBackSFX;
     public override void Initialize()
     {
         UtilityLightningSource = GetComponent<AudioSource>();
@@ -31,6 +35,7 @@ public class AUtilityLightning : ASpell
             BlinkPos = playerController.transform.position;
             FlashPointObj = Instantiate(SpellPrefab, playerController.transform.position, Quaternion.identity);
             bCanBlink = true;
+            UtilityLightningSource.PlayOneShot(SetFlashBackSFX);
         }
         else
         {
@@ -41,6 +46,7 @@ public class AUtilityLightning : ASpell
             playerController.transform.position = BlinkPos;
             GameObject flashBackVFX = Instantiate(FlashBackVFX, playerController.transform.position, Quaternion.identity);
             bCanBlink = false;
+            UtilityLightningSource.PlayOneShot(FlashBackSFX);
             StartCooldown();
         }
     }
