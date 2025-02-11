@@ -83,6 +83,7 @@ public class IBTaunt : InvincibleBossState
         InvincibleBossFSM.InvincibleBossController.bCanTaunt = false;
         TauntCollider.enabled = false;
         TauntParticle.Stop();
+        Indecator.SetActive(false);
     }
 
     public override bool CheckExitTransition(IState toState)

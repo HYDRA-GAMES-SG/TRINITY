@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class IBPursue : InvincibleBossState
 {
-    [SerializeField] string AnimKeyRotation = "Rotation";
+   // [SerializeField] string AnimKeyRotation = "Rotation";
     [SerializeField] string AnimKeyMovement = "Movement";
 
     [SerializeField] float WaitTime = 0.3f;
@@ -71,10 +71,10 @@ public class IBPursue : InvincibleBossState
     }
     private void AnimationRotateMove()
     {
-        Vector3 direction = InvincibleBossFSM.InvincibleBossController.AI.velocity.normalized;
-        float turn = Vector3.SignedAngle(transform.forward, direction, Vector3.up) / 180.0f;
-        float smoothTurn = Mathf.Lerp(InvincibleBossFSM.InvincibleBossController.Animator.GetFloat(AnimKeyRotation), turn, TurnSmoothTime);
-        InvincibleBossFSM.InvincibleBossController.Animator.SetFloat(AnimKeyRotation, smoothTurn);
+        //Vector3 direction = InvincibleBossFSM.InvincibleBossController.AI.velocity.normalized;
+        //float turn = Vector3.SignedAngle(transform.forward, direction, Vector3.up) / 180.0f;
+        //float smoothTurn = Mathf.Lerp(InvincibleBossFSM.InvincibleBossController.Animator.GetFloat(AnimKeyRotation), turn, TurnSmoothTime);
+        //InvincibleBossFSM.InvincibleBossController.Animator.SetFloat(AnimKeyRotation, smoothTurn);
 
         Vector3 movementSpeed = InvincibleBossFSM.InvincibleBossController.transform.InverseTransformDirection(InvincibleBossFSM.InvincibleBossController.AI.velocity);
         float movement = movementSpeed.magnitude;

@@ -42,7 +42,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5014182996902062823}
   - component: {fileID: 4893273569921503170}
-  - component: {fileID: 3540853397336245814}
   - component: {fileID: 1562179094616399988}
   m_Layer: 3
   m_Name: Kupolojuve_Pelvis
@@ -102,31 +101,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.8
   m_Height: 1.23
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &3540853397336245814
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 597671308814437158}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.64942145, y: 1.5851102, z: 1.5561547}
-  m_Center: {x: -0.38408184, y: 0.003101267, z: 0.0016081225}
 --- !u!54 &1562179094616399988
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -623,7 +601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX: 5000
   Regen: 0
-  Current: 10000
+  Current: 5000
   bInvulnerable: 0
 --- !u!114 &7205701424928979438
 MonoBehaviour:

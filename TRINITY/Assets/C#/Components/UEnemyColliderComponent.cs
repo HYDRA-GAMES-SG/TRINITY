@@ -7,7 +7,7 @@ public class UEnemyColliderComponent : MonoBehaviour
 {
     [HideInInspector] 
     public Rigidbody RB;
-    [HideInInspector] 
+    //[HideInInspector] 
     public Collider Collider;
     [HideInInspector]
     public UAilmentComponent Ailments;
