@@ -17,6 +17,7 @@ public class UFullScreenEffect : MonoBehaviour
     private float EffectTimer;
     public float EffectDuration;
     public float FadeOutThreshold = .66f;
+    private float InitialEffectDuration;
 
     [Header("References")]
     [SerializeField] private ScriptableRendererFeature FullScreenDamage;
@@ -31,11 +32,12 @@ public class UFullScreenEffect : MonoBehaviour
     private string VignetteIntensity = "_VignetteIntensity";
 
     private ATrinityController ATrinityController;
-
+    private UHealthComponent PlayerHealth;
     // Start is called before the first frame update
     private void Awake()
     {
-
+        PlayerHealth = GetComponent<UHealthComponent>();
+        InitialEffectDuration = EffectDuration;
     }
     void Start()
     {
@@ -66,6 +68,15 @@ public class UFullScreenEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlayerHealth.Percent < 0.35f)
+        {
+            EffectDuration = 9999999;
+        }
+        else 
+        {
+            EffectDuration = InitialEffectDuration;
+        }
+
         if (bEffectActive)
         {
             EffectTimer += Time.deltaTime;
@@ -89,5 +100,6 @@ public class UFullScreenEffect : MonoBehaviour
     {
         Material.SetFloat(VoronoiIntensity, VoronoiIntensityStat);
         Material.SetFloat(VignetteIntensity, VignetteIntensityStat);
+        FullScreenDamage.SetActive(false);
     }
 }

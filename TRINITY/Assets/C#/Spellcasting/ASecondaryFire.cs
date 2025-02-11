@@ -134,7 +134,7 @@ public class ASecondaryFire : ASpell
             return;
         }
 
-        //Rune.SetActive(false); // Disable the rune
+        Rune.SetActive(false); // Disable the rune
 
         LayerMask enemyMask = 1 << LayerMask.NameToLayer("Enemy");
         Ray ray = new Ray(Rune.transform.position + Vector3.down * 10f, Vector3.up);
