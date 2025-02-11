@@ -226,6 +226,7 @@ public class LightningTotem : MonoBehaviour
             EnrageFX.SetActive(false);
         }
 
+        ATrinityGameManager.GetSpells().SecondaryLightning.GetTotems().Remove(this.gameObject);
         Destroy(this.gameObject, 1f);
     }
 

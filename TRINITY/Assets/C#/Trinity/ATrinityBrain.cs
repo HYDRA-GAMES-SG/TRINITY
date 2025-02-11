@@ -27,6 +27,7 @@ public class ATrinityBrain : MonoBehaviour
     
     public event Action<ETrinityElement> OnElementChanged;
     public event Action<ETrinityAction> OnActionChanged;
+    public event Action<float> OnStunned;
 
     void Awake()
     {
@@ -99,6 +100,7 @@ public class ATrinityBrain : MonoBehaviour
         
         StunnedCooldown = duration;
         ChangeAction(ETrinityAction.ETA_Stunned);
+        OnStunned?.Invoke(duration);
 
     }
 

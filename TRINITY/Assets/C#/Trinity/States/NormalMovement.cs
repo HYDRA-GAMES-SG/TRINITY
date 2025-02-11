@@ -37,13 +37,14 @@ public class NormalMovement : TrinityState
     private ATrinityController Controller;
     private ATrinityInput Input;
     private ATrinityAnimator Animator;
-
+    private Coroutine StunCoroutine;
+    private float StunDurationRemaining;
 
     private Dictionary<string, string> AnimKeys = new Dictionary<string, string>
     {
         { "Move", "Forward" }, { "Strafe", "Strafe" },{ "Vertical", "Vertical" }, { "Jump", "bJump" },
         { "Glide", "bGlide" }, { "Blink", "bBlink" }, { "Mirror", "bMirror" }, { "DeathTrigger", "DeathTrigger" }, 
-        { "Stunned", "bStunned" }, { "HitTrigger", "HitTrigger" }, { "HitX", "HitX" }, {"HitY", "HitY" },
+        { "Stun", "bStunned" }, { "HitTrigger", "HitTrigger" }, { "HitX", "HitX" }, {"HitY", "HitY" },
         { "Grounded", "bGrounded" }, {"Release", "bRelease"}
     };
     
@@ -63,6 +64,7 @@ public class NormalMovement : TrinityState
         
         bCanGlide = false;
         ABlink.OnBlink += OnBlink;
+        ATrinityGameManager.GetBrain().OnStunned += HandleStun;
         Controller.HealthComponent.OnDeath += HandleDeath;
         Controller.OnHit += HandleHit;
     }
@@ -81,6 +83,26 @@ public class NormalMovement : TrinityState
         // }
     }
 
+    private void HandleStun(float stunDuration)
+    {
+        TrinityFSM.Animator.SetBool(AnimKeys["Stun"], true);
+        if (stunDuration > StunDurationRemaining)
+        {
+            StunDurationRemaining = stunDuration;
+            
+            if (StunCoroutine != null)
+            {
+                StopCoroutine(StunCoroutine);
+            }
+            StartCoroutine(StunLoop());
+        }
+    }
+
+    public IEnumerator StunLoop()
+    {
+        yield return new WaitForSeconds(StunDurationRemaining);
+        TrinityFSM.Animator.SetBool(AnimKeys["Stun"], false);
+    }
 
     public override void PreUpdateBehaviour(float dt)
     {
@@ -100,7 +122,14 @@ public class NormalMovement : TrinityState
             SetMovementState(ETrinityMovement.ETM_Falling);
             TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
         }
-        
+
+        StunDurationRemaining -= Time.deltaTime;
+        if (StunDurationRemaining <= 0F)
+        {
+            StopCoroutine(StunLoop());
+            StunDurationRemaining = 0;
+            TrinityFSM.Animator.SetBool(AnimKeys["Stun"], false);
+        }
         bFixedUpdate = true;
         
         HandleGlideExit();
@@ -350,7 +379,6 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetFloat(AnimKeys["Move"], playerSpaceVelocity.z, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeys["Strafe"], playerSpaceVelocity.x, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
-        TrinityFSM.Animator.SetBool(AnimKeys["Stunned"], ATrinityGameManager.GetBrain().bIsStunned);
         TrinityFSM.Animator.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
         TrinityFSM.Animator.SetBool(AnimKeys["Release"], ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_None);;
 
