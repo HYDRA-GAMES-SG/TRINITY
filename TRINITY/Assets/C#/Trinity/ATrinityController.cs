@@ -48,7 +48,12 @@ public class ATrinityController : MonoBehaviour
 
     [Header("Unstable Ground")]
     [SerializeField] public float MaxStableAngle = 50f;
-
+    
+    [Header("Step Up Settings")]
+    [SerializeField] private float MaxStepHeight = 0.3f;
+    [SerializeField] private float StepSearchOvershoot = 0.01f;
+    [SerializeField] private float MaxStepUpAngle = 60f;
+    [SerializeField] private LayerMask StepUpLayer;
     // Movement Variables
     [HideInInspector]
     public Vector3 MoveDirection;
@@ -132,6 +137,7 @@ public class ATrinityController : MonoBehaviour
         }
         
         HandleGravity();
+        HandleStepUp();
     }
     
     private void LateUpdate()
@@ -212,15 +218,81 @@ public class ATrinityController : MonoBehaviour
         return false;
     }
     
+    private void HandleStepUp()
+    {
+        if (PlanarVelocity.magnitude < 0.1f) return; // Don't step if barely moving
+
+        Vector3 moveDir = PlanarVelocity.normalized;
+        
+        // Cast a ray forward to detect potential steps
+        RaycastHit lowHit;
+        if (!Physics.Raycast(transform.position, moveDir, out lowHit, 
+            Collider.radius + StepSearchOvershoot, StepUpLayer))
+        {
+            return; // No obstacle detected
+        }
+
+        // Check if the angle is too steep
+        float obstacleAngle = Vector3.Angle(lowHit.normal, Up);
+        if (obstacleAngle > MaxStepUpAngle)
+        {
+            return; // Too steep to step up
+        }
+
+        // Cast a ray from above to find the top of the step
+        Vector3 highOrigin = transform.position + Up * MaxStepHeight;
+        RaycastHit highHit;
+        if (!Physics.Raycast(highOrigin, moveDir, out highHit, 
+            Collider.radius + StepSearchOvershoot, StepUpLayer))
+        {
+            return; // No upper surface found
+        }
+
+        // Cast down to find the landing point
+        Vector3 targetPoint = highHit.point + moveDir * Collider.radius;
+        RaycastHit downHit;
+        if (!Physics.Raycast(targetPoint + Up * MaxStepHeight, -Up, out downHit, 
+            MaxStepHeight, StepUpLayer))
+        {
+            return; // No valid landing point
+        }
+
+        // Check if the step height is within our limit
+        float stepHeight = downHit.point.y - transform.position.y;
+        if (stepHeight > MaxStepHeight)
+        {
+            return; // Step is too high
+        }
+
+        // Move the character up the step
+        Vector3 targetPos = downHit.point;
+        RB.position = new Vector3(RB.position.x, targetPos.y, RB.position.z);
+        
+        if (bDebug)
+        {
+            Debug.DrawLine(transform.position, lowHit.point, Color.red, 0.1f);
+            Debug.DrawLine(highOrigin, highHit.point, Color.green, 0.1f);
+            Debug.DrawLine(targetPoint + Up * MaxStepHeight, downHit.point, Color.blue, 0.1f);
+        }
+    }
+    
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Vector3 rayOrigin = transform.position;
+        if (bDebug)
+        {
+            Gizmos.color = Color.red;
+            Vector3 rayOrigin = transform.position;
 
-        // Draw the ground-check raycast
-        Gizmos.DrawLine(rayOrigin, rayOrigin + Vector3.down * GroundDistance);
-        Gizmos.DrawLine(rayOrigin, rayOrigin + Forward * 2f);
-        //Gizmos.DrawSphere(rayOrigin + Vector3.down * GroundDistance, 0.01f);
+            // Draw the ground-check raycast
+            Gizmos.DrawLine(rayOrigin, rayOrigin + Vector3.down * GroundDistance);
+            Gizmos.DrawLine(rayOrigin, rayOrigin + Forward * 2f);
+            //Gizmos.DrawSphere(rayOrigin + Vector3.down * GroundDistance, 0.01f);
+
+            Gizmos.color = Color.yellow;
+            Vector3 stepCheckStart = transform.position + Forward * Collider.radius;
+            Vector3 stepCheckEnd = stepCheckStart + Up * MaxStepHeight;
+            Gizmos.DrawLine(stepCheckStart, stepCheckEnd);
+        }
     }
 
     void AlignWithCameraYaw()
