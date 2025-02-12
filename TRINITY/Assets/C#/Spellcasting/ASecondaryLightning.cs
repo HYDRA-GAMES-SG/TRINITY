@@ -27,6 +27,7 @@ public class ASecondaryLightning : ASpell
     public float AttackFrequency;
     public float TotemDuration;
     public float TotemMaxPitchSpawn = 15f;
+    public float MaxSummoningDistance = 5;
 
     [Header("Enraged Properties")] 
     public float EnragedAttackFrequency = 1.2f;
@@ -67,6 +68,15 @@ public class ASecondaryLightning : ASpell
         
         if (InvokePosition != Vector3.zero)
         {
+            foreach (GameObject totem in Totems)
+            {
+                float distanceFromTotem = (InvokePosition - totem.transform.position).magnitude;
+                if (distanceFromTotem < MaxSummoningDistance) 
+                {
+                    Release();
+                    return;
+                }
+            }
             LightningTotem lightningTotem = Totem.GetComponent<LightningTotem>();
             lightningTotem.Duration = TotemDuration;
             lightningTotem.AttackFrequency = AttackFrequency;
