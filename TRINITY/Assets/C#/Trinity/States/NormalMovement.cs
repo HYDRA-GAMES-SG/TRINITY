@@ -45,7 +45,7 @@ public class NormalMovement : TrinityState
         { "Move", "Forward" }, { "Strafe", "Strafe" },{ "Vertical", "Vertical" }, { "Jump", "bJump" },
         { "Glide", "bGlide" }, { "Blink", "bBlink" }, { "Mirror", "bMirror" }, { "DeathTrigger", "DeathTrigger" }, 
         { "Stun", "bStunned" }, { "HitTrigger", "HitTrigger" }, { "HitX", "HitX" }, {"HitY", "HitY" },
-        { "Grounded", "bGrounded" }, {"Release", "bRelease"}
+        { "Grounded", "bGrounded" }, {"Release", "bRelease"}, {"StunDuration", "stunDuration"}
     };
     
     public override bool CheckEnterTransition(IState fromState)
@@ -380,7 +380,8 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetFloat(AnimKeys["Strafe"], playerSpaceVelocity.x, .05f, Time.deltaTime);
         TrinityFSM.Animator.SetFloat(AnimKeys["Vertical"], Controller.VerticalVelocity);
         TrinityFSM.Animator.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
-        TrinityFSM.Animator.SetBool(AnimKeys["Release"], ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_None);;
+        TrinityFSM.Animator.SetBool(AnimKeys["Release"], ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_None);
+        TrinityFSM.Animator.SetFloat(AnimKeys["StunDuration"], StunDurationRemaining);
 
         if (TrinityFSM.Animator.GetBool(AnimKeys["Blink"]) == true)
         {

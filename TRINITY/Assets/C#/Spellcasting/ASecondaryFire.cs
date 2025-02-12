@@ -143,6 +143,8 @@ public class ASecondaryFire : ASpell
         UEnemyColliderComponent enemyCollider;
         if (hitInfo.collider != null)
         {
+            //print(hitInfo.collider.gameObject);
+            
             hitInfo.collider.TryGetComponent<UEnemyColliderComponent>(out enemyCollider);
 
             if (enemyCollider != null)
