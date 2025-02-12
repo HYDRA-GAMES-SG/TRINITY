@@ -89,21 +89,8 @@ public class NormalMovement : TrinityState
         if (stunDuration > StunDurationRemaining)
         {
             StunDurationRemaining = stunDuration;
-            
-            if (StunCoroutine != null)
-            {
-                StopCoroutine(StunCoroutine);
-            }
-            StartCoroutine(StunLoop());
         }
     }
-
-    public IEnumerator StunLoop()
-    {
-        yield return new WaitForSeconds(StunDurationRemaining);
-        TrinityFSM.Animator.SetBool(AnimKeys["Stun"], false);
-    }
-
     public override void PreUpdateBehaviour(float dt)
     {
         
@@ -111,6 +98,9 @@ public class NormalMovement : TrinityState
     
     public override void UpdateBehaviour(float dt)
     {
+        
+        
+        
         if (!Input.JumpInput && MovementState == ETrinityMovement.ETM_Grounded)
         {
             bJumpConsumed = false;
@@ -124,19 +114,19 @@ public class NormalMovement : TrinityState
         }
 
         StunDurationRemaining -= Time.deltaTime;
-        if (StunDurationRemaining <= 0F)
+        
+        if (TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
         {
-            StopCoroutine(StunLoop());
-            StunDurationRemaining = 0;
             TrinityFSM.Animator.SetBool(AnimKeys["Stun"], false);
         }
+        
         bFixedUpdate = true;
         
         HandleGlideExit();
         HandleFalling();
         HandleUnstableGround();
 
-        if (!ATrinityGameManager.GetBrain().CanAct() || Controller.bUnstable || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling)
+        if (!ATrinityGameManager.GetBrain().CanAct() || Controller.bUnstable || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling || TrinityFSM.Animator.GetBool(AnimKeys["Stun"]))
         {
             UpdateAnimParams();
             return;

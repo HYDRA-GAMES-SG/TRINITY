@@ -27,6 +27,6 @@ public class UProgressiveDarkenComponent : MonoBehaviour
             HealthRemaining += iec.EnemyStatus.Health.Current;
         }
 
-        RenderSettings.ambientIntensity = Mathf.Lerp(.1f, 3f, HealthRemaining / TotalHealth);
+        RenderSettings.ambientIntensity = Mathf.Lerp(.1f, .5f, HealthRemaining / TotalHealth);
     }
 }
