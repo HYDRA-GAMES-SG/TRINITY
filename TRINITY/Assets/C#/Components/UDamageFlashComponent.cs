@@ -35,6 +35,8 @@ public class UDamageFlashComponent : MonoBehaviour
         for (int i = 0; i < skinnedMeshRenderer.Length; i++)
         {
             materials[i] = skinnedMeshRenderer[i].material;
+            materials[i].EnableKeyword("_EMISSION");
+            materials[i].globalIlluminationFlags=MaterialGlobalIlluminationFlags.RealtimeEmissive;
         }
 
         Health.OnDamageTaken += StartBlinking;
@@ -79,7 +81,6 @@ public class UDamageFlashComponent : MonoBehaviour
         {
             if (material != null)
             {
-                material.EnableKeyword("_EMISSION");
                 Color emissionColor = Color.white * intensity;
                 material.SetColor("_EmissionColor", emissionColor);
             }

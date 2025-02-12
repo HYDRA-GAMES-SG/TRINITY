@@ -6,10 +6,10 @@ using UnityEngine.InputSystem.XR;
 public class DelayedColliderActivator : MonoBehaviour
 {
     [SerializeField] private Collider targetCollider;
-    [SerializeField] private float delayTime = 2f;
+    [SerializeField] private float delayTime;
     [SerializeField] private float damage;
-    [SerializeField] private float devide = 1;
-    [SerializeField] private float attackForce = 1;
+    [SerializeField] private float devide;
+    [SerializeField] private float attackForce;
     IEnemyController EnemyController;
     private float timer = 0f;
     private bool isTimerRunning = false;
@@ -89,16 +89,17 @@ public class DelayedColliderActivator : MonoBehaviour
         {
             return;
         }
-        
+
         Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
         Vector3 direction = (other.transform.position - transform.position).normalized;
 
-        direction.y += attackForce * 0.1f; 
+        direction.y += attackForce * 0.1f;
         direction = direction.normalized;
 
         Vector3 knockbackForce = direction * attackForce;
         rb.AddForce(knockbackForce, ForceMode.Impulse);
 
+        Debug.Log("ElectricBoom hit " + gameObject.name + ": " + damage / devide);
         FHitInfo hitInfo = new FHitInfo(EnemyController.gameObject, this.gameObject, null, damage / devide);
         player.ApplyHit(hitInfo);
 

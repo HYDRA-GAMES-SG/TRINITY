@@ -79,11 +79,7 @@ public class AFlyingBossController : IEnemyController
     }
     public override float GetCurrentAttackDamage()
     {
-        if (FlyingBossFSM.CurrentState is FBAttack)
-        {
-            return ElectricBombDMG;
-        }
-        return NormalAttack;
+        return ElectricBombDMG;
     }
     public void RotateTowardTarget(Vector3 directionToTarget, float rotateSpeed)
     {

@@ -16,7 +16,7 @@ public class UStunPlayerComponent : MonoBehaviour
         if (playerBrain == null)
             return;
 
-        playerBrain.SetStunnedState(StunTime, true);
+        playerBrain.SetStunnedState(StunTime);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -28,6 +28,6 @@ public class UStunPlayerComponent : MonoBehaviour
         if (playerBrain == null)
             return;
 
-        playerBrain.SetStunnedState(StunTime, true);
+        playerBrain.SetStunnedState(StunTime);
     }
 }
