@@ -133,6 +133,7 @@ public class IEnemyController : MonoBehaviour
             if (r.gameObject.GetComponent<UEnemyColliderComponent>() == null)
             {
                 UEnemyColliderComponent enemyCollider = r.gameObject.AddComponent<UEnemyColliderComponent>();
+                r.collisionDetectionMode = CollisionDetectionMode.Continuous;
             }
         }
     }

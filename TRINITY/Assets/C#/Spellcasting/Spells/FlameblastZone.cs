@@ -86,8 +86,8 @@ public class FlameblastZone : MonoBehaviour
             Destroy(FireballExplosionInstance, 2f);
             
             ASecondaryFire flameblast = ATrinityGameManager.GetSpells().SecondaryFire;
-            Ray ray = new Ray(transform.position, Vector3.up);
-            Physics.SphereCast(ray, flameblast.CurrentRadius, out RaycastHit hitInfo, 5f);
+            Ray ray = new Ray(transform.position - new Vector3(5,5,5), Vector3.up);
+            Physics.SphereCast(ray, flameblast.CurrentRadius + 3, out RaycastHit hitInfo, 12f);
 
             UEnemyColliderComponent enemyCollider;
             if (hitInfo.collider != null)
