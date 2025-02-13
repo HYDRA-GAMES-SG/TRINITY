@@ -45,7 +45,7 @@ public class NormalMovement : TrinityState
         { "Move", "Forward" }, { "Strafe", "Strafe" },{ "Vertical", "Vertical" }, { "Jump", "bJump" },
         { "Glide", "bGlide" }, { "Blink", "bBlink" }, { "Mirror", "bMirror" }, { "DeathTrigger", "DeathTrigger" }, 
         { "Stun", "bStunned" }, { "HitTrigger", "HitTrigger" }, { "HitX", "HitX" }, {"HitY", "HitY" },
-        { "Grounded", "bGrounded" }, {"Release", "bRelease"}, {"StunDuration", "stunDuration"}
+        { "Grounded", "bGrounded" }, {"Release", "bRelease"}, {"StunDuration", "stunDuration"}, {"Dead", "bdDead"}
     };
     
     public override bool CheckEnterTransition(IState fromState)
@@ -85,7 +85,11 @@ public class NormalMovement : TrinityState
 
     private void HandleStun(float stunDuration)
     {
-        TrinityFSM.Animator.SetBool(AnimKeys["Stun"], true);
+        if (!TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Kneel Down"))
+        {
+            TrinityFSM.Animator.SetBool(AnimKeys["Stun"], true);
+        }
+        
         if (stunDuration > StunDurationRemaining)
         {
             StunDurationRemaining = stunDuration;
@@ -115,7 +119,7 @@ public class NormalMovement : TrinityState
 
         StunDurationRemaining -= Time.deltaTime;
         
-        if (TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
+        if (TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") || TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Kneel Down") )
         {
             TrinityFSM.Animator.SetBool(AnimKeys["Stun"], false);
         }
@@ -126,7 +130,7 @@ public class NormalMovement : TrinityState
         HandleFalling();
         HandleUnstableGround();
 
-        if (!ATrinityGameManager.GetBrain().CanAct() || Controller.bUnstable || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling || TrinityFSM.Animator.GetBool(AnimKeys["Stun"]))
+        if (!ATrinityGameManager.GetBrain().CanAct() || Controller.bUnstable || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling || StunDurationRemaining > 0f)
         {
             UpdateAnimParams();
             return;
@@ -372,7 +376,8 @@ public class NormalMovement : TrinityState
         TrinityFSM.Animator.SetBool(AnimKeys["Grounded"], MovementState == ETrinityMovement.ETM_Grounded);
         TrinityFSM.Animator.SetBool(AnimKeys["Release"], ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_None);
         TrinityFSM.Animator.SetFloat(AnimKeys["StunDuration"], StunDurationRemaining);
-
+        TrinityFSM.Animator.SetBool(AnimKeys["Dead"], Controller.HealthComponent.bDead);
+        
         if (TrinityFSM.Animator.GetBool(AnimKeys["Blink"]) == true)
         {
             TrinityFSM.Animator.SetBool(AnimKeys["Blink"], false);

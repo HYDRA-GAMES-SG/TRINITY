@@ -25193,7 +25193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5414881805952804970}
   - component: {fileID: 8963800499336045501}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: polySurface227
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25562,7 +25562,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2800460132677293584}
   - component: {fileID: 7296374413971938285}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: hair2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26397,6 +26397,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1502863491280122186}
     m_Modifications:
+    - target: {fileID: 29605619758196546, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 29605619758196546, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 29605619758196546, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 29605619758196546, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 16383
+      objectReference: {fileID: 0}
     - target: {fileID: 6601001205737122830, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
         type: 3}
       propertyPath: looping
@@ -26415,7 +26435,7 @@ PrefabInstance:
     - target: {fileID: 8484195336820361178, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8730378218161278679, guid: e916e8ac6dd73f14bacdf9ba6360dc7b,
         type: 3}
@@ -26494,28 +26514,53 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
         type: 3}
+      propertyPath: m_Range
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
         type: 3}
+      propertyPath: m_Intensity
+      value: 1.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 16383
+      objectReference: {fileID: 0}
+    - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
+        type: 3}
       propertyPath: m_BoundingSphereOverride.w
-      value: 7.766726e-34
+      value: 0.0024723653
       objectReference: {fileID: 0}
     - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
         type: 3}
       propertyPath: m_BoundingSphereOverride.x
-      value: 1.02e-43
+      value: 2.5e-44
       objectReference: {fileID: 0}
     - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
         type: 3}
       propertyPath: m_BoundingSphereOverride.y
-      value: 1.469e-42
+      value: 3.9933e-41
       objectReference: {fileID: 0}
     - target: {fileID: 3523453490651933267, guid: 2b1a3ec1eeeda904dab2d38685589e45,
         type: 3}
       propertyPath: m_BoundingSphereOverride.z
-      value: 3.49e-42
+      value: 4.1473398e+37
       objectReference: {fileID: 0}
     - target: {fileID: 7786020594812796306, guid: 2b1a3ec1eeeda904dab2d38685589e45,
         type: 3}
@@ -26577,6 +26622,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9187755589484237904, guid: 2b1a3ec1eeeda904dab2d38685589e45,
+        type: 3}
+      propertyPath: m_AdditionalLightsShadowResolutionTier
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26602,6 +26652,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1502863491280122186}
     m_Modifications:
+    - target: {fileID: 7117466473904852814, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
+        type: 3}
+      propertyPath: m_Range
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117466473904852814, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.8915094
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117466473904852814, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9868496
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117466473904852814, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117466473904852814, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117466473904852814, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
+        type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117466473904852814, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 16383
+      objectReference: {fileID: 0}
     - target: {fileID: 7127854303044939864, guid: 3d6d7f6a42e87184a8e94f4011bf0885,
         type: 3}
       propertyPath: m_LocalPosition.x

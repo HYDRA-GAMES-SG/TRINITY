@@ -180,10 +180,16 @@ public class ATrinityController : MonoBehaviour
                 chargeGravityModifier  = UAilmentComponent.GetChargeGlideGravityModifier();
             }
             
-            if(ATrinityGameManager.GetPlayerFSM().Animator.GetBool("bStunned") == true || nmState.GetMovementState() == ETrinityMovement.ETM_Falling)
+            if(nmState.GetMovementState() == ETrinityMovement.ETM_Falling)
             {
                 chargeGravityModifier = 1f;
                 glideGravityModifier = 1f;
+            }
+
+            if (ATrinityGameManager.GetPlayerFSM().Animator.GetBool("bStunned") == true)
+            {
+                chargeGravityModifier = 1f;
+                glideGravityModifier = 2f;
             }
         }
 

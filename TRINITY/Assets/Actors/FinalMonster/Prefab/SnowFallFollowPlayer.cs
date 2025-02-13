@@ -5,12 +5,13 @@ using UnityEngine;
 
 public class SnowFallFollowPlayer : MonoBehaviour
 {
-    public Transform player;
     public float followSpeed = 5f;
-    public Vector3 offset = new Vector3(0, 30f, 0);
+    public Vector3 offset = new Vector3(0, 45f, 0);
     void Update()
     {
-        Vector3 targetPosition = player.position + offset;
+        Vector3 playerPosition = ATrinityGameManager.GetPlayerController().Position;
+        playerPosition.y -= Mathf.Abs(ATrinityGameManager.GetPlayerController().Position.y);
+        Vector3 targetPosition = playerPosition + offset;
         transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
     }
 }
