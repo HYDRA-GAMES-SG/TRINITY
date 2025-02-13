@@ -18,6 +18,7 @@ public class APrimaryFire : ASpell
     {
         GameObject go = Instantiate(SpellPrefab.gameObject, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
         go.transform.parent = this.gameObject.transform;
+        go.transform.rotation = Quaternion.LookRotation(ATrinityGameManager.GetPlayerController().transform.forward);
         
         Fireball fireball = go.GetComponent<Fireball>();
         fireball.FireSource = FireSource;

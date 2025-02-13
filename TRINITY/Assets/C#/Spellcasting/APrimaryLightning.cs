@@ -98,7 +98,13 @@ public class APrimaryLightning : ASpell
             Destroy(FullyChargedVFXObj);
             FullyChargedVFXObj = null;
         }
-        Destroy(ChargeVFXObj);
+        if (ChargeVFXObj != null)
+        {
+            ChargeVFXObj.transform.parent = null;
+            ChargeVFXObj.AddComponent<Rigidbody>();
+            Destroy(ChargeVFXObj, 2);
+            ChargeVFXObj = null;
+        }
 
     }
 }

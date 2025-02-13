@@ -72,6 +72,10 @@ public class Fireball : AProjectile
             UEnemyStatusComponent enemyStatus = enemyCollider.EnemyStatus;
             FDamageInstance damageSource = new FDamageInstance(Damage, PrimaryFire.AilmentType, PrimaryFire.StacksApplied);
             enemyStatus += damageSource;
+            if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
+            {
+                enemyStatus += new FDamageInstance(0f, EAilmentType.EAT_Ignite, PrimaryFire.StacksApplied);
+            }
             //print($"Damage Taken : {Damage}, Ailment type and stacks : {PrimaryFire.AilmentType} + {PrimaryFire.StacksApplied}");
             Despawn();
             
