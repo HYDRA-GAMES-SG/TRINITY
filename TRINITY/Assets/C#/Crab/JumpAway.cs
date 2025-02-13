@@ -116,7 +116,7 @@ public class JumpAway : CrabState
     }
     private bool IsGrounded()
     {
-        return Physics.Raycast(RigBody.transform.position, Vector3.down, GroundCheckDistance, GroundLayer);
+        return Physics.Raycast(RigBody.transform.position, Vector3.down, GroundCheckDistance, GroundLayer, QueryTriggerInteraction.Ignore);
     }
 
     private void CalculateLandingPosition(Vector3 direction)
@@ -175,7 +175,7 @@ public class JumpAway : CrabState
 
         Debug.DrawRay(rayOrigin, direction * rayLength, Color.green, 5.0f);
 
-        if (Physics.Raycast(rayOrigin, direction, rayLength, LayerMask.GetMask("Obstacle")))
+        if (Physics.Raycast(rayOrigin, direction, rayLength, LayerMask.GetMask("Obstacle"), QueryTriggerInteraction.Ignore))
         {
             Debug.DrawRay(rayOrigin, direction * rayLength, Color.red, 5.0f);
             return false;

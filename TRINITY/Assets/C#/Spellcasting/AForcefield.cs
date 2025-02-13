@@ -23,7 +23,7 @@ public class AForcefield : ASpell
     
     public override void CastStart()
     {
-        if (ATrinityGameManager.GetSpells().ManaComponent.Current <= 0)
+        if (ATrinityGameManager.GetSpells().ManaComponent.Current <= 0 || ATrinityGameManager.GetBrain().bIsStunned)
         {
             return;
         }

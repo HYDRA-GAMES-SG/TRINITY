@@ -25,6 +25,7 @@ public class UIceCubeGateComponent : MonoBehaviour
             if (ATrinityGameManager.GetSpells().UtilityCold.bActive)
             {
                 Gate.Open();
+                ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
             }
         }
         

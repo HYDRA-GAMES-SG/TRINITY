@@ -197,7 +197,7 @@ public class ATrinityController : MonoBehaviour
     {
         RaycastHit hit;
 
-        bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer);
+        bool isHit = Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer, QueryTriggerInteraction.Ignore);
         
         if (isHit)
         {
@@ -214,7 +214,7 @@ public class ATrinityController : MonoBehaviour
     public bool IsUnstableGround()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, GroundDistance, GroundLayer, QueryTriggerInteraction.Ignore))
         {
             float angle = Vector3.Angle(hit.normal, Up);
         
@@ -254,7 +254,7 @@ public class ATrinityController : MonoBehaviour
         // Cast a ray from above to find the top of the step
         Vector3 highOrigin = transform.position + Up * MaxStepHeight;
         RaycastHit highHit;
-        if (!Physics.Raycast(highOrigin, moveDir, out highHit, Collider.radius + StepSearchOvershoot, StepUpLayer))
+        if (!Physics.Raycast(highOrigin, moveDir, out highHit, Collider.radius + StepSearchOvershoot, StepUpLayer, QueryTriggerInteraction.Ignore))
         {
             print("no upper surface");
             return; // No upper surface found
@@ -263,7 +263,7 @@ public class ATrinityController : MonoBehaviour
         // Cast down to find the landing point
         Vector3 targetPoint = highHit.point + moveDir * Collider.radius;
         RaycastHit downHit;
-        if (!Physics.Raycast(targetPoint + Up * MaxStepHeight, -Up, out downHit, MaxStepHeight, StepUpLayer))
+        if (!Physics.Raycast(targetPoint + Up * MaxStepHeight, -Up, out downHit, MaxStepHeight, StepUpLayer, QueryTriggerInteraction.Ignore))
         {
             print("no valid landing point");
             return; // No valid landing point
@@ -291,19 +291,25 @@ public class ATrinityController : MonoBehaviour
     
     private void RemoveNullOrInactiveTerrainCollisions()
     {
+        List<GameObject> ToRemove = new List<GameObject>();
         foreach (GameObject go in TerrainList)
         {
             if (go == null)
             {
-                TerrainList.Remove(go);
+                ToRemove.Add(go);
             }
             else
             {
                 if (go.GetComponent<Collider>().enabled == false)
                 {
-                    TerrainList.Remove(go);
+                    ToRemove.Add(go);
                 }
             }
+        }
+
+        foreach (GameObject go in ToRemove)
+        {
+            TerrainList.Remove(go);
         }
     }
     
@@ -392,8 +398,6 @@ public class ATrinityController : MonoBehaviour
         {
             TerrainCounter++;
             TerrainList.Add(other.gameObject);
-            print( "+ " + other.gameObject.name);
-            print("+ " + other.gameObject.transform.position);
             OnTerrainCollision?.Invoke();
         }
     }
@@ -414,7 +418,6 @@ public class ATrinityController : MonoBehaviour
         {
             TerrainCounter--;
             TerrainList.Remove(other.gameObject);
-            print( "- " + other.gameObject.name);
 
         }
     }

@@ -26,12 +26,18 @@ public class ATrinityGameOver : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        // Set initial alpha to 0
+        SetTextAlpha(0f);
+        SetBackgroundAlpha(0f);
+
     }
 
     private void OnDisable()
     {
-        
+        // Set initial alpha to 0
+        SetTextAlpha(0f);
+        SetBackgroundAlpha(0f);
+
     }
 
     private void Update()
@@ -64,10 +70,6 @@ public class ATrinityGameOver : MonoBehaviour
 
     public void Display()
     {
-        // Set initial alpha to 0
-        SetTextAlpha(0f);
-        SetBackgroundAlpha(0f);
-        
         StartCoroutine(FadeIn());
         StartCoroutine(AnimateText());
         
@@ -82,6 +84,7 @@ public class ATrinityGameOver : MonoBehaviour
         float fadeTime = 0;
 
         float startVolume = BGMReference.volume;
+        
         while (fadeTime < FadeDelay)
         {
             fadeTime += Time.deltaTime;

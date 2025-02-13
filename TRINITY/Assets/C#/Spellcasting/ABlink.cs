@@ -112,7 +112,7 @@ public class ABlink : ASpell
 
             if(DEBUG_ENABLE){Debug.Log($"Attempting blink with distance: {distance}, starting at: {startPos}");}
 
-            if (Physics.Raycast(startPos, rotatedDirection, out RaycastHit hit, distance, CollisionLayer))
+            if (Physics.Raycast(startPos, rotatedDirection, out RaycastHit hit, distance, CollisionLayer, QueryTriggerInteraction.Ignore))
             {
                 if(DEBUG_ENABLE){Debug.Log($"Raycast hit: {hit.collider.name}, distance: {hit.distance}");}
 
@@ -136,7 +136,7 @@ public class ABlink : ASpell
 
             // Spherecast for boss layer
             bInvalidBlink = Physics.SphereCast(new Ray(BlinkPoint, rotatedDirection), BossSphereCheckRadius,
-                out RaycastHit bossHit, 0.1f, BossLayer);
+                out RaycastHit bossHit, 0.1f, BossLayer, QueryTriggerInteraction.Ignore);
 
             
             if (bInvalidBlink)
@@ -170,7 +170,7 @@ public class ABlink : ASpell
 
             ATrinityController playerController = ATrinityGameManager.GetPlayerController();
             
-            bool bBlinkingIntoGround = Physics.Raycast(BlinkPoint, Vector3.down, out RaycastHit ground, playerController.Height, CollisionLayer);
+            bool bBlinkingIntoGround = Physics.Raycast(BlinkPoint, Vector3.down, out RaycastHit ground, playerController.Height, CollisionLayer, QueryTriggerInteraction.Ignore);
 
             //prevent blinking through the ground when we readjust the blink point to the controller position at the feet
             if (bBlinkingIntoGround)

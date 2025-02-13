@@ -25,7 +25,7 @@ public class FBDie : FlyingBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        if (Physics.Raycast(FlyingBossFSM.FlyingBossController.transform.position, Vector3.down, 0.3f, GroundLayer))
+        if (Physics.Raycast(FlyingBossFSM.FlyingBossController.transform.position, Vector3.down, 0.3f, GroundLayer, QueryTriggerInteraction.Ignore))
         {
             FlyingBossFSM.Animator.SetTrigger("OnGround");
         }

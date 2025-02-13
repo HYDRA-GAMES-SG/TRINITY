@@ -55,6 +55,7 @@ public class ATrinityOptions : MonoBehaviour
             OnOptionsMenuToggle?.Invoke();
             ATrinityGameManager.SerializeSettings(MakeGameSettings());
             ATrinityGameManager.DeserializeSettings();
+            CrossHair.gameObject.SetActive(false);
         }
         
         if (MenuElements[CurrentMenuElementsIndex] is Button)
@@ -125,11 +126,9 @@ public class ATrinityOptions : MonoBehaviour
             Time.timeScale = 1f;
             ATrinityGameManager.SetGameFlowState(EGameFlowState.PLAY);
         }
+
+        CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
         
-        if (CrossHair)
-        {
-            CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
-        }
         
         BindAudioEvents(false);
     }
@@ -221,7 +220,8 @@ public class ATrinityOptions : MonoBehaviour
 
     public void OnCrossHairToggle(bool bToggle)
     {
-        ATrinityGameManager.CROSSHAIR_ENABLED = bToggle;
+        PlayerPrefs.SetInt("bCrossHairEnabled", bToggle ? 1 : 0);
+        ATrinityGameManager.CROSSHAIR_ENABLED = PlayerPrefs.GetInt("bCrossHairEnabled") > 0;
     }
 
     public void OnReturnToGameClicked()

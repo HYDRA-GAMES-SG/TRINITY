@@ -95,7 +95,7 @@ namespace ThirdPersonCamera
             {
                 if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.PLAY)
                 {
-                    ATrinityGameManager.GetGUI().Crosshair.SetActive(true);//PlayerPrefs.GetInt("bCrossHairEnabled", 1) > 0 ? true : false);
+                    ATrinityGameManager.GetGUI().Crosshair.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
                 }
                 
 

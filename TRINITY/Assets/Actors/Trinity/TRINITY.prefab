@@ -102,7 +102,6 @@ GameObject:
   - component: {fileID: 1102031127344283957}
   - component: {fileID: 8614110545431552112}
   - component: {fileID: 1901322199791582759}
-  - component: {fileID: 4520593416378146565}
   - component: {fileID: 6452979551313813158}
   - component: {fileID: 4426123518112273264}
   m_Layer: 6
@@ -322,23 +321,6 @@ MonoBehaviour:
   SlideAxis: {x: 1, y: 0, z: 0}
   AdditionalAxisMovement: {x: 0.7, y: -0.35, z: 0}
   CustomInput: 0
---- !u!114 &4520593416378146565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70240697107936884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0d330a521be4d3f838f88f03e96f420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MouseHideMode: 1
-  MouseSensitivity: {x: 2, y: 1.5}
-  ControllerSensitivity: {x: 2, y: 1.5}
-  MouseInvertY: 0
-  ControllerInvertY: 0
 --- !u!114 &6452979551313813158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5162,7 +5144,60 @@ SkinnedMeshRenderer:
   - {fileID: 7093214417869368580}
   - {fileID: 4904320828847362165}
   - {fileID: 1240536761801882259}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 100
   m_RootBone: {fileID: 722212453739639696}
   m_AABB:
     m_Center: {x: 0.00000008940697, y: -0.02181013, z: 1.2058276}
@@ -7789,8 +7824,15 @@ MonoBehaviour:
   Collider: {fileID: 0}
   RB: {fileID: 0}
   MaxStableAngle: 45
+  MaxStepHeight: 12
+  StepSearchOvershoot: 2
+  MaxStepUpAngle: 70
+  StepUpLayer:
+    serializedVersion: 2
+    m_Bits: 257
   MoveDirection: {x: 0, y: 0, z: 0}
   bUnstable: 0
+  TerrainList: []
 --- !u!54 &1102689777283718273
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -7817,7 +7859,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &6765897860334569339
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -7837,10 +7879,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
-  m_Height: 1.7
+  m_Radius: 0.28
+  m_Height: 1.75
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
+  m_Center: {x: 0, y: 0.86, z: 0}
 --- !u!114 &6101201678369688537
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -186,7 +186,7 @@ public class FBAttack : FlyingBossState
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(startPosition, Vector3.down, out hit, Mathf.Infinity, groundLayer))
+        if (Physics.Raycast(startPosition, Vector3.down, out hit, Mathf.Infinity, groundLayer, QueryTriggerInteraction.Ignore))
         {
             return hit.point;
         }

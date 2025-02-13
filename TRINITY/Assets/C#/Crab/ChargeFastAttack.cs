@@ -76,7 +76,7 @@ public class ChargeFastAttack : CrabState
             Indicator.gameObject.SetActive(false);
             Vector3 start = CrabFSM.CrabController.transform.position + Vector3.up * CrabFSM.CrabController.AI.height;
             Debug.DrawRay(start, CrabFSM.CrabController.transform.forward * 10, Color.red);
-            if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, 10, LayerMask.GetMask("Obstacle")))
+            if (Physics.Raycast(start, CrabFSM.CrabController.transform.forward, 10, LayerMask.GetMask("Obstacle"), QueryTriggerInteraction.Ignore))
             {
                 bIsDashing = false;
                 CapCollider.enabled = false;
