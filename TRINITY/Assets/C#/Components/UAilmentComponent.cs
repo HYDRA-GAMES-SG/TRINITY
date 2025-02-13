@@ -23,7 +23,7 @@ public class UAilmentComponent : MonoBehaviour
 
     private static float MaxChargeMoveModifier = .5f;
     private static float MaxJumpModifier = 22f;
-    private static float MaxChargeGlideGravityModifier = .15f;
+    private static float MaxChargeGlideGravityModifier = .3f;
 
     public class Ailment
     {

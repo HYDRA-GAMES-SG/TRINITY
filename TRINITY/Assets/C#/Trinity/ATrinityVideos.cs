@@ -13,7 +13,9 @@ public class ATrinityVideos : MonoBehaviour
     
     private Image[] VideoBackgroundImages;
     private GameObject CurrentTutorialParent;
-    [HideInInspector]
+    public GameObject RenderTextureCube;
+    public Texture2D[] TutorialRenderTextures;
+    [HideInInspector] 
     public VideoPlayer CurrentVideoPlayer;
     private TextMeshProUGUI[] CurrentTextElements;
     
@@ -29,6 +31,11 @@ public class ATrinityVideos : MonoBehaviour
             StopTutorial();
         }
         CurrentTutorialParent = TutorialParents[tutorialVideoIndex];
+
+        if (RenderTextureCube != null)
+        {
+            RenderTextureCube.GetComponent<MeshRenderer>().material.mainTexture = TutorialRenderTextures[tutorialVideoIndex];
+        }
         
         if (CurrentTutorialParent != null)
         {
@@ -41,7 +48,7 @@ public class ATrinityVideos : MonoBehaviour
                 CurrentVideoPlayer.Play();
             }
             CurrentTextElements = CurrentTutorialParent.GetComponentsInChildren<TextMeshProUGUI>();
-            
+
             if (VideoBackgroundImages != null)
             {
                 foreach (Image img in VideoBackgroundImages)

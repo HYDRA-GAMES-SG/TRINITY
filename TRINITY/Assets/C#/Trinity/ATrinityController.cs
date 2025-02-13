@@ -68,6 +68,7 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public float VerticalVelocity => RB.velocity.y;
     [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
 
+    public List<GameObject> TerrainList;
     public bool bTerrainCollision => TerrainCounter > 0;
     private int TerrainCounter = 0;
     
@@ -78,6 +79,7 @@ public class ATrinityController : MonoBehaviour
     private void Awake()
     {
         ATrinityGameManager.SetPlayerController(this);
+        TerrainList = new List<GameObject>();
         
         // Ensure required components are assigned
         Collider = GetComponent<CapsuleCollider>();
@@ -90,9 +92,9 @@ public class ATrinityController : MonoBehaviour
         }
         else
         {
-            Collider.radius = 0.5f;
-            Collider.height = 1.7f;
-            Collider.center = new Vector3(0f, .8f, 0f);
+            Collider.radius = 0.28f;
+            Collider.height = 1.75f;
+            Collider.center = new Vector3(0f, .86f, 0f);
         }
 
         if (RB == null)
@@ -104,6 +106,8 @@ public class ATrinityController : MonoBehaviour
             RB.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             RB.drag = 1.5f;
         }
+        
+        RB.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
     }
 
     private void Start()
@@ -126,6 +130,9 @@ public class ATrinityController : MonoBehaviour
         {
             HandleDeath();
         }
+
+        RemoveNullOrInactiveTerrainCollisions();
+        
     }
 
     private void FixedUpdate()
@@ -170,7 +177,13 @@ public class ATrinityController : MonoBehaviour
             
             if (ATrinityGameManager.GetEnemyControllers().Count > 0)
             {
-                chargeGravityModifier = UAilmentComponent.GetChargeGlideGravityModifier();
+                chargeGravityModifier  = UAilmentComponent.GetChargeGlideGravityModifier();
+            }
+            
+            if(ATrinityGameManager.GetPlayerFSM().Animator.GetBool("bStunned") == true || nmState.GetMovementState() == ETrinityMovement.ETM_Falling)
+            {
+                chargeGravityModifier = 1f;
+                glideGravityModifier = 1f;
             }
         }
 
@@ -220,8 +233,6 @@ public class ATrinityController : MonoBehaviour
     
     private void HandleStepUp()
     {
-        if (PlanarVelocity.magnitude < 0.1f) return; // Don't step if barely moving
-
         Vector3 moveDir = PlanarVelocity.normalized;
         
         // Cast a ray forward to detect potential steps
@@ -236,24 +247,25 @@ public class ATrinityController : MonoBehaviour
         float obstacleAngle = Vector3.Angle(lowHit.normal, Up);
         if (obstacleAngle > MaxStepUpAngle)
         {
+            print("too steep");
             return; // Too steep to step up
         }
 
         // Cast a ray from above to find the top of the step
         Vector3 highOrigin = transform.position + Up * MaxStepHeight;
         RaycastHit highHit;
-        if (!Physics.Raycast(highOrigin, moveDir, out highHit, 
-            Collider.radius + StepSearchOvershoot, StepUpLayer))
+        if (!Physics.Raycast(highOrigin, moveDir, out highHit, Collider.radius + StepSearchOvershoot, StepUpLayer))
         {
+            print("no upper surface");
             return; // No upper surface found
         }
 
         // Cast down to find the landing point
         Vector3 targetPoint = highHit.point + moveDir * Collider.radius;
         RaycastHit downHit;
-        if (!Physics.Raycast(targetPoint + Up * MaxStepHeight, -Up, out downHit, 
-            MaxStepHeight, StepUpLayer))
+        if (!Physics.Raycast(targetPoint + Up * MaxStepHeight, -Up, out downHit, MaxStepHeight, StepUpLayer))
         {
+            print("no valid landing point");
             return; // No valid landing point
         }
 
@@ -261,6 +273,7 @@ public class ATrinityController : MonoBehaviour
         float stepHeight = downHit.point.y - transform.position.y;
         if (stepHeight > MaxStepHeight)
         {
+            print("step too high);");
             return; // Step is too high
         }
 
@@ -270,9 +283,27 @@ public class ATrinityController : MonoBehaviour
         
         if (bDebug)
         {
-            Debug.DrawLine(transform.position, lowHit.point, Color.red, 0.1f);
-            Debug.DrawLine(highOrigin, highHit.point, Color.green, 0.1f);
-            Debug.DrawLine(targetPoint + Up * MaxStepHeight, downHit.point, Color.blue, 0.1f);
+            Debug.DrawLine(transform.position, lowHit.point, Color.red);
+            Debug.DrawLine(highOrigin, highHit.point, Color.green);
+            Debug.DrawLine(targetPoint + Up * MaxStepHeight, downHit.point, Color.blue);
+        }
+    }
+    
+    private void RemoveNullOrInactiveTerrainCollisions()
+    {
+        foreach (GameObject go in TerrainList)
+        {
+            if (go == null)
+            {
+                TerrainList.Remove(go);
+            }
+            else
+            {
+                if (go.GetComponent<Collider>().enabled == false)
+                {
+                    TerrainList.Remove(go);
+                }
+            }
         }
     }
     
@@ -347,6 +378,11 @@ public class ATrinityController : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (other.isTrigger)
+        {
+            return;
+        }
+        
         if (other.gameObject.GetComponent<UTutorialTriggerComponent>())
         {
             return;
@@ -355,12 +391,20 @@ public class ATrinityController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Default") && !other.gameObject.CompareTag("Ground"))
         {
             TerrainCounter++;
+            TerrainList.Add(other.gameObject);
+            print( "+ " + other.gameObject.name);
+            print("+ " + other.gameObject.transform.position);
             OnTerrainCollision?.Invoke();
         }
     }
 
     public void OnTriggerExit(Collider other)
     {
+        if (other.isTrigger)
+        {
+            return;
+        }
+        
         if (other.gameObject.GetComponent<UTutorialTriggerComponent>())
         {
             return;
@@ -369,6 +413,9 @@ public class ATrinityController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Default") && !other.gameObject.CompareTag("Ground"))
         {
             TerrainCounter--;
+            TerrainList.Remove(other.gameObject);
+            print( "- " + other.gameObject.name);
+
         }
     }
 
