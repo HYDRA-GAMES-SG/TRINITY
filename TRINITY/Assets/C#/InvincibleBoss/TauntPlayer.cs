@@ -25,7 +25,7 @@ public class TauntPlayer : MonoBehaviour
             float distance = IBController.CalculateGroundDistance();
             if (distance > 15f)
             {
-                rb.AddForce(-direction * PullForce);
+                rb.velocity = new Vector3(-direction.x * PullForce, rb.velocity.y, -direction.z * PullForce);
             }
             else
             {

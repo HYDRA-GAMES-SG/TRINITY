@@ -7,13 +7,14 @@ public class IBShock : MonoBehaviour
 {
     [SerializeField] LayerMask CollideMask;
     [SerializeField] CapsuleCollider Collider;
-
+    [SerializeField] Rigidbody RB;
     AInvincibleBossController IBController;
     float Damage;
 
     void Start()
     {
         Collider = GetComponent<CapsuleCollider>();
+        RB = GetComponent<Rigidbody>();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -35,7 +36,7 @@ public class IBShock : MonoBehaviour
     {
         if ((CollideMask.value & (1 << other.gameObject.layer)) != 0)
         {
-            Destroy(gameObject);
+            RB.velocity = Vector3.zero;
             //Debug.Log(other.gameObject.name);
             Collider.enabled = false;
             ATrinityController player = other.GetComponent<ATrinityController>();
@@ -45,6 +46,7 @@ public class IBShock : MonoBehaviour
                 player.ApplyHit(hitInfo);
                 //Debug.Log($"Particles Hit player " + IBController.GetCurrentAttackDamage());
             }
+            Destroy(gameObject, 0.55f);
         }
     }
 

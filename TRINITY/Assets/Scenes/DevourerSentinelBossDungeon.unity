@@ -386,7 +386,7 @@ GameObject:
   - component: {fileID: 16040721}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -856,12 +856,12 @@ PrefabInstance:
     - target: {fileID: 3413527218791458888, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
       propertyPath: MAX
-      value: 5000
+      value: 2500
       objectReference: {fileID: 0}
     - target: {fileID: 3413527218791458888, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
       propertyPath: Current
-      value: 5000
+      value: 2500
       objectReference: {fileID: 0}
     - target: {fileID: 4861252204313350397, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
@@ -34606,6 +34606,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 467305873257569148, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
+      propertyPath: bCanTaunt
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 467305873257569148, guid: 528247705cd48b64a8e4bba366f0257d,
+        type: 3}
       propertyPath: FlyingBossHealth
       value: 
       objectReference: {fileID: 607778104}
@@ -34673,6 +34678,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Invincible Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 6589216860824617125, guid: 528247705cd48b64a8e4bba366f0257d,
+        type: 3}
+      propertyPath: ShockSpeed
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
