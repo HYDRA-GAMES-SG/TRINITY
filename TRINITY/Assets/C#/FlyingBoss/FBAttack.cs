@@ -19,7 +19,7 @@ public class FBAttack : FlyingBossState
 
     Vector3 AttackPos;
     bool thunderSpawned = false;
-
+    bool chargeAudioPlayed = false;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -31,6 +31,7 @@ public class FBAttack : FlyingBossState
         Vector3[] attackPositions = AttackPositionBehind();
         AttackPos = attackPositions[Random.Range(0, attackPositions.Length)];
         thunderSpawned = false;
+        chargeAudioPlayed = false;
     }
 
     public override void PreUpdateBehaviour(float dt)
@@ -49,11 +50,17 @@ public class FBAttack : FlyingBossState
         {
             FlyingBossFSM.Animator.SetTrigger(AnimKey);
             ChargeEffect.Play();
+            if (!chargeAudioPlayed)
+            {
+                FlyingBossFSM.FlyingBossController.FlyingAudio.PlayCharge();
+                chargeAudioPlayed = true; 
+            }
             if (stateInfo.IsName(AnimKey) && stateInfo.normalizedTime >= 0.95f)
             {
-                thunderSpawned = true; 
+                thunderSpawned = true;
                 ChargeEffect.Stop();
                 ReleaseEffect.Play();
+                FlyingBossFSM.FlyingBossController.FlyingAudio.PlayRelease();
                 StartCoroutine(SpawnMultipleThundersWithDelay(0.2f));
                 FlyingBossFSM.EnqueueTransition<FBHover>();
             }
@@ -113,7 +120,7 @@ public class FBAttack : FlyingBossState
         float positionTolerance = 0.5f;
         return Vector3.Distance(FlyingBossFSM.FlyingBossController.transform.position, AttackPos) <= positionTolerance;
     }
-    
+
     private IEnumerator SpawnMultipleThundersWithDelay(float interval)
     {
         List<Vector3> spawnPositions = new List<Vector3>();

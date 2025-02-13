@@ -6,6 +6,7 @@ public class FBDie : FlyingBossState
 {
     [SerializeField] CapsuleCollider Collider;
     [SerializeField] LayerMask GroundLayer;
+    [SerializeField] ParticleSystem ElectricParticle;
 
     public override bool CheckEnterTransition(IState fromState)
     {
@@ -14,9 +15,10 @@ public class FBDie : FlyingBossState
 
     public override void EnterBehaviour(float dt, IState fromState)
     {
+        FlyingBossFSM.FlyingBossController.ActivateRagdoll();
+        ElectricParticle.Stop();
         Collider.enabled = true;
         FlyingBossFSM.FlyingBossController.RB.useGravity = true;
-        FlyingBossFSM.FlyingBossController.ActivateRagdoll();
     }
 
     public override void PreUpdateBehaviour(float dt)

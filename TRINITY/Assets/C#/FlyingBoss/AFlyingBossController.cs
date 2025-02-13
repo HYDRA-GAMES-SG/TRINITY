@@ -31,17 +31,12 @@ public class AFlyingBossController : IEnemyController
     [Header("Attack Damage")]
     [SerializeField] float ElectricBombDMG;
 
-    //[Header("GetHitEffect")]
-    //[SerializeField] float blinkTimer;
-    //[SerializeField] float blinkDuration = 1.0f;
-    //[SerializeField] float blinkIntensity = 2.0f;
-    //SkinnedMeshRenderer skinnedMeshRenderer;
-    //Material material;
+    public AFlyingAudio FlyingAudio;
+
+
     void Start()
     {
-        //skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        //material = skinnedMeshRenderer.material;
-        //EnemyStatus.Health.OnDamageTaken += StartBlinking;
+        FlyingAudio = GetComponent<AFlyingAudio>();
     }
     void Update()
     {

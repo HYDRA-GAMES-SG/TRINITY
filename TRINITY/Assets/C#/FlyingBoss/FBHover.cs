@@ -107,6 +107,7 @@ public class FBHover : FlyingBossState
         Vector3 bossForward = FlyingBossFSM.FlyingBossController.InvincibleBoss.forward;
 
         Vector3 basePositionBehindBoss = invincibleBossPosition - bossForward;
+        basePositionBehindBoss.y = 5;
         return basePositionBehindBoss;
     }
 

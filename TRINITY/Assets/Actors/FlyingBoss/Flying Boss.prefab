@@ -504,6 +504,7 @@ GameObject:
   - component: {fileID: 4102150935974799518}
   - component: {fileID: 7988240713942314670}
   - component: {fileID: 7635581217390072844}
+  - component: {fileID: 7815560479622876804}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -561,6 +562,7 @@ MonoBehaviour:
   bCanRandomFly: 0
   bCanElectricChargeAttack: 0
   ElectricBombDMG: 30
+  FlyingAudio: {fileID: 7815560479622876804}
 --- !u!114 &4320670786713491310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,6 +715,19 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 2.1, z: 0}
+--- !u!114 &7815560479622876804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818426703504117141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537718c1f292a804990739cead0e879b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioClipPos: {fileID: 4615650193830495213}
 --- !u!1 &2115904251884640815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,6 +1297,7 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 257
+  ElectricParticle: {fileID: 6187262783590746557}
 --- !u!1 &3905255072100153290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1387,10 +1403,6 @@ GameObject:
   - component: {fileID: 5696296355537785786}
   - component: {fileID: 8117642658759369567}
   - component: {fileID: 418221995331355651}
-  - component: {fileID: 2945320138159510286}
-  - component: {fileID: 8449288436183112548}
-  - component: {fileID: 419416964065052557}
-  - component: {fileID: 8220706341405461607}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -1425,11 +1437,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
-  Name: 
+  Audio: {fileID: 8300000, guid: 2030889c9f84756499a2897dc14e7b7d, type: 3}
+  Name: AttackCharge
   Volume: 1
   Pitch: 1
-  MixerGroup: 0
+  MixerGroup: 1
 --- !u!114 &418221995331355651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1442,79 +1454,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
-  Name: 
+  Audio: {fileID: 8300000, guid: 371cbb641a700e74181afe3431b6edbb, type: 3}
+  Name: AttackRelease
   Volume: 1
   Pitch: 1
-  MixerGroup: 0
---- !u!114 &2945320138159510286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615650193830495213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
-  Name: 
-  Volume: 1
-  Pitch: 1
-  MixerGroup: 0
---- !u!114 &8449288436183112548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615650193830495213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
-  Name: 
-  Volume: 1
-  Pitch: 1
-  MixerGroup: 0
---- !u!114 &419416964065052557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615650193830495213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
-  Name: 
-  Volume: 1
-  Pitch: 1
-  MixerGroup: 0
---- !u!114 &8220706341405461607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4615650193830495213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
-  Name: 
-  Volume: 1
-  Pitch: 1
-  MixerGroup: 0
+  MixerGroup: 1
 --- !u!1 &4631795446327113061
 GameObject:
   m_ObjectHideFlags: 0
