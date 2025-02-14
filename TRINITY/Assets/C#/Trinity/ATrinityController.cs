@@ -253,7 +253,7 @@ public class ATrinityController : MonoBehaviour
         float obstacleAngle = Vector3.Angle(lowHit.normal, Up);
         if (obstacleAngle > MaxStepUpAngle)
         {
-            print("too steep");
+            //print("too steep");
             return; // Too steep to step up
         }
 
@@ -262,7 +262,7 @@ public class ATrinityController : MonoBehaviour
         RaycastHit highHit;
         if (!Physics.Raycast(highOrigin, moveDir, out highHit, Collider.radius + StepSearchOvershoot, StepUpLayer, QueryTriggerInteraction.Ignore))
         {
-            print("no upper surface");
+            ///print("no upper surface");
             return; // No upper surface found
         }
 
@@ -271,7 +271,7 @@ public class ATrinityController : MonoBehaviour
         RaycastHit downHit;
         if (!Physics.Raycast(targetPoint + Up * MaxStepHeight, -Up, out downHit, MaxStepHeight, StepUpLayer, QueryTriggerInteraction.Ignore))
         {
-            print("no valid landing point");
+            //print("no valid landing point");
             return; // No valid landing point
         }
 
@@ -279,7 +279,7 @@ public class ATrinityController : MonoBehaviour
         float stepHeight = downHit.point.y - transform.position.y;
         if (stepHeight > MaxStepHeight)
         {
-            print("step too high);");
+            //print("step too high);");
             return; // Step is too high
         }
 
