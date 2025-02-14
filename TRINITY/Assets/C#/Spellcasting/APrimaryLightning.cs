@@ -27,6 +27,7 @@ public class APrimaryLightning : ASpell
     [Header("SFX")]
     public AudioClip ChargeSFX;
     public AudioClip ReleaseSFX;
+    public AudioClip CompletionSFX;
 
     public override void Initialize()
     {
@@ -43,6 +44,7 @@ public class APrimaryLightning : ASpell
             GameObject chargeVFX = Instantiate(ChargeVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             ChargeVFXObj = chargeVFX;
+            LightningSource.clip = ChargeSFX;
             LightningSource.Play();
         }
 
@@ -62,9 +64,13 @@ public class APrimaryLightning : ASpell
 
         if (t > BoltCreationThreshold && FullyChargedVFXObj == null)
         {
+            
             GameObject chargeVFX = Instantiate(FullyChargedVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             FullyChargedVFXObj = chargeVFX;
+            LightningSource.clip = CompletionSFX;
+            LightningSource.loop = true;
+            LightningSource.Play();
         }
     }
 
@@ -72,6 +78,7 @@ public class APrimaryLightning : ASpell
     {
         float channelPercentage = Mathf.Clamp01(ChannelTime / MaxChannelTime);
 
+        LightningSource.loop = false;
         LightningSource.Stop();
 
         if (ChargeVFXObj != null && channelPercentage >= BoltCreationThreshold)
