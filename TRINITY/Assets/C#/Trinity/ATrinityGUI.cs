@@ -30,7 +30,7 @@ public class ATrinityGUI : MonoBehaviour
     private GameObject HUDCanvas;
     
     [Header("Sliders")]
-    [SerializeField] private Image HealthSlider, ManaSlider, DamageSlider;
+    [SerializeField] private Image HealthSlider, ManaSlider, ManaBar, DamageSlider;
 
     [Header("UI Objects")] 
     public GameObject TriangleRotater;
@@ -53,7 +53,16 @@ public class ATrinityGUI : MonoBehaviour
     
     private float PlayerHealthTarget;
     private Coroutine TriangleScaleCoro;
-    
+
+    private Color InitialColor;
+    private Color FinalColor;
+    public float LerpColorDuration;
+    public float PingPongNoManaTime;
+    private float PingPongNoManaTimer;
+
+    public AudioClip NoMana;
+    public AudioClip SpellNotReady;
+    private AudioSource GUISource;
     public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
     public bool IsGameOverOpen() => GameOver.activeSelf;
     public bool IsVictoryOpen() => Victory.activeSelf;
@@ -81,6 +90,9 @@ public class ATrinityGUI : MonoBehaviour
     
     void Start()
     {
+        GUISource = GetComponent<AudioSource>();
+        InitialColor = ManaBar.color;
+        FinalColor = Color.red;
         HUDCanvas = transform.Find("HUDCanvas").gameObject;
         ATrinityGameManager.GetScore().OnVictory += StartVictory;
         ATrinityGameManager.OnGameFlowStateChanged += BindToEvents;
@@ -152,6 +164,15 @@ public class ATrinityGUI : MonoBehaviour
         {
             DamageSlider.fillAmount = Mathf.Lerp(DamageSlider.fillAmount, PlayerHealthTarget, PlayerDamageDecayRate * Time.deltaTime);
         }
+        PingPongNoManaTimer -= Time.deltaTime;
+        if (ManaBar != null && PingPongNoManaTimer > 0)
+        {
+            ManaBar.color = Color.Lerp(InitialColor, FinalColor, Mathf.PingPong(Time.time, LerpColorDuration) / LerpColorDuration);
+        }
+        else 
+        {
+            ManaBar.color = InitialColor;
+        }
 
         UpdateCooldowns();
         HandleTriangleRotation();
@@ -222,7 +243,21 @@ public class ATrinityGUI : MonoBehaviour
             ManaSlider.fillAmount = manaPercent;
         }
     }
-
+    public void ShowNoMana() 
+    {
+        if (ManaBar != null) 
+        {
+            GUISource.PlayOneShot(NoMana);
+            PingPongNoManaTimer = PingPongNoManaTime;
+        }
+    }
+    public void SpellOnCooldown() 
+    {
+        if (GUISource != null) 
+        {
+            GUISource.PlayOneShot(SpellNotReady);
+        }
+    }
     public void EnableCanvas()
     {
         if (HUDCanvas.activeSelf)

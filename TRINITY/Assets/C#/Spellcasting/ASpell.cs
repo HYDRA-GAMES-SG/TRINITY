@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class ASpell : MonoBehaviour
 {
     public static bool bTutorialComplete = false;
-    
+
     public GameObject SpellPrefab;
     public float Cooldown;
     public float ManaCost = 0f;
@@ -14,28 +15,33 @@ public class ASpell : MonoBehaviour
     public ETrinityElement SpellElement;
     public ESpellType SpellType;
     public ETrinityAction SpellAction;
+    protected float ManaToComplete;
 
     [Header("Anim Properties")]
     public bool bUseMaskedLayer = true;
-    
+
     [HideInInspector]
     public bool bSpellReady => CooldownCountdownTimer <= 0f;
 
-    private float CooldownCountdownTimer = 0f;
+    [SerializeField]private float CooldownCountdownTimer = 0f;
     private ATrinityBrain BrainReference;
     private AudioSource AudioSource;
 
+    public System.Action OnNotEnoughMana;
+    public System.Action OnSpellNotReady;
     public void Start()
     {
         Initialize();
         BrainReference = ATrinityGameManager.GetBrain();
         AudioSource = GetComponent<AudioSource>();
         AudioSource.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(EAudioGroup.EAG_SFX);
+        OnNotEnoughMana += ATrinityGameManager.GetGUI().ShowNoMana;
+        //OnSpellNotReady += ATrinityGameManager.GetGUI().SpellOnCooldown;
     }
 
     public virtual void Initialize()
     {
-        
+
     }
 
     public void Update()
@@ -44,7 +50,7 @@ public class ASpell : MonoBehaviour
         {
             return;
         }
-        
+
         UpdateCooldown();
 
         if (ATrinityGameManager.GetGameFlowState() == EGameFlowState.DEAD)
@@ -56,24 +62,24 @@ public class ASpell : MonoBehaviour
             }
             return;
         }
- 
-        if (BrainReference.GetCurrentSpell() == this  && ManaUpkeepCost > 0 && ATrinityGameManager.GetSpells().ManaComponent.Current < 1)            
+
+        if (BrainReference.GetCurrentSpell() == this && ManaUpkeepCost > 0 && ATrinityGameManager.GetSpells().ManaComponent.Current < 1)
         {
             Release();
         }
-        
+
         if (BrainReference.GetCurrentSpell() == this || (this is AForcefield && BrainReference.bForcefieldActive))
         {
             ATrinityGameManager.GetSpells().ManaComponent.Modify(-ManaUpkeepCost * Time.deltaTime);
             CastUpdate();
         }
-        
-        if (this is AUtilityFire) 
+
+        if (this is AUtilityFire)
         {
             CastUpdate();
         }
 
-        if (this is AUtilityCold && ATrinityGameManager.GetSpells().UtilityCold.bActive == true) 
+        if (this is AUtilityCold && ATrinityGameManager.GetSpells().UtilityCold.bActive == true)
         {
             CastUpdate();
         }
@@ -86,7 +92,7 @@ public class ASpell : MonoBehaviour
 
     public void StartCooldown()
     {
-        if (this is AUtilityLightning) 
+        if (this is AUtilityLightning)
         {
             AUtilityLightning aUtilityLightning = (AUtilityLightning)this;
             if (aUtilityLightning.bCanBlink)
@@ -96,13 +102,20 @@ public class ASpell : MonoBehaviour
         }
         CooldownCountdownTimer = Cooldown;
     }
-    
+
 
     public void Cast()
     {
-        if (!bSpellReady || ATrinityGameManager.GetSpells().ManaComponent.Current < ManaCost)
+        bool bNotEnoughMana = ATrinityGameManager.GetSpells().ManaComponent.Current < ManaCost;
+        bool bUnableToFinishChannel = ATrinityGameManager.GetSpells().ManaComponent.Current < ManaToComplete;
+        if (!bSpellReady) 
         {
-            //print("Spell not ready.");
+            OnSpellNotReady?.Invoke();
+            return;
+        }
+        if (bNotEnoughMana || bUnableToFinishChannel)
+        {
+            OnNotEnoughMana?.Invoke();
             return;
         }
 
@@ -116,16 +129,16 @@ public class ASpell : MonoBehaviour
         {
             BrainReference.GetCurrentSpell().Release();
         }
-        
+
         if (SpellAction != ETrinityAction.ETA_None)
         {
             BrainReference.SetCurrentSpell(this);
         }
-        
+
         if (SpellAction == ETrinityAction.ETA_Channeling || this is AUtilityCold)
         {
             bool bShouldMask = bUseMaskedLayer || !ATrinityGameManager.GetPlayerController().CheckGround().transform;
-            
+
             if (bShouldMask)
             {
                 ATrinityGameManager.GetAnimator().PlayChannelAnimation($"Masked Layer.{gameObject.name}", bShouldMask);
@@ -148,30 +161,30 @@ public class ASpell : MonoBehaviour
         CastStart();
         StartCooldown();
     }
-    
+
     public virtual void CastStart()
     {
     }
 
     public virtual void CastUpdate()
     {
-        
+
     }
 
     public virtual void CastEnd()
     {
     }
-    
+
     public virtual void Release()
     {
-        
+
         if (BrainReference.GetAction() == ETrinityAction.ETA_Channeling || BrainReference.GetAction() == ETrinityAction.ETA_Casting)
         {
             ATrinityGameManager.GetAnimator().ReleaseAnimation();
         }
-        
-        BrainReference.SetCurrentSpell(null);    
-        
+
+        BrainReference.SetCurrentSpell(null);
+
         CastEnd();
     }
 
@@ -181,8 +194,14 @@ public class ASpell : MonoBehaviour
         {
             return 0f;
         }
-            
+
         return Mathf.Clamp(CooldownCountdownTimer / Cooldown, 0f, 1f);
     }
-    
+
+    private void OnDestroy()
+    {
+        OnNotEnoughMana -= ATrinityGameManager.GetGUI().ShowNoMana;
+        //OnSpellNotReady -= ATrinityGameManager.GetGUI().SpellOnCooldown;
+    }
+
 }

@@ -14,7 +14,7 @@ public class ASecondaryCold : ASpell
     public float Duration;
     public float IceCreationPercentThreshold;
 
-    
+
     [Header("Audio")]
     public AudioClip[] CastingSFX;
 
@@ -36,10 +36,11 @@ public class ASecondaryCold : ASpell
             IceCubeInstance.SetActive(false);
             IceCubeTrigger = IceCubeInstance.transform.Find("SpellTrigger").GetComponent<BoxCollider>();
         }
-        
-         SFXSource = GetComponent<AudioSource>();
+
+        ManaToComplete = ManaCost + (ManaUpkeepCost * (MaxChannelTime * IceCreationPercentThreshold));
+        SFXSource = GetComponent<AudioSource>();
     }
-    
+
     public override void CastStart()
     {
         if (IceCubeInstance == null)
@@ -47,11 +48,11 @@ public class ASecondaryCold : ASpell
             return;
         }
 
-        
+
         Vector3 invokePosition = GetGroundPosition();
-        
+
         CurrentScale = MinScale;
-        
+
         if (invokePosition != Vector3.zero)
         {
             IceCube iceCube = IceCubeInstance.GetComponent<IceCube>();
@@ -63,7 +64,7 @@ public class ASecondaryCold : ASpell
             IceCubeInstance.transform.Find("GlowWide").gameObject.SetActive(true);
             IceCubeInstance.SetActive(true);
             ChannelTime = 0f;
-        
+
             if (CastingSFX != null)
             {
                 int rng = Random.Range(0, CastingSFX.Length);
@@ -95,7 +96,7 @@ public class ASecondaryCold : ASpell
             IceCubeInstance.GetComponent<IceCube>().Mesh.enabled = true;
             IceCubeInstance.transform.Find("GlowWide").gameObject.SetActive(false);
         }
-        
+
         if (ChannelTime >= MaxChannelTime)
         {
             Release(); //trigger end when max channel time is reached
@@ -103,23 +104,23 @@ public class ASecondaryCold : ASpell
     }
     public override void CastEnd()
     {
-       
+
         if (ChannelTime / MaxChannelTime < IceCreationPercentThreshold && CastingSFX != null)
         {
             IceCubeInstance.GetComponent<IceCube>().Melt();
             SFXSource.Stop();
         }
-        
+
         if (IceCubeInstance == null || !IceCubeInstance.activeSelf)
         {
             return; //do nothing if rune does not exist since no valid placement found
         }
     }
-    
+
     private Vector3 GetGroundPosition()
     {
         Ray ray = ATrinityGameManager.GetCamera().Camera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0f));
-            
+
         if (Physics.Raycast(ray, out RaycastHit hit, Range, GroundLayer, QueryTriggerInteraction.Ignore))
         {
             // make sure the hit point is within range and on valid ground
@@ -132,13 +133,13 @@ public class ASecondaryCold : ASpell
         {
             //if we don't get a valid ground hit we just find ground at the max range in the forward vector
             Vector3 searchOrigin = ATrinityGameManager.GetSpells().CastPoint.position + ATrinityGameManager.GetPlayerController().Forward * Range;
-            
+
             if (Physics.Raycast(searchOrigin, Vector3.down, out RaycastHit groundHit, Range * 2f, GroundLayer, QueryTriggerInteraction.Ignore))
             {
                 return groundHit.point + Vector3.up * .1f;
             }
         }
-        
+
         return Vector3.zero;
     }
 }
