@@ -35,11 +35,11 @@ public class UElementSwitchGateComponent : MonoBehaviour
         {
             return;
         }
-        
+        print("Player inside"); 
         /* -- Start of Modification --
            Only enforce the TutorialVideoIndex check if not all elements have been switched.
         -- End of Modification -- */
-        if (!bAllSwitched && ((int)newElement + 1 != Trigger.TutorialVideoIndex))
+        if (!bAllSwitched && ((int)newElement != Trigger.TutorialVideoIndex))
         {
             return;
         }
@@ -47,22 +47,22 @@ public class UElementSwitchGateComponent : MonoBehaviour
         switch (newElement)
         {
             case ETrinityElement.ETE_Cold:
-                Trigger.TutorialVideoIndex = 3;
+                Trigger.TutorialVideoIndex = 2;
                 bColdSwitched = true;
                 break;
             case ETrinityElement.ETE_Fire:
-                Trigger.TutorialVideoIndex = 2;
+                Trigger.TutorialVideoIndex = 1;
                 bFireSwitched = true;
                 break;
             case ETrinityElement.ETE_Lightning:
-                Trigger.TutorialVideoIndex = 1;
+                Trigger.TutorialVideoIndex = 0;
                 bLightningSwitched = true;
                 break;
         }
         
         if (bAllSwitched)
         {
-            Trigger.TutorialVideoIndex = (int)newElement + 1;
+            Trigger.TutorialVideoIndex = (int)newElement;
         }
         
         ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
@@ -74,12 +74,12 @@ public class UElementSwitchGateComponent : MonoBehaviour
         if (bAllSwitched)
         {
             Gate.Open();
-            Trigger.TutorialVideoIndex = (int)ATrinityGameManager.GetBrain().GetElement() + 1;
+            Trigger.TutorialVideoIndex = (int)ATrinityGameManager.GetBrain().GetElement();
         }
         
         if (!Trigger.bPlayerInside)
         {
-            if (Trigger.TutorialVideoIndex == (int)ATrinityGameManager.GetBrain().GetElement() + 1)
+            if (Trigger.TutorialVideoIndex == (int)ATrinityGameManager.GetBrain().GetElement())
             {
                 if (!bAllSwitched)
                 {

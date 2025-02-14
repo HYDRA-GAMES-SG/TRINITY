@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class UIceCubeGateComponent : MonoBehaviour
@@ -19,7 +20,10 @@ public class UIceCubeGateComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!Trigger.bPlayerInside) 
+        {
+            return;
+        }
         if (bIceCubeExists)
         {
             if (ATrinityGameManager.GetSpells().UtilityCold.bActive)
@@ -27,6 +31,7 @@ public class UIceCubeGateComponent : MonoBehaviour
                 Gate.Open();
                 ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
             }
+            return;
         }
         
 

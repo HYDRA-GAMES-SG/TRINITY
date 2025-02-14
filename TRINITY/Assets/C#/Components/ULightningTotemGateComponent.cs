@@ -20,6 +20,10 @@ public class ULightningTotemGateComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Trigger.bPlayerInside)
+        {
+            return;
+        }
         if (bFlashed)
         {
             Gate.Open();

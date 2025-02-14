@@ -9,7 +9,8 @@ public class UFlameblastGateComponent : MonoBehaviour
 
     private bool bChanneling = false;
     private bool bCastFlameblast = false;
-    
+    private bool bFlameblastHit = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,40 +20,51 @@ public class UFlameblastGateComponent : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
+        if (!Trigger.bPlayerInside)
         {
-            Gate.Open();
+            return;
         }
-        
-        if (bCastFlameblast && Trigger.TutorialVideoIndex == 17)
+        if (bFlameblastHit)
+        {
+            if (ATrinityGameManager.GetSpells().UtilityFire.bAura)
+            {
+                Gate.Open();
+                ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
+            }
+            return;
+        }
+
+        if (bCastFlameblast && Trigger.TutorialVideoIndex == 17 && !bFlameblastHit)
         {
             if (FindObjectOfType<FlameblastZone>().FireballExplosionInstance != null)
             {
                 ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
-                Trigger.TutorialVideoIndex = 11;
+                Trigger.TutorialVideoIndex = 11; //Overheat
                 ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
-
+                bFlameblastHit = true;
                 return;
             }
 
             return;
         }
-        
+
         if (bCastFlameblast)
         {
-            if (ATrinityGameManager.GetInput().ElementalPrimaryInput 
-                && ATrinityGameManager.GetBrain().GetElement() == ETrinityElement.ETE_Fire
-                && ATrinityGameManager.GetGameFlowState() == EGameFlowState.PLAY)
+            if (!bFlameblastHit)
             {
-                ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
-                Trigger.TutorialVideoIndex = 17;
-                ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
-                return;
+                if (ATrinityGameManager.GetInput().ElementalPrimaryInput
+                    && ATrinityGameManager.GetBrain().GetElement() == ETrinityElement.ETE_Fire
+                    && ATrinityGameManager.GetGameFlowState() == EGameFlowState.PLAY)
+                {
+                    ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
+                    Trigger.TutorialVideoIndex = 17; //Hit Flameblast
+                    ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
+                    return;
+                }
             }
-
             return;
         }
-        
+
         if (ATrinityGameManager.GetBrain().GetCurrentSpell() is ASecondaryFire)
         {
             bChanneling = true;
@@ -64,7 +76,7 @@ public class UFlameblastGateComponent : MonoBehaviour
             {
                 bCastFlameblast = true;
                 FindObjectOfType<FlameblastZone>().bTutorial = true;
-                
+
                 ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
                 Trigger.TutorialVideoIndex = 9;
                 ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
@@ -72,6 +84,10 @@ public class UFlameblastGateComponent : MonoBehaviour
             }
 
             return;
+        }
+        else
+        {
+            print("Hello");
         }
     }
 }

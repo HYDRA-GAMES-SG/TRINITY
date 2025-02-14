@@ -15,7 +15,7 @@ public class ATrinityGUI : MonoBehaviour
     static private ATrinityGUI Instance;
 
     [Header("Duration")] public float FadeInDuration = 1f;
-    
+
     [Header("References")]
     public AEnemyHealthBar[] EnemyHealthBars = new AEnemyHealthBar[3];
 
@@ -28,29 +28,29 @@ public class ATrinityGUI : MonoBehaviour
     public GameObject Crosshair;
     [SerializeField]
     private GameObject HUDCanvas;
-    
+
     [Header("Sliders")]
     [SerializeField] private Image HealthSlider, ManaSlider, ManaBar, DamageSlider;
 
-    [Header("UI Objects")] 
+    [Header("UI Objects")]
     public GameObject TriangleRotater;
     public GameObject TriangleScaler;
     public GameObject[] CurrentSpellImages = new GameObject[3];
 
     public Image[] CooldownFills = new Image[5];
     public Sprite[] ElementImages = new Sprite[3];
-    
+
     public Sprite[] FireSpellImages = new Sprite[3];
     public Sprite[] ColdSpellImages = new Sprite[3];
     public Sprite[] LightningSpellImages = new Sprite[3];
     public float PlayerDamageDecayRate = 3f;
-    
+
     [Header("Triangle Animation")]
     public float TriangleRotationRate = 300f;
     public float TriangleScaleDuration = .3f;
     public float TriangleStartScale = .78f;
     public float TriangleFinalScale = .45f;
-    
+
     private float PlayerHealthTarget;
     private Coroutine TriangleScaleCoro;
 
@@ -60,34 +60,38 @@ public class ATrinityGUI : MonoBehaviour
     public float PingPongNoManaTime;
     private float PingPongNoManaTimer;
 
+    [Header("SFX")]
     public AudioClip NoMana;
     public AudioClip SpellNotReady;
+    public AudioClip ChangeToFire;
+    public AudioClip ChangeToCold;
+    public AudioClip ChangeToLightning;
     private AudioSource GUISource;
     public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
     public bool IsGameOverOpen() => GameOver.activeSelf;
     public bool IsVictoryOpen() => Victory.activeSelf;
-    
+
     public ATrinityMainMenu GetMainMenu() => MainMenu;
     public ATrinityGameOver GetGameOver() => GameOver.GetComponent<ATrinityGameOver>();
     public ATrinityVictory GetVictory() => Victory.GetComponent<ATrinityVictory>();
     public ATrinityOptions GetOptions() => OptionsMenu.GetComponent<ATrinityOptions>();
     public ATrinityVideos GetVideos() => Videos.GetComponent<ATrinityVideos>();
-    
+
     void Awake()
-    {     
+    {
         List<ATrinityGUI> CurrentInstances = FindObjectsOfType<ATrinityGUI>().ToList();
         if (CurrentInstances.Count() > 1)
         {
             Destroy(gameObject);
             return;
         }
-        
+
         DontDestroyOnLoad(gameObject);
-        
+
         ATrinityGameManager.SetGUI(this);
 
     }
-    
+
     void Start()
     {
         GUISource = GetComponent<AudioSource>();
@@ -105,11 +109,11 @@ public class ATrinityGUI : MonoBehaviour
         Victory.SetActive(true);
         Victory.GetComponent<ATrinityVictory>().ScoreText.text = ATrinityScore.GetScoreString(score);
     }
-    
+
     private void UpdateSpellImages(ETrinityElement newElement)
     {
-        Sprite[] spellImages = new Sprite [3];
-        
+        Sprite[] spellImages = new Sprite[3];
+
         switch (newElement)
         {
             case ETrinityElement.ETE_Fire:
@@ -126,7 +130,7 @@ public class ATrinityGUI : MonoBehaviour
         }
 
         for (int i = 0; i < spellImages.Length; i++)
-        {          
+        {
             CurrentSpellImages[i].GetComponent<Image>().sprite = spellImages[i];
         }
     }
@@ -137,7 +141,7 @@ public class ATrinityGUI : MonoBehaviour
         {
             StopCoroutine(TriangleScaleCoro);
         }
-        
+
         StartCoroutine(ShrinkTriangle());
     }
 
@@ -153,12 +157,12 @@ public class ATrinityGUI : MonoBehaviour
         {
             ToggleOptions();
         }
-        
+
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
         {
             return;
         }
-        
+
         // Lerp DamageSlider to target values
         if (DamageSlider != null)
         {
@@ -169,21 +173,21 @@ public class ATrinityGUI : MonoBehaviour
         {
             ManaBar.color = Color.Lerp(InitialColor, FinalColor, Mathf.PingPong(Time.time, LerpColorDuration) / LerpColorDuration);
         }
-        else 
+        else
         {
             ManaBar.color = InitialColor;
         }
 
         UpdateCooldowns();
         HandleTriangleRotation();
-        
+
     }
 
     private void UpdateCooldowns()
     {
         CooldownFills[0].fillAmount = ATrinityGameManager.GetSpells().Blink.GetCooldownNormalized();
         CooldownFills[1].fillAmount = ATrinityGameManager.GetSpells().Forcefield.GetCooldownNormalized();
-        
+
         switch (ATrinityGameManager.GetBrain().GetElement())
         {
             case ETrinityElement.ETE_Cold:
@@ -211,14 +215,14 @@ public class ATrinityGUI : MonoBehaviour
         OptionsMenu.SetActive(!IsOptionsMenuOpen());
 
     }
-    
+
     public void SetupEnemyUI()
     {
         for (int i = 0; i < EnemyHealthBars.Length; i++)
         {
             EnemyHealthBars[i].gameObject.SetActive(false);
         }
-        
+
         for (int i = 0; i < ATrinityGameManager.GetEnemyControllers().Count; i++)
         {
             EnemyHealthBars[i].gameObject.SetActive(true);
@@ -226,7 +230,7 @@ public class ATrinityGUI : MonoBehaviour
         }
     }
 
-    
+
     public void UpdateHealthBar(float healthPercent)
     {
         if (HealthSlider != null)
@@ -243,19 +247,37 @@ public class ATrinityGUI : MonoBehaviour
             ManaSlider.fillAmount = manaPercent;
         }
     }
-    public void ShowNoMana() 
+    public void ShowNoMana()
     {
-        if (ManaBar != null) 
+        if (ManaBar != null)
         {
             GUISource.PlayOneShot(NoMana);
             PingPongNoManaTimer = PingPongNoManaTime;
         }
     }
-    public void SpellOnCooldown() 
+    public void SpellOnCooldown()
     {
-        if (GUISource != null) 
+        if (GUISource != null)
         {
             GUISource.PlayOneShot(SpellNotReady);
+        }
+    }
+    public void PlayElementChangeSound(ETrinityElement currentElement) 
+    {
+        switch (currentElement)
+        {
+            case ETrinityElement.ETE_Fire:
+                GUISource.clip = ChangeToFire;
+                GUISource.Play();
+                break;
+            case ETrinityElement.ETE_Cold:
+                GUISource.clip = ChangeToCold;
+                GUISource.Play();
+                break;
+            case ETrinityElement.ETE_Lightning:
+                GUISource.clip = ChangeToLightning;
+                GUISource.Play();
+                break;
         }
     }
     public void EnableCanvas()
@@ -264,7 +286,7 @@ public class ATrinityGUI : MonoBehaviour
         {
             return;
         }
-        
+
         HUDCanvas.SetActive(true);
         StartCoroutine(FadeInGUI());
     }
@@ -275,15 +297,16 @@ public class ATrinityGUI : MonoBehaviour
         while (fadeTime < FadeInDuration)
         {
             fadeTime += Time.deltaTime;
-            float alpha = Mathf.Lerp(0,1, fadeTime / FadeInDuration);
+            float alpha = Mathf.Lerp(0, 1, fadeTime / FadeInDuration);
             HUDCanvas.GetComponent<CanvasGroup>().alpha = alpha;
 
             yield return null;
         }
     }
-    
+
     private void HandleTriangleRotation()
     {
+       
         float targetRotation = ATrinityGameManager.GetBrain().GetElement() switch
         {
             ETrinityElement.ETE_Fire => 0f,
@@ -301,10 +324,10 @@ public class ATrinityGUI : MonoBehaviour
             {
                 StopCoroutine(TriangleScaleCoro);
             }
-            
+
             TriangleScaleCoro = StartCoroutine(GrowTriangle());
         }
-        
+
         // normalize the difference to be between -180 and 180 degrees
         if (rotationDifference > 180f)
         {
@@ -316,7 +339,7 @@ public class ATrinityGUI : MonoBehaviour
         }
 
         float step = TriangleRotationRate * Time.deltaTime;
-    
+
         // chatgpt fix: only rotate if we're not very close to target (to avoid jitter)
         if (Mathf.Abs(rotationDifference) > 0.1f)
         {
@@ -324,17 +347,17 @@ public class ATrinityGUI : MonoBehaviour
             TriangleRotater.transform.rotation = Quaternion.Euler(0f, 0f, newRotation);
         }
     }
-    
+
     void OnDestroy()
     {
-        
+
     }
 
     IEnumerator ShrinkTriangle()
     {
         float startScale = TriangleScaler.transform.localScale.x;
         float growDuration = 0f;
-        
+
         while (growDuration < TriangleScaleDuration)
         {
             growDuration += Time.deltaTime;
@@ -360,18 +383,18 @@ public class ATrinityGUI : MonoBehaviour
     public void ResetGUI()
     {
         AMainMenuCamera.OnSwitchToPlayerCamera -= EnableCanvas;
-        
+
         GameOver.SetActive(false);
         OptionsMenu.SetActive(false);
         HUDCanvas.SetActive(GetMainMenu().bCanSkipMainMenu);
-        
+
         if (ATrinityGameManager.CurrentScene == "PORTAL")
         {
             GetMainMenu().gameObject.SetActive(!GetMainMenu().bCanSkipMainMenu);
             GetMainMenu().MainMenuCamera.gameObject.SetActive(!GetMainMenu().bCanSkipMainMenu);
             Videos.SetActive(true);
             AMainMenuCamera.OnSwitchToPlayerCamera += EnableCanvas;
-            
+
             if (GetMainMenu().bCanSkipMainMenu)
             {
                 GetMainMenu().gameObject.SetActive(false);
@@ -391,7 +414,7 @@ public class ATrinityGUI : MonoBehaviour
         }
 
         BindToEvents(ATrinityGameManager.GetGameFlowState());
-        
+
         SetupEnemyUI();
     }
 
@@ -399,7 +422,7 @@ public class ATrinityGUI : MonoBehaviour
     {
 
         UnbindAll();
-        
+
         switch (newGFS)
         {
             case EGameFlowState.MAIN_MENU:
@@ -428,7 +451,7 @@ public class ATrinityGUI : MonoBehaviour
         BindVictoryEvents(false);
         BindGameOverEvents(false);
     }
-    
+
     public void BindMainMenuEvents(bool bBind)
     {
         if (bBind)
@@ -442,7 +465,7 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetInput().OnForcefieldPressed += GetMainMenu().CloseOptions;
             GetMainMenu().OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateStaffAura;
             GetMainMenu().OnMenuElementChanged += ATrinityGameManager.GetGraphics().UpdateMeshColor;
-            
+
             //audio events
             GetMainMenu().OnMainMenuNavigate += ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
             GetMainMenu().OnMainMenuSelection += ATrinityGameManager.GetAudio().PlayMainMenuSelect;
@@ -456,19 +479,19 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetInput().OnPreviousElementPressed -= GetMainMenu().NavigateBackwards;
             ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= GetMainMenu().Select;
             ATrinityGameManager.GetInput().OnForcefieldPressed -= GetMainMenu().CloseOptions;
-            
+
             //audio events
             GetMainMenu().OnMainMenuNavigate -= ATrinityGameManager.GetAudio().PlayMainMenuNavigate;
             GetMainMenu().OnMainMenuSelection -= ATrinityGameManager.GetAudio().PlayMainMenuSelect;
         }
     }
-    
+
     public void BindPlayEvents(bool bBind)
     {
         if (bBind)
         {
             ATrinityGameManager.GetBrain().OnElementChanged += UpdateSpellImages;
-            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;   
+            ATrinityGameManager.GetBrain().OnElementChanged += StartTriangleScaling;
         }
         else
         {
@@ -476,7 +499,7 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetBrain().OnElementChanged -= StartTriangleScaling;
         }
     }
-    
+
     public void BindOptionsEvents(bool bBind)
     {
         if (bBind)
@@ -521,7 +544,7 @@ public class ATrinityGUI : MonoBehaviour
             ATrinityGameManager.GetInput().OnMenuPressed -= GetVictory().Close;
             ATrinityGameManager.GetInput().OnElementalPrimaryPressed -= GetVictory().Close;
             ATrinityGameManager.GetInput().OnJumpGlidePressed -= GetVictory().Close;
-            ATrinityGameManager.GetInput().OnForcefieldPressed -= GetVictory().Close; 
+            ATrinityGameManager.GetInput().OnForcefieldPressed -= GetVictory().Close;
         }
     }
 }

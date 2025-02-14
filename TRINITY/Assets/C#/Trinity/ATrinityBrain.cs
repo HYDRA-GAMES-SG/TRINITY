@@ -38,7 +38,7 @@ public class ATrinityBrain : MonoBehaviour
     {
         CurrentElement = ETrinityElement.ETE_Fire;
         CurrentAction = ETrinityAction.ETA_None;
-
+        OnElementChanged += ATrinityGameManager.GetGUI().PlayElementChangeSound;
         BindToInputEvents(true);
     }
 
@@ -107,6 +107,15 @@ public class ATrinityBrain : MonoBehaviour
     
     public bool CanAct()
     {
+        NormalMovement nm = (NormalMovement)ATrinityGameManager.GetPlayerFSM().CurrentState;
+
+        if (nm != null) 
+        {
+            if (nm.bIsFalling) 
+            {
+                return false;
+            }
+        }
         if (CurrentAction == ETrinityAction.ETA_Stunned || 
             ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
         {

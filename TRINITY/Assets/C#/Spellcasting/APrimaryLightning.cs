@@ -27,6 +27,7 @@ public class APrimaryLightning : ASpell
     [Header("SFX")]
     public AudioClip ChargeSFX;
     public AudioClip ReleaseSFX;
+    public AudioClip SustainSFX;
     public AudioClip CompletionSFX;
 
     public override void Initialize()
@@ -64,11 +65,11 @@ public class APrimaryLightning : ASpell
 
         if (t > BoltCreationThreshold && FullyChargedVFXObj == null)
         {
-            
+            LightningSource.PlayOneShot(CompletionSFX);
             GameObject chargeVFX = Instantiate(FullyChargedVFX, ATrinityGameManager.GetSpells().CastPoint.position, Quaternion.identity);
             chargeVFX.transform.parent = ATrinityGameManager.GetSpells().CastPoint.transform;
             FullyChargedVFXObj = chargeVFX;
-            LightningSource.clip = CompletionSFX;
+            LightningSource.clip = SustainSFX;
             LightningSource.loop = true;
             LightningSource.Play();
         }

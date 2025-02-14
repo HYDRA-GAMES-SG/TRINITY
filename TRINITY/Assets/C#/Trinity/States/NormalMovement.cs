@@ -33,7 +33,11 @@ public class NormalMovement : TrinityState
     private bool bCanGlide = false;
     private bool bJumpConsumed = false;
     private bool bFixedUpdate = false;
-    
+    public bool bIsFalling => ATrinityGameManager.GetPlayerFSM().Animator.GetCurrentAnimatorStateInfo(0).IsName("Kneel Down") ||
+            ATrinityGameManager.GetPlayerFSM().Animator.GetCurrentAnimatorStateInfo(0).IsName("Stun Fall") ||
+            ATrinityGameManager.GetPlayerFSM().Animator.GetCurrentAnimatorStateInfo(0).IsName("Aerial Stunned");
+
+
     private ATrinityController Controller;
     private ATrinityInput Input;
     private ATrinityAnimator Animator;
