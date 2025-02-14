@@ -19,6 +19,7 @@ public class FBDie : FlyingBossState
         ElectricParticle.Stop();
         Collider.enabled = true;
         FlyingBossFSM.FlyingBossController.RB.useGravity = true;
+        FlyingBossFSM.FlyingBossController.FlyingAudio.PlayDeath();
     }
 
     public override void PreUpdateBehaviour(float dt)

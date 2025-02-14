@@ -9,7 +9,7 @@ public class RoarIceSpray : CrabState
     bool AnimFinish = false;
     public override bool CheckEnterTransition(IState fromState)
     {
-        return fromState is Pursue && CrabFSM.CrabController.CanRoarStun;
+        return fromState is Pursue && CrabFSM.CrabController.CanRoarStun && CrabFSM.CrabController.FacingTarget();
     }
 
     public override void EnterBehaviour(float dt, IState fromState)
@@ -31,7 +31,7 @@ public class RoarIceSpray : CrabState
         {
             iceSpray.Play();
         }
-       
+
     }
 
     public override void PreUpdateBehaviour(float dt)

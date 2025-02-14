@@ -4015,7 +4015,7 @@ MonoBehaviour:
   EnemyStatus: {fileID: 0}
   AI: {fileID: 8615689596737175229}
   NormalAttack: 10
-  AttackForce: 10
+  AttackForce: 20
   Audio: {fileID: 0}
   CrabFSM: {fileID: 4812435512381346427}
   LeftClaw: {fileID: 5848169551067447597}
@@ -5006,7 +5006,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7523154369632345820}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
@@ -5045,7 +5045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 9a4d6dcedc3a3ff43ab11ed270690392, type: 3}
   Name: IceSwing
   Volume: 1
   Pitch: 1
@@ -5079,7 +5079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 8abc567c158ebd945a9801fe6ea5ca3c, type: 3}
   Name: IceSmash
   Volume: 1
   Pitch: 1
@@ -5147,7 +5147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 8abc567c158ebd945a9801fe6ea5ca3c, type: 3}
   Name: IceBigSmash
   Volume: 1
   Pitch: 1
@@ -5193,7 +5193,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7523154369632345820}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
@@ -5342,7 +5342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 27472dcae503f1f4aa5e96f1114b777b, type: 2}
-  RotateSpeed: 2
+  RotateSpeed: 5
   AnimKeyAttack:
   - ClawsAttackLeftForward_RM_End
   - ClawsAttackRightForward_RM_End
@@ -5361,7 +5361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 6cdd1bb0dc50aca479d921072a9c5e83, type: 2}
-  RotateSpeed: 2
+  RotateSpeed: 5
   AnimKeyClawAttackCombo: 2HitComboClawsAttack_RM_End
   AnimKeySmashAttackCombo: 2HitComboSmashAttack_RM_End
   AnimKey: 
@@ -5378,7 +5378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 75cdeddd34e4c2c4e8112c45f0003373, type: 2}
-  RotateSpeed: 2
+  RotateSpeed: 5
   AnimationCheckExitTime: 0.2
 --- !u!114 &5283212179681414263
 MonoBehaviour:
@@ -5410,7 +5410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StateAnimController: {fileID: 9100000, guid: 1de2b3a3b97c1044f9bd0446092713bf, type: 2}
-  RotateSpeed: 2
+  RotateSpeed: 3
   ChargeTime: 3
   DashSpeed: 10
   PedictionMultiplier: 0.3

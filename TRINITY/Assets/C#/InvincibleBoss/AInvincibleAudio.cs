@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,9 @@ using UnityEngine.InputSystem.XR;
 public class AInvincibleAudio : IAudioManager
 {
     AInvincibleBossController Controller;
+    public Transform Lefthand;
+    public Transform Righthand;
+    public Transform Mounth;
     private void Awake()
     {
         base.Awake();
@@ -34,9 +38,26 @@ public class AInvincibleAudio : IAudioManager
     {
         Play("FootStep");
     }
-    public void PlayIBHandSwing()
+    public void PlayIBHandSwing(string hand)
     {
-        Play("HandSwing");
+        if (hand.Contains("left"))
+        {
+            //Debug.Log("LeftClawAttack");
+            PlayAtPosition("HandSwing", Lefthand);
+        }
+        else
+        {
+            //Debug.Log("RightClawAttack");
+            PlayAtPosition("HandSwing", Righthand);
+        }
+    }
+    public void PlayRoar()
+    {
+        PlayAtPosition("Roar", Mounth);
+    }
+    public void PlayRoarSmall()
+    {
+        PlayAtPosition("RoarSmall", Mounth);
     }
     public void PlayIBHandSmash()
     {

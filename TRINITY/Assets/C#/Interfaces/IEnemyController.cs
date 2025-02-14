@@ -113,7 +113,7 @@ public class IEnemyController : MonoBehaviour
             }
         }
         
-        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.05f, duration, TransformReference);
+        ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.2f, duration, TransformReference);
     }
 
     public void MediumCameraShake(float duration = .5f)

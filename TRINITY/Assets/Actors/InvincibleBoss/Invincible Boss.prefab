@@ -182,6 +182,7 @@ GameObject:
   - component: {fileID: 1387817484879313190}
   - component: {fileID: 6853958437616104024}
   - component: {fileID: 6956739884993821291}
+  - component: {fileID: 5030343367391125511}
   - component: {fileID: 3324113171006002634}
   - component: {fileID: 6049761862468476122}
   - component: {fileID: 5069465592965967324}
@@ -272,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: 1da2c47522eb46342b0f4a8db7a98a71, type: 3}
+  Audio: {fileID: 8300000, guid: f59b8a256adb11546a369e322b452009, type: 3}
   Name: HandSwing
   Volume: 1
   Pitch: 1
@@ -335,13 +336,30 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 196294604132324631}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: 21500e651f3f16d45a27b1d31b6d1789, type: 3}
-  Name: ShockRelease
+  Audio: {fileID: 8300000, guid: 31198bbf5d68c81469f4f0fcc575d600, type: 3}
+  Name: Roar
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+--- !u!114 &5030343367391125511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 196294604132324631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: 10d6f6068b6ac044c89af45319f1a11c, type: 3}
+  Name: RoarSmall
   Volume: 1
   Pitch: 1
   MixerGroup: 0
@@ -357,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: fa65c716ad5d75d4aa559f935cb7a403, type: 3}
+  Audio: {fileID: 8300000, guid: d35106718aea5d2429fb9bdf842beba8, type: 3}
   Name: OrbCharge
   Volume: 1
   Pitch: 1
@@ -374,7 +392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 08a446646d3147b42a21bc25bb6f864a, type: 3}
   Name: OrbRelease
   Volume: 1
   Pitch: 1
@@ -425,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 729dba35c12fa1a42acf0758bfa4b386, type: 3}
   Name: Dead
   Volume: 1
   Pitch: 1
@@ -2332,7 +2350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90578323a4fc64541a78684d63a3453d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateSpeed: 5
+  RotateSpeed: 8
   AnimKey: SpitterShot2
   ShockBluePos: {fileID: 8280518456602776599}
   ShockBlue: {fileID: 8704989586410309843}
@@ -2352,7 +2370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f68c693e2c8225b479f9e1e629d6d590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotateSpeed: 5
+  RotateSpeed: 8
   AnimKeyCharge: UnearthRock
   AnimKeyThrowRock: ThrowRock
   LeftHand: {fileID: 5943479805094910528}
@@ -3881,7 +3899,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MAX: 15000
   Regen: 0
-  Current: 5000
+  Current: 15000
   bInvulnerable: 0
 --- !u!114 &6137848236821162757
 MonoBehaviour:
@@ -3945,7 +3963,7 @@ MonoBehaviour:
   EnemyStatus: {fileID: 0}
   AI: {fileID: 0}
   NormalAttack: 0
-  AttackForce: 30
+  AttackForce: 20
   Audio: {fileID: 0}
   InvincibleBossFSM: {fileID: 678636692610088674}
   FlyingBossHealth: {fileID: 0}
@@ -4068,6 +4086,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AudioClipPos: {fileID: 196294604132324631}
+  Lefthand: {fileID: 5943479805094910528}
+  Righthand: {fileID: 7554530568651922291}
+  Mounth: {fileID: 8280518456602776599}
 --- !u!1 &6362442862167170075
 GameObject:
   m_ObjectHideFlags: 0
@@ -5117,6 +5138,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3430567750250834287, guid: 599a2c51769672a4482e33e3721011a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3430567750250834287, guid: 599a2c51769672a4482e33e3721011a2,
         type: 3}

@@ -85,6 +85,7 @@ public class AInvincibleBossController : IEnemyController
         EnemyStatus.Health.Current = VINCIBLE_MAX_HEALTH;
         UHealthComponent invicibleBossHealth = GetComponent<UHealthComponent>();
         invicibleBossHealth.bInvulnerable = false;
+        InvincibleBossFSM.Animator.speed = 10;
     }
 
     // Update is called once per frame

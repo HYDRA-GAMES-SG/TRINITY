@@ -16,4 +16,12 @@ public class AFlyingAudio : IAudioManager
     {
         Play("AttackRelease");
     }
+    public void PlayDeath()
+    {
+        Play("Death");
+    }
+    public void PlayDropGround()
+    {
+        Play("DropGround");
+    }
 }

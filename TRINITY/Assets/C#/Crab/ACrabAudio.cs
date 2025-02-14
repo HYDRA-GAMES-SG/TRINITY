@@ -85,10 +85,12 @@ public class ACrabAudio : IAudioManager
     {
         if (craw.Contains("left"))
         {
+            PlayAtPosition("Smash", LeftHand);
             PlayAtPosition("IceSmash", LeftHand);
         }
         else
         {
+            PlayAtPosition("Smash", RightHand);
             PlayAtPosition("IceSmash", RightHand);
         }
     }
@@ -108,12 +110,14 @@ public class ACrabAudio : IAudioManager
     }
     public void PlayIceJumpSmashGround()
     {
+        PlayAtPosition("BigSmash", RightHand);
         PlayAtPosition("IceBigSmash", RightHand);
     }
     public void PlayIceSpray()
     {
         Debug.Log("IceSpray sfx");
         StartLoop("IceSpray");
+        //Play("IceSpray");
     }
     public void StopIceSpray()
     {
