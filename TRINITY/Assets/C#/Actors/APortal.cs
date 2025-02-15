@@ -11,13 +11,6 @@ public class APortal : MonoBehaviour
         {
             return;
         }
-
-        StartPortalSequence();
-    }
-
-    private void StartPortalSequence()
-    {
-        ATrinityController playerController = ATrinityGameManager.GetPlayerController();
         
         ATrinityGameManager.LoadScene(sceneName);
     }

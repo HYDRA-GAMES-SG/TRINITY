@@ -23,6 +23,7 @@ public class ATrinityGUI : MonoBehaviour
     private ATrinityMainMenu MainMenu;
     public GameObject OptionsMenu;
     public GameObject GameOver;
+    public GameObject LoadingScreen;
     public GameObject Victory;
     public GameObject Videos;
     public GameObject Crosshair;
@@ -76,6 +77,7 @@ public class ATrinityGUI : MonoBehaviour
     public ATrinityVictory GetVictory() => Victory.GetComponent<ATrinityVictory>();
     public ATrinityOptions GetOptions() => OptionsMenu.GetComponent<ATrinityOptions>();
     public ATrinityVideos GetVideos() => Videos.GetComponent<ATrinityVideos>();
+    public ATrinityLoadingScreen GetLoadingScreen() => LoadingScreen.GetComponent<ATrinityLoadingScreen>();
 
     void Awake()
     {
@@ -416,6 +418,8 @@ public class ATrinityGUI : MonoBehaviour
         BindToEvents(ATrinityGameManager.GetGameFlowState());
 
         SetupEnemyUI();
+        
+        UpdateSpellImages(ATrinityGameManager.GetBrain().GetElement());
     }
 
     public void BindToEvents(EGameFlowState newGFS)

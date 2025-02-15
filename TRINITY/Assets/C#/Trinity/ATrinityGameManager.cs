@@ -89,9 +89,7 @@ public class ATrinityGameManager : MonoBehaviour
     {
         CurrentScene = sceneName;
         GetGUI().BindToEvents(SCENE_LOAD_EGFS);
-
-        SceneManager.LoadScene(sceneName);
-
+        GetGUI().GetLoadingScreen().LoadScene(sceneName);
     }
 
     private void ResetGame(Scene newScene, LoadSceneMode arg1)
