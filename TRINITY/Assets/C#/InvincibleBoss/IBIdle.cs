@@ -35,6 +35,6 @@ public class IBIdle : InvincibleBossState
 
     public override bool CheckExitTransition(IState toState)
     {
-        return true;
+        return ATrinityGameManager.GetGameFlowState() != EGameFlowState.DEAD;
     }
 }

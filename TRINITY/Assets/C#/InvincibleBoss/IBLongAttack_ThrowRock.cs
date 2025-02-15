@@ -87,7 +87,7 @@ public class IBLongAttack_ThrowRock : InvincibleBossState
             isFollow = true;
             Throw();
         }
-        else if (stateInfo.IsName(AnimKeyThrowRock) && stateInfo.normalizedTime >= 0.95f) // Animation nearly complete
+        else if (stateInfo.IsName(AnimKeyThrowRock) && stateInfo.normalizedTime >= 0.60f) // Animation nearly complete
         {
             AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBPursue>();

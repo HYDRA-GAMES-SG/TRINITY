@@ -200,13 +200,16 @@ public class AInvincibleBossFSM : MonoBehaviour, IFSM
             Debug.LogWarning($"Animator layer for state '{stateName}' not found.");
             return;
         }
-
+        Animator.CrossFade(stateName, transitionDuration, targetLayerIndex);
         // Smoothly reset all layers to 0 except the target layer
         for (int i = 0; i < Animator.layerCount; i++)
         {
-            float targetWeight = i == targetLayerIndex ? 1f : 0f;
-            StartCoroutine(SmoothSetLayerWeight(i, targetWeight, transitionDuration));
+            if (i != targetLayerIndex)
+                Animator.SetLayerWeight(i, 0f);
         }
+
+        // Now smoothly transition the target layer to 1
+        StartCoroutine(SmoothSetLayerWeight(targetLayerIndex, 1f, transitionDuration));
     }
 
     private IEnumerator SmoothSetLayerWeight(int layerIndex, float targetWeight, float duration)
@@ -223,7 +226,10 @@ public class AInvincibleBossFSM : MonoBehaviour, IFSM
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
-            float newWeight = Mathf.Lerp(initialWeight, targetWeight, elapsedTime / duration);
+            float t = elapsedTime / duration;
+
+            float newWeight = Mathf.SmoothStep(initialWeight, targetWeight, t);
+
             Animator.SetLayerWeight(layerIndex, newWeight);
             yield return null;
         }

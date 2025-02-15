@@ -42,9 +42,6 @@ public class IBHandAttack : InvincibleBossState
 
     public override void UpdateBehaviour(float dt)
     {
-        Vector3 faceDirection = (InvincibleBossFSM.PlayerController.transform.position - InvincibleBossFSM.InvincibleBossController.transform.position).normalized;
-        InvincibleBossFSM.InvincibleBossController.RotateTowardTarget(faceDirection, RotateSpeed);
-
         string layerName = GetType().Name;
         int layerIndex = InvincibleBossFSM.InvincibleBossController.Animator.GetLayerIndex(layerName);
         AnimatorStateInfo stateInfo = InvincibleBossFSM.InvincibleBossController.Animator.GetCurrentAnimatorStateInfo(layerIndex);
@@ -52,6 +49,13 @@ public class IBHandAttack : InvincibleBossState
         {
             AnimFinish = true;
             InvincibleBossFSM.EnqueueTransition<IBPursue>();
+        }
+        bool shouldRotate = !(stateInfo.IsName("2HandsSmashAttack_RM") && stateInfo.normalizedTime > 0.35f) || stateInfo.IsName("2HitComboAttackForward_RM");
+
+        if (shouldRotate)
+        {
+            Vector3 faceDirection = (InvincibleBossFSM.PlayerController.transform.position - InvincibleBossFSM.InvincibleBossController.transform.position).normalized;
+            InvincibleBossFSM.InvincibleBossController.RotateTowardTarget(faceDirection, RotateSpeed);
         }
     }
     public override void PostUpdateBehaviour(float dt)
