@@ -14621,7 +14621,8 @@ GameObject:
   - component: {fileID: 1061839254908357967}
   - component: {fileID: 1061839254890006543}
   - component: {fileID: 1061839254890049967}
-  - component: {fileID: 2554948868691213469}
+  - component: {fileID: 8741464560502095907}
+  - component: {fileID: 4677747433951233541}
   m_Layer: 0
   m_Name: Shockwave1
   m_TagString: Untagged
@@ -18261,7 +18262,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -19484,7 +19485,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2554948868691213469
+--- !u!114 &8741464560502095907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19493,10 +19494,37 @@ MonoBehaviour:
   m_GameObject: {fileID: 1061839254908785007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bcf2c158d6cbd2479f25ec34643a6df, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ddc232a3f8582846a0156add85b9190, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DealDamageOnlyOnce: 1
+  targetCollider: {fileID: 0}
+  delayTime: 0
+  damage: 0
+  devide: 1
+  attackForce: 5
+--- !u!136 &4677747433951233541
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061839254908785007}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.98
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1061839254908785011
 GameObject:
   m_ObjectHideFlags: 0

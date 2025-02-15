@@ -89,7 +89,7 @@ public class ACrabController : IEnemyController
 
     private void HandleChill()
     {
-        if (bCanChill)
+        if (bCanChill && !bElementPhase)
         {
             AI.speed = NavSpeed * EnemyStatus.Ailments.ChillSpeedModifier;
             CrabFSM.Animator.speed = EnemyStatus.Ailments.ChillSpeedModifier;

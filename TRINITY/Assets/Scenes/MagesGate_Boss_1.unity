@@ -97,8 +97,10 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
-  m_LightingSettings: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 59ecf72cc07d5ad4fbab65eb878aa7e6,
+    type: 2}
+  m_LightingSettings: {fileID: 4890085278179872738, guid: c0bc435f486908f4b825fae3530d4b26,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -326,7 +328,7 @@ PrefabInstance:
     - target: {fileID: 870485410705819649, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1768469164542981620, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
@@ -1631,7 +1633,7 @@ PrefabInstance:
     - target: {fileID: 6373093990313878373, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1869,7 +1871,7 @@ GameObject:
   - component: {fileID: 1431794017}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -2741,11 +2743,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1727026065975959313, guid: e3784b80389aec3409ecc8f462973893,
-        type: 3}
-      propertyPath: MAX
-      value: 200
-      objectReference: {fileID: 0}
     - target: {fileID: 2284984948269296454, guid: e3784b80389aec3409ecc8f462973893,
         type: 3}
       propertyPath: m_Name
@@ -2754,7 +2751,7 @@ PrefabInstance:
     - target: {fileID: 2284984948269296454, guid: e3784b80389aec3409ecc8f462973893,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

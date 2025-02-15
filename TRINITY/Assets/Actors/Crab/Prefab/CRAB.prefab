@@ -462,7 +462,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.5187322, g: 0, b: 0.55345905, a: 1}
   m_Intensity: 2
-  m_Range: 0.71
+  m_Range: 0.7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -495,7 +495,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -2854,7 +2854,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.5187322, g: 0, b: 0.55345905, a: 1}
   m_Intensity: 2
-  m_Range: 0.71
+  m_Range: 0.7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -2887,7 +2887,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -3165,7 +3165,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.5187322, g: 0, b: 0.55345905, a: 1}
   m_Intensity: 2
-  m_Range: 0.71
+  m_Range: 0.7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -3198,7 +3198,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -4032,7 +4032,7 @@ MonoBehaviour:
   ChargeFastAttack: 25
   IceSprayAttack: 1
   IceSlashAttack: 25
-  SmashFrozenGroundAttack: 10
+  SmashFrozenGroundAttack: 25
   JumpSmashFrozenGroundAttack: 30
   CanJumpSmash: 0
   CanRoarStun: 0
@@ -4153,7 +4153,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 4
-  m_Speed: 7
+  m_Speed: 10
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -4243,6 +4243,7 @@ MonoBehaviour:
   AudioClipPos: {fileID: 7523154369632345820}
   LeftHand: {fileID: 5848169551067447597}
   RightHand: {fileID: 6346969674465272153}
+  Mouth: {fileID: 5802796550799286812}
 --- !u!1 &6536274583074091750
 GameObject:
   m_ObjectHideFlags: 0
@@ -4994,7 +4995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: d2216bf0c770b584ca21facb15b05939, type: 3}
+  Audio: {fileID: 8300000, guid: 07565dd668e7508449b46249c5c3c8ed, type: 3}
   Name: Walk
   Volume: 1
   Pitch: 1
@@ -5045,7 +5046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: 9a4d6dcedc3a3ff43ab11ed270690392, type: 3}
+  Audio: {fileID: 8300000, guid: 8f52c3f5d5543dd428a8c91d3a9df884, type: 3}
   Name: IceSwing
   Volume: 1
   Pitch: 1
@@ -5079,7 +5080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: 8abc567c158ebd945a9801fe6ea5ca3c, type: 3}
+  Audio: {fileID: 8300000, guid: 1b66482d54419ac4ab55b39abefec0a2, type: 3}
   Name: IceSmash
   Volume: 1
   Pitch: 1
@@ -5113,7 +5114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: cf547825aa37add448792b915953c937, type: 3}
+  Audio: {fileID: 8300000, guid: dbfe6dafc7a52604eaaa4ea3492d771e, type: 3}
   Name: Land
   Volume: 1
   Pitch: 1
@@ -5130,7 +5131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: b274379bd365dc94f9d0bb519130ac13, type: 3}
+  Audio: {fileID: 8300000, guid: 9e4392f0ff3ffa54390966b9141f0d54, type: 3}
   Name: BigSmash
   Volume: 1
   Pitch: 1
@@ -5215,7 +5216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: 9ce99773425967b4c8a41159fed2037a, type: 3}
+  Audio: {fileID: 8300000, guid: ccdd93360dac0b84c8f3c32b2ae396ad, type: 3}
   Name: Death
   Volume: 1
   Pitch: 1
@@ -5806,7 +5807,7 @@ Transform:
   m_GameObject: {fileID: 8297104665770755119}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -6351,7 +6352,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.5187322, g: 0, b: 0.55345905, a: 1}
   m_Intensity: 2
-  m_Range: 0.71
+  m_Range: 0.7
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -6384,7 +6385,7 @@ Light:
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295

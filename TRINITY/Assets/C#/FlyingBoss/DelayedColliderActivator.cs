@@ -14,7 +14,6 @@ public class DelayedColliderActivator : MonoBehaviour
     private float timer = 0f;
     private bool isTimerRunning = false;
     private bool hasDamaged = false;
-
     private void Start()
     {
         if (targetCollider == null)
@@ -33,8 +32,12 @@ public class DelayedColliderActivator : MonoBehaviour
         }
 
         ElectricBoom eb = GetComponentInParent<ElectricBoom>();
-        EnemyController = eb.Controller;
-        damage = eb.Damage;
+        if (eb != null)
+        {
+            EnemyController = eb.Controller;
+            damage = eb.Damage;
+        }
+
     }
 
     private void Update()
@@ -78,18 +81,17 @@ public class DelayedColliderActivator : MonoBehaviour
     //}
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.gameObject.CompareTag("Player"))
+        if (!other.gameObject.CompareTag("Player") || hasDamaged)
         {
             return;
         }
-        if (!hasDamaged) { }
         ATrinityController player = other.gameObject.GetComponent<ATrinityController>();
 
         if (player == null)
         {
             return;
         }
-
+        hasDamaged = true;
         Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
         Vector3 direction = (other.transform.position - transform.position).normalized;
 
@@ -109,5 +111,10 @@ public class DelayedColliderActivator : MonoBehaviour
     {
         //Debug.Log("IsShack"+this.gameObject.name);
         ATrinityGameManager.GetCamera().CameraShakeComponent.ShakeCameraFrom(0.6f, duration, transform);
+    }
+    public void GetControllerDamage(IEnemyController controller, float dmg)
+    {
+        EnemyController = controller;
+        damage = dmg;
     }
 }

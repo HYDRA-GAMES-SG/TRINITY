@@ -55,7 +55,7 @@ public class Pursue : CrabState
                 CrabFSM.EnqueueTransition<RoarIceSpray>();
             }
         }
-        else if (CrabFSM.CrabController.CalculateGroundDistance() >= ChargeFastMoveRange && CrabFSM.CrabController.CalculateGroundDistance() <= ChargeFastMoveRange + 2) //between 15 - 17
+        else if (CrabFSM.CrabController.CalculateGroundDistance() >= ChargeFastMoveRange && !(CrabFSM.CurrentState is ChargeFastAttack)/*&& CrabFSM.CrabController.CalculateGroundDistance() <= ChargeFastMoveRange + 2*/) //between 15 - 17
         {
             CrabFSM.EnqueueTransition<ChargeFastAttack>();
 

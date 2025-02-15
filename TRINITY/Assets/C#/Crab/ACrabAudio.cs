@@ -8,6 +8,7 @@ public class ACrabAudio : IAudioManager
 {
     public Transform LeftHand;
     public Transform RightHand;
+    public Transform Mouth;
     ACrabController Controller;
 
     private void Awake()
@@ -127,7 +128,8 @@ public class ACrabAudio : IAudioManager
     public void PlayChargeAttackRoar()
     {
         Debug.Log("Chrage attack Roar sfx");
-        Play("ChargeAttackRoar");
+        PlayAtPosition("ChargeAttackRoar",Mouth);
+        
     }
     public void PlayCrabGetHit()
     {

@@ -52,8 +52,11 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
 
 
-            UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
-            projectileController.SetController(Controller);
+            //UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
+            //projectileController.SetController(Controller);
+            DelayedColliderActivator SmashParticle = smashFrozenGroundAttack.GetComponentInChildren<DelayedColliderActivator>();
+            SmashParticle.GetControllerDamage(Controller, Controller.GetParticleAttack());
+
             Crabaudio.PlayIceSmashGround("right");
         }
         else
@@ -67,8 +70,12 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
         {
             ParticleSystem smashFrozenGroundAttack = Instantiate(SmashFrozenGroundAttack, LeftClaw.position, LeftClaw.rotation);
 
-            UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
-            projectileController.SetController(Controller);
+            //UAttackColliderComponent projectileController = smashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
+            //projectileController.SetController(Controller);
+
+            DelayedColliderActivator SmashParticle = smashFrozenGroundAttack.GetComponentInChildren<DelayedColliderActivator>();
+            SmashParticle.GetControllerDamage(Controller, Controller.GetParticleAttack());
+
             Crabaudio.PlayIceSmashGround("left");
         }
         else
@@ -80,19 +87,23 @@ public class ACrabPhaseTwoAnimationEvent : MonoBehaviour
 
     public void PhaseTwoJumpSmashAttack()
     {
-        if (Controller.bElementPhase)
+        //if (Controller.bElementPhase)
         {
             ParticleSystem jumpSmashFrozenGroundAttack = Instantiate(JumpSmashFrozenGroundAttack, RightClaw.position, RightClaw.rotation);
 
-            UAttackColliderComponent projectileController = jumpSmashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
-            projectileController.SetController(Controller);
+            //UAttackColliderComponent projectileController = jumpSmashFrozenGroundAttack.GetComponentInChildren<UAttackColliderComponent>();
+            //projectileController.SetController(Controller);
+
+            DelayedColliderActivator SmashParticle = jumpSmashFrozenGroundAttack.GetComponentInChildren<DelayedColliderActivator>();
+            SmashParticle.GetControllerDamage(Controller, Controller.GetParticleAttack());
+
+            //Crabaudio.PlayJumpSmashGround();
             Crabaudio.PlayIceJumpSmashGround();
         }
-        else
+        //else
         {
-            Crabaudio.PlayJumpSmashGround();
         }
     }
 
-    
+
 }
