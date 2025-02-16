@@ -56,7 +56,6 @@ public class AInvincibleBossController : IEnemyController
         AI.stoppingDistance = CloseAttack;
         InitialSpeed = AI.speed;
         InvincibleAudio= GetComponentInChildren<AInvincibleAudio>();
-
         //skinnedMeshRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
         //materials = new Material[skinnedMeshRenderer.Length];
 
@@ -85,7 +84,7 @@ public class AInvincibleBossController : IEnemyController
         EnemyStatus.Health.Current = VINCIBLE_MAX_HEALTH;
         UHealthComponent invicibleBossHealth = GetComponent<UHealthComponent>();
         invicibleBossHealth.bInvulnerable = false;
-        InvincibleBossFSM.Animator.speed = 10;
+        InvincibleBossFSM.Animator.speed = 2;
     }
 
     // Update is called once per frame

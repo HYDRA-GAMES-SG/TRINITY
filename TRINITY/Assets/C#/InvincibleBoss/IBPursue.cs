@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class IBPursue : InvincibleBossState
 {
-   // [SerializeField] string AnimKeyRotation = "Rotation";
+    // [SerializeField] string AnimKeyRotation = "Rotation";
     [SerializeField] string AnimKeyMovement = "Movement";
 
     [SerializeField] float WaitTime = 0.3f;
@@ -44,15 +44,24 @@ public class IBPursue : InvincibleBossState
         {
             InvincibleBossFSM.EnqueueTransition<IBFootAttack>();
         }
-        else if (distance >= InvincibleBossFSM.InvincibleBossController.CloseAttack && distance <= InvincibleBossFSM.InvincibleBossController.CloseAttack + 2)
+        else if (distance <= InvincibleBossFSM.InvincibleBossController.CloseAttack + 2) 
         {
             InvincibleBossFSM.EnqueueTransition<IBHandAttack>();
         }
-        else if (distance >= InvincibleBossFSM.InvincibleBossController.LongAttack && distance <= InvincibleBossFSM.InvincibleBossController.LongAttack + 2)
+        else if (distance <= InvincibleBossFSM.InvincibleBossController.LongAttack + 2) 
         {
-            InvincibleBossFSM.EnqueueTransition<IBLongAttack_ShotShock>();
-            InvincibleBossFSM.EnqueueTransition<IBLongAttack_ThrowRock>();
             InvincibleBossFSM.EnqueueTransition<IBTaunt>();
+        }
+        else 
+        {
+            if (Random.value > 0.5f)
+            {
+                InvincibleBossFSM.EnqueueTransition<IBLongAttack_ShotShock>();
+            }
+            else
+            {
+                InvincibleBossFSM.EnqueueTransition<IBLongAttack_ThrowRock>();
+            }
         }
     }
 
