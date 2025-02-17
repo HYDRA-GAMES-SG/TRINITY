@@ -388,6 +388,11 @@ public class ATrinityController : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyAttack"))
+        {
+            return;
+        }
+        
         if(other.transform.root.gameObject )
         if (other.isTrigger)
         {
@@ -409,6 +414,11 @@ public class ATrinityController : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
+        if (other.gameObject.layer == LayerMask.NameToLayer("EnemyAttack"))
+        {
+            return;
+        }
+        
         if (other.isTrigger)
         {
             return;
