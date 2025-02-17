@@ -69,9 +69,7 @@ public class ATrinityController : MonoBehaviour
     [HideInInspector] public Vector3 PlanarVelocity => new Vector3(RB.velocity.x, 0f, RB.velocity.z);
 
     public List<GameObject> TerrainList;
-    public bool bTerrainCollision => TerrainCounter > 0;
-    private int TerrainCounter = 0;
-    
+    public bool bTerrainCollision => TerrainList.Count > 0;
     
     
 
@@ -344,9 +342,9 @@ public class ATrinityController : MonoBehaviour
         transform.rotation = Quaternion.Euler(cameraYaw);
     }
 
-    public void ResetTerrainCounter()
+    public void ClearTerrainList()
     {
-        TerrainCounter = 0;
+        TerrainList.Clear();
     }
     
     public void ApplyHit(FHitInfo hitInfo)
@@ -390,6 +388,7 @@ public class ATrinityController : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+        if(other.transform.root.gameObject )
         if (other.isTrigger)
         {
             return;
@@ -403,7 +402,6 @@ public class ATrinityController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Default")
            && (!other.gameObject.CompareTag("Ground") || !other.gameObject.CompareTag("Snow") || !other.gameObject.CompareTag("Rock")))
         {
-            TerrainCounter++;
             TerrainList.Add(other.gameObject);
             OnTerrainCollision?.Invoke();
         }
@@ -424,7 +422,6 @@ public class ATrinityController : MonoBehaviour
         if (other.gameObject.layer == LayerMask.NameToLayer("Default")
              && (!other.gameObject.CompareTag("Ground") || !other.gameObject.CompareTag("Snow") || !other.gameObject.CompareTag("Rock")))
         {
-            TerrainCounter--;
             TerrainList.Remove(other.gameObject);
 
         }
@@ -440,7 +437,7 @@ public class ATrinityController : MonoBehaviour
 
     public void ResetPlayer()
     {
-        ResetTerrainCounter();
+        ClearTerrainList();
         HealthComponent.Reset();
         OnHealthHit += ATrinityGameManager.GetScore().AddDamageTaken;
         HealthComponent.OnHealthModified += ATrinityGameManager.GetGUI().UpdateHealthBar;

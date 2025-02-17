@@ -38,6 +38,19 @@ namespace ThirdPersonCamera
         private bool sampleInterface;
 
         private EventSystem currentEventSystem;
+
+        public void SetGamepadSensitivty(Vector2 newSensitivity)
+        {
+            cameraInput.InputFreeForm.ControllerSensitivity = newSensitivity;
+            ControllerSensitivity = newSensitivity;
+        }
+        
+        public void SetMouseSensitivty(Vector2 newSensitivity)
+        {
+            cameraInput.InputFreeForm.MouseSensitivity = newSensitivity;
+            MouseSensitivity = newSensitivity;
+        }
+
         
         private void OnEnable()
         {

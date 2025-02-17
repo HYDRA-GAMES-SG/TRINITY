@@ -394,8 +394,8 @@ public class ATrinityGameManager : MonoBehaviour
     public static void DeserializeSettings()
     {
         GetGUI().Crosshair.SetActive(PlayerPrefs.GetInt("bCrossHairEnabled") > 0 ? true : false);
-        GetCamera().GetComponent<CameraInputSampling>().MouseSensitivity = new Vector2(4f, 3f) * PlayerPrefs.GetFloat("MouseSensitivity");
-        GetCamera().GetComponent<CameraInputSampling>().ControllerSensitivity = new Vector2(4f, 3f) * PlayerPrefs.GetFloat("GamepadSensitivity");
+        GetCamera().GetComponent<CameraInputSampling>().SetMouseSensitivty(new Vector2(4f, 3f) * PlayerPrefs.GetFloat("MouseSensitivity"));
+        GetCamera().GetComponent<CameraInputSampling>().SetGamepadSensitivty(new Vector2(4f, 3f) * PlayerPrefs.GetFloat("GamepadSensitivity"));
         GetAudio().Mixer.FindMatchingGroups("Master")[0].audioMixer.SetFloat("Volume", PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME));
     }
 
