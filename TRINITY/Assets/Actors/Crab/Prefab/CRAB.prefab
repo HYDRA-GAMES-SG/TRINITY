@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 1709993790138667803}
   m_Layer: 3
   m_Name: Light
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1252,9 +1252,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1926159178483370876}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Indecator
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1757,9 +1757,9 @@ GameObject:
   - component: {fileID: 5295446411420418508}
   - component: {fileID: 7839254489840531517}
   - component: {fileID: 156190605719997871}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2821,7 +2821,7 @@ GameObject:
   - component: {fileID: 3112101203446966264}
   m_Layer: 3
   m_Name: Light
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3132,7 +3132,7 @@ GameObject:
   - component: {fileID: 4281458394531692875}
   m_Layer: 3
   m_Name: Light
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3655,7 +3655,7 @@ GameObject:
   - component: {fileID: 5802796550799286812}
   m_Layer: 3
   m_Name: MouthPos
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4472,7 +4472,7 @@ GameObject:
   - component: {fileID: 1780199293464288330}
   m_Layer: 3
   m_Name: SK_Xenokarce
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4966,6 +4966,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 100
 --- !u!114 &4015719219989438514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4983,6 +4984,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 1
+  Audio3DMaxDistance: 100
 --- !u!114 &339484441150223705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4997,9 +4999,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 8300000, guid: 07565dd668e7508449b46249c5c3c8ed, type: 3}
   Name: Walk
-  Volume: 1
+  Volume: 0.5
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &3419908343397300703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5017,6 +5020,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 100
 --- !u!114 &680872315591837675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5034,6 +5038,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &492172779443402053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5051,6 +5056,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &6606716937380375237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5068,6 +5074,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &7636361575643133849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5085,6 +5092,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &8286959008011244086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5102,6 +5110,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &2682245214505827263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5119,6 +5128,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &6865940743554457372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5136,6 +5146,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &2118033635038765367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5153,6 +5164,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 50
 --- !u!114 &3751786460540672230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5170,6 +5182,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 100
 --- !u!114 &563137499535806993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5187,6 +5200,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 100
 --- !u!114 &8626761355823124868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5204,6 +5218,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
+  Audio3DMaxDistance: 100
 --- !u!114 &7683322418556813400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5220,7 +5235,8 @@ MonoBehaviour:
   Name: Death
   Volume: 1
   Pitch: 1
-  MixerGroup: 1
+  MixerGroup: 0
+  Audio3DMaxDistance: 100
 --- !u!114 &3643544604774045556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5237,7 +5253,8 @@ MonoBehaviour:
   Name: Phase2IceSound
   Volume: 0.5
   Pitch: 1
-  MixerGroup: 1
+  MixerGroup: 0
+  Audio3DMaxDistance: 100
 --- !u!1 &7730679632618582426
 GameObject:
   m_ObjectHideFlags: 0
@@ -5793,7 +5810,7 @@ GameObject:
   - component: {fileID: 2521724703613241179}
   m_Layer: 3
   m_Name: Graphics
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6319,7 +6336,7 @@ GameObject:
   - component: {fileID: 8383281758752282830}
   m_Layer: 3
   m_Name: Light
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6432,6 +6449,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1248656005762323920}
     m_Modifications:
+    - target: {fileID: 682266303125170816, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2080067105553586679, guid: ee2150003cc5bc146b7591e1727fe79c,
         type: 3}
       propertyPath: playOnAwake
@@ -6457,6 +6479,11 @@ PrefabInstance:
       propertyPath: ShapeModule.m_SkinnedMeshRenderer
       value: 
       objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067105553586682, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2080067106127327306, guid: ee2150003cc5bc146b7591e1727fe79c,
         type: 3}
       propertyPath: playOnAwake
@@ -6482,6 +6509,11 @@ PrefabInstance:
       propertyPath: ShapeModule.m_SkinnedMeshRenderer
       value: 
       objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067106127327309, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2080067106411756277, guid: ee2150003cc5bc146b7591e1727fe79c,
         type: 3}
       propertyPath: playOnAwake
@@ -6507,6 +6539,11 @@ PrefabInstance:
       propertyPath: ShapeModule.m_SkinnedMeshRenderer
       value: 
       objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067106411756280, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2080067106486110465, guid: ee2150003cc5bc146b7591e1727fe79c,
         type: 3}
       propertyPath: playOnAwake
@@ -6582,6 +6619,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeshFX_Frost
       objectReference: {fileID: 0}
+    - target: {fileID: 2080067106486110468, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2080067106900056682, guid: ee2150003cc5bc146b7591e1727fe79c,
         type: 3}
       propertyPath: playOnAwake
@@ -6607,6 +6649,11 @@ PrefabInstance:
       propertyPath: ShapeModule.m_SkinnedMeshRenderer
       value: 
       objectReference: {fileID: 1780199293464288330}
+    - target: {fileID: 2080067106900056685, guid: ee2150003cc5bc146b7591e1727fe79c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6868883316193393093, guid: ee2150003cc5bc146b7591e1727fe79c,
         type: 3}
       propertyPath: playOnAwake
