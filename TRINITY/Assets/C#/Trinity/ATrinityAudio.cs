@@ -1,17 +1,42 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
-
+using UnityEngine.Windows;
+using UnityEngine.WSA;
+using KWS;
 public class ATrinityAudio : IAudioManager
 {
+    public KWS_InteractWithWater LeftFoot, RightFoot;
     private ATrinityInput Input;
     public AudioMixer Mixer;
+    private AudioSource TrinitySource;
 
+    private AudioClip[] GrassFootsteps;
+    private AudioClip[] RockFootsteps;
+    private AudioClip[] WaterFootsteps;
+    private AudioClip[] SnowFootsteps;
+
+    const string GrassResourcePath = "GrassFootsteps";
+    const string RockResourcePath = "RockFootsteps";
+    const string WaterResourcePath = "WaterFootsteps";
+    const string SnowResourcePath = "SnowFootsteps";
     void Awake()
     {
+        TrinitySource = GetComponent<AudioSource>();
         ATrinityGameManager.SetAudio(this);
         base.Awake();
+
+        GrassFootsteps = new AudioClip[ArrayLength(GrassResourcePath)];
+        RockFootsteps = new AudioClip[ArrayLength(RockResourcePath)];
+        SnowFootsteps = new AudioClip[ArrayLength(SnowResourcePath)];
+        WaterFootsteps = new AudioClip[ArrayLength(WaterResourcePath)];
+
+        InitalizeFootsteps(GrassFootsteps, GrassResourcePath);
+        InitalizeFootsteps(RockFootsteps, RockResourcePath);
+        InitalizeFootsteps(WaterFootsteps, WaterResourcePath);
+        InitalizeFootsteps(SnowFootsteps, SnowResourcePath);
     }
-    
+
     // ui
     public void PlayOptionsMenuSlider() => Play("OptionsSlider");
     public void PlayOptionsMenuToggle() => Play("OptionsToggle");
@@ -27,8 +52,9 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
-        Play("Jump");
+        int rng = Random.Range(1, 6);
+        string jumpAudio = "Jump" + rng.ToString();
+        Play(jumpAudio);
     }
     public void PlayLand(float verticalVelocity)
     {
@@ -36,8 +62,9 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
-        PlayWithVolume("Land", Mathf.Clamp01(verticalVelocity / 14f));
+        int rng = Random.Range(1, 3);
+        string landAudio = "Land" + rng.ToString();
+        PlayWithVolume(landAudio, Mathf.Clamp01(verticalVelocity / 14f));
     }
     public void PlayGlideLoop()
     {
@@ -45,7 +72,6 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
         StartLoop("GlideLoop");
     }
     public void EndGlideLoop()
@@ -54,7 +80,7 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
+        print("glide end");
         StopLoop("GlideLoop");
     }
     public void PlayTerrainCollision()
@@ -63,7 +89,7 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
+
         Play("TerrainCollision");
     }
     public void PlayDeath()
@@ -72,7 +98,7 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
+
         Play("Death");
     }
     public void PlayJumpGrunt()
@@ -81,7 +107,7 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
+
         Play("JumpGrunt");
     }
     public void PlayGameOver()
@@ -90,7 +116,7 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
+
         Play("GameOver");
     }
     public void PlayBeginFalling()
@@ -99,7 +125,56 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        
+
         Play("BeginFalling");
+    }
+    public int ArrayLength(string typeOfFootstep)
+    {
+        AudioClip[] footstepClips = Resources.LoadAll<AudioClip>(typeOfFootstep);
+        int length = footstepClips.Length;
+        return length;
+    }
+    public void InitalizeFootsteps(AudioClip[] stepsArray, string typeOfFootstep)
+    {
+        AudioClip[] footstepClips = Resources.LoadAll<AudioClip>(typeOfFootstep);
+        for (int i = 0; i < footstepClips.Length; i++)
+        {
+            stepsArray[i] = footstepClips[i];
+        }
+    }
+    public AudioClip RandomClip(AudioClip[] clipArray)
+    {
+        int rng = Random.Range(0, clipArray.Length);
+        AudioClip randomClip = clipArray[rng];
+        return randomClip;
+    }
+    public void PlayFootstep()
+    {
+        if (Physics.Raycast(ATrinityGameManager.GetPlayerController().transform.position, Vector3.down, out RaycastHit hitInfo))
+        {
+            string tagName = hitInfo.collider.gameObject.tag;
+            switch (tagName)
+            {
+                case "Ground":
+                    TrinitySource.PlayOneShot(RandomClip(GrassFootsteps));
+                    break;
+                case "Rock":
+                    TrinitySource.volume = 1;
+                    TrinitySource.PlayOneShot(RandomClip(RockFootsteps));
+                    break;
+                case "Snow":
+                    TrinitySource.volume = 0.6f;
+                    TrinitySource.PlayOneShot(RandomClip(SnowFootsteps));
+                    break;
+            }
+            //int i = Random.Range(0, clipstoplay.Length);
+            //FootstepSource.PlayOneShot(clipstoplay[i]);
+        }
+        if (LeftFoot.IsIntersect() || RightFoot.IsIntersect()) 
+        {
+            print("intersect water");
+            TrinitySource.volume = 1;
+            TrinitySource.PlayOneShot(RandomClip(WaterFootsteps));
+        }
     }
 }

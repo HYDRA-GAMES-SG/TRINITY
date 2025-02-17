@@ -174,5 +174,9 @@ namespace KWS
 
             if(_lastIntersectedWaterInstance != null) UpdateData();
         }
+        public bool IsIntersect() 
+        {
+            return IsWaterIntersected;
+        }
     }
 }
