@@ -11,6 +11,8 @@ public class AGate : MonoBehaviour
     [HideInInspector]
     public bool bShouldOpen = false;
 
+    private bool bAudioPlayed = false;
+
     private Vector3 OpenPosition;
     private Vector3 ClosedPosition;
     
@@ -28,6 +30,13 @@ public class AGate : MonoBehaviour
         {
             OpenTimer += Time.deltaTime;
             transform.position = Vector3.Lerp(ClosedPosition, OpenPosition, OpenTimer / OpenDuration);
+            AudioSource audioSource = GetComponent<AudioSource>();
+            
+            if (!audioSource.isPlaying && !bAudioPlayed)
+            {
+                audioSource.Play();
+                bAudioPlayed = true;
+            }
         }
     }
 
@@ -36,3 +45,4 @@ public class AGate : MonoBehaviour
         bShouldOpen = true;
     }
 }
+    

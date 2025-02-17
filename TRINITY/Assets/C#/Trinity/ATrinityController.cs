@@ -445,6 +445,12 @@ public class ATrinityController : MonoBehaviour
         OnHealthHit += ATrinityGameManager.GetScore().AddDamageTaken;
         HealthComponent.OnHealthModified += ATrinityGameManager.GetGUI().UpdateHealthBar;
         HealthComponent.OnDeath += ATrinityGameManager.GetGUI().DisplayGameOver;
+
+        if (ATrinityGameManager.CurrentScene == "PORTAL" && ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
+        {
+            transform.position = new Vector3(437.75f,18.75f,-32.0f);
+            transform.rotation = new Quaternion(-0.0034910484682768585f,0.2586132884025574f, -0.014947705902159214f,-0.9658589959144592f);
+        }
     }
     
     private void OnDestroy()
