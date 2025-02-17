@@ -9,6 +9,8 @@ using UnityEngine.SceneManagement;
 public class ATrinityScore : MonoBehaviour
 {
     private static ATrinityScore Instance;
+
+    public List<IEnemyController> DefeatedBosses;
     
     public System.Action<ETrinityScore> OnVictory;
     //public float TimeToDamageScoreWeight = .5f;
@@ -54,6 +56,7 @@ public class ATrinityScore : MonoBehaviour
     public void Awake()
     {
         List<ATrinityScore> CurrentInstances = FindObjectsOfType<ATrinityScore>().ToList();
+        DefeatedBosses = new List<IEnemyController>();
         
         if (CurrentInstances.Count() > 1)
         {
@@ -76,6 +79,18 @@ public class ATrinityScore : MonoBehaviour
         if (ATrinityGameManager.CurrentScene != "PORTAL")
         {
             Timer += Time.deltaTime;
+        }
+        else
+        {
+            List<APortal> portals = FindObjectsOfType<APortal>().ToList();
+
+            foreach (APortal portal in portals)
+            {
+                if (portal.sceneName == "DevourerSentinelBossDungeon" && DefeatedBosses.Count >= 0)
+                {
+                    portal.Activate();
+                }
+            }
         }
         
         CheckForVictory();
@@ -105,6 +120,7 @@ public class ATrinityScore : MonoBehaviour
             FScoreLimits scoreLimits = GetScoreLimits();
             OnVictory?.Invoke(GetETS(scoreLimits));
             bInvokedVictoryThisScene = true;
+            DefeatedBosses.Add(ATrinityGameManager.GetEnemyControllers()[0]);
         }
     }
 

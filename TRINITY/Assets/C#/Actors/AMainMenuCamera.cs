@@ -18,11 +18,23 @@ public class AMainMenuCamera : MonoBehaviour
     
     private GameObject MainMenuCamera;
     private ATrinityCamera TrinityCamera;
+
+    public void HandleMenuMusic()
+    {
+        if (ATrinityGameManager.CurrentScene == "PORTAL" && ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
+        {
+            MainMenuMusic.volume = 0f;
+            MainMenuMusic.Stop();
+            SceneBGM.SetActive(true);
+        }
+    }
     
     // Start is called before the first frame update
     void Start()
     {
 
+        ATrinityGameManager.OnSceneChanged += HandleMenuMusic;
+        
         if (!TrinityCamera)
         {
             ATrinityCamera[] allTrinityCameras = Resources.FindObjectsOfTypeAll<ATrinityCamera>();
@@ -76,6 +88,7 @@ public class AMainMenuCamera : MonoBehaviour
         MainMenuCanvas.gameObject.SetActive(false);
         MainMenuMusic.gameObject.SetActive(false);
         SceneBGM.SetActive(true);
+        ATrinityGameManager.GetGUI().GetMainMenu().Gate.Open();
     }
     
     private IEnumerator AnimateCoroutine()

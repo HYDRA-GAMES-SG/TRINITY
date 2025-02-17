@@ -4503,6 +4503,10 @@ GameObject:
   - component: {fileID: 157076022727127456}
   - component: {fileID: 3726060101694561749}
   - component: {fileID: 8678878686893752859}
+  - component: {fileID: 4504268120243819860}
+  - component: {fileID: 7320621217805227636}
+  - component: {fileID: 4190070521149127061}
+  - component: {fileID: 4702143511824037046}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -4593,7 +4597,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 8300000, guid: 612b121c1f0e0754a8780d81ab7e605f, type: 3}
   Name: Land1
-  Volume: 1
+  Volume: 0.4
   Pitch: 1
   MixerGroup: 0
   Audio3DMaxDistance: 100
@@ -4627,7 +4631,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
+  Audio: {fileID: 8300000, guid: 312b86139ed881444b0083fd65a372ef, type: 3}
   Name: TrinityHmm
   Volume: 1
   Pitch: 1
@@ -4663,7 +4667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Audio: {fileID: 8300000, guid: 72753375d58dc2345ab27ddae19d03b2, type: 3}
+  Audio: {fileID: 8300000, guid: 77bb33b644b73c946a5f4089db2c2149, type: 3}
   Name: GameOver
   Volume: 1
   Pitch: 1
@@ -4917,6 +4921,78 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 8300000, guid: 6df4d1870b4dde546ad77718ad42a958, type: 3}
   Name: Land3
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+  Audio3DMaxDistance: 100
+--- !u!114 &4504268120243819860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670401827004296488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: 691a7e410b3364744acd4b82b9a66ea8, type: 3}
+  Name: Jump2
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+  Audio3DMaxDistance: 100
+--- !u!114 &7320621217805227636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670401827004296488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: 8a92eb0926f74f74c8a5ec6bf76b7ae3, type: 3}
+  Name: Jump3
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+  Audio3DMaxDistance: 100
+--- !u!114 &4190070521149127061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670401827004296488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: 1b03204aea77da84c9d8dd2ac7c827d0, type: 3}
+  Name: Jump4
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 0
+  Audio3DMaxDistance: 100
+--- !u!114 &4702143511824037046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2670401827004296488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: 16745454772939246ac5eb56a163bdd1, type: 3}
+  Name: Jump5
   Volume: 1
   Pitch: 1
   MixerGroup: 0

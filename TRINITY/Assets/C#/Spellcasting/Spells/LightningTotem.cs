@@ -201,13 +201,16 @@ public class LightningTotem : MonoBehaviour
                     2f * Time.deltaTime);
             }
 
-            if (closestEnemy.gameObject.GetComponent<UHealthComponent>().bInvulnerable)
+            if (closestEnemy != null)
             {
-                bCanFire = false;
-            }
-            else 
-            {
-                bCanFire = true;
+                if (closestEnemy.gameObject.GetComponent<UHealthComponent>().bInvulnerable)
+                {
+                    bCanFire = false;
+                }
+                else
+                {
+                    bCanFire = true;
+                }
             }
         }
     }

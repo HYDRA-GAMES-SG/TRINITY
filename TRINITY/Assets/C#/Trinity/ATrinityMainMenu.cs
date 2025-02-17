@@ -12,7 +12,8 @@ public class ATrinityMainMenu : MonoBehaviour
     public event Action OnMainMenuNavigate;
     public event Action OnMainMenuSelection;
     public event Action<ETrinityElement> OnMenuElementChanged;
-    
+
+    public AMainMenuGate Gate;
     public TextMeshProUGUI TitleText;
     public float TitleFadeInTime;
     public AMainMenuCamera MainMenuCamera;

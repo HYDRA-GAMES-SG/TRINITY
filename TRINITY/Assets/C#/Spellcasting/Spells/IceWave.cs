@@ -7,6 +7,7 @@ using UnityEngine.Animations.Rigging;
 [RequireComponent(typeof(AudioClip))]
 public class IceWave : AProjectile
 {
+    public AudioLowPassFilter Filter;
     private AudioSource IceWaveSource;
     public AudioClip[] BounceSFX;
 
@@ -46,6 +47,7 @@ public class IceWave : AProjectile
         
         BaseRotation = Quaternion.Euler(0, 180, shouldRotate * 45);
         BouncesLeft = MaxBounces;
+        Filter.enabled = false;
 
         //Vector3 offset = Controller.Right * 2f * shouldRotate;
         //transform.position += offset;
@@ -141,14 +143,45 @@ public class IceWave : AProjectile
 
             bCanDealDamage = false;
 
-            int rng = UnityEngine.Random.Range(0, BounceSFX.Length);         
+            int rng = UnityEngine.Random.Range(0, BounceSFX.Length);
+
             IceWaveSource.PlayOneShot(BounceSFX[rng]);
         }
     }
+        
+    public bool IsPointInBoxCollider(Vector3 point, BoxCollider boxCollider, float sizeOffset = 0f) 
+    {
+        point = boxCollider.transform.InverseTransformPoint(point);
+    
+        Vector3 bounds = new Vector3(
+            (boxCollider.size.x + sizeOffset) * 0.5f,
+            (boxCollider.size.y + sizeOffset) * 0.5f,
+            (boxCollider.size.z + sizeOffset) * 0.5f
+        );
 
+        return Mathf.Abs(point.x) <= bounds.x && 
+               Mathf.Abs(point.y) <= bounds.y && 
+               Mathf.Abs(point.z) <= bounds.z;
+    }
+        
     private void OnCollisionEnter(Collision collision)
     {
         HandleBounce(collision);
+        
+        if (ATrinityGameManager.GetSpells().SecondaryCold.IceCubeInstance.GetComponent<IceCube>().Mesh.enabled)
+        {
+            if (IsPointInBoxCollider(transform.position,
+                    ATrinityGameManager.GetSpells().SecondaryCold.IceCubeTrigger, .08f))
+            {
+                Filter.enabled = true;
+                IceWaveSource.volume = .4f;
+            }
+            else
+            {
+                IceWaveSource.volume = .6f;
+                Filter.enabled = false;
+            }
+        }
     }
 
     public void HandleBounce(Collision collision)

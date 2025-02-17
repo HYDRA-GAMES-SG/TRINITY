@@ -24850,6 +24850,7 @@ GameObject:
   - component: {fileID: 1963804921093879172}
   - component: {fileID: -5127244388402853761}
   - component: {fileID: 2491509559896551977}
+  - component: {fileID: 1051956401965632682}
   m_Layer: 7
   m_Name: IceWave
   m_TagString: Untagged
@@ -24898,6 +24899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f29fb5c9a1aa1874a8dc055340f43db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Filter: {fileID: 1051956401965632682}
   BounceSFX:
   - {fileID: 8300000, guid: 022449cf5576a44458aac6d6bc54d3f2, type: 3}
   - {fileID: 8300000, guid: 085bb750d19c1884d9df5da6a8802d31, type: 3}
@@ -29783,7 +29785,8 @@ AudioSource:
   m_GameObject: {fileID: 7306717205594611073}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7797505636420618594, guid: 0a193b4917b2c1546a8886eb82078189,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -29795,9 +29798,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 60
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -29830,7 +29833,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -29861,6 +29864,31 @@ AudioSource:
     - serializedVersion: 3
       time: 0
       value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!169 &1051956401965632682
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7306717205594611073}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_LowpassResonanceQ: 1
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.26653025
       inSlope: 0
       outSlope: 0
       tangentMode: 0

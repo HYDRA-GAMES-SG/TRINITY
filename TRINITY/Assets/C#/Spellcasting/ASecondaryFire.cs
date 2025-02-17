@@ -124,13 +124,11 @@ public class ASecondaryFire : ASpell
 
         if (!Rune.activeSelf)
         {
-            print("deleting rune");
             return; //do nothing if rune does not exist since no valid placement found
         }
 
         if (Rune == null || !Rune.activeSelf)
         {
-            print("no rune or rune inactive");
             return;
         }
 

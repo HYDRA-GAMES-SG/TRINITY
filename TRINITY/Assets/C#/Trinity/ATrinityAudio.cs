@@ -57,9 +57,9 @@ public class ATrinityAudio : IAudioManager
         }
         int rng = Random.Range(1, 5);
         string jumpAudio = "Jump" + rng.ToString();
-        print("jump");
-        Play(jumpAudio);
+        PlayWithVolume(jumpAudio, .6f);
     }
+
     public void PlayLand(float verticalVelocity)
     {
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
@@ -84,7 +84,6 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        print("glide end");
         StopLoop("GlideLoop");
     }
     public void PlayTerrainCollision()
@@ -96,6 +95,7 @@ public class ATrinityAudio : IAudioManager
 
         Play("TerrainCollision");
     }
+    
     public void PlayDeath()
     {
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.PLAY)
@@ -152,19 +152,21 @@ public class ATrinityAudio : IAudioManager
         AudioClip randomClip = clipArray[rng];
         return randomClip;
     }
+    
     public void PlayFootstep()
     {
         if (Physics.Raycast(ATrinityGameManager.GetPlayerController().transform.position, Vector3.down, out RaycastHit hitInfo))
         {
             string tagName = hitInfo.collider.gameObject.tag;
+            TrinitySource.outputAudioMixerGroup = ATrinityGameManager.GetAudioMixerGroup(EAudioGroup.EAG_SFX);
             switch (tagName)
             {
                 case "Ground":
-                    TrinitySource.volume = .8f;
+                    TrinitySource.volume = .1f;
                     TrinitySource.PlayOneShot(RandomClip(GrassFootsteps));
                     break;
                 case "Rock":
-                    TrinitySource.volume = .8f;
+                    TrinitySource.volume = .5f;
                     TrinitySource.PlayOneShot(RandomClip(RockFootsteps));
                     break;
                 case "Snow":
@@ -177,7 +179,6 @@ public class ATrinityAudio : IAudioManager
         }
         if (LeftFoot.IsIntersect() || RightFoot.IsIntersect()) 
         {
-            print("intersect water");
             TrinitySource.PlayOneShot(RandomClip(WaterFootsteps), SPLASHVOLUME);
         }
     }

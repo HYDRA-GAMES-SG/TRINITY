@@ -136,8 +136,7 @@ public class NormalMovement : TrinityState
         if (!ATrinityGameManager.GetBrain().CanAct() 
             || Controller.bUnstable 
             || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling 
-            || StunDurationRemaining > 0f
-            || TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("FallingLand"))
+            || StunDurationRemaining > 0f)
         {
             UpdateAnimParams();
             return;
@@ -417,8 +416,6 @@ public class NormalMovement : TrinityState
         }
         
         bCanGlide = false;
-        ATrinityGameManager.GetBrain().SetStunnedState(1f * (hitInfo.Damage / Controller.HealthComponent.MAX));
-        
         
         
         Vector3 playerSpaceEnemyCollider = Controller.transform.InverseTransformPoint(hitInfo.CollidingObject.transform.position);
