@@ -109,7 +109,7 @@ public class ATrinityMainMenu : MonoBehaviour
 
     public void Select()
     {
-        if (bOptionsMenu || bRotating)
+        if (bOptionsMenu || bRotating || bStartingGame)
         {
             //handle options menu
             return;

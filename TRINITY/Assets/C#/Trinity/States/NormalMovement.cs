@@ -133,7 +133,11 @@ public class NormalMovement : TrinityState
         HandleFalling();
         HandleUnstableGround();
 
-        if (!ATrinityGameManager.GetBrain().CanAct() || Controller.bUnstable || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling || StunDurationRemaining > 0f)
+        if (!ATrinityGameManager.GetBrain().CanAct() 
+            || Controller.bUnstable 
+            || ATrinityGameManager.GetBrain().GetAction() == ETrinityAction.ETA_Channeling 
+            || StunDurationRemaining > 0f
+            || TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("FallingLand"))
         {
             UpdateAnimParams();
             return;
@@ -281,6 +285,13 @@ public class NormalMovement : TrinityState
                     TrinityFSM.Animator.SetBool(AnimKeys["Glide"], false);
                     
                 }
+            }
+        }
+        else
+        {
+            if (Controller.CheckGround().transform == null && Controller.VerticalVelocity < 0)
+            {
+                SetMovementState(ETrinityMovement.ETM_Falling);
             }
         }
     }

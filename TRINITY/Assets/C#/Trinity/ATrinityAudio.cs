@@ -46,6 +46,8 @@ public class ATrinityAudio : IAudioManager
     public void PlayMainMenuNavigate() => Play("MainMenuNavigate");
     public void PlayMainMenuSelect() => Play("MainMenuSelect");
 
+    
+    
     // sfx
     public void PlayJump()
     {
@@ -53,7 +55,7 @@ public class ATrinityAudio : IAudioManager
         {
             return;
         }
-        int rng = Random.Range(1, 6);
+        int rng = Random.Range(1, 5);
         string jumpAudio = "Jump" + rng.ToString();
         print("jump");
         Play(jumpAudio);
@@ -158,14 +160,15 @@ public class ATrinityAudio : IAudioManager
             switch (tagName)
             {
                 case "Ground":
+                    TrinitySource.volume = .8f;
                     TrinitySource.PlayOneShot(RandomClip(GrassFootsteps));
                     break;
                 case "Rock":
-                    TrinitySource.volume = 1;
+                    TrinitySource.volume = .8f;
                     TrinitySource.PlayOneShot(RandomClip(RockFootsteps));
                     break;
                 case "Snow":
-                    TrinitySource.volume = 0.6f;
+                    TrinitySource.volume = 0.3f;
                     TrinitySource.PlayOneShot(RandomClip(SnowFootsteps));
                     break;
             }
