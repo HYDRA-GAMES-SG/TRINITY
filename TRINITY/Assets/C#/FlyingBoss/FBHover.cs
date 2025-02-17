@@ -88,11 +88,11 @@ public class FBHover : FlyingBossState
         {
             // Generate random offsets around the base position
             float randomX = Random.Range(0, FlyingBossFSM.FlyingBossController.HoverXAxis);
-            float randomY = Random.Range(5, FlyingBossFSM.FlyingBossController.HoverYAxis);
+            float randomY = Random.Range(8, FlyingBossFSM.FlyingBossController.HoverYAxis);
             float randomZ = Random.Range(0, FlyingBossFSM.FlyingBossController.HoverZAxis);
 
             Vector3 randomPosition = GetPositionBehindInvincibleBoss() + new Vector3(randomX, randomY, randomZ);
-
+            randomPosition.y = Mathf.Clamp(randomPosition.y, 8f, 20f);
             if (IsPositionValid(randomPosition))
             {
                 return randomPosition;
@@ -107,7 +107,7 @@ public class FBHover : FlyingBossState
         Vector3 bossForward = FlyingBossFSM.FlyingBossController.InvincibleBoss.forward;
 
         Vector3 basePositionBehindBoss = invincibleBossPosition - bossForward;
-        basePositionBehindBoss.y = 5;
+        basePositionBehindBoss.y = 10;
         return basePositionBehindBoss;
     }
 

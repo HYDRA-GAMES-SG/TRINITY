@@ -44,7 +44,7 @@ public class IAudioManager : MonoBehaviour
 
     void InitializeAudioPool()
     {
-        
+
         // Clean up existing pool if it exists
         if (AudioSourcePool != null)
         {
@@ -74,7 +74,7 @@ public class IAudioManager : MonoBehaviour
         {
             InitializeAudioPool();
         }
-        
+
         // First, validate all sources in the pool
         for (int i = 0; i < AudioSourcePool.Length; i++)
         {
@@ -215,6 +215,8 @@ public class IAudioManager : MonoBehaviour
         {
             case EAudioGroup.EAG_SFX:
                 source.spatialBlend = 1f;
+                source.rolloffMode = AudioRolloffMode.Linear;
+                source.maxDistance = audio.Audio3DMaxDistance;
                 break;
             case EAudioGroup.EAG_UI:
             case EAudioGroup.EAG_BGM:
@@ -234,9 +236,10 @@ public class IAudioManager : MonoBehaviour
 
         GameObject newAudioSourceObj = new GameObject();
         newAudioSourceObj.AddComponent<AudioSource>();
-        newAudioSourceObj.transform.position = transform.position;
-        newAudioSourceObj.transform.rotation = transform.rotation;
-        newAudioSourceObj.transform.localScale = transform.localScale;
+        newAudioSourceObj.transform.SetParent(transform, false);
+        //newAudioSourceObj.transform.position = transform.position;
+        //newAudioSourceObj.transform.rotation = transform.rotation;
+        //newAudioSourceObj.transform.localScale = transform.localScale;
 
         AudioSource source = newAudioSourceObj.GetComponent<AudioSource>();
 

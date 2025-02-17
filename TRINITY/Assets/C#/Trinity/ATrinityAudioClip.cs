@@ -9,8 +9,9 @@ public class ATrinityAudioClip : MonoBehaviour
     public float Volume = 1f;
     public float Pitch = 1f;
     public EAudioGroup MixerGroup = EAudioGroup.EAG_SFX;
+    public float Audio3DMaxDistance = 100;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {

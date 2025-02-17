@@ -13,11 +13,16 @@ public class OrbExplosion : MonoBehaviour
     private bool hasDealtDamage = false;
     float timer;
     bool hasShake = false;
+    public AudioSource OrbAudioSource;
+    public AudioClip Chrage;
+    public AudioClip Release;
     private void Start()
     {
         ParticleSystem ps = GetComponent<ParticleSystem>();
         delay = ps.main.startDelay.constant;
         Controller.MediumCameraShake(.5f);
+        OrbAudioSource.PlayOneShot(Chrage);
+        Destroy(this.transform.root.gameObject, 5f);
     }
     private void Update()
     {
@@ -25,8 +30,8 @@ public class OrbExplosion : MonoBehaviour
         if (timer >= delay && !hasShake)
         {
             hasShake = true;
+            OrbAudioSource.PlayOneShot(Release);
             Controller.MediumCameraShake(.5f);
-
         }
     }
     private void OnParticleCollision(GameObject other)
@@ -53,5 +58,5 @@ public class OrbExplosion : MonoBehaviour
     {
         Controller = enemyController;
     }
-   
+
 }

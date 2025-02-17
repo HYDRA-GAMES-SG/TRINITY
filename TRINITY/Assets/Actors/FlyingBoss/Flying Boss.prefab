@@ -554,7 +554,7 @@ MonoBehaviour:
   FlyingBossFSM: {fileID: 4759994442646636491}
   InvincibleBoss: {fileID: 0}
   HoverRange: 50
-  HoverXAxis: 15
+  HoverXAxis: 20
   HoverYAxis: 17
   HoverZAxis: -3
   ElectricChargeAttackCD: 10
@@ -1403,6 +1403,8 @@ GameObject:
   - component: {fileID: 5696296355537785786}
   - component: {fileID: 8117642658759369567}
   - component: {fileID: 418221995331355651}
+  - component: {fileID: 6975838511826337644}
+  - component: {fileID: 3291678445730949639}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -1456,6 +1458,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 8300000, guid: 371cbb641a700e74181afe3431b6edbb, type: 3}
   Name: AttackRelease
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 1
+--- !u!114 &6975838511826337644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4615650193830495213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: 55651a6408b43b64088ed8b8125a496f, type: 3}
+  Name: Death
+  Volume: 1
+  Pitch: 1
+  MixerGroup: 1
+--- !u!114 &3291678445730949639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4615650193830495213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Audio: {fileID: 8300000, guid: b26a4706a27561f46b489b6c34f69a56, type: 3}
+  Name: DropGround
   Volume: 1
   Pitch: 1
   MixerGroup: 1

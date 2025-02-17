@@ -14,8 +14,12 @@ public class DelayedColliderActivator : MonoBehaviour
     private float timer = 0f;
     private bool isTimerRunning = false;
     private bool hasDamaged = false;
+    public AudioSource audioS;
+    public AudioClip SoundCLip;
+
     private void Start()
     {
+        audioS = GetComponent<AudioSource>();
         if (targetCollider == null)
         {
             targetCollider = GetComponent<Collider>();
@@ -51,6 +55,10 @@ public class DelayedColliderActivator : MonoBehaviour
                 targetCollider.enabled = true;
                 MediumCameraShake(0.2f);
                 isTimerRunning = false;
+                if (audioS != null)
+                {
+                    audioS.PlayOneShot(SoundCLip);
+                }
             }
         }
     }
