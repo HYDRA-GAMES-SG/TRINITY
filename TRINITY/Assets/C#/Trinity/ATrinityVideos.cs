@@ -36,6 +36,11 @@ public class ATrinityVideos : MonoBehaviour
         {
             RenderTextureCube.GetComponent<MeshRenderer>().material.mainTexture = TutorialRenderTextures[tutorialVideoIndex];
         }
+        else
+        {
+            RenderTextureCube = FindObjectOfType<USpellPickupComponent>().gameObject;
+            
+        }
         
         if (CurrentTutorialParent != null)
         {

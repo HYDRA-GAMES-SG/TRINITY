@@ -35,8 +35,12 @@ public class UForcefieldGateComponent : MonoBehaviour
             }
             else
             {
-                ATrinityGameManager.GetPlayerController().HealthComponent
-                    .Modify(-ManaDamagePerSecond * 2f * Time.deltaTime);
+                if (ATrinityGameManager.GetPlayerController().HealthComponent.Current >
+                    ManaDamagePerSecond * 2f * Time.deltaTime)
+                {
+                    ATrinityGameManager.GetPlayerController().HealthComponent
+                        .Modify(-ManaDamagePerSecond * 2f * Time.deltaTime);
+                }
             }
         }
     }

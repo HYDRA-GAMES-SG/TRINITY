@@ -1361,7 +1361,7 @@ MonoBehaviour:
   MainMenuGUI: {fileID: 525304926856250976}
   TriangleTexts: []
   ArrowParent: {fileID: 3974059203918403535}
-  bCanSkipMainMenu: 1
+  bCanSkipMainMenu: 0
 --- !u!1 &589564626021895499
 GameObject:
   m_ObjectHideFlags: 0
@@ -4295,10 +4295,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TutorialParents:
-  - {fileID: 45520114339683591}
   - {fileID: 4140682730532732167}
   - {fileID: 5473061587008258270}
   - {fileID: 6948809831695472998}
+  - {fileID: 45520114339683591}
   - {fileID: 3383874126776431671}
   - {fileID: 7268065639210470688}
   - {fileID: 7453825022479561937}
@@ -5807,9 +5807,11 @@ MonoBehaviour:
   SceneImages:
   - {fileID: 21300000, guid: 6aa964ffae1418345ad238d31a80c29d, type: 3}
   - {fileID: 21300000, guid: a72eb6f101c79874198eadffc9d3b018, type: 3}
+  - {fileID: 21300000, guid: dcafaee84ff060447ba301ab07ed2cd9, type: 3}
   SceneNames:
   - CrabBossDungeon
   - DevourerSentinelBossDungeon
+  - PORTAL
   LoadingImage: {fileID: 6473489068137978039}
   ProgressBar: {fileID: 7501532020523699609}
   ProgressText: {fileID: 3313647167066608617}
@@ -21002,6 +21004,8 @@ MonoBehaviour:
   AnimateCameraDuration: 3
   MainMenuParentObject: {fileID: 525304926856250976}
   MainMenuCanvas: {fileID: 2450647158733674313}
+  MainMenuMusic: {fileID: 0}
+  SceneBGM: {fileID: 0}
 --- !u!20 &142520640240255825
 Camera:
   m_ObjectHideFlags: 0

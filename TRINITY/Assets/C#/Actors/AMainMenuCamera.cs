@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class AMainMenuCamera : MonoBehaviour
@@ -12,6 +13,8 @@ public class AMainMenuCamera : MonoBehaviour
     public static System.Action OnSwitchToPlayerCamera;
     public GameObject MainMenuParentObject;
     public CanvasGroup MainMenuCanvas;
+    public AudioSource MainMenuMusic;
+    public GameObject SceneBGM;
     
     private GameObject MainMenuCamera;
     private ATrinityCamera TrinityCamera;
@@ -64,12 +67,15 @@ public class AMainMenuCamera : MonoBehaviour
         {
             fadeTime += Time.deltaTime;
             float alpha = Mathf.Lerp(1, 0, fadeTime / FadeMainMenuDuration);
+            MainMenuMusic.volume = Mathf.Lerp(.1f, 0, fadeTime / FadeMainMenuDuration);
             MainMenuCanvas.alpha = alpha;
 
             yield return null;
         }
 
         MainMenuCanvas.gameObject.SetActive(false);
+        MainMenuMusic.gameObject.SetActive(false);
+        SceneBGM.SetActive(true);
     }
     
     private IEnumerator AnimateCoroutine()
