@@ -268,12 +268,9 @@ public class NormalMovement : TrinityState
             if (MovementState != ETrinityMovement.ETM_Jumping)
             {
                 if (Controller.CheckGround().transform)
-                {
-                    if (MovementState == ETrinityMovement.ETM_Gliding)
-                    {
-                        ATrinityController.OnGlideEnd?.Invoke();
-
-                    }
+                {                                 
+                    ATrinityController.OnGlideEnd?.Invoke();
+                 
                     ATrinityController.OnLand?.Invoke(Controller.VerticalVelocity);
                     
                     // Ground detected, ensure movement state remains grounded

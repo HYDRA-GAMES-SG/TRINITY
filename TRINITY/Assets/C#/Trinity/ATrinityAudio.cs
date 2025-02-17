@@ -2,7 +2,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Windows;
-using UnityEngine.WSA;
 using KWS;
 public class ATrinityAudio : IAudioManager
 {
@@ -20,6 +19,8 @@ public class ATrinityAudio : IAudioManager
     const string RockResourcePath = "RockFootsteps";
     const string WaterResourcePath = "WaterFootsteps";
     const string SnowResourcePath = "SnowFootsteps";
+
+    const float SPLASHVOLUME = 0.05f;
     void Awake()
     {
         TrinitySource = GetComponent<AudioSource>();
@@ -54,6 +55,7 @@ public class ATrinityAudio : IAudioManager
         }
         int rng = Random.Range(1, 6);
         string jumpAudio = "Jump" + rng.ToString();
+        print("jump");
         Play(jumpAudio);
     }
     public void PlayLand(float verticalVelocity)
@@ -173,8 +175,7 @@ public class ATrinityAudio : IAudioManager
         if (LeftFoot.IsIntersect() || RightFoot.IsIntersect()) 
         {
             print("intersect water");
-            TrinitySource.volume = 1;
-            TrinitySource.PlayOneShot(RandomClip(WaterFootsteps));
+            TrinitySource.PlayOneShot(RandomClip(WaterFootsteps), SPLASHVOLUME);
         }
     }
 }
