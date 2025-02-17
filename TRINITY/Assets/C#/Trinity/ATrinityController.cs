@@ -401,7 +401,7 @@ public class ATrinityController : MonoBehaviour
         }
         
         if (other.gameObject.layer == LayerMask.NameToLayer("Default")
-           && (!other.gameObject.CompareTag("Ground") || !other.gameObject.CompareTag("Snow")))
+           && (!other.gameObject.CompareTag("Ground") || !other.gameObject.CompareTag("Snow") || !other.gameObject.CompareTag("Rock")))
         {
             TerrainCounter++;
             TerrainList.Add(other.gameObject);
@@ -421,8 +421,8 @@ public class ATrinityController : MonoBehaviour
             return;
         }
         
-        if (other.gameObject.layer == LayerMask.NameToLayer("Default") 
-            && (!other.gameObject.CompareTag("Ground") || !other.gameObject.CompareTag("Snow")))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Default")
+             && (!other.gameObject.CompareTag("Ground") || !other.gameObject.CompareTag("Snow") || !other.gameObject.CompareTag("Rock")))
         {
             TerrainCounter--;
             TerrainList.Remove(other.gameObject);
