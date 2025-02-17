@@ -33,8 +33,7 @@ public class NormalMovement : TrinityState
     private bool bCanGlide = false;
     private bool bJumpConsumed = false;
     private bool bFixedUpdate = false;
-    public bool bIsFalling => ATrinityGameManager.GetPlayerFSM().Animator.GetCurrentAnimatorStateInfo(0).IsName("Kneel Down") ||
-            ATrinityGameManager.GetPlayerFSM().Animator.GetCurrentAnimatorStateInfo(0).IsName("Stun Fall") ||
+    public bool bStunState => ATrinityGameManager.GetPlayerFSM().Animator.GetCurrentAnimatorStateInfo(0).IsName("Stunned") || 
             ATrinityGameManager.GetPlayerFSM().Animator.GetCurrentAnimatorStateInfo(0).IsName("Aerial Stunned");
 
 
@@ -89,7 +88,7 @@ public class NormalMovement : TrinityState
 
     private void HandleStun(float stunDuration)
     {
-        if (!TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Kneel Down"))
+        if (!bStunState)
         {
             TrinityFSM.Animator.SetBool(AnimKeys["Stun"], true);
         }
@@ -123,7 +122,7 @@ public class NormalMovement : TrinityState
 
         StunDurationRemaining -= Time.deltaTime;
         
-        if (TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Movement") || TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Kneel Down") )
+        if (TrinityFSM.Animator.GetCurrentAnimatorStateInfo(0).IsName("Movement"))
         {
             TrinityFSM.Animator.SetBool(AnimKeys["Stun"], false);
         }

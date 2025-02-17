@@ -111,7 +111,7 @@ public class ATrinityBrain : MonoBehaviour
 
         if (nm != null) 
         {
-            if (nm.bIsFalling) 
+            if (nm.bStunState) 
             {
                 return false;
             }
