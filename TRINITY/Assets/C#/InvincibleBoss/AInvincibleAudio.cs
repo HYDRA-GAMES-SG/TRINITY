@@ -61,7 +61,7 @@ public class AInvincibleAudio : IAudioManager
     }
     public void PlayIBHandSmash()
     {
-        Play("Smash");
+        PlayAtPosition("Smash", Righthand);
     }
     public void PlayIBStompAndEffect()
     {
@@ -69,7 +69,7 @@ public class AInvincibleAudio : IAudioManager
     }
     public void PlayIBShockCharge()
     {
-        Play("ShockCharge");
+        PlayAtPosition("ShockCharge", Mounth);
     }
     public void PlayIBShockRelease()
     {
@@ -77,11 +77,11 @@ public class AInvincibleAudio : IAudioManager
     }
     public void PlayIBOrbCharge()
     {
-        Play("OrbCharge");
+        PlayAtPosition("OrbCharge", Lefthand);
     }
     public void PlayIBOrbRelease()
     {
-        Play("OrbRelease");
+        PlayAtPosition("OrbRelease", Lefthand);
     }
     public void PlayIBOrbExplode()
     {
@@ -93,7 +93,7 @@ public class AInvincibleAudio : IAudioManager
     }
     public void PlayIBDead()
     {
-        Play("Dead");
+        PlayAtPosition("Dead", Mounth);
     }
 
 }
