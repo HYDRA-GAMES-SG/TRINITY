@@ -91,6 +91,7 @@ public class FBAttack : FlyingBossState
     Vector3[] AttackPositionBehind()
     {
         Vector3 IBPos = FlyingBossFSM.FlyingBossController.InvincibleBoss.transform.position;
+        IBPos.y = Mathf.Clamp(IBPos.y, 8f, 20f);
         Transform bossTransform = FlyingBossFSM.FlyingBossController.InvincibleBoss.transform;
 
         float shoulderOffset = 5f;
