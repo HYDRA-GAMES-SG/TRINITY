@@ -38,7 +38,6 @@ public class ACrabAudio : IAudioManager
 
     public void PlayCrabWalkFootStep()
     {
-        //.Debug.Log("Crab walk sound");
         Play("Walk");
     }
     public void PlayPhase2IceEffectSound()//walk with ice sound bec ice came out when phase 2
@@ -49,12 +48,10 @@ public class ACrabAudio : IAudioManager
     {
         if (craw.Contains("left"))
         {
-            //Debug.Log("LeftClawAttack");
             PlayAtPosition("NormalAttackSwing", LeftHand);
         }
         else
         {
-            //Debug.Log("RightClawAttack");
             PlayAtPosition("NormalAttackSwing", RightHand);
         }
     }
@@ -62,12 +59,10 @@ public class ACrabAudio : IAudioManager
     {
         if (craw.Contains("left"))
         {
-            //Debug.Log("LeftClawAttack");
             PlayAtPosition("IceSwing", LeftHand);
         }
         else
         {
-            //Debug.Log("RightClawAttack");
             PlayAtPosition("IceSwing", RightHand);
         }
     }
@@ -97,12 +92,10 @@ public class ACrabAudio : IAudioManager
     }
     public void PlayJump()
     {
-        Debug.Log("Jump sfx");
         Play("Jump");
     }
     public void PlayLand()
     {
-        Debug.Log("Land sfx");
         Play("Land");
     }
     public void PlayJumpSmashGround()
@@ -116,18 +109,14 @@ public class ACrabAudio : IAudioManager
     }
     public void PlayIceSpray()
     {
-        Debug.Log("IceSpray sfx");
         StartLoop("IceSpray");
-        //Play("IceSpray");
     }
     public void StopIceSpray()
     {
-        Debug.Log("IceSpray sfx");
         StopLoop("IceSpray");
     }
     public void PlayChargeAttackRoar()
     {
-        Debug.Log("Chrage attack Roar sfx");
         PlayAtPosition("ChargeAttackRoar",Mouth);
         
     }
@@ -138,12 +127,10 @@ public class ACrabAudio : IAudioManager
     }
     public void PlayCrabDeath()
     {
-        Debug.Log("Crab dead sfx");
         Play("Death");
     }
     public void PlayPhase2Roar()
     {
-        Debug.Log("Phase 2 Roar sfx");
-        Play("Phase2IceSound");
+        PlayAtPosition("Phase2IceSound", Mouth);
     }
 }

@@ -42,12 +42,10 @@ public class AInvincibleAudio : IAudioManager
     {
         if (hand.Contains("left"))
         {
-            //Debug.Log("LeftClawAttack");
             PlayAtPosition("HandSwing", Lefthand);
         }
         else
         {
-            //Debug.Log("RightClawAttack");
             PlayAtPosition("HandSwing", Righthand);
         }
     }

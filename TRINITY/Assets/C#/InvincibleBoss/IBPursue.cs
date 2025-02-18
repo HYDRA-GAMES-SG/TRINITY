@@ -44,15 +44,15 @@ public class IBPursue : InvincibleBossState
         {
             InvincibleBossFSM.EnqueueTransition<IBFootAttack>();
         }
-        else if (distance <= InvincibleBossFSM.InvincibleBossController.CloseAttack + 2) 
+        else if (distance <= InvincibleBossFSM.InvincibleBossController.CloseAttack + 2)
         {
             InvincibleBossFSM.EnqueueTransition<IBHandAttack>();
         }
-        else if (distance <= InvincibleBossFSM.InvincibleBossController.LongAttack + 2) 
+        else if (distance <= InvincibleBossFSM.InvincibleBossController.LongAttack + 2)
         {
             InvincibleBossFSM.EnqueueTransition<IBTaunt>();
         }
-        else 
+        else
         {
             if (Random.value > 0.5f)
             {
@@ -72,6 +72,7 @@ public class IBPursue : InvincibleBossState
     public override void ExitBehaviour(float dt, IState toState)
     {
         InvincibleBossFSM.InvincibleBossController.AI.ResetPath();
+        InvincibleBossFSM.InvincibleBossController.AI.velocity = Vector3.zero;
     }
 
     public override bool CheckExitTransition(IState toState)

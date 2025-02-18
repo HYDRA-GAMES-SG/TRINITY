@@ -53,7 +53,7 @@ public class IBTaunt : InvincibleBossState
             Indecator.SetActive(false);
             TauntParticle.Play();
             TauntCollider.enabled = true;
-            InvincibleBossFSM.InvincibleBossController.MediumCameraShake(3f);
+            InvincibleBossFSM.InvincibleBossController.MediumCameraShake(OnTauntParticleDuration);
         }
         if (bOnTaunt)
         {

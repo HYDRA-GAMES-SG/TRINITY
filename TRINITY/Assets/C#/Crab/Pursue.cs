@@ -43,7 +43,7 @@ public class Pursue : CrabState
             return;
         }
 
-        if (CrabFSM.CrabController.CalculateGroundDistance() >= RangeAttack && CrabFSM.CrabController.CalculateGroundDistance() <= RangeAttack + 2&& CrabFSM.CrabController.FacingTarget()) //between 28 - 30
+        if (CrabFSM.CrabController.CalculateGroundDistance() >= RangeAttack && CrabFSM.CrabController.CalculateGroundDistance() <= RangeAttack + 2 && CrabFSM.CrabController.FacingTarget()) //between 28 - 30
         {
             float random = Random.value;
             if (random <= 0.5f)
@@ -55,15 +55,21 @@ public class Pursue : CrabState
                 CrabFSM.EnqueueTransition<RoarIceSpray>();
             }
         }
-        else if (CrabFSM.CrabController.CalculateGroundDistance() >= ChargeFastMoveRange && !(CrabFSM.CurrentState is ChargeFastAttack)&& CrabFSM.CrabController.FacingTarget()/*CrabFSM.CrabController.CalculateGroundDistance() <= ChargeFastMoveRange + 2*/) //between 15 - 17
+        else if (CrabFSM.CrabController.CalculateGroundDistance() >= ChargeFastMoveRange && !(CrabFSM.CurrentState is ChargeFastAttack) && CrabFSM.CrabController.FacingTarget()/*CrabFSM.CrabController.CalculateGroundDistance() <= ChargeFastMoveRange + 2*/) //between 15 - 17
         {
             CrabFSM.EnqueueTransition<ChargeFastAttack>();
 
         }
-        else if (CrabFSM.CrabController.CalculateGroundDistance() >= CloseAttackRange && CrabFSM.CrabController.CalculateGroundDistance() <= CrabAI.stoppingDistance && CrabFSM.CrabController.FacingTarget()) //between 6 - 8
+        else if (CrabFSM.CrabController.CalculateGroundDistance() >= CloseAttackRange && CrabFSM.CrabController.CalculateGroundDistance() <= CrabAI.stoppingDistance /*&& CrabFSM.CrabController.FacingTarget()*/) //between 6 - 8
         {
-            CrabFSM.EnqueueTransition<ComboAttack>();
-            CrabFSM.EnqueueTransition<NormalAttack>();
+            if (Random.value > 0.5f && CrabFSM.CrabController.CanComboAttack)
+            {
+                CrabFSM.EnqueueTransition<ComboAttack>();
+            }
+            else
+            {
+                CrabFSM.EnqueueTransition<NormalAttack>();
+            }
         }
         else if (CrabFSM.CrabController.CalculateGroundDistance() <= JumpAwayRange) //less then 6
         {

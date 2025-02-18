@@ -185,7 +185,6 @@ GameObject:
   - component: {fileID: 5030343367391125511}
   - component: {fileID: 3324113171006002634}
   - component: {fileID: 6049761862468476122}
-  - component: {fileID: 5069465592965967324}
   - component: {fileID: 491358328948801159}
   - component: {fileID: 7692719696976901255}
   m_Layer: 0
@@ -263,7 +262,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 50
+  Audio3DMaxDistance: 80
 --- !u!114 &3817050391527189396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +280,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 50
+  Audio3DMaxDistance: 100
 --- !u!114 &3075115537155358790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +298,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 50
+  Audio3DMaxDistance: 100
 --- !u!114 &1387817484879313190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,7 +316,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 50
+  Audio3DMaxDistance: 100
 --- !u!114 &6853958437616104024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,7 +352,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 30
+  Audio3DMaxDistance: 100
 --- !u!114 &5030343367391125511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,7 +370,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 30
+  Audio3DMaxDistance: 100
 --- !u!114 &3324113171006002634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,25 +403,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Audio: {fileID: 8300000, guid: cad6fbe2e9934a64cb113651809bab0d, type: 3}
   Name: OrbRelease
-  Volume: 1
-  Pitch: 1
-  MixerGroup: 0
-  Audio3DMaxDistance: 100
---- !u!114 &5069465592965967324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 196294604132324631}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4870113048f5a4ab0cb000a9e85713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Audio: {fileID: 0}
-  Name: OrbExplode
-  Volume: 1
+  Volume: 0.8
   Pitch: 1
   MixerGroup: 0
   Audio3DMaxDistance: 100
@@ -443,7 +424,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 40
+  Audio3DMaxDistance: 100
 --- !u!114 &7692719696976901255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +442,7 @@ MonoBehaviour:
   Volume: 1
   Pitch: 1
   MixerGroup: 0
-  Audio3DMaxDistance: 50
+  Audio3DMaxDistance: 100
 --- !u!1 &227858705039860837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2392,7 +2373,7 @@ MonoBehaviour:
   HoldOrbOffsetY: 2
   OrbParticle: {fileID: 6077173594974245328, guid: 88ae952994bdb564c96b2f58b9ad6ac6,
     type: 3}
-  TimeCharge: 3
+  TimeCharge: 4
   OrbTimeToTarget: 0.7
 --- !u!114 &5900536888024624120
 MonoBehaviour:
@@ -5616,7 +5597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IBController: {fileID: 467305873257569148}
-  PullForce: 20
+  PullForce: 10
   StunTime: 3
 --- !u!4 &4281816650179416686 stripped
 Transform:
