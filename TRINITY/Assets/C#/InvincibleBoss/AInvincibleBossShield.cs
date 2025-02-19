@@ -8,7 +8,7 @@ public class AInvincibleBossShield : MonoBehaviour
     private Material ShieldMaterial;
     public float HitEffectDuration = 0.2f;
     private float CurrentHitTime = 0f;
-    private bool bIsHit = false;
+    public bool bIsHit = false;
    
     void Start()
     {

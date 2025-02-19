@@ -7,7 +7,7 @@ public class FBDie : FlyingBossState
     [SerializeField] CapsuleCollider Collider;
     [SerializeField] LayerMask GroundLayer;
     [SerializeField] ParticleSystem ElectricParticle;
-
+    [SerializeField] GameObject shieldRope;
     public override bool CheckEnterTransition(IState fromState)
     {
         return true;
@@ -19,6 +19,7 @@ public class FBDie : FlyingBossState
         ElectricParticle.Stop();
         Collider.enabled = true;
         FlyingBossFSM.FlyingBossController.RB.useGravity = true;
+        shieldRope.SetActive(false);
         FlyingBossFSM.FlyingBossController.FlyingAudio.PlayDeath();
     }
 

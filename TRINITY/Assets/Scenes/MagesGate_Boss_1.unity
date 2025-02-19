@@ -328,13 +328,18 @@ PrefabInstance:
     - target: {fileID: 870485410705819649, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1768469164542981620, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
       propertyPath: InvincibleBoss
       value: 
       objectReference: {fileID: 1539009704}
+    - target: {fileID: 2794126702834843623, guid: 85c334aa6dabe7f42b520f27c893e77f,
+        type: 3}
+      propertyPath: pointB
+      value: 
+      objectReference: {fileID: 2029489717}
     - target: {fileID: 3413527218791458888, guid: 85c334aa6dabe7f42b520f27c893e77f,
         type: 3}
       propertyPath: MAX
@@ -1512,11 +1517,6 @@ PrefabInstance:
       propertyPath: FlyingBossHealth
       value: 
       objectReference: {fileID: 2115708719}
-    - target: {fileID: 467305873257569148, guid: 528247705cd48b64a8e4bba366f0257d,
-        type: 3}
-      propertyPath: VINCIBLE_MAX_HEALTH
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1535,22 +1535,22 @@ PrefabInstance:
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.12762761
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9918222
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
@@ -1560,26 +1560,11 @@ PrefabInstance:
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 194.665
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 896301924583087564, guid: 528247705cd48b64a8e4bba366f0257d,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 924309997453194582, guid: 528247705cd48b64a8e4bba366f0257d,
-        type: 3}
-      propertyPath: MAX
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 924309997453194582, guid: 528247705cd48b64a8e4bba366f0257d,
-        type: 3}
-      propertyPath: bInvulnerable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3688683373313028175, guid: 528247705cd48b64a8e4bba366f0257d,
-        type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6373093990313878373, guid: 528247705cd48b64a8e4bba366f0257d,
@@ -2417,6 +2402,12 @@ Transform:
   - {fileID: 1516048676}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2029489717 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 973269732603019127, guid: 528247705cd48b64a8e4bba366f0257d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1187930885}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2029864805
 GameObject:
   m_ObjectHideFlags: 0
