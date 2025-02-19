@@ -8,6 +8,8 @@ public class AForcefield : ASpell
     public float DamageAbsorbedPerMana = 1f;
     private GameObject ForcefieldEffect;
     
+    private AudioSource ForcefieldSource;
+    
     public override void Initialize()
     {
         if (ForcefieldEffect == null)
@@ -19,6 +21,7 @@ public class AForcefield : ASpell
         }
         ATrinityGameManager.GetSpells().ManaComponent.OnOutOfMana += Release;
         ATrinityGameManager.GetPlayerController().OnForcefieldHit += SpawnSparks;
+        ForcefieldSource = GetComponent<AudioSource>();
     }
     
     public override void CastStart()
@@ -30,6 +33,7 @@ public class AForcefield : ASpell
 
         ATrinityGameManager.GetBrain().bForcefieldActive = true;
         ForcefieldEffect.SetActive(true);
+        ForcefieldSource.Play();
     }
     
     public override void CastUpdate()
@@ -42,6 +46,7 @@ public class AForcefield : ASpell
         ATrinityGameManager.GetAnimator().AnimComponent.Play("Null", 1, 0f);
         ATrinityGameManager.GetBrain().bForcefieldActive = false;
         ForcefieldEffect.SetActive(false);
+        ForcefieldSource.Stop();
     }
 
     public void SpawnSparks(FHitInfo hitInfo)
