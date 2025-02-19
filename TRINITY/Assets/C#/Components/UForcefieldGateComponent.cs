@@ -8,6 +8,7 @@ public class UForcefieldGateComponent : MonoBehaviour
     public AGate Gate;
     public static float ManaShieldDamageTakenByPlayer = 0f;
     public static float ManaDamagePerSecond = 3f;
+    public ATrinityOptions Options;
     
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,11 @@ public class UForcefieldGateComponent : MonoBehaviour
         if (ManaShieldDamageTakenByPlayer > 9f)
         {
             Gate.Open();
+            if (Options.TutorialButton != null) 
+            {
+                Options.bTutorialDone = true;
+                Options.TutorialButton.SetActive(false);
+            }
         }
     }
 

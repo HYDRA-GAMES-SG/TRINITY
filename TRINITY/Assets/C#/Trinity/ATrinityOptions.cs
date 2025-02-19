@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -12,19 +13,24 @@ public class ATrinityOptions : MonoBehaviour
     public static System.Action OnOptionsMenuSlider;
     public static System.Action OnOptionsMenuToggle;
     public static System.Action OnOptionsMenuNavigate;
-    
+
     public Toggle CrossHairToggle;
     public Slider GamepadSensitivity;
     public Slider MouseSensitivity;
     public Slider MasterVolume;
     public Button QuitButton;
-    
+    public GameObject TutorialButton;
+
     public Image CrossHair;
     public bool bEnableCrosshair = true;
     private float NavigateCooldownTimer = 0f;
     public float NavigateCooldown = .2f;
     public float InputThreshold = 0f;
-    
+
+    public UForcefieldGateComponent GateTutorial;
+    public Transform SkipTutorialPos;
+    public bool bTutorialDone;
+
     [Header("Menu Items")]
     public Selectable[] MenuElements;  // Array of UI elements (buttons, etc.)
     private int CurrentMenuElementsIndex = 0;
@@ -45,7 +51,7 @@ public class ATrinityOptions : MonoBehaviour
         {
             return;
         }
-        
+
         if (MenuElements[CurrentMenuElementsIndex] is Toggle)
         {
             Toggle currentToggle = MenuElements[CurrentMenuElementsIndex] as Toggle;
@@ -57,7 +63,7 @@ public class ATrinityOptions : MonoBehaviour
             ATrinityGameManager.DeserializeSettings();
             CrossHair.gameObject.SetActive(false);
         }
-        
+
         if (MenuElements[CurrentMenuElementsIndex] is Button)
         {
             Button currentButton = MenuElements[CurrentMenuElementsIndex] as Button;
@@ -73,13 +79,13 @@ public class ATrinityOptions : MonoBehaviour
 
     void OnEnable()
     {
-        
+
         if (ATrinityGameManager.GetGameFlowState() != EGameFlowState.MAIN_MENU)
         {
             Time.timeScale = 0f;
             ATrinityGameManager.SetGameFlowState(EGameFlowState.PAUSED);
         }
-        
+
         // Ensure proper initial selection when menu is enabled
         if (MenuElements != null && MenuElements.Length > 0)
         {
@@ -90,7 +96,7 @@ public class ATrinityOptions : MonoBehaviour
         {
             QuitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit";
         }
-        else if(QuitButton != null)
+        else if (QuitButton != null)
         {
             QuitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit To Mage's Gate";
         }
@@ -99,12 +105,11 @@ public class ATrinityOptions : MonoBehaviour
         {
             CrossHair.gameObject.SetActive(false);
         }
-            
+
         NavigateCooldownTimer = 0f;
 
         BindAudioEvents(true);
     }
-
     private FGameSettings MakeGameSettings()
     {
         FGameSettings newSettings = new FGameSettings(
@@ -113,7 +118,7 @@ public class ATrinityOptions : MonoBehaviour
             MouseSensitivity.value,
             MasterVolume.value
         );
-        
+
         return newSettings;
     }
 
@@ -128,11 +133,17 @@ public class ATrinityOptions : MonoBehaviour
         }
 
         CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
-        
-        
+
+
         BindAudioEvents(false);
     }
-
+    public void SkipTutorial()
+    {
+        ATrinityGameManager.GetPlayerController().transform.position = SkipTutorialPos.position;
+        bTutorialDone = true;
+        TutorialButton.SetActive(false);
+        OnReturnToGameClicked();
+    }
     public void Navigate()
     {
         if (NavigateCooldownTimer > 0f)
@@ -141,7 +152,7 @@ public class ATrinityOptions : MonoBehaviour
         }
 
         Vector2 moveInput = ATrinityGameManager.GetInput().MoveInput;
-        
+
         // Only process input if it exceeds the threshold
         if (Mathf.Abs(moveInput.y) >= InputThreshold)
         {
@@ -152,13 +163,20 @@ public class ATrinityOptions : MonoBehaviour
                 newIndex--;
                 if (newIndex < 0)
                 {
-                    newIndex = MenuElements.Length - 1; // Wrap to bottom
+                    if (bTutorialDone)
+                    {
+                        newIndex = MenuElements.Length - 2;
+                    }
+                    else
+                    {
+                        newIndex = MenuElements.Length - 1; // Wrap to bottom
+                    }
                 }
             }
             else if (moveInput.y < 0) // Down
             {
                 newIndex++;
-                if (newIndex >= MenuElements.Length)
+                if (newIndex >= MenuElements.Length || newIndex == 5 && bTutorialDone)
                 {
                     newIndex = 0; // Wrap to top
                 }
@@ -172,7 +190,7 @@ public class ATrinityOptions : MonoBehaviour
 
             }
         }
-        
+
         // Optional: Handle horizontal navigation if needed
         else if (Mathf.Abs(moveInput.x) >= InputThreshold)
         {
@@ -198,7 +216,7 @@ public class ATrinityOptions : MonoBehaviour
             NavigateCooldownTimer = NavigateCooldown;
         }
     }
-    
+
     private void SelectMenuItem(int index)
     {
         // Deselect current item
@@ -212,10 +230,14 @@ public class ATrinityOptions : MonoBehaviour
         MenuElements[CurrentMenuElementsIndex].Select();
         MenuElements[CurrentMenuElementsIndex].OnSelect(null);
     }
-    
+
     void Update()
     {
         NavigateCooldownTimer -= Time.unscaledDeltaTime;
+        if (bTutorialDone)
+        {
+            TutorialButton.SetActive(false);
+        }
     }
 
     public void OnCrossHairToggle(bool bToggle)

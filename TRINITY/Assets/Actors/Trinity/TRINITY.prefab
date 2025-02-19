@@ -4344,6 +4344,7 @@ MonoBehaviour:
   LeftFoot: {fileID: 4472986669734158374}
   RightFoot: {fileID: 2419778747424098704}
   Mixer: {fileID: 24100000, guid: 0a193b4917b2c1546a8886eb82078189, type: 2}
+  StaffSource: {fileID: 5548147927880871795}
 --- !u!82 &6453363782078659846
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5879,7 +5880,7 @@ MonoBehaviour:
   InitialChillStacks: 50
   MaxScale: 25
   MinScale: 1
-  MaxChannelTime: 6
+  MaxChannelTime: 5
   Duration: 20
   IceCreationPercentThreshold: 0.66
   CastingSFX:
@@ -21984,8 +21985,8 @@ MonoBehaviour:
   SpellPrefab: {fileID: 4260736446530102828, guid: 831e2da0456db8c4abe6b18edf94e783,
     type: 3}
   Cooldown: 0
-  ManaCost: 4
-  ManaUpkeepCost: 1.5
+  ManaCost: 0
+  ManaUpkeepCost: 4
   SpellElement: 2
   SpellType: 1
   SpellAction: 4
@@ -22154,6 +22155,7 @@ GameObject:
   - component: {fileID: 7969497586715956652}
   - component: {fileID: 6760272548121763648}
   - component: {fileID: 224225128429537962}
+  - component: {fileID: 5548147927880871795}
   m_Layer: 0
   m_Name: staff
   m_TagString: Untagged
@@ -22227,6 +22229,102 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!82 &5548147927880871795
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6302656346620850378}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: f77a0ea656152344da9a0d3b5f987a05, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.2
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6455454992632172193
 GameObject:
   m_ObjectHideFlags: 0
@@ -23884,8 +23982,8 @@ MonoBehaviour:
   SpellPrefab: {fileID: 5284930186813762420, guid: 93b610399a6bfa240b1c352d4a0c171a,
     type: 3}
   Cooldown: 0
-  ManaCost: 5
-  ManaUpkeepCost: 3
+  ManaCost: 0
+  ManaUpkeepCost: 5
   SpellElement: 0
   SpellType: 1
   SpellAction: 4
@@ -23900,7 +23998,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   Range: 11
-  MaxChannelTime: 2
+  MaxChannelTime: 1.5
   MaxRadius: 5.5
   MinRadius: 0.1
   MaxRuneParticleHeight: 0.5

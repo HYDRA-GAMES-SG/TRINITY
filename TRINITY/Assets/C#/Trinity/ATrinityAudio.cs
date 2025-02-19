@@ -9,6 +9,7 @@ public class ATrinityAudio : IAudioManager
     private ATrinityInput Input;
     public AudioMixer Mixer;
     private AudioSource TrinitySource;
+    public AudioSource StaffSource;
 
     private AudioClip[] GrassFootsteps;
     private AudioClip[] RockFootsteps;
@@ -20,7 +21,7 @@ public class ATrinityAudio : IAudioManager
     const string WaterResourcePath = "WaterFootsteps";
     const string SnowResourcePath = "SnowFootsteps";
 
-    const float SPLASHVOLUME = 0.05f;
+    const float SPLASHVOLUME = 0.15f;
     void Awake()
     {
         TrinitySource = GetComponent<AudioSource>();
@@ -46,8 +47,20 @@ public class ATrinityAudio : IAudioManager
     public void PlayMainMenuNavigate() => Play("MainMenuNavigate");
     public void PlayMainMenuSelect() => Play("MainMenuSelect");
 
-    
-    
+    private void Update()
+    {
+        if (ATrinityGameManager.GetBrain().GetElement() == ETrinityElement.ETE_Fire && !StaffSource.isPlaying) 
+        {
+            StaffSource.Play();
+            print("start torch");
+        }
+        else if (ATrinityGameManager.GetBrain().GetElement() != ETrinityElement.ETE_Fire)
+        {
+            StaffSource.Stop();
+            print("end torch");
+        }
+    }
+
     // sfx
     public void PlayJump()
     {
