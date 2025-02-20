@@ -14,8 +14,8 @@ public class ACrabAudio : IAudioManager
     private void Awake()
     {
         base.Awake();
-        UAttackColliderComponent.OnPlayerHit += PlayHitPlayerAudio;
-        UAttackColliderComponent.OnGroundHit += PlayHitGroundAudio;
+        //UAttackColliderComponent.OnPlayerHit += PlayHitPlayerAudio;
+        //UAttackColliderComponent.OnGroundHit += PlayHitGroundAudio;
 
         Controller = GetComponentInParent<ACrabController>();
     }

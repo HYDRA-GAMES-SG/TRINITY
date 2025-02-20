@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class UAttackColliderComponent : MonoBehaviour
 {
-    public static System.Action OnPlayerHit;
-    public static System.Action<float> OnGroundHit;
+    //public static System.Action OnPlayerHit;
+    //public static System.Action<float> OnGroundHit;
 
     private IEnemyController Controller;
 
@@ -40,11 +40,11 @@ public class UAttackColliderComponent : MonoBehaviour
             return;
         }
 
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Default"))
-        {
-            OnGroundHit?.Invoke(collision.GetContact(0).impulse.magnitude);
-            return;
-        }
+        //if(collision.gameObject.layer == LayerMask.NameToLayer("Default"))
+        //{
+        //    OnGroundHit?.Invoke(collision.GetContact(0).impulse.magnitude);
+        //    return;
+        //}
 
 
         //Debug.Log("Hit player");
@@ -71,7 +71,7 @@ public class UAttackColliderComponent : MonoBehaviour
 
         FHitInfo hitInfo = new FHitInfo(Controller.gameObject, this.gameObject, collision, Controller.GetCurrentAttackDamage());
         player.ApplyHit(hitInfo);
-        OnPlayerHit?.Invoke();
+        //OnPlayerHit?.Invoke();
 
     }
 

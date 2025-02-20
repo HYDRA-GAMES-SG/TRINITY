@@ -27,6 +27,10 @@ public class AMainMenuCamera : MonoBehaviour
             MainMenuMusic.Stop();
             SceneBGM.SetActive(true);
         }
+        if (ATrinityGameManager.CurrentScene == "CrabBossDungeon")
+        {
+            ATrinityGameManager.OnSceneChanged -= HandleMenuMusic;
+        }
     }
     
     // Start is called before the first frame update

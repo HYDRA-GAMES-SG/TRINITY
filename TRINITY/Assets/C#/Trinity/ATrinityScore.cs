@@ -66,6 +66,7 @@ public class ATrinityScore : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         ATrinityGameManager.SetScore(this);
+        ATrinityGameManager.OnSceneChanged += ResetVictory;
     }
     public void Start()
     {
@@ -102,7 +103,12 @@ public class ATrinityScore : MonoBehaviour
     }
 
 
-
+    private void ResetVictory()
+    {
+        bInvokedVictoryThisScene = false;
+        DamageTaken = 0;
+        Timer = 0;
+    }
     private void CheckForVictory()
     {
         bool bBossAlive = false;
