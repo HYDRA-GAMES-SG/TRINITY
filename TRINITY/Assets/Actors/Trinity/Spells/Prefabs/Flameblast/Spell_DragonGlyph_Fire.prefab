@@ -29207,6 +29207,7 @@ GameObject:
   - component: {fileID: 5090807328430926025}
   - component: {fileID: 3789323334047300080}
   - component: {fileID: 7866703348360681438}
+  - component: {fileID: 1177012104330090509}
   m_Layer: 0
   m_Name: Spell_DragonGlyph_Fire
   m_TagString: Untagged
@@ -29251,6 +29252,9 @@ MonoBehaviour:
     type: 3}
   FlameblastZone_PP: {fileID: 0}
   BurstSFX: {fileID: 8300000, guid: 739eed504f4538549bf5b70889bc4392, type: 3}
+  Centre: {x: 0, y: 0, z: 0}
+  FireballExplosionInstance: {fileID: 0}
+  bTutorial: 0
 --- !u!198 &5090045675335272005
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -34172,3 +34176,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!135 &1177012104330090509
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4928933366125351325}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0, y: 0.05000019, z: 0}

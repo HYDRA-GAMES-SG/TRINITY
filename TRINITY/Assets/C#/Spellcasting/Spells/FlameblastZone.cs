@@ -18,19 +18,23 @@ public class FlameblastZone : MonoBehaviour
 
     private float Duration;
 
+    private float FireBallDamage;
+
     public Vector3 Centre;
 
     public GameObject FireballExplosionInstance;
 
     public bool bTutorial = false;
- 
+
+    private SphereCollider BlastCollider;
     void Start()
     {
+        BlastCollider = GetComponent<SphereCollider>();
         ZoneSource = GetComponent<AudioSource>();
         // Start a coroutine to pause particles after 1 second
         StartCoroutine(PauseParticlesAfterDelay());
         Duration = ATrinityGameManager.GetSpells().SecondaryFire.ZoneDuration;
-        
+
         if (ATrinityGameManager.GetCamera())
         {
             FlameblastZone_PP = ATrinityGameManager.GetCamera().gameObject.transform.Find("PP_Flameblast").GetComponent<Volume>();
@@ -47,17 +51,17 @@ public class FlameblastZone : MonoBehaviour
         {
             return;
         }
-        
+
         float distanceToPlayer = Vector3.Distance(transform.position, ATrinityGameManager.GetPlayerController().Position);
         float ppRatio = Mathf.Clamp01(distanceToPlayer / 20f);
-        
+
         FlameblastZone_PP.weight = Mathf.Lerp(.5f, 0, ppRatio);
 
         if (!bTutorial)
         {
             Duration -= Time.deltaTime;
         }
-        
+
         if (Duration < 0f)
         {
             UnpauseParticles();
@@ -83,18 +87,20 @@ public class FlameblastZone : MonoBehaviour
             {
                 ps.Play();
             }
-            
+
             Destroy(FireballExplosionInstance, 2f);
-            
+
             ASecondaryFire flameblast = ATrinityGameManager.GetSpells().SecondaryFire;
             //Ray ray = new Ray(transform.position - new Vector3(5,5,5), Vector3.up);
             //Physics.SphereCast(ray, flameblast.CurrentRadius + 5, out RaycastHit hitInfo, 12f);
             Collider[] collidersHit = Physics.OverlapSphere(transform.position, 5);
+            BlastCollider.enabled = true;
+            FireBallDamage = other.GetComponent<Fireball>().Damage;
 
             UEnemyColliderComponent enemyCollider;
-            for (int i = 0; i < collidersHit.Length; i++) 
+            for (int i = 0; i < collidersHit.Length; i++)
             {
-                if (collidersHit[i].GetComponent<UEnemyColliderComponent>()) 
+                if (collidersHit[i].GetComponent<UEnemyColliderComponent>())
                 {
                     print("overlap sphere hits");
 
@@ -107,6 +113,7 @@ public class FlameblastZone : MonoBehaviour
                                                                     EAilmentType.EAT_Ignite,
                                                                     ATrinityGameManager.GetSpells().PrimaryFire.StacksApplied);
                         enemyCollider.EnemyStatus += damage;
+                        BlastCollider.enabled = false;
                         return;
                     }
                 }
@@ -129,15 +136,14 @@ public class FlameblastZone : MonoBehaviour
             //}
         }
     }
-
     private IEnumerator PauseParticlesAfterDelay()
     {
         // Wait for 1 second
         yield return new WaitForSeconds(1f);
-        
+
         // Get all particle systems on this object and its children
         ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>(true);
-        
+
         // Pause each particle system
         foreach (ParticleSystem ps in particles)
         {
@@ -148,7 +154,7 @@ public class FlameblastZone : MonoBehaviour
     {
         // Get all particle systems on this object and its children
         ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>(true);
-        
+
         // Pause each particle system
         foreach (ParticleSystem ps in particles)
         {
