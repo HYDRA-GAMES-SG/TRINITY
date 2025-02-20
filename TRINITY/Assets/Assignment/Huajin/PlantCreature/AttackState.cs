@@ -15,7 +15,7 @@ namespace Huajin
         [SerializeField] string AnimKey;
         public override bool CheckEnterTransition(IState fromState)
         {
-            return true;
+            return !PlantCreatureFSM.PlantCreatureController.health.bDead;
         }
 
         public override void EnterBehaviour(float dt, IState fromState)
