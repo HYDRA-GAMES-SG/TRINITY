@@ -31,7 +31,7 @@ public class IceWave : AProjectile
     private Quaternion BaseRotation;
 
     public int MaxBounces = 4;
-    private int BouncesLeft;
+    public int BouncesLeft;
     private bool bCanDealDamage = true;
 
     void Start()

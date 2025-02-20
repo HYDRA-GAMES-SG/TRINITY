@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class AMainMenuGate : MonoBehaviour
 {
-    public float OpenDuration = 3f;
+    public float CloseDuration = 3f;
     [HideInInspector]
-    public float OpenTimer = 0f;
+    public float CloseTimer = 0f;
     
     [HideInInspector]
-    public bool bShouldOpen = false;
+    public bool bShouldClose = false;
 
     private bool bAudioPlayed = false;
 
-    private Vector3 OpenPosition;
-    private Vector3 ClosedPosition;
+    private Vector3 ClosedPos;
+    private Vector3 OpenPos;
     
     // Start is called before the first frame update
     void Start()
     {
-        ClosedPosition = transform.position;
-        OpenPosition = ClosedPosition + Vector3.down * 6f;
+        OpenPos = transform.position;
+        ClosedPos = OpenPos + Vector3.down * 6f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (bShouldOpen)
+        if (bShouldClose)
         {
-            OpenTimer += Time.deltaTime;
-            transform.position = Vector3.Lerp(ClosedPosition, OpenPosition, OpenTimer / OpenDuration);
+            CloseTimer += Time.deltaTime;
+            transform.position = Vector3.Lerp(OpenPos, ClosedPos, CloseTimer / CloseDuration);
             AudioSource audioSource = GetComponent<AudioSource>();
             
             if (!audioSource.isPlaying && !bAudioPlayed)
@@ -40,8 +40,8 @@ public class AMainMenuGate : MonoBehaviour
         }
     }
 
-    public void Open()
+    public void Close()
     {
-        bShouldOpen = true;
+        bShouldClose = true;
     }
 }

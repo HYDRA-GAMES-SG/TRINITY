@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ public class UIceCubeGateComponent : MonoBehaviour
 
     private bool bIceCubeExists = false;
     private bool bIceWaveCast = false;
+    private bool bIceWaveBounced = false;
     
     // Start is called before the first frame update
     void Start()
@@ -24,7 +26,7 @@ public class UIceCubeGateComponent : MonoBehaviour
         {
             return;
         }
-        if (bIceCubeExists)
+        if (bIceWaveBounced)
         {
             if (ATrinityGameManager.GetSpells().UtilityCold.bActive)
             {
@@ -33,7 +35,26 @@ public class UIceCubeGateComponent : MonoBehaviour
             }
             return;
         }
-        
+
+        if (bIceCubeExists)
+        {
+            List<IceWave> iceWaves = FindObjectsOfType<IceWave>().ToList();
+
+            foreach (IceWave iw in iceWaves)
+            {
+                if (iw.Filter.enabled == true)
+                {
+                    bIceWaveBounced = true;
+                    
+                    ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
+                    Trigger.TutorialVideoIndex = 7;
+                    ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
+                    
+                }
+            }
+
+            return;
+        }
 
         if (bIceWaveCast)
         {
@@ -51,7 +72,7 @@ public class UIceCubeGateComponent : MonoBehaviour
                     bIceCubeExists = true;
 
                     ATrinityGameManager.GetGUI().GetVideos().StopTutorial();
-                    Trigger.TutorialVideoIndex = 7;
+                    Trigger.TutorialVideoIndex = 18;
                     ATrinityGameManager.GetGUI().GetVideos().PlayTutorial(Trigger.TutorialVideoIndex);
                     return;
                 }

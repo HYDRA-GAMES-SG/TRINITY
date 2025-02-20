@@ -13,6 +13,7 @@ public class AMainMenuCamera : MonoBehaviour
     public static System.Action OnSwitchToPlayerCamera;
     public GameObject MainMenuParentObject;
     public CanvasGroup MainMenuCanvas;
+    public CanvasGroup CreditsCanvas;
     public AudioSource MainMenuMusic;
     public GameObject SceneBGM;
     
@@ -74,8 +75,24 @@ public class AMainMenuCamera : MonoBehaviour
     {
         StartCoroutine(AnimateCoroutine());
         StartCoroutine(FadeMainMenu());
+        StartCoroutine(FadeCredits());
     }
 
+    private IEnumerator FadeCredits()
+    {
+        float fadeTime = 0f;
+        while (fadeTime < FadeMainMenuDuration)
+        {
+            fadeTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(1, 0, fadeTime / FadeMainMenuDuration);
+            CreditsCanvas.alpha = alpha;
+
+            yield return null;
+        }
+
+        CreditsCanvas.gameObject.SetActive(false);
+    }
+    
     private IEnumerator FadeMainMenu()
     {
         float fadeTime = 0f;
@@ -92,7 +109,10 @@ public class AMainMenuCamera : MonoBehaviour
         MainMenuCanvas.gameObject.SetActive(false);
         MainMenuMusic.gameObject.SetActive(false);
         SceneBGM.SetActive(true);
-        ATrinityGameManager.GetGUI().GetMainMenu().Gate.Open();
+        if (ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
+        {
+            ATrinityGameManager.GetGUI().GetMainMenu().Gate.Close();
+        }
     }
     
     private IEnumerator AnimateCoroutine()

@@ -111,6 +111,7 @@ public class ATrinityScore : MonoBehaviour
         DamageTaken = 0;
         Timer = 0;
     }
+    
     private void CheckForVictory()
     {
         bool bBossAlive = false;
