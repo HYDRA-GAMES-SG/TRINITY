@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class UForcefieldGateComponent : MonoBehaviour
 {
+    public AMainMenuGate MainGate;
     public AGate Gate;
     public static float ManaShieldDamageTakenByPlayer = 0f;
     public static float ManaDamagePerSecond = 3f;
-    public ATrinityOptions Options;
     
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -22,10 +21,11 @@ public class UForcefieldGateComponent : MonoBehaviour
         if (ManaShieldDamageTakenByPlayer > 9f)
         {
             Gate.Open();
-            if (Options.TutorialButton != null) 
+            if (ATrinityGameManager.GetGUI().GetOptions().TutorialButton != null) 
             {
-                Options.bTutorialDone = true;
-                Options.TutorialButton.SetActive(false);
+                ATrinityGameManager.GetGUI().GetOptions().bTutorialDone = true;
+                ATrinityGameManager.GetGUI().GetOptions().TutorialButton.SetActive(false);
+                MainGate.Open();
             }
         }
     }

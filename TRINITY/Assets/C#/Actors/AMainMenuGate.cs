@@ -11,6 +11,8 @@ public class AMainMenuGate : MonoBehaviour
     [HideInInspector]
     public bool bShouldClose = false;
 
+    public bool bShouldOpen = false;
+
     private bool bAudioPlayed = false;
 
     private Vector3 ClosedPos;
@@ -38,10 +40,29 @@ public class AMainMenuGate : MonoBehaviour
                 bAudioPlayed = true;
             }
         }
+
+        if (bShouldOpen)
+        {
+            CloseTimer += Time.deltaTime;
+            transform.position = Vector3.Lerp(ClosedPos, OpenPos, CloseTimer / CloseDuration);
+            AudioSource audioSource = GetComponent<AudioSource>();
+            
+            if (!audioSource.isPlaying && !bAudioPlayed)
+            {
+                audioSource.Play();
+                bAudioPlayed = true;
+            }
+        }
     }
 
     public void Close()
     {
         bShouldClose = true;
+    }
+
+    public void Open()
+    {
+        bShouldOpen = true;
+        CloseTimer = 0f;
     }
 }

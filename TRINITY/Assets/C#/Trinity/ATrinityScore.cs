@@ -34,7 +34,6 @@ public class ATrinityScore : MonoBehaviour
         {
             case "CrabBossDungeon":
                 newLimits.SceneName = ATrinityGameManager.CurrentScene;
-                ATrinityGameManager.SetCrabDefeated();
                 newLimits.BestTime = 120; // seconds
                 newLimits.WorstTime = 240; // seconds
                 newLimits.BestDamageTaken = 0; //percent
@@ -42,7 +41,6 @@ public class ATrinityScore : MonoBehaviour
                 return newLimits;
             case "DevourerSentinelBossDungeon":
                 newLimits.SceneName = ATrinityGameManager.CurrentScene;
-                ATrinityGameManager.SetDSDefeated();
                 newLimits.BestTime = 120; // seconds
                 newLimits.WorstTime = 240; // seconds
                 newLimits.BestDamageTaken = 0; //percent
@@ -68,7 +66,7 @@ public class ATrinityScore : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         
         ATrinityGameManager.SetScore(this);
-        ATrinityGameManager.OnSceneChanged += ResetVictory;
+        ATrinityGameManager.OnSceneChanged += Reset;
     }
     public void Start()
     {
@@ -83,18 +81,6 @@ public class ATrinityScore : MonoBehaviour
         {
             Timer += Time.deltaTime;
         }
-        else
-        {
-            List<APortal> portals = FindObjectsOfType<APortal>().ToList();
-
-            foreach (APortal portal in portals)
-            {
-                if (portal.sceneName == "DevourerSentinelBossDungeon" && DefeatedBosses.Count >= 0)
-                {
-                    portal.Activate();
-                }
-            }
-        }
         
         CheckForVictory();
     }
@@ -105,7 +91,7 @@ public class ATrinityScore : MonoBehaviour
     }
 
 
-    private void ResetVictory()
+    private void Reset()
     {
         bInvokedVictoryThisScene = false;
         DamageTaken = 0;
@@ -129,6 +115,20 @@ public class ATrinityScore : MonoBehaviour
             FScoreLimits scoreLimits = GetScoreLimits();
             OnVictory?.Invoke(GetETS(scoreLimits));
             bInvokedVictoryThisScene = true;
+
+            switch (ATrinityGameManager.CurrentScene)
+            {
+                case "CrabBossDungeon":
+                    ATrinityGameManager.bCrabDefeated = true;
+                    break;
+                case "DevourerSentinelBossDungeon":
+                    ATrinityGameManager.bDevourerSentinelDefeated = true;
+                    break;
+                default:
+                    print("ATrinityScore: Defeated Boss Scene Name Not Found Line 127");
+                    break;
+            }
+
             DefeatedBosses.Add(ATrinityGameManager.GetEnemyControllers()[0]);
         }
     }

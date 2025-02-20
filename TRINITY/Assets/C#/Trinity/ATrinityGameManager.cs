@@ -51,8 +51,9 @@ public class ATrinityGameManager : MonoBehaviour
     
     private static EGameFlowState GameFlowState;
 
-    private static bool bCrabDefeated;
-    private static bool bDSDefeated;
+    public static bool bCrabDefeated;
+    public static bool bDevourerSentinelDefeated;
+    
     public static EGameFlowState SCENE_LOAD_EGFS => CurrentScene == "PORTAL" && !GetGUI().GetMainMenu().bCanSkipMainMenu
         ? EGameFlowState.MAIN_MENU
         : EGameFlowState.PLAY;
@@ -251,13 +252,21 @@ public class ATrinityGameManager : MonoBehaviour
     {
         return AnimationReference;
     }
-    public static bool GetCrabDefeated()
+
+    public static int TotalBossesDefeated()
     {
-        return bCrabDefeated;
-    }
-    public static bool GetDSDefeated()
-    {
-        return bDSDefeated;
+        int total = 0;
+        if (bCrabDefeated)
+        {
+            total++;
+        }
+
+        if (bDevourerSentinelDefeated)
+        {
+            total++;
+        }
+
+        return total;
     }
 
     //==================================================
@@ -268,15 +277,6 @@ public class ATrinityGameManager : MonoBehaviour
     private void FindAndSetEnemyControllers()
     {
         EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
-    }
-
-    public static void SetCrabDefeated() 
-    {
-        bCrabDefeated = true;
-    }
-    public static void SetDSDefeated() 
-    {
-        bDSDefeated = true;
     }
     public static void SetPlayerFSM(ATrinityFSM playerFSM)
     {
