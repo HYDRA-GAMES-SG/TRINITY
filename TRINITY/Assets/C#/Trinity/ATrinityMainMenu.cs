@@ -5,16 +5,18 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class ATrinityMainMenu : MonoBehaviour
 {
+    public event Action OnMainMenuExit;
     public event Action OnMainMenuNavigate;
     public event Action OnMainMenuSelection;
     public event Action<ETrinityElement> OnMenuElementChanged;
 
     public AMainMenuGate Gate;
-    public TextMeshProUGUI TitleText;
+    public Image TitleText;
     public float TitleFadeInTime;
     public AMainMenuCamera MainMenuCamera;
     public float RotationSpeed = 240f;
@@ -40,8 +42,10 @@ public class ATrinityMainMenu : MonoBehaviour
         TriangleTexts = new List<TextMeshProUGUI>();
         TriangleTexts = ElementTriangle.gameObject.GetComponentsInChildren<TextMeshProUGUI>().ToList();
         InitialColor = TriangleTexts[0].color;
-        
-        TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, 0f);
+
+        Color newColor = TitleText.color;
+        newColor.a = 0f;
+        TitleText.color = newColor;
     }
 
     void OnEnable()
@@ -60,12 +64,14 @@ public class ATrinityMainMenu : MonoBehaviour
 
     public void Update()
     {
-        if (TitleText.fontMaterial.GetFloat(ShaderUtilities.ID_FaceDilate) < .85)
+        if (TitleText.color.a < 1f)
         {
-            float currentDilation = TitleText.fontMaterial.GetFloat(ShaderUtilities.ID_FaceDilate);
-            TitleText.fontMaterial.SetFloat(ShaderUtilities.ID_FaceDilate, currentDilation + (Time.deltaTime / TitleFadeInTime));
+            Color newColor = TitleText.color;
+            newColor.a += Time.deltaTime / TitleFadeInTime;
+            newColor.a = Mathf.Clamp01(newColor.a);
+            TitleText.color = newColor;
         }
-        
+    
         HandleRotation();
     }
     
@@ -125,6 +131,7 @@ public class ATrinityMainMenu : MonoBehaviour
                 {
                     bStartingGame = true;
                     MainMenuCamera.Animate();
+                    OnMainMenuExit?.Invoke();
                 }
 
                 break;

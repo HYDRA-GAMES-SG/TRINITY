@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class AMainMenuCamera : MonoBehaviour
 {
@@ -17,6 +19,9 @@ public class AMainMenuCamera : MonoBehaviour
     public AudioSource MainMenuMusic;
     public GameObject SceneBGM;
     
+    public Vignette PP_Vignette;
+
+
     private GameObject MainMenuCamera;
     private ATrinityCamera TrinityCamera;
 
@@ -38,6 +43,11 @@ public class AMainMenuCamera : MonoBehaviour
     void Start()
     {
 
+        transform.Find("PP_Default").gameObject.GetComponent<Volume>().profile.TryGet(out PP_Vignette);
+
+        PP_Vignette.smoothness.overrideState = true;
+        PP_Vignette.smoothness.value = .8f;
+        
         ATrinityGameManager.OnSceneChanged += HandleMenuMusic;
         
         if (!TrinityCamera)
@@ -68,7 +78,7 @@ public class AMainMenuCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
     
     public void Animate()
@@ -76,8 +86,27 @@ public class AMainMenuCamera : MonoBehaviour
         StartCoroutine(AnimateCoroutine());
         StartCoroutine(FadeMainMenu());
         StartCoroutine(FadeCredits());
+        StartCoroutine(FadeVignette());
     }
 
+    
+
+    private IEnumerator FadeVignette()
+    {
+        
+        float fadeTime = 0f;
+        while (fadeTime < AnimateCameraDuration)
+        {
+            fadeTime += Time.deltaTime;
+            float newSmoothness = Mathf.Lerp(.8f, .5f, fadeTime / AnimateCameraDuration);
+
+            PP_Vignette.smoothness.value = newSmoothness;
+            
+            yield return null;
+        }
+    }
+
+    
     private IEnumerator FadeCredits()
     {
         float fadeTime = 0f;

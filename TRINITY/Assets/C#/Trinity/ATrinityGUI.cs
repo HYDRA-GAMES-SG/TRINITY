@@ -71,6 +71,7 @@ public class ATrinityGUI : MonoBehaviour
     public bool IsOptionsMenuOpen() => OptionsMenu.activeSelf;
     public bool IsGameOverOpen() => GameOver.activeSelf;
     public bool IsVictoryOpen() => Victory.activeSelf;
+    public bool isMainMenuOpen() => MainMenu.gameObject.activeSelf;
 
     public ATrinityMainMenu GetMainMenu() => MainMenu;
     public ATrinityGameOver GetGameOver() => GameOver.GetComponent<ATrinityGameOver>();

@@ -22,7 +22,7 @@ public class ATrinityCamera : MonoBehaviour
     public float BlinkCameraDistance = 5f;
 
     private float OriginalCameraDistance; // To store the original value of ReleaseDistance
-    private float CurrentLerpTime;         // To track lerp progress
+    private float CurrentBlinkLerpTime;         // To track lerp progress
     private bool bBlinkLerp;// To track if a blink event is active
     private bool bBulletTimeLerp; //to track if a bullet time event is active
 
@@ -93,11 +93,7 @@ public class ATrinityCamera : MonoBehaviour
                 GlideLines = feature;
             }
         }
-
-
-
     }
-
     private void HandleBulletTime()
     {
         if (Time.timeScale != 1.0f || bBulletTimeLerp)
@@ -149,7 +145,7 @@ public class ATrinityCamera : MonoBehaviour
         if (OverTheShoulderCameraComponent != null)
         {
             OverTheShoulderCameraComponent.ReleaseDistance = BlinkCameraDistance;
-            CurrentLerpTime = 0f; // Reset lerp time
+            CurrentBlinkLerpTime = 0f; // Reset lerp time
             bBlinkLerp = true;    // Start lerp process
         }
     }
@@ -169,8 +165,8 @@ public class ATrinityCamera : MonoBehaviour
         if (bBlinkLerp && OverTheShoulderCameraComponent != null)
         {
             // Increment the lerp time
-            CurrentLerpTime += Time.deltaTime;
-            float t = CurrentLerpTime / BlinkCameraLerpTime;
+            CurrentBlinkLerpTime += Time.deltaTime;
+            float t = CurrentBlinkLerpTime / BlinkCameraLerpTime;
 
             // Lerp the ReleaseDistance value back to its original value
             OverTheShoulderCameraComponent.ReleaseDistance = Mathf.Lerp(BlinkCameraDistance, OriginalCameraDistance, t);
@@ -180,7 +176,7 @@ public class ATrinityCamera : MonoBehaviour
             PP_BlinkWarp.intensity.value = Mathf.Lerp(.60f, 0f, t);
 
             // Stop lerping once the time is exceeded
-            if (CurrentLerpTime >= BlinkCameraLerpTime)
+            if (CurrentBlinkLerpTime >= BlinkCameraLerpTime)
             {
                 OverTheShoulderCameraComponent.ReleaseDistance = OriginalCameraDistance;
                 bBlinkLerp = false;
