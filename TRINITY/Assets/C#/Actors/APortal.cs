@@ -22,20 +22,27 @@ public class APortal : MonoBehaviour
             case "DevourerSentinelBossDungeon":
                 SetActive(ATrinityGameManager.TotalBossesDefeated() == 1);
                 break;
+            case "PORTAL":
+                SetActive(true);
+                break;
             default:
                 break;
         }
-        
-        
-        if (ATrinityGameManager.GetScore().SceneScoreLookup.ContainsKey(SceneName))
+
+
+        if (ScoreText != null)
         {
-            ScoreText.text = ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().SceneScoreLookup[SceneName]);
+            if (ATrinityGameManager.GetScore().SceneScoreLookup.ContainsKey(SceneName))
+            {
+                ScoreText.text =
+                    ATrinityScore.GetScoreString(ATrinityGameManager.GetScore().SceneScoreLookup[SceneName]);
+            }
+            else
+            {
+                ScoreText.text = "";
+            }
         }
-        else
-        {
-            ScoreText.text = "";
-        }
-        
+
     }
 
     private void Update()

@@ -16,7 +16,7 @@ public class ATrinityMainMenu : MonoBehaviour
     public event Action<ETrinityElement> OnMenuElementChanged;
 
     public AMainMenuGate Gate;
-    public Image TitleText;
+    public Image Logo;
     public float TitleFadeInTime;
     public AMainMenuCamera MainMenuCamera;
     public float RotationSpeed = 240f;
@@ -43,9 +43,14 @@ public class ATrinityMainMenu : MonoBehaviour
         TriangleTexts = ElementTriangle.gameObject.GetComponentsInChildren<TextMeshProUGUI>().ToList();
         InitialColor = TriangleTexts[0].color;
 
-        Color newColor = TitleText.color;
-        newColor.a = 0f;
-        TitleText.color = newColor;
+        if (Logo != null)
+        {
+            Color newColor = Logo.color;
+            newColor.a = 0f;
+            Logo.color = newColor;
+        }
+
+        ElementTriangle.gameObject.SetActive(false);
     }
 
     void OnEnable()
@@ -64,12 +69,17 @@ public class ATrinityMainMenu : MonoBehaviour
 
     public void Update()
     {
-        if (TitleText.color.a < 1f)
+        if (Logo.color.a < 1f)
         {
-            Color newColor = TitleText.color;
+            Color newColor = Logo.color;
             newColor.a += Time.deltaTime / TitleFadeInTime;
             newColor.a = Mathf.Clamp01(newColor.a);
-            TitleText.color = newColor;
+            Logo.color = newColor;
+        }
+
+        if (Logo.color.a > .8f)
+        {
+            ElementTriangle.gameObject.SetActive(true);
         }
     
         HandleRotation();
@@ -116,7 +126,7 @@ public class ATrinityMainMenu : MonoBehaviour
 
     public void Select()
     {
-        if (bOptionsMenu || bRotating || bStartingGame)
+        if (bOptionsMenu || bRotating || bStartingGame || Logo.color.a < .9f)
         {
             //handle options menu
             return;

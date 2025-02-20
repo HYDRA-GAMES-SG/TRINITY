@@ -120,6 +120,8 @@ public class ATrinityController : MonoBehaviour
         OnJump += ATrinityGameManager.GetAudio().PlayJumpGrunt;
         OnDeath += ATrinityGameManager.GetAudio().PlayGameOver;
         OnBeginFalling += ATrinityGameManager.GetAudio().PlayBeginFalling;
+        
+        ResetPlayer();
     }
 
     private void Update()
@@ -448,16 +450,12 @@ public class ATrinityController : MonoBehaviour
     public void ResetPlayer()
     {
         ClearTerrainList();
+        RepositionPlayer();
         HealthComponent.Reset();
         OnHealthHit += ATrinityGameManager.GetScore().AddDamageTaken;
         HealthComponent.OnHealthModified += ATrinityGameManager.GetGUI().UpdateHealthBar;
         HealthComponent.OnDeath += ATrinityGameManager.GetGUI().DisplayGameOver;
-
-        if (ATrinityGameManager.CurrentScene == "PORTAL" && ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
-        {
-            transform.position = new Vector3(437.75f,18.75f,-32.0f);
-            transform.rotation = Quaternion.Euler(new Vector3(-180, -148, -180f));
-        }
+        ATrinityGameManager.GetInput().NullifyInputs();
     }
     
     private void OnDestroy()
@@ -490,4 +488,32 @@ public class ATrinityController : MonoBehaviour
     //
     //     RB.isKinematic = false;
     // }
+    
+    public void RepositionPlayer()
+    {
+        if (ATrinityGameManager.CurrentScene == "PORTAL")
+        {
+
+            if (ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
+            {
+
+                ATrinityGameManager.GetPlayerController().transform.position = new Vector3(431.59f, 18.38f, -31.22f);
+                APortal portal = FindObjectOfType<APortal>();
+
+                CameraController cc = ATrinityGameManager.GetCamera().GetComponent<CameraController>();
+                
+                 CameraControllerState newState = cc.GetControllerState();
+                 newState.CameraAngles = Vector3.zero;
+                 cc.ApplyControllerState(newState);
+
+                Vector3 lookDirection = portal.gameObject.transform.position - ATrinityGameManager.GetPlayerController().Position;
+                Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+                ATrinityGameManager.GetPlayerController().transform.rotation = lookRotation;
+                
+                //cc.InitFromTarget(ATrinityGameManager.GetCamera().LookAtObject.transform);
+            }
+        }
+
+    }
 }

@@ -36,10 +36,10 @@ public class ATrinityScore : MonoBehaviour
         {
             case "CrabBossDungeon":
                 newLimits.SceneName = ATrinityGameManager.CurrentScene;
-                newLimits.BestTime = 120; // seconds
-                newLimits.WorstTime = 240; // seconds
+                newLimits.BestTime = 135; // seconds
+                newLimits.WorstTime = 250; // seconds
                 newLimits.BestDamageTaken = 0; //percent
-                newLimits.WorstDamageTaken = 120; //percent
+                newLimits.WorstDamageTaken = 250; //percent 
                 return newLimits;
             case "DevourerSentinelBossDungeon":
                 newLimits.SceneName = ATrinityGameManager.CurrentScene;
@@ -155,12 +155,12 @@ public class ATrinityScore : MonoBehaviour
         float clampedTime = Mathf.Clamp(GetTimer(), scoreLimits.BestTime, scoreLimits.WorstTime);
         float clampedDamageTaken = Mathf.Clamp(GetDamageTaken(), scoreLimits.BestDamageTaken, scoreLimits.WorstDamageTaken);
 
-        NormalizedTimeScore = Mathf.Clamp01((scoreLimits.WorstTime - clampedTime) / (clampedTime / Mathf.Clamp(scoreLimits.BestTime, 0.000001f, 1)));  //ensure no divide by 0
+        NormalizedTimeScore = Mathf.Clamp01(1f - ((clampedTime - scoreLimits.BestTime) / (scoreLimits.WorstTime - scoreLimits.BestTime)));
 
-        NormalizedDamageTakenScore = Mathf.Clamp01(1f - (clampedDamageTaken / Mathf.Clamp(scoreLimits.WorstDamageTaken, 0.00001f, scoreLimits.WorstDamageTaken)));  //ensure no divide by 0
+        NormalizedDamageTakenScore = Mathf.Clamp01(1f - (clampedDamageTaken / scoreLimits.WorstDamageTaken));
 
-        float etsFloat = Mathf.Clamp((NormalizedTimeScore + NormalizedDamageTakenScore) * 10f, 0, 20); //multiply by 10 and clamp to ETS range to map to ETS properly
-        
+        float etsFloat = Mathf.Clamp((NormalizedTimeScore + NormalizedDamageTakenScore) * 10f, 0, 20);
+    
         return (ETrinityScore)Mathf.FloorToInt(etsFloat);
     }
     

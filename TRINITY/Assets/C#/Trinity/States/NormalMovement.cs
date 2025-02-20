@@ -48,7 +48,7 @@ public class NormalMovement : TrinityState
         { "Move", "Forward" }, { "Strafe", "Strafe" },{ "Vertical", "Vertical" }, { "Jump", "bJump" },
         { "Glide", "bGlide" }, { "Blink", "bBlink" }, { "Mirror", "bMirror" }, { "DeathTrigger", "DeathTrigger" }, 
         { "Stun", "bStunned" }, { "HitTrigger", "HitTrigger" }, { "HitX", "HitX" }, {"HitY", "HitY" },
-        { "Grounded", "bGrounded" }, {"Release", "bRelease"}, {"StunDuration", "stunDuration"}, {"Dead", "bdDead"}
+        { "Grounded", "bGrounded" }, {"Release", "bRelease"}, {"StunDuration", "stunDuration"}, {"Dead", "bDead"}
     };
     
     public override bool CheckEnterTransition(IState fromState)

@@ -58,10 +58,12 @@ public class AMainMenuGate : MonoBehaviour
     public void Close()
     {
         bShouldClose = true;
+        bShouldOpen = false;
     }
 
     public void Open()
     {
+        bShouldClose = false;
         bShouldOpen = true;
         CloseTimer = 0f;
     }

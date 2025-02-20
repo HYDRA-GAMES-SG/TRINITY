@@ -46,7 +46,7 @@ public class AMainMenuCamera : MonoBehaviour
         transform.Find("PP_Default").gameObject.GetComponent<Volume>().profile.TryGet(out PP_Vignette);
 
         PP_Vignette.smoothness.overrideState = true;
-        PP_Vignette.smoothness.value = .8f;
+        PP_Vignette.smoothness.value = .9f;
         
         ATrinityGameManager.OnSceneChanged += HandleMenuMusic;
         
@@ -98,7 +98,7 @@ public class AMainMenuCamera : MonoBehaviour
         while (fadeTime < AnimateCameraDuration)
         {
             fadeTime += Time.deltaTime;
-            float newSmoothness = Mathf.Lerp(.8f, .5f, fadeTime / AnimateCameraDuration);
+            float newSmoothness = Mathf.Lerp(.9f, .5f, fadeTime / AnimateCameraDuration);
 
             PP_Vignette.smoothness.value = newSmoothness;
             

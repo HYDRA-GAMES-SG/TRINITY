@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using ThirdPersonCamera;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -27,8 +28,7 @@ public class ATrinityOptions : MonoBehaviour
     public float NavigateCooldown = .2f;
     public float InputThreshold = 0f;
 
-    public UForcefieldGateComponent GateTutorial;
-    public Transform SkipTutorialPos;
+    public AMainMenuGate MainMenuGate;
 
     [Header("Menu Items")]
     public Selectable[] MenuElements;  // Array of UI elements (buttons, etc.)
@@ -132,16 +132,26 @@ public class ATrinityOptions : MonoBehaviour
         }
 
         CrossHair.gameObject.SetActive(ATrinityGameManager.CROSSHAIR_ENABLED);
-
-
+        
         BindAudioEvents(false);
+        ATrinityGameManager.GetInput().NullifyInputs();
     }
     
     public void SkipTutorial()
     {
-        ATrinityGameManager.GetPlayerController().transform.position = SkipTutorialPos.position;
-        ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu = true;
+        ATrinityGameManager.GetPlayerController().ResetPlayer();
+        
+        if (MainMenuGate != null)
+        {
+            MainMenuGate.Open();
+        }
+        
         TutorialButton.SetActive(false);
+        
+        ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu = true;
+        
+        ATrinityGameManager.GetPlayerController().ResetPlayer();
+        
         OnReturnToGameClicked();
     }
     
@@ -250,7 +260,6 @@ public class ATrinityOptions : MonoBehaviour
     public void OnReturnToGameClicked()
     {
         this.gameObject.SetActive(false);
-        ATrinityGameManager.GetInput().NullifyInputs();
     }
 
     public void OnQuitClicked()
