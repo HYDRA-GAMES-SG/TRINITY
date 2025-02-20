@@ -21,9 +21,9 @@ public class UForcefieldGateComponent : MonoBehaviour
         if (ManaShieldDamageTakenByPlayer > 9f)
         {
             Gate.Open();
-            if (ATrinityGameManager.GetGUI().GetOptions().TutorialButton != null) 
+            if (ATrinityGameManager.GetGUI().GetOptions().TutorialButton != null)
             {
-                ATrinityGameManager.GetGUI().GetOptions().bTutorialDone = true;
+                ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu = true;
                 ATrinityGameManager.GetGUI().GetOptions().TutorialButton.SetActive(false);
                 MainGate.Open();
             }

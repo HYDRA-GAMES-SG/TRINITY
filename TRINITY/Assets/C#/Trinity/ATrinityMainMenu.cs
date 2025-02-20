@@ -125,7 +125,6 @@ public class ATrinityMainMenu : MonoBehaviour
                 {
                     bStartingGame = true;
                     MainMenuCamera.Animate();
-                    bCanSkipMainMenu = true;
                 }
 
                 break;

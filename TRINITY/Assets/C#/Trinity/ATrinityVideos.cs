@@ -22,7 +22,16 @@ public class ATrinityVideos : MonoBehaviour
     void Awake()
     {
         VideoBackgroundImages = transform.Find("Background").GetComponentsInChildren<Image>();
-        StopTutorial();
+        
+        if (VideoBackgroundImages != null)
+        {
+            foreach (Image img in VideoBackgroundImages)
+            {
+                Color color = img.color;
+                color.a = 0f;
+                img.color = color;
+            }
+        }
     }
     
     public void PlayTutorial(int tutorialVideoIndex)

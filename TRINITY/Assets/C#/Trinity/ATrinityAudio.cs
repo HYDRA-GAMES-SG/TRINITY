@@ -52,12 +52,10 @@ public class ATrinityAudio : IAudioManager
         if (ATrinityGameManager.GetBrain().GetElement() == ETrinityElement.ETE_Fire && !StaffSource.isPlaying) 
         {
             StaffSource.Play();
-            print("start torch");
         }
         else if (ATrinityGameManager.GetBrain().GetElement() != ETrinityElement.ETE_Fire)
         {
             StaffSource.Stop();
-            print("end torch");
         }
     }
 

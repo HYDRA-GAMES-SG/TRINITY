@@ -109,10 +109,7 @@ public class AMainMenuCamera : MonoBehaviour
         MainMenuCanvas.gameObject.SetActive(false);
         MainMenuMusic.gameObject.SetActive(false);
         SceneBGM.SetActive(true);
-        if (ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
-        {
-            ATrinityGameManager.GetGUI().GetMainMenu().Gate.Close();
-        }
+        ATrinityGameManager.GetGUI().GetMainMenu().Gate.Close();
     }
     
     private IEnumerator AnimateCoroutine()

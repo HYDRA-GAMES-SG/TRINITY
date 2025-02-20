@@ -29,7 +29,6 @@ public class ATrinityOptions : MonoBehaviour
 
     public UForcefieldGateComponent GateTutorial;
     public Transform SkipTutorialPos;
-    public bool bTutorialDone;
 
     [Header("Menu Items")]
     public Selectable[] MenuElements;  // Array of UI elements (buttons, etc.)
@@ -137,13 +136,15 @@ public class ATrinityOptions : MonoBehaviour
 
         BindAudioEvents(false);
     }
+    
     public void SkipTutorial()
     {
         ATrinityGameManager.GetPlayerController().transform.position = SkipTutorialPos.position;
-        bTutorialDone = true;
+        ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu = true;
         TutorialButton.SetActive(false);
         OnReturnToGameClicked();
     }
+    
     public void Navigate()
     {
         if (NavigateCooldownTimer > 0f)
@@ -163,7 +164,7 @@ public class ATrinityOptions : MonoBehaviour
                 newIndex--;
                 if (newIndex < 0)
                 {
-                    if (bTutorialDone)
+                    if (ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
                     {
                         newIndex = MenuElements.Length - 2;
                     }
@@ -176,7 +177,7 @@ public class ATrinityOptions : MonoBehaviour
             else if (moveInput.y < 0) // Down
             {
                 newIndex++;
-                if (newIndex >= MenuElements.Length || newIndex == 5 && bTutorialDone)
+                if (newIndex >= MenuElements.Length || newIndex == 5 && ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
                 {
                     newIndex = 0; // Wrap to top
                 }
@@ -234,7 +235,7 @@ public class ATrinityOptions : MonoBehaviour
     void Update()
     {
         NavigateCooldownTimer -= Time.unscaledDeltaTime;
-        if (bTutorialDone)
+        if (ATrinityGameManager.GetGUI().GetMainMenu().bCanSkipMainMenu)
         {
             TutorialButton.SetActive(false);
         }
@@ -249,6 +250,7 @@ public class ATrinityOptions : MonoBehaviour
     public void OnReturnToGameClicked()
     {
         this.gameObject.SetActive(false);
+        ATrinityGameManager.GetInput().NullifyInputs();
     }
 
     public void OnQuitClicked()

@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class ATrinityScore : MonoBehaviour
 {
+    public Dictionary<string, ETrinityScore> SceneScoreLookup;
+    
     private static ATrinityScore Instance;
 
     public List<IEnemyController> DefeatedBosses;
@@ -55,6 +57,7 @@ public class ATrinityScore : MonoBehaviour
     
     public void Awake()
     {
+        SceneScoreLookup = new Dictionary<string, ETrinityScore>();
         List<ATrinityScore> CurrentInstances = FindObjectsOfType<ATrinityScore>().ToList();
         DefeatedBosses = new List<IEnemyController>();
         
@@ -113,13 +116,27 @@ public class ATrinityScore : MonoBehaviour
         if (ATrinityGameManager.GetEnemyControllers().Count > 0 && !bBossAlive && !bInvokedVictoryThisScene)
         {
             FScoreLimits scoreLimits = GetScoreLimits();
-            OnVictory?.Invoke(GetETS(scoreLimits));
+            ETrinityScore score = GetETS(scoreLimits);
+            OnVictory?.Invoke(score);
             bInvokedVictoryThisScene = true;
+
+            if (SceneScoreLookup.ContainsKey(ATrinityGameManager.CurrentScene))
+            {
+                if ((int)SceneScoreLookup[ATrinityGameManager.CurrentScene] < (int)score)
+                {
+                    SceneScoreLookup[ATrinityGameManager.CurrentScene] = score;
+                }
+            }
+            else
+            {
+                SceneScoreLookup.Add(ATrinityGameManager.CurrentScene, score);
+            }
 
             switch (ATrinityGameManager.CurrentScene)
             {
                 case "CrabBossDungeon":
                     ATrinityGameManager.bCrabDefeated = true;
+                    
                     break;
                 case "DevourerSentinelBossDungeon":
                     ATrinityGameManager.bDevourerSentinelDefeated = true;

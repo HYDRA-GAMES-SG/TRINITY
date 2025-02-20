@@ -303,7 +303,7 @@ public class NormalMovement : TrinityState
             // Ground detected, ensure movement state remains grounded
             SetMovementState(ETrinityMovement.ETM_Grounded);
             bCanGlide = false;
-            TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
+            //TrinityFSM.Animator.SetBool(AnimKeys["Jump"], false);
             TrinityFSM.Animator.SetBool(AnimKeys["Blink"], false);
         }
     }

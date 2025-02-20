@@ -128,7 +128,6 @@ public class ATrinityGameManager : MonoBehaviour
                 return;
             }
         }
-        print(bCrabDefeated);
     }
 
 
@@ -415,7 +414,7 @@ public class ATrinityGameManager : MonoBehaviour
     {
         GetGUI().Crosshair.SetActive(PlayerPrefs.GetInt("bCrossHairEnabled") > 0 ? true : false);
         GetCamera().GetComponent<CameraInputSampling>().SetMouseSensitivty(new Vector2(4f, 3f) * PlayerPrefs.GetFloat("MouseSensitivity"));
-        GetCamera().GetComponent<CameraInputSampling>().SetGamepadSensitivty(new Vector2(4f, 3f) * PlayerPrefs.GetFloat("GamepadSensitivity"));
+        GetCamera().GetComponent<CameraInputSampling>().SetGamepadSensitivty(new Vector2(8f, 6f) * PlayerPrefs.GetFloat("GamepadSensitivity"));
         GetAudio().Mixer.FindMatchingGroups("Master")[0].audioMixer.SetFloat("Volume", -16f + (16f * PlayerPrefs.GetFloat("MasterVolume", MASTER_VOLUME)));
 
         if (GetGUI().IsOptionsMenuOpen())
