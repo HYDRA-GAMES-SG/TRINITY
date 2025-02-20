@@ -34,6 +34,7 @@ public class ATrinityScore : MonoBehaviour
         {
             case "CrabBossDungeon":
                 newLimits.SceneName = ATrinityGameManager.CurrentScene;
+                ATrinityGameManager.SetCrabDefeated();
                 newLimits.BestTime = 120; // seconds
                 newLimits.WorstTime = 240; // seconds
                 newLimits.BestDamageTaken = 0; //percent
@@ -41,6 +42,7 @@ public class ATrinityScore : MonoBehaviour
                 return newLimits;
             case "DevourerSentinelBossDungeon":
                 newLimits.SceneName = ATrinityGameManager.CurrentScene;
+                ATrinityGameManager.SetDSDefeated();
                 newLimits.BestTime = 120; // seconds
                 newLimits.WorstTime = 240; // seconds
                 newLimits.BestDamageTaken = 0; //percent

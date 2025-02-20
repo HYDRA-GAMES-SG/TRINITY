@@ -50,7 +50,9 @@ public class ATrinityGameManager : MonoBehaviour
     private static ATrinityGUI GUIReference;
     
     private static EGameFlowState GameFlowState;
-    
+
+    private static bool bCrabDefeated;
+    private static bool bDSDefeated;
     public static EGameFlowState SCENE_LOAD_EGFS => CurrentScene == "PORTAL" && !GetGUI().GetMainMenu().bCanSkipMainMenu
         ? EGameFlowState.MAIN_MENU
         : EGameFlowState.PLAY;
@@ -84,7 +86,10 @@ public class ATrinityGameManager : MonoBehaviour
         OnSceneChanged?.Invoke();
     }
 
+    public void GetDefeatedStatus(bool boss) 
+    {
 
+    }
     public static void LoadScene(string sceneName)
     {
         CurrentScene = sceneName;
@@ -122,6 +127,7 @@ public class ATrinityGameManager : MonoBehaviour
                 return;
             }
         }
+        print(bCrabDefeated);
     }
 
 
@@ -245,19 +251,33 @@ public class ATrinityGameManager : MonoBehaviour
     {
         return AnimationReference;
     }
+    public static bool GetCrabDefeated()
+    {
+        return bCrabDefeated;
+    }
+    public static bool GetDSDefeated()
+    {
+        return bDSDefeated;
+    }
 
-    
     //==================================================
     //SETTERS
     //=================================================
 
-    
+
     private void FindAndSetEnemyControllers()
     {
         EnemyControllers = FindObjectsOfType<IEnemyController>().ToList();
     }
-    
 
+    public static void SetCrabDefeated() 
+    {
+        bCrabDefeated = true;
+    }
+    public static void SetDSDefeated() 
+    {
+        bDSDefeated = true;
+    }
     public static void SetPlayerFSM(ATrinityFSM playerFSM)
     {
         if (PlayerFSM != null)
